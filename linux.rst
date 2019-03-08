@@ -1,0 +1,1206 @@
+.. contents:: Linux Tips
+
+========================
+Command Line Shortcuts
+========================
+
+Command Editing Shortcuts
+-------------------------
+
+- Ctrl + a – go to the start of the command line
+- Ctrl + e – go to the end of the command line
+- Ctrl + k – delete from cursor to the end of the command line
+- Ctrl + u – delete from cursor to the start of the command line
+- Ctrl + w – delete from cursor to start of word (i.e. delete backwards one word)
+- Ctrl + y – paste word or text that was cut using one of the deletion shortcuts after the cursor
+- Alt  + b – move backward one word (or go to start of word the cursor is currently on)
+- Alt  + f – move forward one word (or go to end of word the cursor is currently on)
+- Alt  + t – swap current word with previous
+- Ctrl + t – swap character under cursor with the previous one
+- Ctrl + backspace - delete a previous word (support path delimeter, such as /)
+
+Command Recall Shortcuts
+------------------------
+
+- Ctrl + r – search the history backwards
+- Ctrl + g - quite the search
+- Ctrl + p – previous command in history (i.e. walk back through the command history)
+- Ctrl + n – next command in history (i.e. walk forward through the command history)
+
+- Alt + . – use the last word of the previous command
+
+Command Control Shortcuts
+-------------------------
+
+- Ctrl + l – clear the screen
+- Ctrl + c – terminate the command
+- Ctrl + z – suspend/stop the command
+- Ctrl + s – freeze the terminal(stops the output to the screen)
+- Ctrl + q – unfreeze the terminal(allow output to the screen)
+
+List Shortcuts/Bindings
+-----------------------
+
+- sh/bash
+
+  ::
+
+    help bind
+    bind -p
+    bind -p | grep '^"\\C-'
+    bind -p | grep '^"\\e'
+    (\C-: Ctrl +, \e: meta/Alt +)
+
+- zsh
+
+  ::
+
+    man zshzle
+    bindkey -l
+    bindkey -M <keymap name>
+    bindkey -M emacs | grep '^"\^'
+    bindkey -M emacs | grep -i '^"^\['
+
+Long Command Edit/edit-command-line
+-----------------------------------
+
+ - export EDITOR='vim'
+ - <Ctrl+x><Ctrl+e>
+ - :wq
+
+Change Line Editing Mode
+------------------------
+
+- bash: set -o vi
+- zsh : bindkey <-e|-v>
+
+Command Quick Substitution
+--------------------------
+
+- ^string1^string2^     - Repeat the last command, replacing string1 with string2. Equivalent to !!:s/string1/string2/
+- !!gs/string1/string2/ - Repeat the last command, replacing all string1 with string2
+- Refer to: https://www.gnu.org/software/bash/manual/bashref.html#History-Interaction
+
+==================
+Cutting Edge Tools
+==================
+
+pandoc
+------
+
+a general markup converter supporting md, rst, etc.
+
+::
+
+  pandoc <file name with suffix> | w3m -T text/html
+  pandoc -s --toc <file name with suffix> [--metadata title=<title string>] | w3m -T text/html
+
+ranger
+------
+
+a great command line file browser.
+
+::
+
+  sudo apt install ranger
+  ranger
+
+Keyboard Mapping/Shortcuts Cheatsheet: https://ranger.github.io/cheatsheet.png
+
+*Configuration:*
+
+- Use vi as the default editor:
+
+  ::
+
+    export VISUAL='vim'
+    export EDITOR='vim'
+
+    (Note: handle_extension in ~/.config/ranger/scope.sh may need to be modified when vim is not used)
+
+- Enable syntax highlighting:
+
+  ::
+
+    (in ~/.config/ranger/scope.sh, enable below line but comment out the highlight line)
+    pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}" -- "${FILE_PATH}" && exit 5
+
+- Integrate with fzf: refer to https://github.com/ranger/ranger/wiki/Commands
+
+- Customize applications to use when open a given type of files
+
+  1. ranger --copy-config=rifle if ~/.config/ranger/rifle.conf does not exist;
+  2. Edit rifle.conf to associate files with applications;
+
+ripgrep
+-------
+
+ripgrep is a line-oriented search tool that recursively searches your current directory for a regex pattern while respecting your gitignore(use **--no-ignore** to ignore those ignore files) rules. It is much more faster than any other tools, like grep, fd, etc.
+
+::
+
+  rg -e <pattern>
+  rg -i -e <pattern>
+  rg -F <fixed string>
+  rg --no-ignore <pattern>
+
+fzf
+---
+
+A command-line fuzzy finder, which integrates well with other tools.
+
+::
+
+  # Search history
+  Ctrl + r
+  # Change into a directory
+  Alt  + c
+  # Edit a file
+  vim <path>/**<TAB>
+  # Change into a directory
+  cd  <path>/**<TAB>
+  # Traverse the file system while respecting .gitignore
+  rg -e <pattern> | fzf
+
+fd
+--
+
+fd is a simple, fast and user-friendly alternative to find. fd ignore files defined in .gitignore, to search files including such files, use option **--no-ignore**.
+
+::
+
+  fd <pattern>
+  fd -F <pattern>
+  fd -i <pattern>
+  fd --no-ignore <pattern>
+
+curlftpfs
+---------
+
+mount a ftp share as a normal file system:
+
+::
+
+  curlftpfs ftp://<site url> <mount point>
+
+jq
+--
+
+jq is like sed for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that sed, awk, grep and friends let you play with text. Refer to https://stedolan.github.io/jq/tutorial/ for usage.
+
+E.g., to verify if a json file is well formated:
+
+::
+
+  cat <file name>.json | jq '.'
+
+gpg
+---
+
+Encryp/decrypt a file.
+
+::
+
+  gpg -c <file>
+  gpg -d <file>
+
+moreutils
+---------
+
+**moreutils** is a software package containing quite some useful tools can be leveraged during daily work.
+
+- errno: list ERRNO and their short descriptions;
+- ifdata: get NIC information, such as MTU, ip, etc., which can be used without further processing;
+- combine: combine 2 x files together based on boolean operations;
+- lckdo: run a program with a lock.
+
+===================================================
+Performance Tuning/Monitoring/Troubleshooting Tools
+===================================================
+
+Overall
+-------
+
+There is a great diagram, which is from www.brendangregg.com, showing misc tracing tools on Linux. Overall, it can be used as a common reference.
+
+.. image:: images/linux_perf_and_trace_utils.png
+
+sysdig
+------
+
+A powerful system and process troubleshooting tool.
+
+- Installation: sysdig depends on linux kernel headers. Below is an installation example on Arch:
+
+  ::
+
+    sudo pacman -S sysdig
+    sudo pacman -S linux416-headers
+
+- Common options
+
+  - sudo sysdig -cl
+  - sudo sysdig -i <chisel name>
+  - sudo sysdig -c <chisel name>
+  - sudo sysdig -l
+  - sudo csysdig
+
+- Examples: https://github.com/draios/sysdig/wiki/sysdig-examples
+
+
+htop
+----
+
+Similar as the classic top, but much more powerful - it is interactive and ncurses-based, which support mouse operations on terminal.
+
+iotop
+-----
+
+Show IO status by process.
+
+iftop
+-----
+
+Display bandwidth usage on an interface by host.
+
+nmon
+----
+
+A great tool to tune system performance, which can show statistics for CPU/memory/disks/kernel/etc.
+
+bwm-ng
+------
+
+Bandwidth Monitor NG is a small and simple console-based live network and disk *io bandwidth* monitor for Linux, BSD, Solaris, Mac OS X and others.
+
+strace
+------
+
+Trace system calls and signals
+
+ftrace
+------
+
+Ftrace is an internal tracer designed to help out developers and designers of systems to find what is going on inside the kernel. It can be used for debugging or analyzing latencies and performance issues that take place outside of user-space.
+
+**Note**: install with command *yaourt -S trace-cmd* on arch.
+
+blktrace
+--------
+
+1. **blktrace** is a block layer IO tracing mechanism which provides detailed information about request queue operations up to user space. The trace result is stored in a binary format, which obviously doesn't make for convenient reading;
+2. The tool for that job is **blkparse**, a simple interface for analyzing the IO traces dumped by blktrace;
+3. However, the plaintext trace result generated by blkparse is still not quite easy for reading, another tool **btt** can be used to generate misc reports, such as latency report, seek time report, etc;
+4. Besides, a tool named **Seekwatcher** can be used to genrate graphs for blktrace, which will help a lot comparing IO patterns and performance;
+5. In the meanwhile, **btrecord** and **btreplay** can be used to recreate IO loads recorded by blktrace.
+
+systemtap
+---------
+
+SystemTap is a tracing and probing tool that allows users to study and monitor the activities of the computer system (particularly, the kernel) in fine detail. It provides information similar to the output of tools like netstat,  ps, top, and iostat, but is designed to provide more filtering and analysis options for collected information.
+
+The advantage of systemtap is you can write a kind of script called **SystemTap Scripts** to perform complicated tracing. Please refer to https://sourceware.org/systemtap/ for details.
+
+perf-tool
+---------
+
+Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
+
+- bitesize
+- cachestat
+- execsnoop
+- funccount
+- funcgraph
+- funcslower
+- functrace
+- iolatency
+- iosnoop
+- killsnoop
+- kprobe
+- opensnoop
+- perf-stat-hist
+- reset-ftrace
+- syscount
+- tcpretrans
+- tpoint
+- uprobe
+
+**Notes**: install through yaourt on Arch.
+
+=========
+MISC Tips
+=========
+
+List table of contents of manpage
+---------------------------------
+
+Based on the level of title you want to see, below commands can be used(3 stands for 3 x levels of titles).
+
+::
+
+  man ovs-vsctl | grep '^ \{0,3\}[A-Z]'
+
+Here Document
+-------------
+
+Here document in shell is used to feed a command list(multiple line of strings) to an interactive program or a command, such as ftp, cat, ex.
+
+It has 2 x forms:
+
+- Respect leading tabs(but not spaces): <<EOF
+- Suppress leading tabs: <<-EOF
+
+Define a variable containing multiple lines of string
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Note**: a variable should be enclosed in double quotes while referring to it, otherwise, it will be treated as a single line string due to the shell expansion.
+
+::
+
+  read -d '' var_name <<-EOF
+  line1
+  ...
+  EOF
+  echo "$var_name"
+
+Redirect here document output
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  {
+     mongo 192.168.1.101/ycsb <<EOF
+     use ycsb;
+     sh.status(true);
+     EOF
+  }  | tee -a /tmp/output
+
+
+Here String
+-----------
+
+**<<<** is here string, a form of here document. It is used as: COMMAND <<< $WORD, where $WORD is expanded and fed to the stdin of COMMAND.
+
+Sample:
+
+::
+
+  while read -r line; do
+  command1
+  command2
+  ......
+  done <<< "$variable_name"
+
+awk
+---
+
+Built-in Variables
+~~~~~~~~~~~~~~~~~~
+
+- FS : input field separator
+- OFS: output field separator
+- RS : record separator
+- ORS: output record separator
+- NF : number of fields
+- NR : number of roles
+
+Common Command Format
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  awk '
+     BEGIN { actions }
+     /pattern/ { actions }
+     /pattern/ { actions }
+     .....
+     END { actions }
+  ' filenames
+
+awk define variables
+~~~~~~~~~~~~~~~~~~~~
+
+-v <variable name>=<variable value>
+
+Examples:
+
+::
+
+  awk -v name=Jerry 'BEGIN{printf "Name = %s\n", name}'
+  awk -F= -v key=$1 '{if($1==key) print $2}'
+  Notes:
+    1. The first $1 is the first shell positional parameter;
+    2. The second $1, and the following $2 is the first and second column/field of a input record.
+
+Get lines whose fields/columns is a special word
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  awk '$7=="some_word" {for(i=1;i<=NF;++i){printf "%s ", $i}; printf "\n"}'
+
+Get lines whose fields/columns match a sepcial word
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  awk '$7~/some_word/ {for(i=1;i<=NF;++i){printf "%s ", $i}; printf "\n"}'
+
+Output a range of fields
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  awk '{for(i=3;i<=8;++i){printf "%s ", $i}; printf "\n"}'
+
+Run a script automatically during system boot
+---------------------------------------------
+
+Previously, such tasks are achieved by leveraging rc.local, bash profile, etc. However, customized systemd service nowadays is much better for the same purpose.
+
+1. Define a customized systemd service:
+
+   - Create a plain text file under /etc/systemd/system as below, name it as route_add.service for example:
+
+     ::
+
+       [Unit]
+       Description=Add customized ip routes
+       After=network.service
+
+       [Service]
+       Type=oneshot
+       ExecStart=/usr/local/bin/route_add.sh
+
+       [Install]
+       WantedBy=multi-user.target
+
+   - Refer to manpage systemd.service and systemd.unit for the detailed explanations on each paramaters.
+
+2. Create the actual script, such as /usr/local/bin/route_add.sh in our example, and assign exec permission with chmod a+x /usr/local/bin/route_add.sh
+3. Enable and run it:
+
+   ::
+
+     systemctl enable route_add.service
+     systemctl start route_add.service
+
+Keep running a script in the background during system boot
+----------------------------------------------------------
+
+A service Type can be defined as oneshot, simple, forking, etc. When it is needed to keep a script running in the background forever, **forking** can be leveraged as below.
+
+::
+
+  $ cat /opt/ycsb.sh
+  #!/bin/bash
+
+  (/usr/bin/screen -d -m /home/elk/ycsb-0.15.0/bin/ycsb run mongodb -s -P /home/elk/ycsb-0.15.0/workloads/workloada) &
+  $ cat /etc/systemd/system/ycsb.service
+  [Unit]
+  Description=Start MongoDB Benchmarking
+  After=mongodb.service
+
+  [Service]
+  Type=forking
+  ExecStart=/opt/ycsb.sh
+
+  [Install]
+  WantedBy=multi-user.target
+
+**Notes**: **fork** needs to be implemented by the app or the script to be executed.
+
+Fork implementation with shell
+------------------------------
+
+There are 2 x formats to achive forking with shell:
+
+1. Through a function
+
+   ::
+
+     function abc() { xxx; xxx; ... }
+     abc &
+
+2. Through an anonymous function
+
+   ::
+
+     (xxx; xxx; ...) &
+
+Redhat Linux vmcore Analyzing Getting Started
+---------------------------------------------
+
+::
+  rpm -ivh crash-<version>.<platform>.rpm
+  rpm -ivh kernel-debuginfo-<version>.<platform>.rpm kernel-debuginfo-common-<version>.<platform>.rpm
+  crash /<absolute path to the system map file used for debug> /<path to the vmlinux used for debug>  /<path to the vmcore file>
+
+Create a local yum repo with DVD iso
+------------------------------------
+
+- Disable all other repositories by make "enabled=0" on all files under /etc/yum.repos.d;
+- Mount the iso: mount -o loop
+- Create a repo config file under /etc/yum.repos.d with below contents, the name can be anything:
+
+  ::
+
+    [Repo Name]
+    name=Description name
+    baseurl=file://absolute path to the mount point
+    enabled=1
+
+- yum clean all
+- yum repolist : You should be able to see the new repo
+- Or through command line: yum-config-manager --add-repo file:///<Mount point> (Public key should be imported with command like "rpm --import /media/RPM-GPG-KEY-redhat-beta" before installing packages with the newly added repo )
+
+Delete Character with Yast2
+---------------------------
+
+- Ctrl + H
+
+Disable IPv6
+------------
+
+- Add below contents in /etc/sysctl.conf
+
+  ::
+
+    net.ipv6.conf.all.disable_ipv6 = 1
+    net.ipv6.conf.default.disable_ipv6 = 1
+    net.ipv6.conf.lo.disable_ipv6 = 1
+
+- sysctl -p
+- cat /proc/sys/net/ipv6/conf/all/disable_ipv6 ===> If output is 1, IPv6 has been disabled. If not, try reboot the server.
+
+Recode file to UTF-8
+--------------------
+
+- recode -f UTF-8 <file name>
+
+- Get driver name
+
+  ::
+
+    [root@LPAR2 ~]# lspci -k
+    …...
+    f7:01.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection (rev 01)
+            Subsystem: Intel Corporation Device 0000
+            Kernel driver in use: igb
+            Kernel modules: igb
+
+Which package provides the binary
+---------------------------------
+
+- RHEL/CentOS
+
+  ::
+
+    yum whatprovides nslookup
+
+- Arch
+
+  ::
+
+    sudo pacman -Fy
+    pacman -Fs <file name>
+
+- Ubuntu
+
+  ::
+
+    sudo apt-get install apt-file
+    sudo apt-file update
+    apt-file search <file name>
+
+Install a specified version RPM through yum
+-------------------------------------------
+
+::
+
+  # yum --showduplicates list <package name>
+  # yum install <package name>-<version>
+
+sudoers: <user> ALL = (<user to act as>) <commands>
+---------------------------------------------------
+
+::
+
+  Examples:
+    # User "alan" can run commands "/bin/ls" and "/bin/kill" as user "root", "bin" or group "operator", "system"
+    alan   ALL = (root, bin : operator, system) /bin/ls, /bin/kill
+    superadm  ALL=(ALL)   ALL - User "superadm" can run all commands as anyone
+    adm ALL = (root) NOPASSWD:ALL - User adm can sudo run all "root"'s commands without password
+
+Get service log
+---------------
+
+::
+
+  # systemctl | grep '<service name>' ---> locate the service unit name
+  # journalctl -S <time stamp> -u <service name>
+  # journalctl --all --output cat -u <service name>
+  # journalctl -f ---> As tail
+
+Clear journalctl
+----------------
+
+::
+
+  journalctl --flush --rotate
+  journalctl --vacuum-time=1s
+
+List all available versions of a packge with yum
+------------------------------------------------
+
+::
+
+  [root@wnh9h1 yum.repos.d]# yum --showduplicates list kernel-uek.x86_64 | head
+  Installed Packages
+  kernel-uek.x86_64              3.8.13-35.3.1.el7uek                @anaconda/7.0
+  Available Packages
+  kernel-uek.x86_64              3.8.13-35.3.1.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.2.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.3.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.4.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.5.el7uek                ol7_UEKR3
+
+Grub2 change boot order
+-----------------------
+::
+
+  awk -F\' '$1=="menuentry " {print i++ " : " $2}' /etc/grub2.cfg
+  grub2-editenv list
+  grub2-set-default 2
+  grub2-editenv list
+
+Disable console log
+-------------------
+
+::
+
+  # dmesg -n 1
+
+lsof tips
+---------
+
+- lsof <file> ---> Which processes are using the file
+- lsof +D <directory> ---> Which processed are accessing the directory, and which files under the directory are being accessed
+
+ssh client configuration
+------------------------
+
+1. Configuration file: ~/.ssh/config(mode 400, and create if it does not exist);
+2. man ssh_config to find all supported options;
+3. Format:
+
+   ::
+
+     Host <host pattern, such as *, ip, fqdn>
+         <Option Name> <Option Value>
+         ......
+     --- OR ---
+     Host <host pattern, such as *, ip, fqdn>
+         <Option Name>=<Option Value>
+         ......
+
+4. Examples:
+
+   - Disable host key checking:
+
+     ::
+
+       Host *
+           StrictHostKeyChecking no
+           UserKnownHostsFile /dev/null
+
+   - Use ssh v1 only
+
+     ::
+
+       Host *
+           Protocol 1
+
+Delete trailing new line
+------------------------
+
+::
+
+  #tr -d '\n'
+
+Change trailing new line to some other character
+------------------------------------------------
+
+::
+
+  #tr '\n' ','
+
+Bash wait
+---------
+
+::
+
+  While : ; do
+      pids=""
+      <process 1/command 1>  &
+      pids="$pids $!"
+      ……  &
+      <process N/command N> &
+      pids="$pids $!"
+      for id in $pids; do
+          wait $id
+          echo $?
+      done
+  done
+
+Use shell variable in sed
+-------------------------
+
+::
+
+  sed -i -e "s/bindIp:.*$/bindIp: $IP_ADDR/" /etc/mongod.conf
+
+Make grep match for only 1 time
+-------------------------------
+
+::
+
+  # grep -m1 …...
+
+Shell debugging
+---------------
+
+::
+
+  #!/bin/bash -xv
+  export PS4='+(${BASH_SOURCE}:${LINENO}):${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+  --- OR ---
+  set -o errexit == set -e
+  set -o xtrace == set -x
+  export PS4='+(${BASH_SOURCE}:${LINENO}):${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
+Regular Expression Comparision for sed/vim/awk/grep/etc.
+--------------------------------------------------------
+
+::
+
+  # txt2regex --showmeta
+
+Print section between two regular expressions
+---------------------------------------------
+
+::
+
+  # sed -n -e '/reg1/,/reg2/p' <file>
+
+Delete broken links
+-------------------
+
+find /etc/apache2 -type l **! -exec test -e {} \;** -print | sudo xargs rm
+
+Find and sort by time
+---------------------
+
+find . -type f -printf '%T@ %p\n' | sort -k 1 -n [-r]
+
+Sort based on several fields
+----------------------------
+
+sort -k <field 1 order> -k <field 2 ordr> ... [-n] [-r]
+
+Change locale
+-------------
+
+::
+
+  sudo dpkg-reconfigure locales
+  sudo update-locale LANG=en_US.UTF-8
+
+String Contains in Bash
+-----------------------
+
+- Leverage Wildcard
+
+  ::
+
+    if [[ "$string" == *"$substring"*  ]]; then
+      echo "'$string' contains '$substring'"
+    else
+      echo "'$string' does not contain '$substring'"
+    done
+
+- Leverage Regular Expression
+
+  ::
+
+    if [[ "$string" =~ $substring  ]]; then
+      echo "'$string' contains '$substring'"
+    else
+      echo "'$string' does not contain '$substring'"
+    fi
+
+yaourt
+------
+
+Yaourt is a command line interface program which complete pacman for installing software on Archlinux. It builds and installs software from software sources(Arch AUR) without the need to understand Arch ABS.
+
+- Search a package : yaourt -Ss <package>
+- Install a package: yaourt -S <package>
+- Upgrade pacakges : yaourt -Syu --aur
+
+Use openssl to fetch CA
+-----------------------
+
+::
+
+  openssl s_client -showcerts -connect ip:port </dev/null 2>/dev/null | openssl x509 -outform PEM >ca_cert.pem
+
+Choose Arch mirror
+------------------
+
+Official Mirror List
+~~~~~~~~~~~~~~~~~~~~
+
+- https://www.archlinux.org/mirrorlist/all/
+
+List by Speed(based on local test)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+  sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+  rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+  pacman -Syy
+
+Server Side Ranking
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  reflector --latest 10 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+  reflector --country China --country Singapore --country 'United States' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
+Shortcut for Manjaro
+~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
+
+Only use mirrors from a country
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sudo pacman-mirrors -c China && sudo pacman -Syyu
+
+Install a Package with a Specific Version on Ubuntu
+---------------------------------------------------
+
+::
+
+  apt policy <package name>
+  apt install <package name>=<version>
+
+Record and replay linux CMD screen
+----------------------------------
+
+::
+
+  script --timing=file.tm script.out
+
+  cmd1
+  cmd2
+  ...
+  exit
+
+  scriptreplay --timing file.tm --typescript script.out
+
+Check nfs IO stat
+-----------------
+
+::
+
+  nfsstat -l
+
+View package groups on Arch
+---------------------------
+
+::
+
+  pacman -Sg[g]
+  pacman -Qg[g]
+
+zsh tips
+--------
+
+Common
+~~~~~~
+
+- zsh reference card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
+- zsh tips: http://grml.org/zsh/zsh-lovers.html
+
+zsh set/unset options
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  setopt # Display all enabled options
+  setopt HIST_IGNORE_ALL_DUPS
+  unsetopt # Display all off options
+  unsetopt HIST_IGNORE_ALL_DUPS
+
+Development Tools on different distros
+--------------------------------------
+
+- Arch
+
+  ::
+
+    sudo pacman -S base-devel
+
+- Ubuntu
+
+  ::
+
+    sudo apt-get install build-essential
+
+- RHEL/CentOS
+
+  ::
+
+    sudo yum groupinstall "Development Tools"
+
+- SuSE
+
+  ::
+
+    sudo zypper install -t pattern devel_C_C++
+
+kdump config
+------------
+
+1. Install "kernel-debuginfo-common" and "kernel-debuginfo", by default, these two packages are not kept in yum repository, they need to be downloaded from internet;
+2. Install "kexec-tools" and "crash":
+
+   - yum install kexec-tools
+   - yum install crash
+
+3. Edit grub.cfg, append "crashkernel=yM@xMparameter " to kernel:
+
+   - Y : memory reserved for dump-capture kernel;
+   - X : the beginning of the reserved memory;
+   - This can be done with command: grubby --update-kernel=ALL --args="crashkernel=yM@xM";
+   - "crashkernel=yM@0" or "crashkernel=yM" should be used if kdump service cannot start;
+
+4. Reboot and check with command: cat /proc/iomem | grep 'Crash kernel';
+5. Configure /etc/kdump.conf to set dump path and other options, by default, only below two options are required:
+
+   - path /var/crash
+   - core_collector makedumpfile -c -d 31
+
+6. "service kdump restart" if the configuration file has been changed;
+7. Trigger a dump:
+
+   - echo "1" > /proc/sys/kernel/sysrq
+   - echo "c" > /proc/sysrq-trigger
+
+8. System will begin dump and reboot;
+9. Check if vmcore file is generated under the kdump path;
+10. Done.
+
+Assign hostname dynamically with DHCP
+-------------------------------------
+
+1. **option host-name** can be used to assign a hostname while assigning IP - https://www.isc.org/wp-content/uploads/2017/08/dhcp41options.html;
+2. **dhcp-eval** can be leveraged to generate a hostname dynamically - https://www.isc.org/wp-content/uploads/2017/08/dhcp41eval.html.
+
+Delete VM on Linux with virsh
+-----------------------------
+
+::
+
+  virsh list
+  virsh dumpxml VM_NAME | grep 'source file'
+  # OR as below
+  # virsh dumpxml --domain VM_NAME | grep 'source file'
+  # <source file='/nfswheel/kvm/VM_NAME.qcow2'/>
+  virsh shutdown VM_NAME
+  # OR as below
+  # virsh destroy VM_NAME
+  virsh snapshot-list VM_NAME
+  virsh snapshot-delete VM_NAME
+  virsh undefine VM_NAME
+  rm -rf <VM source file>
+
+=====
+Disks
+=====
+
+List all SCSI devices
+---------------------
+
+**sg_map** can be used to list all devices support SCSI, such as sd, sr, st, etc. In the meanwhile, it can also list the well known host:bus:scsi:lun inforamtion as lsscsi.
+
+Note: sg stands for generic SCSI driver, it is generalized (but lower level) than its siblings(sd, sr, etc.) and tends to be used on SCSI devices that don't fit into the already serviced categories. When the type for a SCSI device cannot be recognized, it will be shown as a sg device.
+
+::
+
+  # sg_map -x                                                                                                                        master ✱
+  /dev/sg0  1 0 0 0  5  /dev/sr0
+  /dev/sg1  2 0 0 0  0  /dev/sda
+
+Create a LV with all free space
+-------------------------------
+
+::
+
+  lvcreate -l 100%FREE -n <LV name> <VG name>
+
+Parted
+------
+
+- fdisk cannot create partitions larger than 2TB, parted should be used under such situation.
+- Select a target disk for partitioning: parted->print devices->select
+- Create a partition: mklabel->unit->mkpart
+- **Notes** : if error "Warning: The resulting partition is not properly aligned for best performance." is hit, you could use mkpart primary 0% 100% , this will align the disk automatically for you.
+
+sg_inq/sg3_inq
+--------------
+
+::
+
+  # sg_inq -p 0 /dev/<device name>
+   Only hex output supported. sg_vpd decodes more pages.
+  VPD INQUIRY, page code=0x00:
+     [PQual=0  Peripheral device type: disk]
+     Supported VPD pages:
+       0x0        Supported VPD pages
+       0x80       Unit serial number
+       0x83       Device identification
+       0x8f       Third party copy
+       0xb0       Block limits (sbc2)
+       0xb1       Block device characteristics (sbc3)
+       0xb2       Logical block provisioning (sbc3)
+  # sg_inq -p 0x83 /dev/<device name>
+
+Rescan/discover LUN/disk without reboot
+---------------------------------------
+
+::
+
+  # find . -name "scan"
+  # echo '- - -' > ./devices/pci0000:00/0000:00:07.1/ata1/host0/scsi_host/host0/scan
+  ---OR---
+  # echo '- - -' > /sys/class/scsi_host/host0/scan
+  …
+  # lsblk
+
+Remove a SCSI/SAN disk when it is dead
+--------------------------------------
+
+::
+
+  ~$ sudo lsscsi
+  [0:2:0:0]    disk    Lenovo   720i             4.23  /dev/sda
+  [0:2:1:0]    disk    Lenovo   720i             4.23  /dev/sdb
+  [0:2:2:0]    disk    Lenovo   720i             4.23  /dev/sdc
+  [0:2:3:0]    disk    Lenovo   720i             4.23  /dev/sdd
+  [1:0:0:0]    disk    Single   Flash Reader     1.00  /dev/sde
+  [4:0:0:0]    cd/dvd  PLDS     DVD-RW DU8A5SH   BL61  /dev/sr0
+  [14:0:1:0]   disk    DGC      LUNZ             4100  /dev/sdf
+
+  ~$ echo 1 | sudo tee /sys/bus/scsi/devices/${H:B:T:L}/delete
+  (Note: H:B:T:L is the bus address output of lsscsi for sdf)
+
+  ~$ sudo lsscsi
+  [0:2:0:0]    disk    Lenovo   720i             4.23  /dev/sda
+  [0:2:1:0]    disk    Lenovo   720i             4.23  /dev/sdb
+  [0:2:2:0]    disk    Lenovo   720i             4.23  /dev/sdc
+  [0:2:3:0]    disk    Lenovo   720i             4.23  /dev/sdd
+  [1:0:0:0]    disk    Single   Flash Reader     1.00  /dev/sde
+  [4:0:0:0]    cd/dvd  PLDS     DVD-RW DU8A5SH   BL61  /dev/sr0
+
+View/Create/Remove SCSI Persistent Reservation Keys
+---------------------------------------------------
+
+Refer to https://access.redhat.com/solutions/43402
+
+Tool needed - sg3_utils
+~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  yum install sg3_utils
+
+View registered keys
+~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --in -k -d /dev/<DEVICE>
+
+View the reservations
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --in -r -d /dev/<DEVICE>
+
+View more info about keys
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --in -s -d /dev/<DEVICE>
+
+Register a key
+~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --out --register --param-sark=<KEY> /dev/<DEVICE>
+
+Take out a reservation
+~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --out --reserve --param-rk=<KEY> --prout-type=<TYPE> /dev/<DEVICE>
+
+Release a reservation
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --out --release --param-rk=<KEY> --prout-type=<TYPE> /dev/<DEVICE>
+
+Unregister a key
+~~~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --out --register --param-rk=<KEY> /dev/<DEVICE>
+
+Clear the reservation and all registered keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sg_persist --out --clear --param-rk=<KEY> /dev/<DEVICE>
+
+A simple script to clear all reservations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  #!/usr/bin/bash
+
+  DEVICE=$1
+
+  KEYS=`sg_persist --in -k -d $DEVICE | grep '^ \+0x' | awk '{print $1}' | uniq`
+
+  for k in $KEYS; do
+    sg_persist --out --clear --param-rk=${k} ${DEVICE}
+  done

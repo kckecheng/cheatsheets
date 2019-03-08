@@ -1,0 +1,270 @@
+.. contents:: VIM Tips
+
+========
+VIM Tips
+========
+
+Help
+----
+
+- :help help.txt      ---> all documents(help home page)
+- :help index.txt     ---> a list of all commands for each mode
+- :help usr_toc.txt   ---> user manual
+- :help usr_03.txt    ---> move around
+- :help usr_41.txt    ---> vim scripting guide
+- :help motion.txt    ---> cursor motions
+- :help cmdline.txt   ---> Command line mode help
+- :help function-list ---> builtin functions of vim
+- :help key-notation  ---> list all recognized keys (prepare for key mapping)
+- :help option-list   ---> a list/toc of all vim options, such as viminfo, etc.
+- :help helphelp      ---> How to write a help file
+
+Commands
+--------
+
+- :his / q:             ---> list command history
+- :map                  ---> list currently mapped keys
+- :set                  ---> list all currently options which are different from the default
+- :version              ---> Check features enabled/compiled in vim
+- :colorscheme desert   ---> Change color schemes
+- :set [no]wrap         ---> world wrap
+- :set relativenumber   ---> Show line number relatively based on current line
+- :retab                ---> Replace tab as space based on tabstop
+- :RemoveTrailingSpaces ---> Remove all trailing spaces
+- :echo &buftype        ---> Show current file's buffer type(quickfix, location list, etc.)
+- :ccl / :cclose        ---> Close quickfix window (:h quickfix)
+- :lcl / :lclose        ---> Close location list window(:h location-list)
+- :set autoread         ---> Auto read file if the external file has changed(such as a live log file)
+- :set conceallevel=0   ---> Stop hiding quotes for some files, such as json, markdown
+- :help filetype-overview ---> help for filetype plugin indent
+- :List supported file types and syntax highlight
+
+  ::
+
+    :echo glob($VIMRUNTIME . '/ftplugin/*.vim') ---> List supported(builtin) file types
+    :echo glob($VIMRUNTIME . '/syntax/*.vim')   ---> List supported(builtin) syntax highlight
+
+- Get Values
+  - :set <option name>? ---> Get option value, e.g., set ft?
+  - :echo <variable name>/&<option name>/&l:<local variable name>/@<register name>
+
+Shortcuts
+---------
+
+- \*         ---> Search the word under the cursor
+- K          ---> Open the manual(man) for the word under the cursor
+- Ctrl + p   ---> Auto complete (will be overrided when vim plugin CtrlP is in use)
+- Ctrl + y   ---> Insert without line break for auto completition
+- Ctrl + ]   ---> Jump to the section under the cursor while browsing VIM documents (such as :help index)
+- Ctrl + ^   ---> Jump back to origin file from alternative file
+- Ctrl + u/d ---> Scroll up/down half screen (:help usr_03.txt)
+- Reference  ---> Refer to https://vim.rtorr.com/
+
+Keymap
+------
+
+- :map -> check existing map
+- Examples
+  - map <C-n> :NERDTreeToggle<CR>
+  - map <C-t> :Tagbar<CR>
+
+Tabs
+----
+
+- Built-in tabs: http://vim.wikia.com/wiki/Using_tab_pages
+- :help tabedit
+- :help tabnext/tabn
+- :help tabprevious/tabp
+- tabedit <file name>: open file in a new tab
+- gt/gT              : go to next/previous tab
+
+References
+----------
+
+- vim tips: http://vim.wikia.com/wiki/Best_Vim_Tips
+- vim plugins: http://vimawesome.com/
+
+MISC Tips
+---------
+
+Motion
+++++++
+
+*until/upto(valid for d/c/y) - t/f*
+
+Examples:
+
+- dtx: delete until next character 'x'
+- dfx: delete up to the previous character 'x'
+
+Vertical Edit
++++++++++++++
+
+::
+
+  Ctrl + V ---> column mode
+             |
+             V
+  Select the columns and rows
+             |
+             V
+  Shift + I ---> insert mode in column mode
+             |
+             V
+         Type text
+             |
+             V
+            Esc
+
+Select
+++++++
+
+- v         - select range of text
+- shift + v - select extire lines
+- ctrl + v  - select columns
+- v/foo     - select from current position to the next instance of 'foo', n to next 'foo', ...
+- ma -> :<line num> -> shift + v -> 'a - select from mark 'a' to line num
+
+Jumplist
+++++++++
+
+- :jumps ---> Display Jumplist
+- Ctrl + O ---> Jump backward
+- Ctrl + I ---> Jump forward
+
+
+Viewports
++++++++++
+
+Split
+~~~~~
+
+- :help split
+- shortcuts:
+
+  - <C-w>n : new horizontal split (editing a new empty buffer)
+  - <C-w>s : split window horizontally (editing current buffer)
+  - <C-w>v : vsplit window vertically (editing current buffer)
+  - <C-w>c : close window
+  - <C-w>o : close all windows, leaving only the current window open
+
+- commands:
+
+  - :sp    : split window horizontally (editing current buffer)
+  - :vsp   : vsplit window vertically (editing current buffer)
+  - :sp <file>  : open file in a horizontally splitted window
+  - :vsp <file> : opne file in a vertically splitted window
+  - :new   : split window horizontally (editing an new/empty buffer)
+  - :vnew  : vsplit window vertically (editing an new/empty buffer)
+
+- split with an exisitng buffer
+
+  - :sb <num>            : split horizontally and edit the existing buffer <num>
+  - :vert[ical] sb <num> : split vertically and edit the existing buffer <num>
+
+Move/Rotate
+~~~~~~~~~~~
+
+- :help wincmd
+- <C-w>r/R : rotate
+- <C-w>K/J : rotate to top/bottom
+- <C-w>H/L : rotate to left/right
+- <C-w>T   : move the splitted window as a tabview(another way to maximize window)
+- <C-w>w   : go to next window
+- <C-w>p   : go to previous window
+- <C-w> + Up/Down/Left/Right : go to window above/below/left/right
+
+Resize
+~~~~~~
+
+- <C-w>| : maximize currentl vertically splitted window
+- <C-w>_ : maximize current horizontally splitted window
+- <C-w>= : make window size equally
+- OR
+- :resize +/- <num>
+- :vert[ical] resize +/- <num>
+
+netrw
++++++
+
+netrw is the recommended internal builin method to explore directories, which can be leveraged to do split view directly while browsing a directory.
+
+- :help netrw
+- :help Explore
+- :Hex[plore][!] : browse, select a file, then open it in a horizontal split below/above current buffer
+- :Vex[plore][!] : browse, select a file, then open it in a vertical split to the left/right of current buffer
+- :bd|:q|Ctrl ^  : close the explore and go back to the original file
+- After opening the explore throug :Ex/:Hex/:Ver/:Sex/etc.
+
+  - F1 - open help
+  - i - cycle between thin/long/wide/tree listings
+  - gh - hide/unhide dot-files
+
+
+vimdiff
++++++++
+
+- :h diff.txt - get help
+- ]c          - next difference
+- [c          - previous difference
+- do          - diff obtain
+- dp          - diff put
+- zo          - open folded text
+- zc          - close folded text
+- :diffupdate - re-scan the files for differences
+
+Profiling
++++++++++
+
+Some plugins may lead to vim slow reponse. Profiling can help identify the culprit.
+
+::
+
+  :profile start profile.log
+  :profile func *
+  :profile file *
+  " At this point do slow actions
+  :profile pause
+  :noautocmd qall!
+
+Change file type/format
++++++++++++++++++++++++
+
+- set ft?                     - Show current **filetype**
+- set ft=text/log/json/...    - Set file type
+- set ff?                     - Show **fileformat**, which is local to each buffer
+- set ffs?                    - Show **fileformats**, which is global and specifies which file formats will be tried when Vim reads a file
+- Covert dos/unix to unix
+
+  ::
+
+    :update
+    :e ++ff=dos
+    :setlocal ff=unix
+    :w
+
+- Convert from dos/unix to dos
+
+  ::
+
+    :update
+    :e ++ff=dos
+    :w
+
+Capital and lower words
++++++++++++++++++++++++
+
+- Select lines to be capitalized/lowered with visual selection
+- U/u
+
+Replace and refer to original data
+++++++++++++++++++++++++++++++++++
+
+- Use () to store matches
+- Use \x to refer to the saved contents, \0 is the full original content, \1 is the first match, etc.
+- Refer to :help regexp for re details
+- \r equals new line
+
+::
+
+  :%s/\(content1\):\(content2\)/\1\r\2/
