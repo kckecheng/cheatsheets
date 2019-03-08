@@ -10,8 +10,8 @@ Unix - User friendly configuraiton tool
 - AIX: smit
 - HP-UX: sam
 
-VMware - vShere web service API
--------------------------------
+VMware - vSphere web service API
+--------------------------------
 
 Managed object browser: https://<vCenter or ESXi>/mob
 
