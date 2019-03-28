@@ -32,6 +32,10 @@ After modifying the configuration files, run command **ansible-config dump --onl
   transport = paramiko
   jinja2_extensions = jinja2.ext.do,jinja2.ext.i18n,jinja2.ext.loopcontrols
 
+  # By default, all objects are parsed as tring, by enabling this option,
+  # there is no need to perform type casting
+  jinja2_native = True
+
 Load Additional Jinja Extensions
 --------------------------------
 
