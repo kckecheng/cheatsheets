@@ -132,6 +132,16 @@ Jumplist
 - Ctrl + O ---> Jump backward
 - Ctrl + I ---> Jump forward
 
+Search/Replace respecting case
+++++++++++++++++++++++++++++++
+
+- <pattern>\c or \c<pattern>(help \\c): ignore case search/replace
+- <pattern>\C or \C<pattern>(help \\C): search/replace respecting case
+- Examples:
+
+  - /hello\c: match hello, Hello, HELLO, etc.
+  - /Hello\C: match only Hello
+
 
 Viewports
 +++++++++
