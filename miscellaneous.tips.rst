@@ -15,6 +15,17 @@ VMware - vSphere web service API
 
 Managed object browser: https://<vCenter or ESXi>/mob
 
+VMware - Mount CD on ESXi
+-------------------------
+
+::
+
+  vmkload_mod iso9660
+  esxcfg-mpath -l | grep -i cd-room
+  vsish -e set /vmkModules/iso9660/mount mpx.vmhbaX.C0:T0:L0
+  ls /vmfs/volumes
+  vsish -e set /vmkModules/iso9660/umount mpx.vmhbaX.C0:T0:L0
+
 Docker - Mount nfs within a docker container
 --------------------------------------------
 
