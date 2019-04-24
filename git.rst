@@ -233,6 +233,24 @@ During merge operations, there are situations only some files are supposed to be
 Tips
 ====
 
+Cache Credentail
+----------------
+
+1. Store credential on disk in plaintext
+
+   ::
+
+     git config [--global] credential.helper store
+
+2. Cache in memory only
+
+   ::
+
+     # Cache for 15 x minutes by default
+     git config --global credential.helper cache
+     # Specify timeout
+     git config --global credential.helper 'cache --timeout=3600'
+
 Move git HEAD
 -------------
 
@@ -745,11 +763,13 @@ Add a submodule
 Remove a submodule
 ++++++++++++++++++
 
-::
-
-  git submodule deinit -f -- <path/submodule name>
-  rm -rf .git/modules/<path/submodule name>
-  git rm -f <path/submodule name>
+1. Delete the relevant section from **.gitmodules** file;
+2. git add .gitmodules;
+3. Delete the relevant section from **.git/config**;
+4. git rm --cached path_to_submodule;
+5. rm -rf .git/modules/path_to_submodule;
+6. git commit -m message;
+7. rm -rf path_to_submodule.
 
 Pull submodules
 +++++++++++++++
