@@ -112,6 +112,7 @@ Below options are recommended before using git(without global for per repository
     git config --global user.email <email>
     git config --global http.sslVerify false
     git config --global core.editor vim
+    git config --global credential.helper cache
     git config --global format.pretty format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(blue)<%aE>%Creset"
     git config --global -l
 
