@@ -1,8 +1,8 @@
-.. contents:: SAN Switch Tips
+.. contents:: Switch Tips
 
-=======
-Brocade
-=======
+==================
+Brocade SAN Switch
+==================
 
 Get Help
 --------
@@ -595,4 +595,35 @@ If the target is getting multiple N ports from a HBA/FA login the same FC switch
   # interface fc1/3-4
   # swithport mode F
   # no shutdown
+
+============
+Dell Force10
+============
+
+Trunk Configuration
+-------------------
+
+1. Trunk mode is named "hybrid" port mode:
+
+   ::
+
+     interface TeX/X
+     no switchport
+     exit
+     interface TeX/X
+     portmode hybrid
+     switchport
+
+2. Allowed VLANs and native VLAN needs to be configured with VLAN interface:
+
+   ::
+
+     interface vlan A1
+     tagged TeX/X
+     exit
+     interface vlan A2
+     tagged TeX/X
+     exit
+     interface vlan A0
+     untagged TeX/X
 
