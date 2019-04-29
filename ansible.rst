@@ -757,6 +757,59 @@ The solution:
 - Changung /bin/sh to bash: ln -s -f /bin/bash /bin/sh
 - Define variables at the begining of .bashrc
 
+Send Ansible log to Elasticsearch
+---------------------------------
+
+1. Ansible cannot send its log to Elasticsearch directly, but there exist a builtin callback to send Ansible log to logstash, through which log can be redirected to Elasticsearch;
+2. Ansible Configuration:
+
+   - Define below environment variable:
+
+     .. code-block:: sh
+
+        export LOGSTASH_SERVER=x.x.x.x #default localhost
+        export LOGSTASH_PORT=xxxx #deault 5000
+        export LOGSTASH_TYPE=xxxx #default ansible
+
+   - Enable logstash callback in ansible.cfg
+
+     ::
+
+       callback_whitelist = logstash
+       callback_plugins = logstash
+
+   - Install logstash python library
+
+     ::
+
+       pip install python-logstash
+
+3. Logstash configuration:
+
+   ::
+
+     input {
+         tcp {
+             port => 5000
+             codec => json
+         }
+     }
+
+     output {
+         elasticsearch {
+             hosts => [ "localhost:9200" ]
+             index => "ansible"
+         }
+     }
+
+4. Kibana configuration:
+
+   - Run a playbook to send an initial data to Elasticsearch to generate the index "ansible"
+   - Kibana GUI -> Management -> Elasticsearch -> Index Management: check the availablility of the index
+   - Kibana GUI -> Management -> Kibana -> Index Patterns -> Create index pattern: create a pattern for the index
+
+5. Done
+
 ===============
 Template/Jinja2
 ===============
