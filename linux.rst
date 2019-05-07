@@ -1034,6 +1034,45 @@ Delete VM on Linux with virsh
   virsh undefine VM_NAME
   rm -rf <VM source file>
 
+Configure IP with netctl on Arch
+--------------------------------
+
+1. Create profiles
+
+   ::
+
+     cd /etc/netctl
+     cp examples/ethernet-static ethernet-ensXXX
+     cp examples/ethernet-dhcp ethernet-ensYYY
+     # Modify ethernet-ensXXX ethernet-ensYYY
+
+2. Disable NetworkManager
+
+   ::
+
+     systemctl stop NetworkManage
+     systemctl disable NetworkManage
+
+3. Enable profiles
+
+   ::
+
+     netctl enable ethernet-ensXXX
+     netctl enable ethernet-ensYYY
+
+4. Start profiles
+
+   ::
+
+     netctl start ethernet-ensXXX
+     netctl start ethernet-ensYYY
+
+5. Reenable profiles: after changing a profile, it must be re-enable
+
+   ::
+
+     netctl reenable profile
+
 =====
 Disks
 =====
