@@ -808,14 +808,6 @@ Sort based on several fields
 
 sort -k <field 1 order> -k <field 2 ordr> ... [-n] [-r]
 
-Change locale
--------------
-
-::
-
-  sudo dpkg-reconfigure locales
-  sudo update-locale LANG=en_US.UTF-8
-
 String Contains in Bash
 -----------------------
 
@@ -1072,6 +1064,23 @@ Configure IP with netctl on Arch
    ::
 
      netctl reenable profile
+
+Change System Clock
+-------------------
+
+timedatectl is a new utility, which comes as a part of systemd system and service manager, a replacement for old traditional date command used in sysvinit daemon.
+
+::
+
+  timedatectl list-timezones
+  timedatectl set-timezone Asia/Shanghai
+
+Change System Locale
+--------------------
+
+::
+
+  localectl --help
 
 =====
 Disks
