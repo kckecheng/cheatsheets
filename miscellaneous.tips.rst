@@ -167,6 +167,22 @@ The dedault Makefile does not work, it need to be changed as below:
   ES_BEATS?=./vendor/github.com/elastic/beats
   VIRTUALENV_PARAMS?=-p /usr/bin/python2
 
+Elastic Metricbeat - Change Index Name
+--------------------------------------
+
+Metricbeat will send events to indices named metricbeat-xxx. This leads to complication if multiple metricbeat sources exist. To avoid the problem, customized index name can be created as below. After making the changes, execute "metricbeat export config" to verify.
+
+::
+
+  # Edit /etc/metricbeat/metricbeat.yml and add below contents:
+  output.elasticsearch:
+    index: "vspheremetric-%{[agent.version]}-%{+yyyy.MM.dd}"
+    indices:
+      - index: "vspheremetric-%{[agent.version]}-%{+yyyy.MM.dd}"
+
+  setup.template.name: "vspheremetric"
+  setup.template.pattern: "vspheremetric-*"
+
 PowerCLI - Integrate PowerCLI with PowerShell
 ---------------------------------------------
 
