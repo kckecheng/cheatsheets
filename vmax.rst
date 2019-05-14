@@ -597,6 +597,13 @@ Show disk details
 
   # symdisk show 1C:C0
 
+Show Real Time FA Stats
++++++++++++++++++++++++
+
+::
+
+  symstat -sid 535 -type port -dir all -i 5 -c 1
+
 Host Visible VS. All
 ++++++++++++++++++++
 
