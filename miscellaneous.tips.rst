@@ -26,6 +26,15 @@ VMware - Mount CD on ESXi
   ls /vmfs/volumes
   vsish -e set /vmkModules/iso9660/umount mpx.vmhbaX.C0:T0:L0
 
+VMware - esxtop display
+-----------------------
+
+esxtop will display in batch mode by default for some terminal. To fix this, run it as below:
+
+::
+
+  TERM=xterm esxtop
+
 Docker - Mount nfs within a docker container
 --------------------------------------------
 
