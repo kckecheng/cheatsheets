@@ -278,3 +278,8 @@ Replace and refer to original data
 ::
 
   :%s/\(content1\):\(content2\)/\1\r\2/
+
+Non-greedy Operations
++++++++++++++++++++++
+
+By default, search and replace in vim are greedy. To perform non-greedy operations, use ".\\{-}" instead of ".\*". Refer to **:help non-greedy** for details.
