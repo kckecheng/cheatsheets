@@ -245,3 +245,16 @@ Split List into Chunks
    l1 = list(range(0, 100))
    [l1[i:i+5] for i in range(0, len(l1), 5)]
 
+Function Cache
+--------------
+
+::
+
+  from functools import lcu_cache
+  @lru_cache(maxsize=32)
+  def testFunc1(*args, **kwargs):
+    pass
+
+  testFunc1()
+  testFunc1.cache_info()
+  testFunc1.clear_cache()
