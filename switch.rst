@@ -48,6 +48,24 @@ Zoning
 - cfgenable <Configuration Name>
 - cfgcreate : Create a new zone set, this is not used frequently
 
+Peer Zoning
++++++++++++
+
+One initiator + multiple targets is the best practice of configuing zones. However, it is tedious to configure multiple hosts with the same targets, since an end user needs to creat num. of hosts x zones, which share the identical targets info. User errors is easy to be invovled at the same time.
+
+Peer zoning defines principle and non-principle members for a zone:
+
+  - Principle members cannot communicate with each other;
+  - Non-principle members cannot communicate with each other;
+  - A principle member can communicate with all non-principle members.
+
+With peer zoning, multiple hosts can be zoned together as one zone with the same targets:
+
+::
+
+   zonecreate --peerzone peerzone_wwn_mbrs -principal "10:00:00:00:01:1e:20:20; 10:00:00:00:01:1e:20:21"
+   zoneadd --peerzone peerzone_wwn_mbrs -members "10:00:05:1e:a9:20:00:01; 10:00:05:1e:a9:20:00:02"
+
 Show/Enable/Disable FOS Feature
 -------------------------------
 
@@ -333,6 +351,21 @@ Zoning
 - …...
 - exit
 - show zone name <name> pending
+
+Smart Zoning
+++++++++++++
+
+Smart zoning is the implementation on Cisco similar as Brocade peer zoning.
+
+::
+
+  zone name SmartZone vsan 1
+    member pwwn 10:00:00:00:c9:2f:02:db init
+    member pwwn 21:00:00:04:cf:db:3e:a7 target
+    member pwwn 21:00:00:20:37:15:dc:02 target
+    member pwwn 10:00:00:00:c9:2e:ff:d5 init
+    member pwwn 21:00:00:e0:8b:02:56:4b init
+    member pwwn 21:00:00:e0:8b:03:43:6f init
 
 Commit Zone
 -----------
