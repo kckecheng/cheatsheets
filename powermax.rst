@@ -693,17 +693,15 @@ Online Device Expansion
   symdev -sid <sid> modify 1ab -cap 200 -captype gb -tdev
   symdev -sid <sid> modify -devs 1ac:1af -cap 200 -captype gb -tdev
 
-================
-SymmWin Commands
-================
+=======
+SymmWin
+=======
 
-- check port status: 8F,,,1 ('1' = Port1 eg. 10g1, 9g1) / 8F,,,0
-- port offline: F0,CE,0F
-- port online: F0,CE,0
-- DD(director dead): D8,CE
-- recover from DD: FE, CE
-- FAST IML: FD,CE
-- Online Code Load: Goto Procedures > Procedure Wizard > Online Code Load
+Check Slic Map
+--------------
+
+1. File -> IMPL from system
+2. Configuration -> Slic Map
 
 ========
 TF/Clone
