@@ -13,6 +13,7 @@ Help
 - :help usr_03.txt    ---> move around
 - :help usr_41.txt    ---> vim scripting guide
 - :help motion.txt    ---> cursor motions
+- :help object-select ---> How to select a word, inner word, etc.
 - :help cmdline.txt   ---> Command line mode help
 - :help function-list ---> builtin functions of vim
 - :help key-notation  ---> list all recognized keys (prepare for key mapping)
@@ -87,15 +88,21 @@ References
 MISC Tips
 ---------
 
-Motion
+Delete
 ++++++
 
-*until/upto(valid for d/c/y) - t/f*
+- Delete until/upto(also valid for c/y) - t/f
 
-Examples:
+  - dtx: delete until next character 'x'
+  - dfx: delete up to the previous character 'x'
 
-- dtx: delete until next character 'x'
-- dfx: delete up to the previous character 'x'
+- Delete until based on search - d/<pattern>
+- Delete based on object-selection
+
+  - daw
+  - diw
+  - dab
+  - ...
 
 Vertical Edit
 +++++++++++++
