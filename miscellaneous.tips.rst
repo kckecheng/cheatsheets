@@ -54,7 +54,7 @@ Docker - Enable Remote API
    ::
 
      [Service]
-     ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2376
+     ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
 
 - Restart docker service: sudo systemctl daemon-reload; sudo systemctl restart docker.service
 - Reference: https://docs.docker.com/engine/reference/commandline/dockerd/
