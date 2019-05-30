@@ -45,6 +45,20 @@ Docker - Mount nfs within a docker container
    apt install nfs-common
    mount -t nfs <host>:<path> <mount point>
 
+Docker - Enable Remote API
+--------------------------
+
+- Locate the service file: find /etc/systemd -iname "*docker*"
+- Edit it and add **-H tcp://0.0.0.0:2376** as below:
+
+   ::
+
+     [Service]
+     ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2376
+
+- Restart docker service: sudo systemctl daemon-reload; sudo systemctl restart docker.service
+- Reference: https://docs.docker.com/engine/reference/commandline/dockerd/
+
 Windows - Make an app always on top
 -----------------------------------
 
