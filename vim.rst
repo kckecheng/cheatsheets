@@ -104,6 +104,10 @@ Delete
   - dab
   - ...
 
+- Delete the whole line matching a pattern
+
+  - :g/pattern/d
+
 Vertical Edit
 +++++++++++++
 
