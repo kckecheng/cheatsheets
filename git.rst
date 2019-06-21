@@ -458,11 +458,22 @@ Update the local list of remote branches
 Overwrite local files with git pull
 -----------------------------------
 
+This should only be used when there are too many conflicts to solve during a normal merge operation.
+
 ::
 
-  git fetch
+  git fetch --all
   git reset --hard <FETCH_HEAD | branch name, such as origin/master>
-  git clean -df (Be careful, the newly added files and directories will be removed)
+  git pull
+
+Clean untracked local files
+---------------------------
+
+::
+
+  git clean -f # Remove file
+  git clean -df # Remove both files and directories
+  git clean -xdf # Remove files, directories, and ignored files and directories
 
 checkout/pull/fetch
 -------------------
