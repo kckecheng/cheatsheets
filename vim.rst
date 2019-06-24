@@ -13,9 +13,10 @@ Help
 - :help usr_03.txt    ---> move around
 - :help usr_41.txt    ---> vim scripting guide
 - :help motion.txt    ---> cursor motions
+- :help pattern.txt   ---> Search and replace used patterns, e.g. regular expression, exscaping, etc.
 - :help object-select ---> How to select a word, inner word, etc.
 - :help cmdline.txt   ---> Command line mode help
-- :help function-list ---> builtin functions of vim
+- :help function-list ---> builtin functions of vim (:help functions also work)
 - :help key-notation  ---> list all recognized keys (prepare for key mapping)
 - :help option-list   ---> a list/toc of all vim options, such as viminfo, etc.
 - :help helphelp      ---> How to write a help file
@@ -152,6 +153,25 @@ Search/Replace respecting case
 
   - /hello\c: match hello, Hello, HELLO, etc.
   - /Hello\C: match only Hello
+
+Replace with complicated expression
++++++++++++++++++++++++++++++++++++
+
+Use **\\\=**: the result of evaluating the following expression.
+
+Examples:
+
+- Insert current line num. before each line
+
+  ::
+
+		:%s/^/\=printf('%-4d', line('.'))
+
+- Insert current line num. relative to the selection
+
+  ::
+
+		:'<,'>s/^\S/\=printf("%d.\t", line(".") - line("'<") + 1)
 
 
 Viewports
