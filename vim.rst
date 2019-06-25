@@ -14,6 +14,7 @@ Help
 - :help usr_41.txt    ---> vim scripting guide
 - :help motion.txt    ---> cursor motions
 - :help pattern.txt   ---> Search and replace used patterns, e.g. regular expression, exscaping, etc.
+- :help magic         ---> Use magic to ease pattern escaping
 - :help object-select ---> How to select a word, inner word, etc.
 - :help cmdline.txt   ---> Command line mode help
 - :help function-list ---> builtin functions of vim (:help functions also work)
@@ -109,6 +110,10 @@ Delete
 
   - :g/pattern/d
 
+- Delete the whole line which does not match a pattern
+
+  - :v/pattern/d
+
 Vertical Edit
 +++++++++++++
 
@@ -143,6 +148,21 @@ Jumplist
 - :jumps ---> Display Jumplist
 - Ctrl + O ---> Jump backward
 - Ctrl + I ---> Jump forward
+
+Reverse Search
+++++++++++++++
+
+Search lines which do not contain a word (refer to https://vim.fandom.com/wiki/Search_for_lines_not_containing_pattern_and_other_helpful_searches):
+
+::
+
+  /\v^((.*word.*)@!.)*$
+  /\v^(.*word)@!.*$
+
+Explanations:
+
+- \\v: magic pattern (:help magic), ease the use of escape for special characters
+- @!: does not match the preceding word
 
 Search/Replace respecting case
 ++++++++++++++++++++++++++++++
