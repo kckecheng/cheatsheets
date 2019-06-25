@@ -26,6 +26,7 @@ Commands
 --------
 
 - :his / q:             ---> list command history
+- :sav <name>           ---> Save the file as
 - :map                  ---> list currently mapped keys
 - :set                  ---> list all currently options which are different from the default
 - :version              ---> Check features enabled/compiled in vim
