@@ -35,6 +35,14 @@ esxtop will display in batch mode by default for some terminal. To fix this, run
 
   TERM=xterm esxtop
 
+VMware - esxtop metrics
+-----------------------
+
+Refer to below docs for meanings of each metrics:
+
+- https://communities.vmware.com/docs/DOC-9279
+- https://www.virten.net/vmware/esxtop
+
 Docker - Mount nfs within a docker container
 --------------------------------------------
 
