@@ -35,6 +35,13 @@ esxtop will display in batch mode by default for some terminal. To fix this, run
 
   TERM=xterm esxtop
 
+VMware - esxtop configuration
+-----------------------------
+
+1. Make changes accordingly in the view
+2. **W** to save the view as a new configuration
+3. esxtop -c <conf> to load the view
+
 VMware - esxtop metrics
 -----------------------
 
