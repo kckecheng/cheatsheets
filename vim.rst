@@ -72,6 +72,15 @@ Keymap
   - map <C-n> :NERDTreeToggle<CR>
   - map <C-t> :Tagbar<CR>
 
+Macro
+-----
+
+- q<letter>: start recording to register letter, say d
+- cmds     : commands to make changes
+- q        : stop recording
+- @<letter>: execute macro from register letter, say from register d
+- @@       : execute the macro again
+
 Tabs
 ----
 
@@ -90,6 +99,57 @@ References
 
 MISC Tips
 ---------
+
+Viewports
++++++++++
+
+Split
+~~~~~
+
+- :help split
+- shortcuts:
+
+  - <C-w>n : new horizontal split (editing a new empty buffer)
+  - <C-w>s : split window horizontally (editing current buffer)
+  - <C-w>v : vsplit window vertically (editing current buffer)
+  - <C-w>c : close window
+  - <C-w>o : close all windows, leaving only the current window open
+
+- commands:
+
+  - :sp    : split window horizontally (editing current buffer)
+  - :vsp   : vsplit window vertically (editing current buffer)
+  - :sp <file>  : open file in a horizontally splitted window
+  - :vsp <file> : opne file in a vertically splitted window
+  - :new   : split window horizontally (editing an new/empty buffer)
+  - :vnew  : vsplit window vertically (editing an new/empty buffer)
+
+- split with an exisitng buffer
+
+  - :sb <num>            : split horizontally and edit the existing buffer <num>
+  - :vert[ical] sb <num> : split vertically and edit the existing buffer <num>
+
+Move/Rotate
+~~~~~~~~~~~
+
+- :help wincmd
+- <C-w>r/R : rotate
+- <C-w>K/J : rotate to top/bottom
+- <C-w>H/L : rotate to left/right
+- <C-w>T   : move the splitted window as a tabview(another way to maximize window)
+- <C-w>w   : go to next window
+- <C-w>p   : go to previous window
+- <C-w> + Up/Down/Left/Right : go to window above/below/left/right
+
+Resize
+~~~~~~
+
+- <C-w>| : maximize currentl vertically splitted window
+- <C-w>_ : maximize current horizontally splitted window
+- <C-w>= : make window size equally
+- OR
+- :resize +/- <num>
+- :vert[ical] resize +/- <num>
 
 Delete
 ++++++
@@ -194,57 +254,6 @@ Examples:
 
 		:'<,'>s/^\S/\=printf("%d.\t", line(".") - line("'<") + 1)
 
-
-Viewports
-+++++++++
-
-Split
-~~~~~
-
-- :help split
-- shortcuts:
-
-  - <C-w>n : new horizontal split (editing a new empty buffer)
-  - <C-w>s : split window horizontally (editing current buffer)
-  - <C-w>v : vsplit window vertically (editing current buffer)
-  - <C-w>c : close window
-  - <C-w>o : close all windows, leaving only the current window open
-
-- commands:
-
-  - :sp    : split window horizontally (editing current buffer)
-  - :vsp   : vsplit window vertically (editing current buffer)
-  - :sp <file>  : open file in a horizontally splitted window
-  - :vsp <file> : opne file in a vertically splitted window
-  - :new   : split window horizontally (editing an new/empty buffer)
-  - :vnew  : vsplit window vertically (editing an new/empty buffer)
-
-- split with an exisitng buffer
-
-  - :sb <num>            : split horizontally and edit the existing buffer <num>
-  - :vert[ical] sb <num> : split vertically and edit the existing buffer <num>
-
-Move/Rotate
-~~~~~~~~~~~
-
-- :help wincmd
-- <C-w>r/R : rotate
-- <C-w>K/J : rotate to top/bottom
-- <C-w>H/L : rotate to left/right
-- <C-w>T   : move the splitted window as a tabview(another way to maximize window)
-- <C-w>w   : go to next window
-- <C-w>p   : go to previous window
-- <C-w> + Up/Down/Left/Right : go to window above/below/left/right
-
-Resize
-~~~~~~
-
-- <C-w>| : maximize currentl vertically splitted window
-- <C-w>_ : maximize current horizontally splitted window
-- <C-w>= : make window size equally
-- OR
-- :resize +/- <num>
-- :vert[ical] resize +/- <num>
 
 netrw
 +++++
