@@ -847,6 +847,15 @@ Use openssl to fetch CA
 
   openssl s_client -showcerts -connect ip:port </dev/null 2>/dev/null | openssl x509 -outform PEM >ca_cert.pem
 
+Tarball with xz
+---------------
+
+xz is a newer compression tool than gz, bz, bz2, etc. It delivers better compression ratio and performance.
+
+::
+
+  tar -cJf <archive.tar.xz> <files>
+
 Choose Arch mirror
 ------------------
 
