@@ -271,6 +271,31 @@ Configure ISL
    2. configure ---> Only change the domain id is enough, leave all options untouched
    3. switchenable
 
+Show Switch ISL
+---------------
+
+- Get an overview of the fabric
+
+  ::
+
+    # Find the target FID
+    lscfg --show
+    setcontext FID
+    fabricshow
+
+- Show ISL: after enableing virtual fabrics, actual ISL can only be shown on the base switch(logical switch donot contain real physical connection info)
+
+  ::
+
+    # Identify available FIDs (base and logical switches)
+    lscfg --show
+    # Change to the base switch
+    setcontext FID
+    # Make sure the switch is the base switch "Base Switch: Yes"
+    switchshow | grep 'Base Switch'
+    # Show ISL
+    islshow
+
 Brocade Zone Conflict
 ---------------------
 
@@ -428,19 +453,21 @@ Assign a port to a VSAN statically
   Traffic on fc1/21 may be impacted. Do you want to continue? (y/n) [n] y
   lin104014(config-vsan-db)# do show vsan mem
 
-Find uplink switch
-------------------
+Show switch ISL
+---------------
 
-- show topology
+- Overview of switch connections
 
   ::
 
-    FC Topology for VSAN 100 :
-    --------------------------------------------------------------------------------
-           Interface  Peer Domain Peer Interface     Peer IP Address
-    --------------------------------------------------------------------------------
-               fc1/14  0x25(37)           fc1/25  10.103.116.39
-                fc2/1  0x27(39)           fc1/25  10.103.116.37
+    show topology
+
+- Detailed connections/ISL between switches
+
+  ::
+
+    show topology isl
+
 
 Search CLI output
 -----------------
