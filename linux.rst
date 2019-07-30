@@ -687,6 +687,15 @@ lsof tips
 - lsof <file> ---> Which processes are using the file
 - lsof +D <directory> ---> Which processed are accessing the directory, and which files under the directory are being accessed
 
+Show cpu, memory, etc. usage per process
+----------------------------------------
+
+ps command can be used with customized output format to show per process inforamtion including cpu, mem, cgroups, etc.
+
+::
+
+  ps -e -o "pid,%cpu,%mem,state,tname,time,command"
+
 ssh client configuration
 ------------------------
 
