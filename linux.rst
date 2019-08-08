@@ -865,6 +865,28 @@ xz is a newer compression tool than gz, bz, bz2, etc. It delivers better compres
 
   tar -cJf <archive.tar.xz> <files>
 
+Check shared object/library dependencies
+----------------------------------------
+
+::
+
+  ldd <object or executable file>
+  LD_DEBUG=libs ldd <object or executable file>
+
+Check object/executable file information
+----------------------------------------
+
+- objdump
+- readelf
+
+::
+
+  # Disamble
+  objdump -S <ELF file>
+  # Display dynamic symbol tables
+  objdump -T <ELF file>
+  readelf --dyn-syms <ELF file>
+
 Choose Arch mirror
 ------------------
 
