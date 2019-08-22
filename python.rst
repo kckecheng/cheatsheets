@@ -258,3 +258,16 @@ Function Cache
   testFunc1()
   testFunc1.cache_info()
   testFunc1.clear_cache()
+
+Run jupyter notebook with virtualenv
+-------------------------------------
+
+Beside below ops, "Kernel->Change kernel" need to be used to select the right execution virtualenv from the jupyter notebook.
+
+::
+
+  # Add virtualenv into jupyter 
+  ipython kernel install --user --name=<venv name>
+  # Remove virtualenv from jupyter
+  jupyter kernelspec list
+  jupyter kernelspec uninstall <venv name>
