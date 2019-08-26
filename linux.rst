@@ -283,7 +283,7 @@ ftrace
 
 Ftrace is an internal tracer designed to help out developers and designers of systems to find what is going on inside the kernel. It can be used for debugging or analyzing latencies and performance issues that take place outside of user-space.
 
-**Note**: install with command *yaourt -S trace-cmd* on arch.
+**Note**: install with command *yay -S trace-cmd* on arch.
 
 blktrace
 --------
@@ -325,7 +325,130 @@ Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
 - tpoint
 - uprobe
 
-**Notes**: install through yaourt on Arch.
+**Notes**: install through yay on Arch.
+
+=================
+Package Mangement
+=================
+
+Which package provides the binary
+---------------------------------
+
+- RHEL/CentOS
+
+  ::
+
+    yum whatprovides nslookup
+
+- Arch
+
+  ::
+
+    sudo pacman -Fy
+    pacman -Fs <file name>
+
+- Ubuntu
+
+  ::
+
+    sudo apt-get install apt-file
+    sudo apt-file update
+    apt-file search <file name>
+
+Install a specified version RPM through yum
+-------------------------------------------
+
+::
+
+  # yum --showduplicates list <package name>
+  # yum install <package name>-<version>
+
+arch aur package helper yay
+---------------------------
+
+Yet Another Yogurt - An AUR Helper Written in Go for archlinux based distros:
+
+- Search a package : yay -Ss <package>
+- Install a package: yay -S <package>
+- Upgrade pacakges : yay -Syu --aur
+
+Install a Package with a Specific Version on Ubuntu
+---------------------------------------------------
+
+::
+
+  apt policy <package name>
+  apt install <package name>=<version>
+
+View package groups on Arch
+---------------------------
+
+::
+
+  pacman -Sg[g]
+  pacman -Qg[g]
+
+List all available versions of a packge with yum
+------------------------------------------------
+
+::
+
+  [root@wnh9h1 yum.repos.d]# yum --showduplicates list kernel-uek.x86_64 | head
+  Installed Packages
+  kernel-uek.x86_64              3.8.13-35.3.1.el7uek                @anaconda/7.0
+  Available Packages
+  kernel-uek.x86_64              3.8.13-35.3.1.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.2.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.3.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.4.el7uek                ol7_UEKR3
+  kernel-uek.x86_64              3.8.13-35.3.5.el7uek                ol7_UEKR3
+
+Install package offline on Arch
+-------------------------------
+
+1. Find the package by surfing: https://www.archlinux.org/packages/
+2. **Download From Mirror** from the package page, the file <package name>.pkg.tar.xz will be downloaded;
+3. sudo pacman -U <package name>.pkg.tar.xz
+
+Choose Arch mirror
+------------------
+
+Official Mirror List
+~~~~~~~~~~~~~~~~~~~~
+
+- https://www.archlinux.org/mirrorlist/all/
+
+List by Speed(based on local test)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+  sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+  rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+  pacman -Syy
+
+Server Side Ranking
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  reflector --latest 10 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+  reflector --country China --country Singapore --country 'United States' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
+Shortcut for Manjaro
+~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
+
+Only use mirrors from a country
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sudo pacman-mirrors -c China && sudo pacman -Syyu
 
 =========
 MISC Tips
@@ -589,38 +712,6 @@ Recode file to UTF-8
             Kernel driver in use: igb
             Kernel modules: igb
 
-Which package provides the binary
----------------------------------
-
-- RHEL/CentOS
-
-  ::
-
-    yum whatprovides nslookup
-
-- Arch
-
-  ::
-
-    sudo pacman -Fy
-    pacman -Fs <file name>
-
-- Ubuntu
-
-  ::
-
-    sudo apt-get install apt-file
-    sudo apt-file update
-    apt-file search <file name>
-
-Install a specified version RPM through yum
--------------------------------------------
-
-::
-
-  # yum --showduplicates list <package name>
-  # yum install <package name>-<version>
-
 sudoers: <user> ALL = (<user to act as>) <commands>
 ---------------------------------------------------
 
@@ -649,21 +740,6 @@ Clear journalctl
 
   journalctl --flush --rotate
   journalctl --vacuum-time=1s
-
-List all available versions of a packge with yum
-------------------------------------------------
-
-::
-
-  [root@wnh9h1 yum.repos.d]# yum --showduplicates list kernel-uek.x86_64 | head
-  Installed Packages
-  kernel-uek.x86_64              3.8.13-35.3.1.el7uek                @anaconda/7.0
-  Available Packages
-  kernel-uek.x86_64              3.8.13-35.3.1.el7uek                ol7_UEKR3
-  kernel-uek.x86_64              3.8.13-35.3.2.el7uek                ol7_UEKR3
-  kernel-uek.x86_64              3.8.13-35.3.3.el7uek                ol7_UEKR3
-  kernel-uek.x86_64              3.8.13-35.3.4.el7uek                ol7_UEKR3
-  kernel-uek.x86_64              3.8.13-35.3.5.el7uek                ol7_UEKR3
 
 Grub2 change boot order
 -----------------------
@@ -840,25 +916,6 @@ String Contains in Bash
       echo "'$string' does not contain '$substring'"
     fi
 
-yaourt
-------
-
-**No Longer Maintained - use yay instead**
-Yaourt is a command line interface program which complete pacman for installing software on Archlinux. It builds and installs software from software sources(Arch AUR) without the need to understand Arch ABS.
-
-- Search a package : yaourt -Ss <package>
-- Install a package: yaourt -S <package>
-- Upgrade pacakges : yaourt -Syu --aur
-
-yay
----
-
-Yet Another Yogurt - An AUR Helper Written in Go, which is based on the design of yaourt, apacman and pacaur.
-
-- Search a package : yay -Ss <package>
-- Install a package: yay -S <package>
-- Upgrade pacakges : yay -Syu --aur
-
 Use openssl to fetch CA
 -----------------------
 
@@ -897,54 +954,6 @@ Check object/executable file information
   objdump -T <ELF file>
   readelf --dyn-syms <ELF file>
 
-Choose Arch mirror
-------------------
-
-Official Mirror List
-~~~~~~~~~~~~~~~~~~~~
-
-- https://www.archlinux.org/mirrorlist/all/
-
-List by Speed(based on local test)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-  sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
-  rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
-  pacman -Syy
-
-Server Side Ranking
-~~~~~~~~~~~~~~~~~~~
-
-::
-
-  reflector --latest 10 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-  reflector --country China --country Singapore --country 'United States' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-
-Shortcut for Manjaro
-~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
-
-Only use mirrors from a country
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  sudo pacman-mirrors -c China && sudo pacman -Syyu
-
-Install a Package with a Specific Version on Ubuntu
----------------------------------------------------
-
-::
-
-  apt policy <package name>
-  apt install <package name>=<version>
-
 Record and replay linux CMD screen
 ----------------------------------
 
@@ -965,14 +974,6 @@ Check nfs IO stat
 ::
 
   nfsstat -l
-
-View package groups on Arch
----------------------------
-
-::
-
-  pacman -Sg[g]
-  pacman -Qg[g]
 
 zsh tips
 --------
