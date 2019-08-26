@@ -843,11 +843,21 @@ String Contains in Bash
 yaourt
 ------
 
+**No Longer Maintained - use yay instead**
 Yaourt is a command line interface program which complete pacman for installing software on Archlinux. It builds and installs software from software sources(Arch AUR) without the need to understand Arch ABS.
 
 - Search a package : yaourt -Ss <package>
 - Install a package: yaourt -S <package>
 - Upgrade pacakges : yaourt -Syu --aur
+
+yay
+---
+
+Yet Another Yogurt - An AUR Helper Written in Go, which is based on the design of yaourt, apacman and pacaur.
+
+- Search a package : yay -Ss <package>
+- Install a package: yay -S <package>
+- Upgrade pacakges : yay -Syu --aur
 
 Use openssl to fetch CA
 -----------------------
