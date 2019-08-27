@@ -48,32 +48,36 @@ Reset
 ::
 
   # reset - https://git-scm.com/blog/2011/07/11/reset.html
-  +--------------------------+-------+------+--------------------+
-  |                          | HEAD | Index | Work Dir | WD Safe |
-  +--------------------------+------+-------+----------+---------+
-  | Commit Level             |      |       |          |         |
-  +--------------------------+------+-------+----------+---------+
-  | reset --soft [commit]    | REF  |  NO   |    NO    |   YES   |
-  | reset [commit]           | REF  |  YES  |    NO    |   YES   |
-  | reset --hard [commit]    | REF  |  YES  |    YES   |   NO    |
-  | checkout [commit]        | HEAD |  YES  |    YES   |   YES   |
-  +--------------------------+------+-------+----------+---------+
-  | File Level               |      |       |          |         |
-  +--------------------------+------+-------+----------+---------+
-  | reset (commit) [file]    |  No  |  YES  |    NO    |   YES   |
-  | checkout (commit) [file] |  No  |  YES  |    YES   |   NO    |
-  +--------------------------+------+------+-----------+---------+
+  +----------------------------+-------+------+--------------------+
+  |                            | HEAD | Index | Work Dir | WD Safe |
+  +----------------------------+------+-------+----------+---------+
+  | Commit Level               |      |       |          |         |
+  +----------------------------+------+-------+----------+---------+
+  | reset --soft [commit]      | REF  |  NO   |    NO    |   YES   |
+  | reset [commit]             | REF  |  YES  |    NO    |   YES   |
+  | reset --hard [commit]      | REF  |  YES  |    YES   |   NO    |
+  | checkout [commit]          | HEAD |  YES  |    YES   |   YES   |
+  | restore -s [commit]        | HEAD |  YES  |    YES   |   YES   |
+  +----------------------------+----+-------+----------+-----------+
+  | File Level                 |      |       |          |         |
+  +----------------------------+------+-------+----------+---------+
+  | reset (commit) [file]      |  No  |  YES  |    NO    |   YES   |
+  | checkout (commit) [file]   |  No  |  YES  |    YES   |   NO    |
+  | restore -s (commit) [file] |  No  |  YES  |    YES   |   NO    |
+  +----------------------------+------+------+-----------+---------+
 
-revert/reset/checkout
----------------------
+revert/reset/switch
+-------------------
+
+**git swtich** is newly added to replace the branch switch functions of **git checkout**
 
 - git revert   : creates a new commit that undoes changes from a previous commit; adds new history ;
-- git checkout : checks out content from the repo and puts it under working directory; does not impact history;
+- git switch   : (previously git checkout) checks out content from the repo and puts it under working directory; does not impact history;
 - git reset    : modifies the index (staging area), or changes which commit a branch head is point at; may impact history;
 - common rules :
 
   - if a commit has led to a change, and it is incorrect: "git revert" undoes the change, and record the action in history;
-  - if files have been changed but have not been committed, "git checkout" checkouts a fresh from repo copy of the filess;
+  - if files have been changed but have not been committed, "git restore" check out a fresh from repo copy of the filess;
   - if a commit has been made but has not been shared to anyone, "git reset" rewrites the history so that it seems nothing has been changed.
 
 caret and tilde
@@ -134,12 +138,16 @@ Debug
 Branch
 ------
 
+**git switch** is the newly operation added recently, which foucses on branch switch ops in order to replace **git checkout**
+
 - git branch -a[v]
 - git branch <name>    ---> Create a branch
 - git branch -d <name> ---> Delete a branch
 - git branch -m <nmae> ---> Rename a branch
-- git checkout <name>  ---> Checkout a branch
-- git checkout -b <name> == git branch <name> + git checkout <name>
+- git checkout <name>  ---> Checkout a branch(deprecated)
+- git checkout -b <name> == git branch <name> + git checkout <name>(deprecated)
+- git switch <name>    ---> Switch to a branch (equals git checkout <name>)
+- git switch -c <name> ---> Create and switch to the branch
 
 Pull
 ----
@@ -216,7 +224,10 @@ During merge operations, there are situations only some files are supposed to be
 
    ::
 
-     git checkout <local branch name> -- <file names>
+     # git checkout <local branch name> -- <file names>(deprecated, using git restore)
+     git restore -s <local branch name> <file names>
+     # OR for current branch
+     git restore <file names>
 
 2. Remove files added by the merge operations:
 
@@ -475,15 +486,16 @@ Clean untracked local files
   git clean -df # Remove both files and directories
   git clean -xdf # Remove files, directories, and ignored files and directories
 
-checkout/pull/fetch
--------------------
+switch/pull/fetch
+-----------------
 
-Checkout a file from another branch
-+++++++++++++++++++++++++++++++++++
+Restore a file from another branch
+++++++++++++++++++++++++++++++++++
 
 ::
 
-  git checkout <branch name> -- <file name>
+  # Deprecated command: git checkout <branch name> -- <file name>
+  git restore -s <branch name> <file name>
   (Note: prefix, such as origin/<branch name>, is needed when you want to checkout files from a remote branch)
 
 
@@ -495,23 +507,24 @@ Check what has been changed without making any changes
   git fetch --dry-run
   git show <from> -> <to>
 
-Checkout a file from a previous commit
-++++++++++++++++++++++++++++++++++++++
+Restore a file from a previous commit
++++++++++++++++++++++++++++++++++++++
 
 ::
 
-  git checkout <commit hash or HEAD~n> -- <file 1> <file 2> ...
+  # Deprecated command: git checkout <commit hash or HEAD~n> -- <file 1> <file 2> ...
+  git restore -s <commit hash or HEAD~n> <file 1> <file 2> ...
 
-Checkout a branch whose name exists on several remote refs
-----------------------------------------------------------
+Switch to a branch whose name exists on several remote refs
+-----------------------------------------------------------
 
-Error as below will be triggered when checkout a branch exists on several remote refs:
+Error as below will be triggered when switch to a branch which exists on several remote refs:
 
 ::
 
   error: pathspec 'unity_solaris' did not match any file(s) known to git.
 
-Solution: checkout with **--track** option as below:
+Solution: switch with **--track** option as below:
 
 ::
 
@@ -524,7 +537,7 @@ Solution: checkout with **--track** option as below:
   remotes/upstream/master
   remotes/upstream/unity_solaris
 
-  # git checkout --track origin/unity_solaris
+  # git switch --track origin/unity_solaris
 
 git diff
 --------
@@ -652,7 +665,7 @@ Steps
      ~ $ git log --oneline --graph --decorate
      * 98a2cca (HEAD -> master) init
 
-     ~ $ git checkout feature
+     ~ $ git switch feature
      Switched to branch 'feature'
      ~ $ git log --oneline --graph --decorate
      * 5935f6d (HEAD -> feature) delete handler dir
@@ -712,7 +725,7 @@ Steps
 
    ::
 
-     ~ $ git checkout master
+     ~ $ git switch master
      Switched to branch 'master'
      ~ $ git log --oneline --graph --decorate --all
      * 4847d34 (feature) delete meta/default/handler dirs
@@ -944,7 +957,7 @@ Sometimes, there will be conflicts, which need to be solved just like using merg
     * 4e8ecbc (HEAD -> features) add a2.txt
     * 3b5695a (master) add a1
 
-    ❯ git checkout master
+    ❯ git switch master
     Switched to branch 'master'
 
     ❯ ls -l
