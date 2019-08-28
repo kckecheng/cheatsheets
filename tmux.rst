@@ -2,6 +2,27 @@
 TMUX Tips
 =========
 
+Plugins
+-------
+
+- tpm            : tmux plugin manager;
+- tmux-open      : open highlighted selection directly from tmux copy mode;
+- tmux-copycat   : enhance tmux search;
+- tmux-yank      : copy to system clipboard;
+- tmux-sensible  : basic tmux setting sensible for everyone;
+- tmux-continuum : continuous saving of tmux environment and automatic restore when tmux is started;
+- tmux-resurrect : persists tmux environment across system restarts;
+- tmux-themepack : thems;
+
+Tools
+-----
+
+- tmuxp  : tmux session manager, which can be used to start sessions based on yaml definition;
+- xpanes : conduct concurrent ops with multiple panes, e.g., xpanes -c "ssh root@{}" host1 host2
+
+Shortcuts
+----------
+
 +----------------------------------------+-----------------------------------------------+
 |Action                                  |  Shortcuts                                    |
 +========================================+===============================================+
