@@ -245,6 +245,17 @@ During merge operations, there are situations only some files are supposed to be
 Tips
 ====
 
+Github CLI Client hub
+---------------------
+
+**hub** is the CLI client for Github: https://hub.github.com
+
+- By default, hub uses git as transfer protocol. To use https:
+
+  ::
+
+    git config --global hub.protocol https
+
 Cache Credentail
 ----------------
 
