@@ -130,7 +130,7 @@ Get Target Ports
 
 ::
 
-  # symcfg list -fa all
+  # symcfg list -fa all -port
   Symmetrix ID: 000xxxxxx815 (Local)
   S Y M M E T R I X    F I B R E   D I R E C T O R S
   Dir    Port  WWN               Flags  Max
@@ -619,12 +619,12 @@ Unmap device manually after deleting storage view
 - symdev -sid xxx not_ready dev xxx;
 - symconfigure -sid xxx -cmd 'unmap dev XXX from dir ALL:ALL;' commit
 
-List FA login info
-++++++++++++++++++
+List initiator loggedin
+++++++++++++++++++++++++
 
 ::
 
-  # symmask list logins -sid 316 [-dir 8E]
+  # symaccess -sid 61 list logins [-dir 1D]
 
 Find RA WWN
 +++++++++++
