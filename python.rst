@@ -135,8 +135,8 @@ Refer to:
   - `Request Body Search <https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html>`_
   - `Query DSL <https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html>`_
 
-python source code check
-------------------------
+source code check
+------------------
 
 ::
 
@@ -266,8 +266,38 @@ Beside below ops, "Kernel->Change kernel" need to be used to select the right ex
 
 ::
 
-  # Add virtualenv into jupyter 
+  # Add virtualenv into jupyter
   ipython kernel install --user --name=<venv name>
   # Remove virtualenv from jupyter
   jupyter kernelspec list
   jupyter kernelspec uninstall <venv name>
+
+Collect results from coroutines
+-------------------------------
+
+.. code-block:: python
+
+   import pprint
+   import asyncio
+   import random
+
+
+   async def worker():
+       num = random.randint(0, 100)
+       data = list(range(0, num))
+       return data
+
+
+   async def main():
+       tasks = []
+       num = random.randint(1, 10)
+       for i in range(0, num):
+           tasks.append(worker())
+
+       results = await asyncio.gather(*tasks)
+       return results
+
+
+   if __name__ == '__main__':
+       results = asyncio.run(main())
+       pprint.pprint(results)
