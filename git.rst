@@ -384,6 +384,21 @@ Show file changes between commits
     git log -p -1 --follow lib/modules/fio.py
     git log -p -n 1 --follow lib/modules/fio.py
 
+Filter logs related with specified operations
++++++++++++++++++++++++++++++++++++++++++++++
+
+Select only files that are:
+
+- Added  : A
+- Copied : C
+- Deleted: D
+- Renamed: R
+- etc., refer to **man git-log**
+
+::
+
+  git log --diff-filter=<A|C|D|R|M|U|X>
+
 Locate changes
 --------------
 
