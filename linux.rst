@@ -1133,6 +1133,13 @@ Change System Locale
 
   localectl --help
 
+Add ssh public key to remote servers
+------------------------------------
+
+To configure key based ssh login, the ssl public key (generated with ssh-keygen -t rsa) needs to be copied and appended to the file **~/.ssh/authorized_keys** on remote servers.
+
+Command **ssh-copy-id** can be leveraged to do the work automatically.
+
 =====
 Disks
 =====
