@@ -66,3 +66,13 @@ The default config file
 ++++++++++++++++++++++++
 
 kubectl will leverage **~/.kube/config** as the default config file if it exists.
+
+Create a CMD PO for debug purpose
+++++++++++++++++++++++++++++++++++
+
+::
+
+  kubectl run -it <deployment name >--image=alpine -- sh
+  exit
+  kubectl get pods
+  kubectl exec -it <the pod name> sh

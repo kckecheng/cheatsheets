@@ -919,6 +919,49 @@ Cleanup
   --- OR to clean all stashes ---
   git stash clear
 
+tag
+----
+
+Tag is used as a mechanism for version release: each time a tag is created, a release (on github) is created.
+
+Create a tag
++++++++++++++
+
+- Lightweight tag
+
+  ::
+
+    git tag [-m <message>] <name> [commit]
+
+- Annotated tag: recommended, it stores extra meta data for a tag
+
+  ::
+
+    git tag -a [-m <message>] <name> [commit]
+
+List tags
+++++++++++
+
+::
+
+  git tag
+
+Checkout a tag
++++++++++++++++
+
+::
+
+  git checkout <tag name>
+
+Push a tag to remote
++++++++++++++++++++++
+
+git push will not push tags by default, hence it needs to be explicitly specified.
+
+::
+
+  git push origin <tag name>
+
 Revisions and Ranges
 --------------------
 
