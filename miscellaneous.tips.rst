@@ -287,3 +287,145 @@ golang ships with offline document. But **godoc** need to be used to access them
   ::
 
     godoc -http=0.0.0.0:8080
+
+golang - import
+----------------
+
+- Alias
+
+  ::
+
+    import <alias name> <package>
+
+- Dot import: imports the package into the same namespace as the current package
+
+  ::
+
+    import . "math"
+    fmt.Println(Pi)
+
+- Blank import: init the package and stop compiling error
+
+  ::
+
+    import _ <package name>
+
+golang - package init
+----------------------
+
+- init function
+
+  Each source file can define an **init** function to set up corresponding requirements, and multiple init functions can exist within the same package. While such a package is imported, all init functions will be executed based on source file names.
+
+
+  **init function signature**
+
+  ::
+
+    func init() {
+      <code>
+    }
+
+- package initialization order
+
+  - const will be initialized at first
+  - var will be initialized then
+  - all init functions will be called
+
+golang - multiple expressions for switch case
+----------------------------------------------
+
+::
+
+  switch letter {
+  case "a", "b", "c":
+    fmt.Println("case 1")
+  default:
+    fmt.Println("case 2")
+  }
+
+golang - triple dots/ellipsis
+------------------------------
+
+- Variadic function
+
+  ::
+
+    func Sum(nums ...int) int {
+      res := 0
+      for _, n := range nums {
+          res += n
+      }
+      return res
+    }
+
+- Arguments to variadic functions
+
+  ::
+
+    primes := []int{2, 3, 5, 7}
+    Sum(primes...)
+
+- Array literals
+
+  ::
+
+    names := [...]string{"a", "b", "c"}
+
+- Special go commands
+
+  ::
+
+    # tests all packages in the current directory and its subdirectories
+    go test ./...
+
+golang - iota
+--------------
+
+- The iota keyword represents successive integer constants 0, 1, 2, ...
+- It resets to 0 whenever the word const appears in the source code
+- It increments after each const specification
+- Each source code file reset the value from beginning
+
+**Examples:**
+
+- Basic usage: the below 2 x forms are identical
+
+  ::
+
+    //C0, C1, C2 will be 0, 1, 2
+    const (
+      C0 = iota
+      C1 = iota
+      C2 = iota
+    )
+
+    const (
+      C0 = iota
+      C1
+      C2
+    )
+
+- Start from non-zero
+
+  ::
+
+    //C0, C1, C2 will be 1, 2, 3
+    const (
+      C0 = iota + 1
+      C1
+      C2
+    )
+
+- Skip values
+
+  ::
+
+    //C0, C1, C2 will be 0, 2, 4
+    const (
+      C0 = iota
+      -
+      C1
+      -
+      C2
+    )
