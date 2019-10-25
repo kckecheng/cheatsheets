@@ -403,6 +403,15 @@ List all available versions of a packge with yum
   kernel-uek.x86_64              3.8.13-35.3.4.el7uek                ol7_UEKR3
   kernel-uek.x86_64              3.8.13-35.3.5.el7uek                ol7_UEKR3
 
+EPEL for RHEL/CentOS/Fedora
+----------------------------
+
+EPEL stands for **Extra Pacakges for Enterprise Linux**, which contains lots of tools such as fio, ipvsadm, etc.
+
+::
+
+  yum install epel-release
+
 Install package offline on Arch
 -------------------------------
 
