@@ -221,6 +221,32 @@ Metricbeat will send events to indices named metricbeat-xxx. This leads to compl
   setup.template.name: "vspheremetric"
   setup.template.pattern: "vspheremetric-*"
 
+elasticsearch cluster
+----------------------
+
+- Install elasticsearch on multiple nodes(odd num. of nodes)
+- Modify the configuration file on all nodes:
+
+  ::
+
+    # Assign a common name
+    cluster.name: elab-elasticsearch
+    # Assign a uniq node name for each node
+    node.name: e2e-l4-0680-240
+    # Specify binding address, 0.0.0.0 means all available IP addresses
+    network.host: 0.0.0.0
+    # Specify the nodes which will form the cluster
+    discovery.seed_hosts: ["e2e-l4-0680-240", "e2e-l4-0680-241", "e2e-l4-0680-242"]
+    # Specify the nodes which can act as master
+    cluster.initial_master_nodes: ["e2e-l4-0680-240", "e2e-l4-0680-241", "e2e-l4-0680-242"]
+
+- systemctl start elasticsearch.service
+- Verify the cluster is up and running
+
+  ::
+
+    curl -XGET 'http://localhost:9200/_cluster/state?pretty'
+
 PowerCLI - Integrate PowerCLI with PowerShell
 ---------------------------------------------
 
