@@ -15,7 +15,78 @@ ip route add default via 10.108.183.1
 net-tools vs. iproute2
 ++++++++++++++++++++++
 
-.. image:: images/linux_os_net/net-tools_vs_iproute2.png
++----------------+----------------------------+--------------------------------+
+| Legacy Utility | Obsoleted by               | Note                           |
++----------------+----------------------------+--------------------------------+
+| ifconfig       | ip addr, ip link, ip -s    | Address and link configuration |
++----------------+----------------------------+--------------------------------+
+| route          | ip route                   | Routing tables                 |
++----------------+----------------------------+--------------------------------+
+| arp            | ip neigh                   | Neighbors                      |
++----------------+----------------------------+--------------------------------+
+| iptunnel       | ip tunnel                  | Tunnels                        |
++----------------+----------------------------+--------------------------------+
+| nameif         | ifrename, ip link set name | Rename NIC names               |
++----------------+----------------------------+--------------------------------+
+| ipmaddr        | ip maddr                   | Multicast                      |
++----------------+----------------------------+--------------------------------+
+| netstat        | ip -s, ss, ip route        | Show network statistics        |
++----------------+----------------------------+--------------------------------+
+
+nmcli
+++++++
+
+nmcli is a command-line tool for controlling NetworkManager and reporting network status. It can be utilized as a replacement for nm-applet or other graphical clients. nmcli is used to create, display, edit, delete, activate, and deactivate network connections, as well as control and display network device status. **man nmcli-examples** for simple usage.
+
+- Show device status
+
+  ::
+
+    nmcli dev status
+
+- Connect/disconnect device
+
+  ::
+
+    nmcli dev <connect|disconnect> <device name>
+
+- Show network connectins/configurations
+
+  ::
+
+    nmcli con show
+
+- Up/down a connection
+
+  ::
+
+    nmcli con up/down <name>
+
+- Create a new connection
+
+  ::
+
+    # With DHCP
+    nmcli con add type ethernet con-name <connection name> ifname <device name>
+    # With static IP
+    nmcli con add type ethernet con-name <connection name> ifname <device name> ip4 <ip/netmask> gw4 <gateway>
+    # To verify
+    # cat /etc/sysconfig/network-scripts/ifcfg-<connection name>
+
+- Modify a connection
+
+  ::
+
+    nmcli con mod <connection name> ipv4.dns “8.8.8.8 8.8.4.4”
+    nmcli con mod <connection name> connection.autoconnect no
+    nmcli con show <connection name>
+
+- Edit a connection
+
+  ::
+
+    nmcli con edit <name|ID>
+
 
 Devices
 -------
