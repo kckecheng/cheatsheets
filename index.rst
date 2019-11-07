@@ -3,18 +3,120 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to cheatsheets's documentation!
-=======================================
+Cheatsheets
+============
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Git Tips
 
+   git
 
+.. toctree::
+   :maxdepth: 1
+   :caption: VIM Tips
 
-Indices and tables
-==================
+   vim
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+   :maxdepth: 1
+   :caption: Tmux Tips
+
+   tmux
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Linux Tips
+
+   linux
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Linux Network TIps
+
+   linux_os_net
+
+.. toctree::
+   :maxdepth: 1
+   :caption: iptables Tips
+
+   iptables
+
+.. toctree::
+   :maxdepth: 1
+   :caption: tpcdump TIps
+
+   tcpdump
+
+.. toctree::
+   :maxdepth: 1
+   :caption: curl TIps
+
+   curl
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Ansible Tips
+
+   ansible
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Kubernetes Tips
+
+   k8s
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Solaris Tips
+
+   solaris
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Switch Tips
+
+   switch
+
+.. toctree::
+   :maxdepth: 1
+   :caption: PowerMax
+
+   powermax
+
+.. toctree::
+   :maxdepth: 1
+   :caption: XtremIO Tips
+
+   xio
+
+.. toctree::
+   :maxdepth: 1
+   :caption: VPLEX Tips
+
+   vplex
+
+.. toctree::
+   :maxdepth: 1
+   :caption: ScaleIO Tips
+
+   scaleio
+
+.. toctree::
+   :maxdepth: 1
+   :caption: InfoScale Tips
+
+   infoscale
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Python Tips
+
+   python
+
+.. toctree::
+   :maxdepth: 1
+   :caption: MISC Tips
+
+   miscellaneous.tips
+
