@@ -6,22 +6,14 @@
 Cheatsheets
 ============
 
+All sort of tips recorded during work and study.
+
 .. toctree::
    :maxdepth: 1
-   :caption: Git Tips
+   :caption: Productivity Tools Tips
 
    git
-
-.. toctree::
-   :maxdepth: 1
-   :caption: VIM Tips
-
    vim
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Tmux Tips
-
    tmux
 
 .. toctree::
@@ -32,26 +24,16 @@ Cheatsheets
 
 .. toctree::
    :maxdepth: 1
-   :caption: Linux Network TIps
+   :caption: Linux Network Tips
 
    linux_os_net
 
 .. toctree::
    :maxdepth: 1
-   :caption: iptables Tips
+   :caption: Tool Tips
 
    iptables
-
-.. toctree::
-   :maxdepth: 1
-   :caption: tpcdump TIps
-
    tcpdump
-
-.. toctree::
-   :maxdepth: 1
-   :caption: curl TIps
-
    curl
 
 .. toctree::
@@ -59,12 +41,6 @@ Cheatsheets
    :caption: Ansible Tips
 
    ansible
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Kubernetes Tips
-
-   k8s
 
 .. toctree::
    :maxdepth: 1
@@ -80,26 +56,16 @@ Cheatsheets
 
 .. toctree::
    :maxdepth: 1
-   :caption: PowerMax
+   :caption: PowerMax Tips
 
    powermax
 
 .. toctree::
    :maxdepth: 1
-   :caption: XtremIO Tips
+   :caption: Midrange Storage Array Tips
 
    xio
-
-.. toctree::
-   :maxdepth: 1
-   :caption: VPLEX Tips
-
    vplex
-
-.. toctree::
-   :maxdepth: 1
-   :caption: ScaleIO Tips
-
    scaleio
 
 .. toctree::
@@ -110,13 +76,9 @@ Cheatsheets
 
 .. toctree::
    :maxdepth: 1
-   :caption: Python Tips
+   :caption: Miscellaneous Tips
 
    python
-
-.. toctree::
-   :maxdepth: 1
-   :caption: MISC Tips
-
-   miscellaneous.tips
+   k8s
+   miscellaneous.Tips
 
