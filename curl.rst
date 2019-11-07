@@ -1,8 +1,8 @@
 .. contents:: Tips for curl
 
-=============
-Tips for curl
-=============
+=====
+curl
+=====
 
 **httpie**, which is a moden simplified command line http client, can be leveraged as an alternative for curl.
 

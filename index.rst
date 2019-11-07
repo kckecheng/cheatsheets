@@ -80,5 +80,5 @@ All sort of tips recorded during work and study.
 
    python
    k8s
-   miscellaneous.Tips
+   miscellaneous.tips
 

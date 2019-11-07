@@ -1,8 +1,8 @@
 .. contents:: Git Tips
 
-========
-Concepts
-========
+=========
+Git Tips
+=========
 
 Reference
 ---------
@@ -240,10 +240,6 @@ During merge operations, there are situations only some files are supposed to be
    ::
 
      git merge --continue
-
-====
-Tips
-====
 
 Github CLI Client hub
 ---------------------
