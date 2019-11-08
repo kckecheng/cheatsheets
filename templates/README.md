@@ -1,3 +1,3 @@
 # templates
 
-A directory to hold configuration file samples
+A directory for holding configuration file samples
