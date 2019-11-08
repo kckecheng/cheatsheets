@@ -1,0 +1,12 @@
+[user]
+  name = <Full Name>
+  email = <Email>
+[core]
+  editor = vim
+[merge]
+  tool = vimdiff
+  conflictstyle = diff3
+[http]
+	sslVerify = false
+[format]
+	pretty = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(blue)<%aE>%Creset
