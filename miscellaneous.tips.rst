@@ -105,8 +105,8 @@ OpenStack - Adding Security Group Rules to Allow ICMP and ssh
    neutron security-group-rule-create --direction ingress --ethertype IPv4 --protocol tcp --port-range-min 1 --port-range-max 65535 --remote-ip-prefix 0.0.0.0/0 <security group id>
    neutron security-group-rule-create --direction ingress --ethertype IPv4 --protocol icmp --remote-ip-prefix 0.0.0.0/0 <security group id>
 
-ELK Stack - Deployment with Docker
-----------------------------------
+ELK - Deployment with Docker
+------------------------------
 
 1. Create a network for ELK components communications
 
@@ -192,8 +192,8 @@ ELK Stack - Deployment with Docker
    - Run command on the server who sends syslog to LogStash **logger 'test message 1'**
    - Verify with a browser accessing Kibana at **http://<Kibana host IP>:5601**
 
-Elastic Beats - Develop New Beat
---------------------------------
+ELK - Develop New Beat
+------------------------
 
 While developing a new beat, there is a step to `fetch dependencies and set up the beat<https://www.elastic.co/guide/en/beats/devguide/current/setting-up-beat.html>`_.
 
@@ -205,8 +205,8 @@ The dedault Makefile does not work, it need to be changed as below:
   ES_BEATS?=./vendor/github.com/elastic/beats
   VIRTUALENV_PARAMS?=-p /usr/bin/python2
 
-Elastic Metricbeat - Change Index Name
---------------------------------------
+ELK - Change Metricbeat Index Name
+------------------------------------
 
 Metricbeat will send events to indices named metricbeat-xxx. This leads to complication if multiple metricbeat sources exist. To avoid the problem, customized index name can be created as below. After making the changes, execute "metricbeat export config" to verify.
 
@@ -221,8 +221,8 @@ Metricbeat will send events to indices named metricbeat-xxx. This leads to compl
   setup.template.name: "vspheremetric"
   setup.template.pattern: "vspheremetric-*"
 
-elasticsearch cluster
-----------------------
+ELK - ElasticSearch Cluster
+----------------------------
 
 - Install elasticsearch on multiple nodes(odd num. of nodes)
 - Modify the configuration file on all nodes:
@@ -246,6 +246,15 @@ elasticsearch cluster
   ::
 
     curl -XGET 'http://localhost:9200/_cluster/state?pretty'
+
+ELK - Logstash Grok Filter
+----------------------------
+
+Grok is the most powerful filter suitable for  parse unstructured log data into something structured and queryable
+
+- Introduction: https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html
+- Builtin Patterns: https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns
+- Grok Debugger: https://grokdebug.herokuapp.com/
 
 PowerCLI - Integrate PowerCLI with PowerShell
 ---------------------------------------------
