@@ -1149,6 +1149,15 @@ To configure key based ssh login, the ssl public key (generated with ssh-keygen 
 
 Command **ssh-copy-id** can be leveraged to do the work automatically.
 
+Reload configuration file without restarting service
+-----------------------------------------------------
+
+SIGHUP as a notification about terminal closing event does not make sense for a daemon, because deamons are detached from their terminal. So the system will never send this signal to them. Then it is common practice for daemons to use it for another meaning, typically reloading the daemon's configuration.
+
+::
+
+  kill -s HUP <daemon pid>
+
 =====
 Disks
 =====
