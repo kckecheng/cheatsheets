@@ -429,3 +429,21 @@ golang - iota
       -
       C2
     )
+
+golang - Silence complaints about the unused imports
+-----------------------------------------------------
+
+Complaints will be raised if a module is imported without usage. This are 2 x methods to supress this:
+
+- Blank import: this is used mainly for package initialization, the init method will be executed
+
+  ::
+
+    import _ <pacakge name>
+
+- Refer to some symbols with blank identifier: mainly used during debug
+
+  ::
+
+    import <pacakge name>
+    var _ = <pacakge name>.<any symbol>
