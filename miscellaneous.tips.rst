@@ -447,3 +447,39 @@ Complaints will be raised if a module is imported without usage. This are 2 x me
 
     import <pacakge name>
     var _ = <pacakge name>.<any symbol>
+
+golang - Specify go module proxy
+----------------------------------
+
+Without using modules, go commands will fetch dependencies directly from sources (such as github). This is expensive, especially when there are a lot of dependecies needs to be fetched. Hence with go module, the new mechanism for managing dependencies, "module proxy" is introduced, which acts as a kind of CDN for go modules to fast the download process.
+
+**Howto**:
+
+- Do not use a proxy
+
+  ::
+
+    # Or GOPROXY="direct"
+    GOPROXY=""
+
+- Use the default proxy
+
+  ::
+
+    # This is the default, there is no need to specify
+    GOPROXY=https://proxy.golang.org
+
+
+- Use the well known public proxies
+
+  ::
+
+    GOPROXY=https://goproxy.io
+    # proxy.golang.org is blocked in China, this proxy is not
+    GOPROXY=https://goproxy.cn
+
+Reference:
+
+- `Go Module Proxy: Life of query <https://about.sourcegraph.com/go/gophercon-2019-go-module-proxy-life-of-a-query/>`_
+- `Why you should use a Go module proxy <https://arslan.io/2019/08/02/why-you-should-use-a-go-module-proxy/>`_
+- `A Global Proxy for Go Modules <https://goproxy.io/>`_
