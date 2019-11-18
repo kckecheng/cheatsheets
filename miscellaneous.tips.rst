@@ -483,3 +483,18 @@ Reference:
 - `Go Module Proxy: Life of query <https://about.sourcegraph.com/go/gophercon-2019-go-module-proxy-life-of-a-query/>`_
 - `Why you should use a Go module proxy <https://arslan.io/2019/08/02/why-you-should-use-a-go-module-proxy/>`_
 - `A Global Proxy for Go Modules <https://goproxy.io/>`_
+
+golang - debug with delve
+---------------------------
+
+`Github Reference <https://github.com/go-delve/delve>`_
+
+
+::
+
+  # if dlv is executed from the directory where main.go is defined
+  dlv debug
+  # if dlv is run from other dirs
+  dlv debug <package name>
+  # pass parameters
+  dlv debug -- -arg1 value1
