@@ -1,3 +1,5 @@
+.. contents:: Effective Go
+
 Statement
 ==========
 
