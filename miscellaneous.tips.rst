@@ -498,3 +498,11 @@ golang - debug with delve
   dlv debug <package name>
   # pass parameters
   dlv debug -- -arg1 value1
+
+golang - docs for builtin types and functions
+-----------------------------------------------
+
+::
+
+  go doc builtin
+  go doc builtin.<symbol>
