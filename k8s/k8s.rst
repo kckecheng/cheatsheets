@@ -1,4 +1,4 @@
-.. contents:: Linux Tips
+.. contents:: Kubernetes Tips
 
 Kubernetes
 ===========
