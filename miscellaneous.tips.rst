@@ -485,3 +485,19 @@ golang - docs for builtin types and functions
 
   go doc builtin
   go doc builtin.<symbol>
+
+golang - list packages
+------------------------
+
+- List packages under the workspace
+
+  ::
+
+    cd <workspace dir>
+    go list ./...
+
+- List all packages including packages from the std library and external libraries from the workspace
+
+  ::
+
+    go list ...
