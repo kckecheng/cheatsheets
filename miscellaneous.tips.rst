@@ -459,6 +459,15 @@ golang - Specify proxy for go commands
     export GOPROXY=https://goproxy.io
     go get -u <package>
 
+**Tips:** the same problem will be hit when build docker images for go apps. This can be worked around by setting ENV values in a dockerfile as below:
+
+::
+
+  FROM ......
+  ENV GO111MODULE=on
+  ENV GOPROXY=https://goproxy.io
+  ......
+
 Reference:
 
 - `A Global Proxy for Go Modules <https://goproxy.io/>`_
