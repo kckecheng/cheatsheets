@@ -501,3 +501,17 @@ golang - list packages
   ::
 
     go list ...
+
+golang - list api of packages
+------------------------------
+
+List the full API of a package:
+
+::
+
+  # Locate the package/module name
+  go list ...
+  # Show the API
+  go tool api <package|module>
+  # Show the document for an object of the package/module
+  go doc <package>[.<object>]
