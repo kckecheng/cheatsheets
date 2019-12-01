@@ -515,3 +515,66 @@ List the full API of a package:
   go tool api <package|module>
   # Show the document for an object of the package/module
   go doc <package>[.<object>]
+
+golang - techs to build docker image
+--------------------------------------
+
+The sample main.go as below is used for the show:
+
+::
+
+  package main
+
+  import (
+          "fmt"
+          "time"
+  )
+
+  func main() {
+          i := 0
+          for {
+                  i++
+                  fmt.Printf("Hello World: %d\n", i)
+                  time.Sleep(3 * time.Second)
+          }
+  }
+
+- The straightforward build: the result docker image is over 350MB
+
+  ::
+
+    FROM golang:alpine
+    RUN mkdir /app
+    ADD . /app/
+    WORKDIR /app
+    RUN go build -o main .
+    CMD ["./main"]
+
+- Multistage build: the result docker image is about 8MB
+
+	::
+
+    FROM golang:alpine as builder
+    RUN mkdir /build
+    ADD . /build/
+    WORKDIR /build
+    RUN go build -o main .
+
+    FROM alpine
+    COPY --from=builder /build/main /app/
+    WORKDIR /app
+    CMD ["./main"]
+
+- Build from scratch: the result docker image is just about **2MB**
+
+	::
+
+    FROM golang:alpine as builder
+    RUN mkdir /build
+    ADD . /build/
+    WORKDIR /build
+    RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
+    FROM scratch
+    COPY --from=builder /build/main /app/
+    WORKDIR /app
+    CMD ["./main"]
