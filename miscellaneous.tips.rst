@@ -552,7 +552,7 @@ The sample main.go as below is used for the show:
 
 - Multistage build: the result docker image is about 8MB
 
-	::
+  ::
 
     FROM golang:alpine as builder
     RUN mkdir /build
@@ -567,7 +567,7 @@ The sample main.go as below is used for the show:
 
 - Build from scratch: the result docker image is just about **2MB**
 
-	::
+  ::
 
     FROM golang:alpine as builder
     RUN mkdir /build
