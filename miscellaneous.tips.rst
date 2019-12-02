@@ -587,3 +587,19 @@ The sample main.go as below is used for the show:
     COPY --from=builder /build/main /app/
     WORKDIR /app
     CMD ["./main"]
+
+golang - go-micro registers service with an external consul deployment
+------------------------------------------------------------------------
+
+1. Start a consul daemon:
+
+   ::
+
+     docker run -d -p 8500:8500 --rm consul
+
+2. Start a go microservice (leveraging go-micro) and register it to the consul:
+
+   ::
+
+     docker inspect <consul container> | grep IPAddress
+     docker run -d -e MICRO_REGISTRY_ADDRESS=<consul container IP>:8500 --rm <go service image>
