@@ -803,9 +803,21 @@ Add a submodule
 
 ::
 
-  git submodule add <git external repo url to the submodule> [local path of the local repo]
+  # "git submodule update" checks out a commit directly but not a symbolic reference to HEAD, hence
+  # "detached head" issue will be triggered. This can be worked around by specifying the branch to
+  # track while adding a submodule
+  # git submodule add <git external repo url to the submodule> [local path of the local repo]
+  git submodule add -b master <git external repo url to the submodule> [local path of the local repo]
   git submodule init
-  (the submodule will be cloned and .gitmodules will be created containing info to it)
+
+Update a submodule
++++++++++++++++++++
+
+::
+
+  git submodule update --rebase --remote
+  # OR
+  git submodule foreach git pull origin master
 
 Remove a submodule
 ++++++++++++++++++
