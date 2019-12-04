@@ -456,6 +456,7 @@ golang - Specify proxy for go commands
   ::
 
     export GO111MODULE=on
+    # export GOPROXY=https://goproxy.cn
     export GOPROXY=https://goproxy.io
     go get -u <package>
 
@@ -471,6 +472,22 @@ golang - Specify proxy for go commands
 Reference:
 
 - `A Global Proxy for Go Modules <https://goproxy.io/>`_
+
+golang - the replace directive with go module
+-----------------------------------------------
+
+**replace** directive allows to replace module/package dependencies with local copies or alternative repositories. It can be added before/after the require directive in go.mod
+
+::
+
+  replace github.com/user1/pkg1 => /local/dir/pkg1
+  replace golang.org/google/pkg1 => github.com/google/pkg1
+
+Beside the above mentioned method(edit go.mod) directly, below commands can also be leveraged for the same purpose:
+
+::
+
+  go mod edit -replace github.com/user1/pkg1=/local/dir/pkg1
 
 golang - debug with delve
 ---------------------------
