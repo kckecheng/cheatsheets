@@ -345,7 +345,7 @@ Which package provides the binary
   ::
 
     sudo pacman -Fy
-    pacman -Fs <file name>
+    pacman -Fx <file name>
 
 - Ubuntu
 
