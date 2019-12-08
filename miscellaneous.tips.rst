@@ -619,4 +619,4 @@ golang - go-micro registers service with an external consul deployment
    ::
 
      docker inspect <consul container> | grep IPAddress
-     docker run -d -e MICRO_REGISTRY_ADDRESS=<consul container IP>:8500 --rm <go service image>
+     docker run -d -e MICRO_REGISTRY=consul -e MICRO_REGISTRY_ADDRESS=<consul container IP>:8500 --rm <go service image>
