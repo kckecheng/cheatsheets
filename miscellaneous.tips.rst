@@ -455,7 +455,8 @@ golang - Specify proxy for go commands
 
   ::
 
-    export GO111MODULE=on
+    # export GO111MODULE=on
+    export GO111MODULE=auto
     # export GOPROXY=https://goproxy.cn
     export GOPROXY=https://goproxy.io
     go get -u <package>
