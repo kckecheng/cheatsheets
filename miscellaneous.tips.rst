@@ -621,3 +621,37 @@ golang - go-micro registers service with an external consul deployment
 
      docker inspect <consul container> | grep IPAddress
      docker run -d -e MICRO_REGISTRY=consul -e MICRO_REGISTRY_ADDRESS=<consul container IP>:8500 --rm <go service image>
+
+golang - type assert vs. type conversion
+----------------------------------------
+
+- Type assert only works for interface
+
+  ::
+
+    // i implements an interface
+    t := i.(T)
+    t, ok := i.(T)
+
+- Type conversion is used to convert between varaible types
+
+  ::
+
+    a, b := 3, 10
+    c := float32(a) / flat32(b)
+
+- Type casting exists in go, but is rarelly used - ignore this
+- Type switch is only a special switch statement
+
+  ::
+
+    // "type" is literal, no other word can be used;
+    // i.(type) will trigger errors if it is not used with the switch statement;
+    switch v := i.(type) {
+    case T:
+      // some ops
+    case S:
+      // some ops
+    default:
+      // some ops
+    }
