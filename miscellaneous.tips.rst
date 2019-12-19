@@ -271,6 +271,13 @@ golang - Pass argument through pacakge flag in go test
 
       go test -v hello.go -args -name "John Smith"
 
+golang - Pass argument with dlv debug
+--------------------------------------
+
+::
+
+  dlv debug <app>.go -- <param1> <param2> ...
+
 golang - offline document
 -------------------------
 
