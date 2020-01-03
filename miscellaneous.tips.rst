@@ -536,6 +536,12 @@ golang - list packages
 
     go list ...
 
+- List standard packages
+
+  ::
+
+    go list std
+
 golang - list api of packages
 ------------------------------
 
