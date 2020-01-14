@@ -301,3 +301,11 @@ Collect results from coroutines
    if __name__ == '__main__':
        results = asyncio.run(main())
        pprint.pprint(results)
+
+Reload modules in ipython
+--------------------------
+
+::
+
+  %load_ext autoreload
+  %autoreload 2
