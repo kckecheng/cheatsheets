@@ -309,3 +309,14 @@ Reload modules in ipython
 
   %load_ext autoreload
   %autoreload 2
+
+Get Absolute Path of Current File
+----------------------------------
+
+::
+
+  import os
+  import pathlib
+  path = pathlib.Path(os.path.realpath(__file__)).parent
+  print(path)
+  print(path.as_posix())
