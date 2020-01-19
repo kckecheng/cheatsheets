@@ -114,18 +114,18 @@ ElasticSearch
 Common Search
 ~~~~~~~~~~~~~
 
-.. code-block:: python
+::
 
-   from elasticsearch import Elasticsearch
-   es = Elasticsearch(['http://localhost:9200'])
-   query = {
-      'query': {
-         'term': {
-            'source': '/var/log/ycsb.log'
-         }
-      }
-   }
-   res = es.search(index='_all', body=query, _source=['host.name', 'message'], size=100)
+  from elasticsearch import Elasticsearch
+  es = Elasticsearch(['http://localhost:9200'])
+  query = {
+     'query': {
+        'term': {
+           'source': '/var/log/ycsb.log'
+        }
+     }
+  }
+  res = es.search(index='_all', body=query, _source=['host.name', 'message'], size=100)
 
 Search Definition
 ~~~~~~~~~~~~~~~~~
@@ -166,7 +166,7 @@ Change Anaconda IPython Font Size
 Common Error Capture
 --------------------
 
-.. code-block:: python
+::
 
   import sys
   import traceback
@@ -181,69 +181,79 @@ Common Error Capture
 Datetime Conversion
 -------------------
 
-.. code-block:: python
+::
 
-   from datetime import datetime
-   from datetime import timedelta
-   import pprint
+  from datetime import datetime
+  from datetime import timedelta
+  import pprint
 
-   d1 = datetime.now() + timedelta(days=-1)
-   d2 = datetime.now() + timedelta(days=1)
-   if d1 < d2:
-       pprint.pprint(d2 - d1)
+  d1 = datetime.now() + timedelta(days=-1)
+  d2 = datetime.now() + timedelta(days=1)
+  if d1 < d2:
+      pprint.pprint(d2 - d1)
 
-   s1 = d1.strftime('%Y %m %d %H %M %S')
-   s2 = d2.strftime('%Y %m %d %H %M %S')
-   pprint.pprint(s1)
-   pprint.pprint(s2)
+  s1 = d1.strftime('%Y %m %d %H %M %S')
+  s2 = d2.strftime('%Y %m %d %H %M %S')
+  pprint.pprint(s1)
+  pprint.pprint(s2)
 
-   d1_new = datetime.strptime(s1, '%Y %m %d %H %M %S')
-   d2_new = datetime.strptime(s2, '%Y %m %d %H %M %S')
-   pprint.pprint(d1_new)
-   pprint.pprint(d2_new)
+  d1_new = datetime.strptime(s1, '%Y %m %d %H %M %S')
+  d2_new = datetime.strptime(s2, '%Y %m %d %H %M %S')
+  pprint.pprint(d1_new)
+  pprint.pprint(d2_new)
 
-Log to File and Console
------------------------
+Logging
+--------
 
-.. code-block:: python
+- Simple logging for daily debug
 
-   import logging
+  ::
 
-   logger = logging.getLogger(__name__)
-   logger.setLevel(logging.DEBUG)
+    import logging
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    logging.info("Hello world!")
 
-   formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+- Log to File and Console
 
-   ch = logging.StreamHandler()
-   ch.setLevel(logging.ERROR)
-   ch.setFormatter(formatter)
+  ::
 
-   fh = logging.FileHandler('/tmp/spam.log')
-   fh.setLevel(logging.DEBUG)
-   fh.setFormatter(formatter)
+    import logging
 
-   logger.addHandler(ch)
-   logger.addHandler(fh)
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.ERROR)
+    ch.setFormatter(formatter)
+
+    fh = logging.FileHandler('/tmp/spam.log')
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(formatter)
+
+    logger.addHandler(ch)
+    logger.addHandler(fh)
 
 Return every Nth Element
 ------------------------
 
-.. code-block:: python
+::
 
-   #l[::n]
-   import random
-   l1 = list(range(0, 100))
-   random.shuffle(l1)
-   l1[::5]
+  #l[::n]
+  import random
+  l1 = list(range(0, 100))
+  random.shuffle(l1)
+  l1[::5]
 
 Split List into Chunks
 ----------------------
 
-.. code-block:: python
+::
 
-   #[l[i:i + n] for i in range(0, len(l), n)]
-   l1 = list(range(0, 100))
-   [l1[i:i+5] for i in range(0, len(l1), 5)]
+  #[l[i:i + n] for i in range(0, len(l), n)]
+  l1 = list(range(0, 100))
+  [l1[i:i+5] for i in range(0, len(l1), 5)]
 
 Function Cache
 --------------
@@ -275,40 +285,55 @@ Beside below ops, "Kernel->Change kernel" need to be used to select the right ex
 Collect results from coroutines
 -------------------------------
 
-.. code-block:: python
+::
 
-   import pprint
-   import asyncio
-   import random
-
-
-   async def worker():
-       num = random.randint(0, 100)
-       data = list(range(0, num))
-       return data
+  import pprint
+  import asyncio
+  import random
 
 
-   async def main():
-       tasks = []
-       num = random.randint(1, 10)
-       for i in range(0, num):
-           tasks.append(worker())
-
-       results = await asyncio.gather(*tasks)
-       return results
+  async def worker():
+      num = random.randint(0, 100)
+      data = list(range(0, num))
+      return data
 
 
-   if __name__ == '__main__':
-       results = asyncio.run(main())
-       pprint.pprint(results)
+  async def main():
+      tasks = []
+      num = random.randint(1, 10)
+      for i in range(0, num):
+          tasks.append(worker())
 
-Reload modules in ipython
+      results = await asyncio.gather(*tasks)
+      return results
+
+
+  if __name__ == '__main__':
+      results = asyncio.run(main())
+      pprint.pprint(results)
+
+Reload modules in IPython
 --------------------------
 
 ::
 
   %load_ext autoreload
   %autoreload 2
+
+Use IPython for interactive debug
+----------------------------------
+
+- Insert below line at the location where debug is needed, IPython will be started while run to the location:
+
+  ::
+
+    from IPython import embed; embed(colors="neutral")
+
+- To abort the session, especially during a loop
+
+  ::
+
+    import os; os._exit(1)
 
 Get Absolute Path of Current File
 ----------------------------------
