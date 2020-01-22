@@ -345,3 +345,10 @@ Get Absolute Path of Current File
   path = pathlib.Path(os.path.realpath(__file__)).parent
   print(path)
   print(path.as_posix())
+
+Sort List of Dicts based on Dict Key
+-------------------------------------
+
+::
+
+  sorted(list_of_dict_to_be_sorted, lambda x: x['sort_key'])
