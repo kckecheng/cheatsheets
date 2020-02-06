@@ -352,3 +352,29 @@ Sort List of Dicts based on Dict Key
 ::
 
   sorted(list_of_dict_to_be_sorted, lambda x: x['sort_key'])
+
+Customize Package Name Swagger Codegen Creates
+------------------------------------------------
+
+By default, the package name swagger codegen creates will be swagger_api which is meaningless. This can be changed by defining a JSON configuration file as below:
+
+1. Create config.json with below contents:
+
+   ::
+
+     {
+       "packageName": "<package name, such as abc_api>",
+       "projectName": "<project name, such as abc-api>"
+     }
+
+#. Generate SDK with the package name:
+
+   ::
+
+      java -jar swagger-codegen-cli.jar generate -i openapi.json -l python -c config.json -o <project name>
+
+#. Other supported customization can be seen based on the help:
+
+   ::
+
+     java -jar swagger-codegen-cli.jar config-help -l python
