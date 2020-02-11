@@ -4,14 +4,31 @@
 Python Tips
 ===========
 
-virtualenvwrapper
------------------
+Virtual Env
+------------
 
-virtualenvwrapper is a set of extensions to the virtualenv tool. It is much easier than using the virtualenv itself.
+venv
+~~~~~
+
+Since version 3.6, python has already provides a builtin module, A.K.A venv, to support virtual env. In other words, without any additional software andconfiguration, virtual env can be used directly.
 
 ::
 
-  pip install --user virtualenvwrapper
+  python -m venv --help
+  python -m venv venv1
+  source venv1/bin/activate
+
+  deactivate
+  rm -rf venv1
+
+virtualenvwrapper
+~~~~~~~~~~~~~~~~~~
+
+virtualenvwrapper is a set of extensions to to make virtual env ops easier. It is recommended to be used if there are lots of virtual env setups need to be maintained.
+
+::
+
+  pip install virtualenvwrapper
   # Below source line is recommended to be included in your bash profile
   source /usr/local/bin/virtualenvwrapper.sh
 
