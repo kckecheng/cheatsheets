@@ -235,13 +235,14 @@ Logging
   ::
 
     import logging
+    import sys
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
-    ch = logging.StreamHandler()
+    ch = logging.StreamHandler(sys.stdout)
     ch.setLevel(logging.ERROR)
     ch.setFormatter(formatter)
 
@@ -395,3 +396,20 @@ By default, the package name swagger codegen creates will be swagger_api which i
    ::
 
      java -jar swagger-codegen-cli.jar config-help -l python
+
+Dynamically Import Module and Initialize Class Based on Strings
+-----------------------------------------------------------------
+
+- Import module based on string
+
+  ::
+
+    import importlib
+    module = importlib.import_module(module_name)
+
+- Initialize class based on string
+
+  ::
+
+    class_ = getattr(module, class_name)
+    instance = class_()
