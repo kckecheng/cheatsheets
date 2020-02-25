@@ -87,6 +87,110 @@ nmcli is a command-line tool for controlling NetworkManager and reporting networ
 
     nmcli con edit <name|ID>
 
+nmap
++++++
+
+nmap is a tool for performing network scanning.
+
+- Scan IPs/Hosts
+
+  ::
+
+    nmap 192.168.0.9
+    nmap 192.168.0.1-20
+    nmap 192.168.0.1/24
+    nmap www.google.com
+    nmap 192.168.0.9,10,11,12
+    nmap 192.168.0.9 192.168.0.10
+    nmap 192.168.0.* --exclude 192.168.0.1
+    nmap -V 192.168.0.9
+
+- Scan Ports
+
+  ::
+
+    nmap -p 80 192.168.0.9
+    nmap -p 80,443 192.168.0.9
+    nmap -p 1-100 192.168.0.9
+    # Scan the most common ports
+    nmap --top-ports 20 192.168.0.9
+
+- Scan TCP/UDP
+
+  ::
+
+    # Scan with SYN scan - half-open scanning
+    nmap -sS 192.168.1.1
+    # Scan with TCP connect
+    nmap -sT 192.168.0.9
+    # Scan with UDP
+    nmap -sU 192.168.0.9
+
+- Detection
+
+  ::
+
+    # OS detection
+    nmap -A 192.168.0.9
+    # Standard service detection
+    nmap -sV 192.168.0.9
+
+- Get more options
+
+  ::
+
+    nmap
+    man nmap
+
+netcat/ncat/nc
++++++++++++++++
+
+netcat is a computer networking service for reading from and writing network connections using TCP or UDP. It is named as ncat or nc on some platforms.
+
+- Install: nmap project implements a netcat named ncat, hence install nmap will install ncat
+- Open a simple server
+
+  ::
+
+    # server
+    ncat -l -v 1234
+    # client
+    ncat localhost 1234
+    # or
+    telnet localhost 1234
+
+- Open a simple server with UDP
+
+  ::
+
+    # server
+    ncat -v -ul 7000
+    # client
+    ncat localhost -u 7000
+
+- Open a simple server for file transfer
+
+  ::
+
+    # server
+    cat happy.txt | ncat -v -l -p 5555
+    # client
+    ncat localhost 5555 > happy_copy.txt
+
+- Open a simple remote shell server
+
+  ::
+
+    # server
+    ncat -v -l -p 7777 -e /bin/bash
+    # client
+    ncat localhost 7777
+
+- Redirect journal logs to syslog
+
+  ::
+
+    journalctl -f | ncat --udp localhost 514
 
 Devices
 -------
