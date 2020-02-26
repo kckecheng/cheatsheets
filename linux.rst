@@ -1158,6 +1158,55 @@ SIGHUP as a notification about terminal closing event does not make sense for a 
 
   kill -s HUP <daemon pid>
 
+Use Chrony for time sync
+-------------------------
+
+Modern Linux distributions start to use Chrony as the default application for time sync (NTP) instead of the classic ntpd. Chrony comes with 2 x programs:
+
+- chronyd: the background daemon
+- chronyc: CLI interface
+
+Usage:
+
+- Configuration (/etc/chrony.conf or /etc/chrony/chrony.conf) (Chrony NTP server and client use the same configuration)
+
+  ::
+
+    # Define the NTP server sources
+    server 192.168.16.22 iburst
+
+    # If it is configured as a NTP server, enable below options
+    # Serve time even if not synchronized to a time source.
+    #local stratum 0
+    # Allow NTP client access from local network.
+    #allow 192.168.0.0/16
+
+- Start the service
+
+  ::
+
+    systemctl enable chronyd.service
+    systemctl start chronyd.service
+
+- Check NTP sources
+
+  ::
+
+    chronyc sources -v
+
+- Check current time sync status
+
+  ::
+
+    chronyc tracking
+
+- If time has been synced, it will be reflected from command "timedatectl"
+- To sync time immediately
+
+  ::
+
+    chronyc makestep
+
 =====
 Disks
 =====
