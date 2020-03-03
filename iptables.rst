@@ -29,34 +29,54 @@ Reset Rules
 
 ::
 
-  # iptables -F
-  # iptables -X
-  # iptables -t nat -F
-  # iptables -t nat -X
-  # iptables -t mangle -F
-  # iptables -t mangle -X
-  # iptables -t raw -F
-  # iptables -t raw -X
-  # iptables -t security -F
-  # iptables -t security -X
-  # iptables -P INPUT ACCEPT
-  # iptables -P FORWARD ACCEPT
-  # iptables -P OUTPUT ACCEPT
+  iptables -F
+  iptables -X
+  iptables -t nat -F
+  iptables -t nat -X
+  iptables -t mangle -F
+  iptables -t mangle -X
+  iptables -t raw -F
+  iptables -t raw -X
+  iptables -t security -F
+  iptables -t security -X
+  iptables -P INPUT ACCEPT
+  iptables -P FORWARD ACCEPT
+  iptables -P OUTPUT ACCEPT
 
 Save and Restore Rules
 ----------------------
 
 ::
 
-  # iptables-save > /etc/iptables/iptables.rules
-  # iptables-restore < /etc/iptables/iptables.rules
+  iptables-save > /etc/iptables/iptables.rules
+  iptables-restore < /etc/iptables/iptables.rules
 
 Query
 -----
 
 ::
 
-  # iptables -nvL [--line-numbers] [-t <table name>]
+  iptables -nvL [--line-numbers] [-t <table name>]
+
+Delete
+-------
+
+::
+
+  # Add a rule
+  iptables -A INPUT -p tcp --dport 5001 -j ACCEPT
+  # Delete the same rule
+  iptables -D INPUT -p tcp --dport 5001 -j ACCEPT
+
+Insert
+-------
+
+::
+
+  # Get the rule index num.
+  iptables -nvL --line-numbers
+  # Insert a rule
+  iptables -I INPUT <rule index num. to insert this rule before> -p tcp --dport 5001 -j ACCEPT
 
 Sample Rules
 ------------
