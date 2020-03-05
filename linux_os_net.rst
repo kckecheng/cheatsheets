@@ -192,6 +192,24 @@ netcat is a computer networking service for reading from and writing network con
 
     journalctl -f | ncat --udp localhost 514
 
+Associate Docker Container and Corresponding veth
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+- Get peer index from container
+
+  ::
+
+    docker exec <container ID> ip link list
+    docker exec <container ID> ethtool -S <interface>
+    # Or use the below command if ethtool is not available
+    docker exec <container ID> cat sys/class/net/<interface>/iflink
+
+- Get host veth
+
+  ::
+
+    ip link list | grep <the index found from container>
+
 Devices
 -------
 
