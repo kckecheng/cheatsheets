@@ -7,11 +7,6 @@ Linux Network Tips
 Basic
 -----
 
-Add a Gateway
-+++++++++++++
-
-ip route add default via 10.108.183.1
-
 net-tools vs. iproute2
 ++++++++++++++++++++++
 
@@ -32,6 +27,65 @@ net-tools vs. iproute2
 +----------------+---------------------------------+--------------------------------+
 | netstat        | ip [-d] -s, ss, ip [-d] route   | Show network statistics        |
 +----------------+---------------------------------+--------------------------------+
+
+Add a Gateway
++++++++++++++
+
+ip route add default via 10.108.183.1
+
+ss
++++++
+
+ss is the newly recommended tool (part of the iproute2 package) as a replacement of legacy netstat.
+
+- Show a summary
+
+  ::
+
+    ss -s
+
+- List all listening ports
+
+  ::
+
+    # Unix socket, TCP and UDP
+    ss -l [-p] [-n]
+    # TCP
+    ss -lt [-p] [-n]
+    # UDP
+    ss -lu [-p] [-n]
+    # Unix socket
+    ss -lx
+
+- List all established ports
+
+  ::
+
+    ss -[a|t|u|x] [-p] [-n]
+
+- List socker memory usage
+
+  ::
+
+    ss -[l][t|u|x]m
+
+- List internal TCP information
+
+  ::
+
+    ss -[l]ti
+
+- Show extended information
+
+  ::
+
+    ss -[l][t|u|x]e
+
+- Show timer inforamtion
+
+  ::
+
+    ss -[l][t|u|x]o
 
 nmcli
 ++++++
