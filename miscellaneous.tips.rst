@@ -619,21 +619,60 @@ The sample main.go as below is used for the show:
     WORKDIR /app
     CMD ["./main"]
 
-golang - go-micro registers service with an external consul deployment
-------------------------------------------------------------------------
+golang - use consul for go-micro
+----------------------------------
 
-1. Start a consul daemon:
+Since go-micro v2, etcd is used as the default system discovery system based on `this blog post <https://micro.mu/blog/2019/10/04/deprecating-consul.html>`_. The code base has been restructured accordingly which impacts both go-micro and go-micro/v2. To keep use consul:
 
-   ::
+- go-micro v1:
 
-     docker run -d -p 8500:8500 --rm consul
+  - Use protoc-gen-micro v1
 
-2. Start a go microservice (leveraging go-micro) and register it to the consul:
+    ::
 
-   ::
+      go get github.com/micro/protoc-gen-micro
 
-     docker inspect <consul container> | grep IPAddress
-     docker run -d -e MICRO_REGISTRY=consul -e MICRO_REGISTRY_ADDRESS=<consul container IP>:8500 --rm <go service image>
+  - Create plugins.go:
+
+    ::
+
+      pacakge main
+      import _ "github.com/micro/go-plugins/registry/consul"
+
+  - In the application:
+
+    ::
+
+      package main
+      import "github.com/micro/go-micro"
+
+- go-micro v2:
+
+  - Use protoc-gen-micro v2
+
+    ::
+
+      go get github.com/micro/protoc-gen-micro/v2
+
+  - Create plugins.go:
+
+    ::
+
+      pacakge main
+      import _ "github.com/micro/go-plugins/registry/consul/v2"
+
+  - In the application:
+
+    ::
+
+      package main
+      import "github.com/micro/go-micro/v2"
+
+To run a go-micro based application with consul:
+
+::
+
+  go run main.go plugins.go --registry consul --registry_address 192.168.10.10:8500
 
 golang - type assert vs. type conversion
 ----------------------------------------
