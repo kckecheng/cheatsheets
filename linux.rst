@@ -1207,6 +1207,21 @@ Usage:
 
     chronyc makestep
 
+Enable Additional Key Algorithms
+---------------------------------
+
+When ssh to some equipment, errors as below may be prompted:
+
+::
+
+  no matching key exchange method found. Their offer: xxx, yyy
+
+To login such equipement:
+
+::
+
+  ssh -oKexAlgorithms=+xxx <user>@<equipment>
+
 =====
 Disks
 =====
