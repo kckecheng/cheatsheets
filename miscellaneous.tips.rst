@@ -658,7 +658,7 @@ Since go-micro v2, etcd is used as the default system discovery system based on 
 
     ::
 
-      pacakge main
+      package main
       import _ "github.com/micro/go-plugins/registry/consul/v2"
 
   - In the application:
@@ -673,6 +673,38 @@ To run a go-micro based application with consul:
 ::
 
   go run main.go plugins.go --registry consul --registry_address 192.168.10.10:8500
+
+golang - use micro runtime with non-default plugins
+-----------------------------------------------------
+
+If non-default plugins (such as consul, kafka, etc.) are used in a service implementation, micro runtime needs to know the changes. Below is an example:
+
+1. A service is implemented by leveraging plugins consul and kafka. The plugins.go is defined as below:
+
+   ::
+
+     package main
+     import (
+       _ "github.com/micro/go-plugins/registry/consul/v2"
+       _ "github.com/micro/go-plugins/broker/kafka/v2"
+     )
+
+#. Start micro runtime from CLI by loading the non-default plugins:
+
+   ::
+
+      micro --plugin registry/consul/v2 --plugin broker/kafka/v2 \
+      --registry consul --registry_address localhost:8500 \
+      --broker kafka --broker_address localhost:9092 cli
+
+#. Start micro runtime from web by loading the non-default plugins:
+
+   ::
+
+      micro --plugin registry/consul/v2 --plugin broker/kafka/v2 \
+      --registry consul --registry_address localhost:8500 \
+      --broker kafka --broker_address localhost:9092 \
+      web --address=0.0.0.0:8080
 
 golang - type assert vs. type conversion
 ----------------------------------------
