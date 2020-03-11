@@ -959,7 +959,9 @@ Checkout a tag
 
 ::
 
-  git checkout <tag name>
+  git checkout tags/<tag name>
+  # Checkout the tag and create a new branch to avoid overwritten
+  git checkout tags/<tag name> -b <branch name>
 
 Push a tag to remote
 +++++++++++++++++++++
