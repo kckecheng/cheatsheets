@@ -459,6 +459,74 @@ Only use mirrors from a country
 
   sudo pacman-mirrors -c China && sudo pacman -Syyu
 
+dnf
+----
+
+dnf, which means dandified yum, is the default package manager for replacing yum.
+
+Configuration
+~~~~~~~~~~~~~~~
+
+- /etc/dnf/dnf.conf: dnf configuration
+- /etc/yum.repos.d: repo definitions
+
+List
+~~~~~
+
+- dnf list --all: list all installed and available packages
+- dnf list [<--installed\|--available\|--extras\|--obsoletes\|--recent>] [expression]: list packages [matching expression]
+- dnf list --upgrades [expression]: list upgradable pacakges [matching expression]
+- dnf list --autoremove: list orphaned packages
+
+Info
+~~~~~~
+
+- dnf info <package name>: show information for package
+- dnf provides <path/to/file>: show packages own the file
+
+Install
+~~~~~~~~
+
+- dnf install <package name>: install package
+- dnf install <path/to/local/rpm>: install a local rpm package
+- dnf reinstall <package name>: reinstall package
+- dnf downgrade <package name>: downgrade package
+
+History
+~~~~~~~~~
+
+- dnf history list: list dnf transactions
+- dnf history info transaction: show info for a particular transaction
+- dnf history redo transaction: redo a transaction
+- dnf history rollback transaction: rollback a transaction
+- dnf history undo transaction: undo a transaction
+
+Update
+~~~~~~~
+
+- dnf check-update: check if updates are available
+- dnf upgrade: upgrade packages to latest version
+- dnf upgrade-minimal: update major patches and security
+
+Repo
+~~~~~
+
+- dnf repolist [<--enabled\|--disabled\|--all>]: list repos
+- dnf config­manager --add-repo=URL: add a repo
+
+Group
+~~~~~~~
+
+- dnf group summary group: show installed and available groups
+- dnf group info <group name>: show information for a group
+- dng group list [expression]: list groups [matching expression]
+
+Uninstall
+~~~~~~~~~~~~
+
+- dnf remove <package name>: remove a package
+- dnf autoremove: remote orphaned packages
+
 =========
 MISC Tips
 =========
