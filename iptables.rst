@@ -78,6 +78,13 @@ Insert
   # Insert a rule
   iptables -I INPUT <rule index num. to insert this rule before> -p tcp --dport 5001 -j ACCEPT
 
+Comment
+--------
+
+::
+
+  iptables -A INPUT -p tcp --dport 5001 -j ACCEPT -m comment --comment 'test rule'
+
 Sample Rules
 ------------
 
