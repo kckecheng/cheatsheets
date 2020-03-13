@@ -497,3 +497,69 @@ Type assert vs. type conversion
     default:
       // some ops
     }
+
+go-micro metadata
+-------------------
+
+metadata can be used to pass data across requests with the help of context. Below is a simple example:
+
+- Server side:
+
+  - Method signatures for a server interface will always look as below:
+
+    ::
+
+       Foo(context.Context, *Request, *Response) error
+
+  - To extract metadata passed through the request context, below code snip can be used when method signatures (Foo in this example) are implemented:
+
+    ::
+
+      import (
+        "context"
+        proto "hello/proto/hello"
+        log "github.com/micro/go-micro/v2/logger"
+        "github.com/micro/go-micro/v2/metadata"
+        ...
+      )
+      ...
+
+      type Hello struct{}
+
+      func (h *Hello) Foo(ctx context, req *proto.Request, rsp *proto.Response) error {
+        ...
+        md, _ := metadata.FromContext(ctx)
+        # md is map[string]string
+        log.Infof("%+v", md)
+        ...
+      }
+
+- Client side:
+
+  ::
+
+    ...
+    client := proto.NewHelloService("go.micro.srv.hello", service.Client())
+    # md is map[string]string
+    md := metadata.Metadata{}
+    md["Token"] = "abc123"
+    ...
+    ctx := metadata.NewContext(context.Background(), md)
+    resp, err := client.Foo(ctx, &proto.Request{Name: "John"})
+    ...
+
+- micro api: when the service is consumed from micro api, metadata needs to be used as HTTP headers
+
+  - Start micro api:
+
+    ::
+
+      micro api --enable_rpc
+
+  - Consume the service: **pass metadata as HTTP headers**
+
+    ::
+
+      curl -H 'Token: abc123' -d 'service=go.micro.srv.hello' -d 'method=Hello.Foo' -d 'request={"name": "John"}' http://localhost:8080/rpc
+
+  - Known issue: HTTP API cannot be used with "/[service]/[method]" due to a known issue, use "/rpc" instead
