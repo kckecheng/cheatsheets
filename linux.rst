@@ -1275,8 +1275,8 @@ Usage:
 
     chronyc makestep
 
-Enable Additional Key Algorithms
----------------------------------
+Enable Additional SSH Key Algorithms
+-------------------------------------
 
 When ssh to some equipment, errors as below may be prompted:
 
@@ -1289,6 +1289,15 @@ To login such equipement:
 ::
 
   ssh -oKexAlgorithms=+xxx <user>@<equipment>
+
+Show CPU Summary
+------------------
+
+Show CPU architecture, features, sockers, cores, etc.
+
+::
+
+  lscpu
 
 =====
 Disks
