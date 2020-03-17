@@ -849,6 +849,13 @@ ps command can be used with customized output format to show per process inforam
 
   ps -e -o "pid,%cpu,%mem,state,tname,time,command"
 
+List Non-Kernel Process
+------------------------
+
+::
+
+  ps --ppid 2 -p 2 --deselect
+
 ssh client configuration
 ------------------------
 
