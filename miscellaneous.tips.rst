@@ -4,6 +4,34 @@
 MISC Tips
 =========
 
+Write Document with Sphinx
+---------------------------
+
+1. Install
+
+   ::
+
+     pip install sphinx
+
+#. Create the project
+
+   ::
+
+     sphinx-quickstart
+
+#. Add master doc (optional: it is required if readthedocs.org is used)
+
+   ::
+
+     # conf.py
+     master_doc = 'index'
+
+#. Generate PDF
+
+   ::
+
+     make latexpdf
+
 Unix - User friendly configuraiton tool
 ---------------------------------------
 
