@@ -856,6 +856,13 @@ List Non-Kernel Process
 
   ps --ppid 2 -p 2 --deselect
 
+List Task/Process Switch Stats
+-------------------------------
+
+::
+
+  pidstat -w
+
 ssh client configuration
 ------------------------
 
