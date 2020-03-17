@@ -459,6 +459,25 @@ Only use mirrors from a country
 
   sudo pacman-mirrors -c China && sudo pacman -Syyu
 
+Create a local yum repo with DVD iso
+------------------------------------
+
+- Disable all other repositories by make "enabled=0" on all files under /etc/yum.repos.d;
+- Mount the iso: mount -o loop
+- Create a repo config file under /etc/yum.repos.d with below contents, the name can be anything:
+
+  ::
+
+    [Repo Name]
+    name=Description name
+    baseurl=file://absolute path to the mount point
+    enabled=1
+
+- yum clean all
+- yum repolist : You should be able to see the new repo
+- Or through command line: yum-config-manager --add-repo file:///<Mount point> (Public key should be imported with command like "rpm --import /media/RPM-GPG-KEY-redhat-beta" before installing packages with the newly added repo )
+
+
 dnf
 ----
 
@@ -653,6 +672,75 @@ Output a range of fields
 
   awk '{for(i=3;i<=8;++i){printf "%s ", $i}; printf "\n"}'
 
+ssh
+----
+
+ssh client configuration
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Configuration file: ~/.ssh/config(mode 400, and create if it does not exist);
+2. man ssh_config to find all supported options;
+3. Format:
+
+   ::
+
+     Host <host pattern, such as *, ip, fqdn>
+         <Option Name> <Option Value>
+         ......
+     --- OR ---
+     Host <host pattern, such as *, ip, fqdn>
+         <Option Name>=<Option Value>
+         ......
+
+4. Examples:
+
+   - Disable host key checking:
+
+     ::
+
+       Host *
+           StrictHostKeyChecking no
+           UserKnownHostsFile /dev/null
+
+   - Use ssh v1 only
+
+     ::
+
+       Host *
+           Protocol 1
+
+Add ssh public key to remote servers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To configure key based ssh login, the ssl public key (generated with ssh-keygen -t rsa) needs to be copied and appended to the file **~/.ssh/authorized_keys** on remote servers.
+
+Command **ssh-copy-id** can be leveraged to do the work automatically.
+
+Enable Additional SSH Key Algorithms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When ssh to some equipment, errors as below may be prompted:
+
+::
+
+  no matching key exchange method found. Their offer: xxx, yyy
+
+To login such equipement:
+
+::
+
+  ssh -oKexAlgorithms=+xxx <user>@<equipment>
+
+Run multiple Remote Commands with SSH
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # ssh <user>@<host> ""
+  ssh root@192.168.10.10 "while : ; do top -b -o '+%MEM' | head -n 10; echo; sleep 3; done"
+  ssh root@192.168.10.10 "vmstat -w -S m 5 10"
+  ssh root@192.168.10.10 "while :; do docker stats --no-stream; echo; sleep 5; done"
+
 Run a script automatically during system boot
 ---------------------------------------------
 
@@ -735,24 +823,6 @@ Redhat Linux vmcore Analyzing Getting Started
   rpm -ivh crash-<version>.<platform>.rpm
   rpm -ivh kernel-debuginfo-<version>.<platform>.rpm kernel-debuginfo-common-<version>.<platform>.rpm
   crash /<absolute path to the system map file used for debug> /<path to the vmlinux used for debug>  /<path to the vmcore file>
-
-Create a local yum repo with DVD iso
-------------------------------------
-
-- Disable all other repositories by make "enabled=0" on all files under /etc/yum.repos.d;
-- Mount the iso: mount -o loop
-- Create a repo config file under /etc/yum.repos.d with below contents, the name can be anything:
-
-  ::
-
-    [Repo Name]
-    name=Description name
-    baseurl=file://absolute path to the mount point
-    enabled=1
-
-- yum clean all
-- yum repolist : You should be able to see the new repo
-- Or through command line: yum-config-manager --add-repo file:///<Mount point> (Public key should be imported with command like "rpm --import /media/RPM-GPG-KEY-redhat-beta" before installing packages with the newly added repo )
 
 Delete Character with Yast2
 ---------------------------
@@ -862,40 +932,6 @@ List Task/Process Switch Stats
 ::
 
   pidstat -w
-
-ssh client configuration
-------------------------
-
-1. Configuration file: ~/.ssh/config(mode 400, and create if it does not exist);
-2. man ssh_config to find all supported options;
-3. Format:
-
-   ::
-
-     Host <host pattern, such as *, ip, fqdn>
-         <Option Name> <Option Value>
-         ......
-     --- OR ---
-     Host <host pattern, such as *, ip, fqdn>
-         <Option Name>=<Option Value>
-         ......
-
-4. Examples:
-
-   - Disable host key checking:
-
-     ::
-
-       Host *
-           StrictHostKeyChecking no
-           UserKnownHostsFile /dev/null
-
-   - Use ssh v1 only
-
-     ::
-
-       Host *
-           Protocol 1
 
 Delete trailing new line
 ------------------------
@@ -1224,13 +1260,6 @@ Change System Locale
 
   localectl --help
 
-Add ssh public key to remote servers
-------------------------------------
-
-To configure key based ssh login, the ssl public key (generated with ssh-keygen -t rsa) needs to be copied and appended to the file **~/.ssh/authorized_keys** on remote servers.
-
-Command **ssh-copy-id** can be leveraged to do the work automatically.
-
 Reload configuration file without restarting service
 -----------------------------------------------------
 
@@ -1288,21 +1317,6 @@ Usage:
   ::
 
     chronyc makestep
-
-Enable Additional SSH Key Algorithms
--------------------------------------
-
-When ssh to some equipment, errors as below may be prompted:
-
-::
-
-  no matching key exchange method found. Their offer: xxx, yyy
-
-To login such equipement:
-
-::
-
-  ssh -oKexAlgorithms=+xxx <user>@<equipment>
 
 Show CPU Summary
 ------------------
