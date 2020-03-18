@@ -533,6 +533,8 @@ Repo
 - dnf repolist [<--enabled\|--disabled\|--all>]: list repos
 - dnf config­manager --add-repo=URL: add a repo
 
+Note: config­manager is a dnf plugin which needs to be installed(dnf install dnf-plugins-core)
+
 Group
 ~~~~~~~
 
