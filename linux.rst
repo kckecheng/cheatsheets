@@ -737,9 +737,52 @@ Run multiple Remote Commands with SSH
 ::
 
   # ssh <user>@<host> ""
+ssh root@192.168.10.10 "while : ; do top -b -o '+%MEM' | head -n 10; echo; sleep 3; done"
   ssh root@192.168.10.10 "while : ; do top -b -o '+%MEM' | head -n 10; echo; sleep 3; done"
   ssh root@192.168.10.10 "vmstat -w -S m 5 10"
   ssh root@192.168.10.10 "while :; do docker stats --no-stream; echo; sleep 5; done"
+
+Show Process Information
+--------------------------
+
+Show cpu, memory, etc. usage per process
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ps command can be used with customized output format to show per process inforamtion including cpu, mem, cgroups, etc.
+
+::
+
+  ps -e -o "pid,%cpu,%mem,state,tname,time,command"
+
+List Non-Kernel Process
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ps --ppid 2 -p 2 --deselect
+
+List Task/Process Switch Stats
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  pidstat -w
+
+Sort based on fields with top
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+
+  # Refer to section "FIELDS / Columns" of "man top" for supported fields
+  top -b -o '+%MEM'
+
+Only show specified processes with top
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  top -c -p <process id, ...>
 
 Run a script automatically during system boot
 ---------------------------------------------
@@ -909,29 +952,6 @@ lsof tips
 
 - lsof <file> ---> Which processes are using the file
 - lsof +D <directory> ---> Which processed are accessing the directory, and which files under the directory are being accessed
-
-Show cpu, memory, etc. usage per process
-----------------------------------------
-
-ps command can be used with customized output format to show per process inforamtion including cpu, mem, cgroups, etc.
-
-::
-
-  ps -e -o "pid,%cpu,%mem,state,tname,time,command"
-
-List Non-Kernel Process
-------------------------
-
-::
-
-  ps --ppid 2 -p 2 --deselect
-
-List Task/Process Switch Stats
--------------------------------
-
-::
-
-  pidstat -w
 
 Delete trailing new line
 ------------------------
