@@ -32,6 +32,14 @@ Write Document with Sphinx
 
      make latexpdf
 
+
+#. To generate other contents, such as HTML
+
+   ::
+
+     make help
+     make html
+
 Unix - User friendly configuraiton tool
 ---------------------------------------
 

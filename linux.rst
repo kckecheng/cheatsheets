@@ -204,6 +204,18 @@ Encryp/decrypt a file.
   gpg -c <file>
   gpg -d <file>
 
+busybox
+--------
+
+BusyBox combines tiny versions of many common UNIX utilities into a single small executable. Since it provides binary download, it can be used on Unix/Linux based systems which do not support package instalaltion (scp busybox onto them and run directly).
+
+Busybox ships with a large num. of applets (refer to `its document <https://busybox.net/downloads/BusyBox.html>`_ for details). Below is an example how to use busybox as a HTTP server:
+
+::
+
+  busybox httpd -p 0.0.0.0:8080 <html site root>
+  pkill busybox
+
 moreutils
 ---------
 
