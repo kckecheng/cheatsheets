@@ -40,6 +40,32 @@ Write Document with Sphinx
      make help
      make html
 
+**Tips**:
+
+- Use "figure" instead of "image" to provide more information
+
+  * A figure can provides more information than an image including a caption and any other comment;
+  * Refer to `RST and Sphinx Cheatsheet <https://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html>`_ for details;
+  * Figures/images can be scaled with the *scale* option:
+
+    ::
+
+      .. figure:: images/demo.png
+         :scale: 60%
+
+         caption
+
+         other comments
+
+- Latex figure float alignment, default 'htbp' (here, top, bottom, page). Whenever an image does not fit into the current page, it will be 'floated' into the next page but may be preceded by any other text. To avoid this, define below section in sphinx project configuration:
+
+  ::
+
+    # conf.py
+    latex_elements = {
+      "figure_align": "H"
+    }
+
 Unix - User friendly configuraiton tool
 ---------------------------------------
 
