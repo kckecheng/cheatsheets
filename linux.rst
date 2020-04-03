@@ -1,6 +1,5 @@
 .. contents:: Linux Tips
 
-========================
 Command Line Shortcuts
 ========================
 
@@ -81,7 +80,6 @@ Command Quick Substitution
 - !!gs/string1/string2/ - Repeat the last command, replacing all string1 with string2
 - Refer to: https://www.gnu.org/software/bash/manual/bashref.html#History-Interaction
 
-==================
 Cutting Edge Tools
 ==================
 
@@ -226,7 +224,6 @@ moreutils
 - combine: combine 2 x files together based on boolean operations;
 - lckdo: run a program with a lock.
 
-===================================================
 Performance Tuning/Monitoring/Troubleshooting Tools
 ===================================================
 
@@ -339,7 +336,6 @@ Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
 
 **Notes**: install through yay on Arch.
 
-=================
 Package Mangement
 =================
 
@@ -560,7 +556,200 @@ Uninstall
 - dnf remove <package name>: remove a package
 - dnf autoremove: remote orphaned packages
 
+Services
 =========
+
+Service Logs
+-------------
+
+- Check service logs based on time window
+
+  ::
+
+    systemctl | grep '<service name>' ---> locate the service unit name
+    journalctl -S <time stamp> -u <service name>
+
+- Check latest logs
+
+  ::
+
+    journalctl -f ---> As tail
+
+- Do not wrap log lines
+
+  ::
+
+    journalctl --all --output cat -u <service name>
+
+- Clean logs
+
+  ::
+
+    journalctl --flush --rotate
+    journalctl --vacuum-time=1s
+
+Reload configuration file without restarting service
+-----------------------------------------------------
+
+SIGHUP as a notification about terminal closing event does not make sense for a daemon, because deamons are detached from their terminal. So the system will never send this signal to them. Then it is common practice for daemons to use it for another meaning, typically reloading the daemon's configuration.
+
+::
+
+  kill -s HUP <daemon pid>
+
+Use Chrony for time sync
+-------------------------
+
+Modern Linux distributions start to use Chrony as the default application for time sync (NTP) instead of the classic ntpd. Chrony comes with 2 x programs:
+
+- chronyd: the background daemon
+- chronyc: CLI interface
+
+Usage:
+
+- Configuration (/etc/chrony.conf or /etc/chrony/chrony.conf) (Chrony NTP server and client use the same configuration)
+
+  ::
+
+    # Define the NTP server sources
+    server 192.168.16.22 iburst
+
+    # If it is configured as a NTP server, enable below options
+    # Serve time even if not synchronized to a time source.
+    #local stratum 0
+    # Allow NTP client access from local network.
+    #allow 192.168.0.0/16
+
+- Start the service
+
+  ::
+
+    systemctl enable chronyd.service
+    systemctl start chronyd.service
+
+- Check NTP sources
+
+  ::
+
+    chronyc sources -v
+
+- Check current time sync status
+
+  ::
+
+    chronyc tracking
+
+- If time has been synced, it will be reflected from command "timedatectl"
+- To sync time immediately
+
+  ::
+
+    chronyc makestep
+
+Postfix
+--------
+
+Configure Postfix as SMTP Server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A SMTP server is able to send emails but not receive emails. It is useful for situations such as sending notifications which does not expect any reply.
+
+- Installation
+
+  ::
+
+    # dnf install postfix
+    pacman -S postfix
+
+- Restrict access
+
+  ::
+
+    # /etc/postfix/main.cf
+    # Use any of below solution to ensure hackers cannot leverage this server to send spam
+    # Solution 1
+    # inet_interfaces = ALL
+    # mynetworks = 127.0.0.0/8, 10.10.10.0/24
+    # Solution 2
+    inet_interfaces = loopback-only
+    inet_interfaces = localhost
+
+- Define Relay SMTP Server
+
+  ::
+
+    # By default, postfix sends email directly to the Internet. However, this won't work
+    # sometimes. For example, when there is a firewall or other security rules between postfix
+    # and the receivers, the email cannot be delivered.
+    # Relay SMTP servers can be used to work around the problem - trusted internally and
+    # forward emails on behalf of postfix
+    relayhost = [10.10.10.10]
+
+- Start the service
+
+  ::
+
+    systemctl start postfix
+
+Send Emails from CLI
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # Simple command
+  echo -e "Subject: Test email\n\nThis is a test email\n" | sendmail -t <recevier@xxx.xxx>
+
+  # Or with here document to contain more mail meta
+  cat <<EOF | sendmail -t
+  To: recipient@example.com
+  Subject: Testing
+  From: sender@example.com
+
+  This is a test message
+  EOF
+
+Check and Clear Mail Queues
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # Check queues
+  mailq
+  # Delete mails from queueus
+  postsuper -d ALL
+
+kdump config
+------------
+
+1. Install "kernel-debuginfo-common" and "kernel-debuginfo", by default, these two packages are not kept in yum repository, they need to be downloaded from internet;
+#. Install "kexec-tools" and "crash":
+
+   - yum install kexec-tools
+   - yum install crash
+
+#. Edit grub.cfg, append "crashkernel=yM@xMparameter " to kernel:
+
+   - Y : memory reserved for dump-capture kernel;
+   - X : the beginning of the reserved memory;
+   - This can be done with command: grubby --update-kernel=ALL --args="crashkernel=yM@xM";
+   - "crashkernel=yM@0" or "crashkernel=yM" should be used if kdump service cannot start;
+
+#. Reboot and check with command: cat /proc/iomem | grep 'Crash kernel';
+#. Configure /etc/kdump.conf to set dump path and other options, by default, only below two options are required:
+
+   - path /var/crash
+   - core_collector makedumpfile -c -d 31
+
+#. "service kdump restart" if the configuration file has been changed;
+#. Trigger a dump:
+
+   - echo "1" > /proc/sys/kernel/sysrq
+   - echo "c" > /proc/sysrq-trigger
+
+#. System will begin dump and reboot;
+#. Check if vmcore file is generated under the kdump path;
+#. Done.
+
 MISC Tips
 =========
 
@@ -927,24 +1116,6 @@ sudoers: <user> ALL = (<user to act as>) <commands>
     superadm  ALL=(ALL)   ALL - User "superadm" can run all commands as anyone
     adm ALL = (root) NOPASSWD:ALL - User adm can sudo run all "root"'s commands without password
 
-Get service log
----------------
-
-::
-
-  # systemctl | grep '<service name>' ---> locate the service unit name
-  # journalctl -S <time stamp> -u <service name>
-  # journalctl --all --output cat -u <service name>
-  # journalctl -f ---> As tail
-
-Clear journalctl
-----------------
-
-::
-
-  journalctl --flush --rotate
-  journalctl --vacuum-time=1s
-
 Grub2 change boot order
 -----------------------
 ::
@@ -1182,38 +1353,6 @@ Development Tools on different distros
 
     sudo zypper install -t pattern devel_C_C++
 
-kdump config
-------------
-
-1. Install "kernel-debuginfo-common" and "kernel-debuginfo", by default, these two packages are not kept in yum repository, they need to be downloaded from internet;
-2. Install "kexec-tools" and "crash":
-
-   - yum install kexec-tools
-   - yum install crash
-
-3. Edit grub.cfg, append "crashkernel=yM@xMparameter " to kernel:
-
-   - Y : memory reserved for dump-capture kernel;
-   - X : the beginning of the reserved memory;
-   - This can be done with command: grubby --update-kernel=ALL --args="crashkernel=yM@xM";
-   - "crashkernel=yM@0" or "crashkernel=yM" should be used if kdump service cannot start;
-
-4. Reboot and check with command: cat /proc/iomem | grep 'Crash kernel';
-5. Configure /etc/kdump.conf to set dump path and other options, by default, only below two options are required:
-
-   - path /var/crash
-   - core_collector makedumpfile -c -d 31
-
-6. "service kdump restart" if the configuration file has been changed;
-7. Trigger a dump:
-
-   - echo "1" > /proc/sys/kernel/sysrq
-   - echo "c" > /proc/sysrq-trigger
-
-8. System will begin dump and reboot;
-9. Check if vmcore file is generated under the kdump path;
-10. Done.
-
 Assign hostname dynamically with DHCP
 -------------------------------------
 
@@ -1294,64 +1433,6 @@ Change System Locale
 
   localectl --help
 
-Reload configuration file without restarting service
------------------------------------------------------
-
-SIGHUP as a notification about terminal closing event does not make sense for a daemon, because deamons are detached from their terminal. So the system will never send this signal to them. Then it is common practice for daemons to use it for another meaning, typically reloading the daemon's configuration.
-
-::
-
-  kill -s HUP <daemon pid>
-
-Use Chrony for time sync
--------------------------
-
-Modern Linux distributions start to use Chrony as the default application for time sync (NTP) instead of the classic ntpd. Chrony comes with 2 x programs:
-
-- chronyd: the background daemon
-- chronyc: CLI interface
-
-Usage:
-
-- Configuration (/etc/chrony.conf or /etc/chrony/chrony.conf) (Chrony NTP server and client use the same configuration)
-
-  ::
-
-    # Define the NTP server sources
-    server 192.168.16.22 iburst
-
-    # If it is configured as a NTP server, enable below options
-    # Serve time even if not synchronized to a time source.
-    #local stratum 0
-    # Allow NTP client access from local network.
-    #allow 192.168.0.0/16
-
-- Start the service
-
-  ::
-
-    systemctl enable chronyd.service
-    systemctl start chronyd.service
-
-- Check NTP sources
-
-  ::
-
-    chronyc sources -v
-
-- Check current time sync status
-
-  ::
-
-    chronyc tracking
-
-- If time has been synced, it will be reflected from command "timedatectl"
-- To sync time immediately
-
-  ::
-
-    chronyc makestep
-
 Show CPU Summary
 ------------------
 
@@ -1361,7 +1442,6 @@ Show CPU architecture, features, sockers, cores, etc.
 
   lscpu
 
-=====
 Disks
 =====
 
