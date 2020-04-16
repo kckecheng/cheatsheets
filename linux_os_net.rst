@@ -264,6 +264,18 @@ Associate Docker Container and Corresponding veth
 
     ip link list | grep <the index found from container>
 
+ngrok
+++++++
+
+ngrok can be used to expose a local web server to the Internet. It is free for temporary usage (refer to `pricing <https://ngrok.com/pricing>`_) which involves limited connection.
+
+Usage:
+
+::
+
+  # Expose localhost 8080 to the Internet
+  ngrok http 8080
+
 Devices
 -------
 
