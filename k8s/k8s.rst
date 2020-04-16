@@ -72,7 +72,7 @@ Create a CMD PO for debug purpose
 
 ::
 
-  kubectl run -it <deployment name >--image=alpine -- sh
+  kubectl run -it <deployment name > --image=alpine -- sh
   exit
   kubectl get pods
   kubectl exec -it <the pod name> sh
