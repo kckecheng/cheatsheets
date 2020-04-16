@@ -16,14 +16,14 @@ List availabel kubernetes version
 
 ::
 
-  rke config -l -a
+  rke config --system-images --version -
 
 Generate system images definition
 ++++++++++++++++++++++++++++++++++
 
 ::
 
-  rke config -s --version <k8s version>
+  rke config --system-images --version <version>
 
 The default kubectl config file
 ++++++++++++++++++++++++++++++++
