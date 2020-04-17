@@ -67,6 +67,9 @@ Delete
   iptables -A INPUT -p tcp --dport 5001 -j ACCEPT
   # Delete the same rule
   iptables -D INPUT -p tcp --dport 5001 -j ACCEPT
+  # Delete a rule  by num.
+  iptables -nvL --line-numbers
+  iptables -D INPUT <rule num.>
 
 Insert
 -------
