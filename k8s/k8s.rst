@@ -109,6 +109,12 @@ Below solution solves the problem:
 kubectl
 --------
 
+The default config file
+++++++++++++++++++++++++
+
+kubectl will leverage **~/.kube/config** as the default config file if it exists.
+
+
 List all supported resource types
 ++++++++++++++++++++++++++++++++++
 
@@ -124,7 +130,7 @@ List all existing resouces
 
 ::
 
-  kubectl get all --all-namespaces
+  kubectl get all --all-namespaces [--show-labels]
 
 Check config file
 ++++++++++++++++++
@@ -133,17 +139,18 @@ Check config file
 
   kubectl config --kubeconfig=<config file name> view [--minify]
 
-The default config file
-++++++++++++++++++++++++
+Check service
+++++++++++++++
 
-kubectl will leverage **~/.kube/config** as the default config file if it exists.
+- Get endpoints
 
-Create a CMD PO for debug purpose
-++++++++++++++++++++++++++++++++++
+  ::
 
-::
+    kubectl get endpoints[/<service name>]
 
-  kubectl run -it <deployment name > --image=alpine -- sh
-  exit
-  kubectl get pods
-  kubectl exec -it <the pod name> sh
+- Get Cluster IP
+
+  ::
+
+    kubectl get svc/<service name> [-o <yaml|json|wide>]
+
