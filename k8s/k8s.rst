@@ -7,26 +7,26 @@ RKE
 ---
 
 Document
-+++++++++
+~~~~~~~~~
 
 RKE: https://rancher.com/docs/rke/latest/en/
 
 List availabel kubernetes version
-++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   rke config --system-images --version -
 
 Generate system images definition
-++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   rke config --system-images --version <version>
 
 The default kubectl config file
-++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 rke will create a kubectl config file after k8s deployment with the name as **kube_config_cluster.yml**
 
@@ -35,7 +35,7 @@ rke will create a kubectl config file after k8s deployment with the name as **ku
   kubectl --kubeconfig=kube_config_cluster.yml <commands>
 
 Deployment pitfalls - 1
-+++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Not sure what is going on actually, a werid issue is hit:
 
@@ -110,13 +110,13 @@ kubectl
 --------
 
 The default config file
-++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 kubectl will leverage **~/.kube/config** as the default config file if it exists.
 
 
 List all supported resource types
-++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Reference: https://kubernetes.io/docs/reference/using-api/api-concepts/
 
@@ -126,21 +126,21 @@ Reference: https://kubernetes.io/docs/reference/using-api/api-concepts/
 
 
 List all existing resouces
-+++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   kubectl get all --all-namespaces [--show-labels]
 
 Check config file
-++++++++++++++++++
+~~~~~~~~~~~~~~~~~~
 
 ::
 
   kubectl config --kubeconfig=<config file name> view [--minify]
 
 Check service
-++++++++++++++
+~~~~~~~~~~~~~~
 
 - Get endpoints
 
@@ -154,3 +154,69 @@ Check service
 
     kubectl get svc/<service name> [-o <yaml|json|wide>]
 
+Show containers of a Pod
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # Within the "Contains" section
+  kubectl describe pods/<pod name>
+
+Show logs of containers of a Pod
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl logs pors/<pod name> -c <container name>
+
+Execute commands on containers of a Pod
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl exec -it pods/<pod name> -c <container name> [--] <command>
+
+Create ConfigMap from CLI
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ConfigMap can be created by using yaml as other resources such as Deployment, Pod, etc. It can also be created from CLI directly.
+
+- --from-file
+
+  * From files
+
+    ::
+
+      # if key is not specified, the file name will be used as the key by default
+      # file content will be used as values
+      kubectl create configmap <name> --from-file[=][key=]<path to file1> --from-file[=][key=]<path to file2>
+
+  * From directories:
+
+    ::
+
+      # all files under a directory will be used: file name will be used as keys, and file contents as values
+      kubectl create configmap <name> --from-file=<path to directory1>
+
+- --from-literal
+
+  ::
+
+    kubectl create configmap <name> --from-liternal=key1=value1 --from-literal=key2=value2
+
+MISC
+-----
+
+Container Registry Mirror
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Container registry mirrors accelerate image usage. For details, refer to `this introduction <https://cloud.google.com/container-registry/docs/using-dockerhub-mirroring>`_.
+
+Usage:
+
+::
+
+  # Add an option as below (for China) in /etc/docker/daemon.json
+  {
+    "registry-mirrors": ["https://registry.docker-cn.com"]
+  }

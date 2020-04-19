@@ -192,6 +192,15 @@ E.g., to verify if a json file is well formated:
 
   cat <file name>.json | jq '.'
 
+yq
+--
+
+yq is similar as jq, but it is used to translate yaml/xml to json:
+
+::
+
+  cat <file name>.yaml | yq '.'
+
 gpg
 ---
 

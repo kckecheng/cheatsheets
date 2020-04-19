@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-vars
+data:
+  loglevel: info
+  datadir: /var/data
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-configfiles
+data:
+  etc_hosts: |
+    192.168.56.161 devbox
+    192.168.56.171 k8svm1
+    192.168.56.172 k8svm2
+    1-92.168.56.173 k8svm3
+  sshd_config: |
+    AuthorizedKeysFile      .ssh/authorized_keys
+    ChallengeResponseAuthentication no
+    UsePAM yes
+    PrintMotd no # pam does that
+    Subsystem       sftp    /usr/lib/ssh/sftp-server
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sh", "-c", "sleep 3600"]
+    # env:
+    #   - name: LOGLEVEL # Define a environment variable
+    #     valueFrom:
+    #       configMapKeyRef:
+    #         name: cm-vars
+    #         key: loglevel
+    #   - name: DATADIR # Define a environment variable
+    #     valueFrom:
+    #       configMapKeyRef:
+    #         name: cm-vars
+    #         key: datadir
+    envFrom:
+      - configMapRef:
+          name: cm-vars
+    volumeMounts:
+      - name: configfiles
+        mountPath: /configfiles
+  volumes:
+    - name: configfiles
+      configMap:
+        name: cm-configfiles
+        items:
+          - key: etc_hosts
+            path: etc/hosts
+          - key: sshd_config
+            path: sshd/config
+
