@@ -204,6 +204,56 @@ ConfigMap can be created by using yaml as other resources such as Deployment, Po
 
     kubectl create configmap <name> --from-liternal=key1=value1 --from-literal=key2=value2
 
+Rolling Update
+~~~~~~~~~~~~~~~~
+
+- Perform the udgrade
+
+  * kubectl set image
+
+    ::
+
+      kubectl set image deployment/nginx nginx=nginx:1.9.1
+
+  * kubectl edit
+
+    ::
+
+      kubectl edit deployment/nginx
+      # Make the changes then exit
+
+  * kubectl apply
+
+    ::
+
+      # Edit the deployment yaml
+      vim nginx-deployment.yaml
+      # Apply the change
+      kubectl appy -f nginx-depliyment.yaml
+
+- Check status
+
+  ::
+
+    kubectl rollout status deploy/nginx
+    kubectl describe deploy/nginx
+
+- Rollback
+
+  ::
+
+    kubectl rollout history deploy/nginx
+    kubectl rollout history deploy/nginx --revision <X>
+    kubectl rollout undo deploy/nginx [--to-revision=X]
+
+- Pause/Resume
+
+  ::
+
+    # Usage: pasue the upgrade->make changes by editing yaml for multiple times->resume
+    kubectl rollout pause deploy/nginx
+    kubectl rollout resume deploy/nginx
+
 MISC
 -----
 
