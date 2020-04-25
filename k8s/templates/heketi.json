@@ -1,0 +1,49 @@
+{
+  "_port_comment": "Heketi Server Port Number",
+  "port": "8080",
+  "_use_auth": "Enable JWT authorization. Please enable for deployment",
+  "use_auth": true,
+  "_jwt": "Private keys for access",
+  "jwt": {
+    "_admin": "Admin has access to all APIs",
+    "admin": {
+      "key": "password"
+    },
+    "_user": "User only has access to /volumes endpoint",
+    "user": {
+      "key": "password"
+    }
+  },
+  "_glusterfs_comment": "GlusterFS Configuration",
+  "glusterfs": {
+    "_executor_comment": [
+      "Execute plugin. Possible choices: mock, ssh",
+      "mock: This setting is used for testing and development.",
+      "      It will not send commands to any node.",
+      "ssh:  This setting will notify Heketi to ssh to the nodes.",
+      "      It will need the values in sshexec to be configured.",
+      "kubernetes: Communicate with GlusterFS containers over",
+      "            Kubernetes exec api."
+    ],
+    "executor": "ssh",
+    "_sshexec_comment": "SSH username and private key file information",
+    "sshexec": {
+      "keyfile": "/etc/heketi/heketi_key",
+      "user": "rke",
+      "sudo": true,
+      "port": "22",
+      "fstab": "/etc/fstab"
+    },
+    "_db_comment": "Database file name",
+    "db": "/var/lib/heketi/heketi.db",
+    "brick_max_size_gb": 1024,
+    "brick_min_size_gb": 1,
+    "max_bricks_per_volume": 33,
+    "_loglevel_comment": [
+      "Set log level. Choices are:",
+      "  none, critical, error, warning, info, debug",
+      "Default is warning"
+    ],
+    "loglevel": "debug"
+  }
+}

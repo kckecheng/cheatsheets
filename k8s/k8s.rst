@@ -270,3 +270,228 @@ Usage:
   {
     "registry-mirrors": ["https://registry.docker-cn.com"]
   }
+
+StorageClass with GlusterFS
+----------------------------
+
+GlusterFS is one of the most popular persistent storage solutions on Kubernetes. This section shares the steps to enable a StorageClass based on GlusterFS on CentOS 7(Other Linux distributions/versions follow a similar process).
+
+**Prerequisites**: prepare at least 3 x Linux nodes, below is the configuration used in this section.
+
+- Sync time with NTP (refer to the Linux Chrony tips);
+- Stop firewall;
+- Make sure each node has a separate block device, say "/dev/sdb";
+- Assume Kubernetes is deployed with user "rke";
+- Update /etc/hosts:
+
+  ::
+
+    192.168.56.181 k8scentos1
+    192.168.56.182 k8scentos2
+    192.168.56.183 k8scentos3
+
+Configure GlusterFS
+~~~~~~~~~~~~~~~~~~~~~
+
+
+1. Install GlusterFS on all nodes:
+
+   ::
+
+     # Enable GlusterFS repo
+     sudo yum isntall centos-release-gluster6
+     # Install GlusterFS
+     sudo yum install glusterfs-server
+     gluster --version
+
+#. Start the service:
+
+   ::
+
+     sudo systemctl enable glusterd
+     sudo systemctl start glusterd
+
+#. Form a Trusted Server Pool (TSP):
+
+   ::
+
+     # Probe the other two nodes from any node.
+     # In this example, commands are run from k8scentos1
+     sudo gluster peer probe k8scentos2
+     sudo gluster peer probe k8scentos3
+     sudo gluster peer status
+     sudo gluster pool list
+
+Configure Heketi
+~~~~~~~~~~~~~~~~~~
+
+Heketi only needs to be installed on one node, "k8scentos1" is used in this section.
+
+1. Configure user "rke" with passwordless sudo privilege:
+
+   ::
+
+     # /etc/sudoers
+     rke ALL = (ALL) NOPASSWD:ALL
+
+#. Download the latest binary from the `Heketi release page <https://github.com/heketi/heketi/releases>`_, say "heketi-v9.0.0.linux.amd64.tar.gz";
+#. Install Heketi:
+
+   ::
+
+     tar -zxvf heketi-v9.0.0.linux.amd64.tar.gz
+     sudo cp heketi/{heketi,heketi-cli} /usr/local/bin
+     heketi --version
+     heketi-cli --version
+
+#. Create a system group and user:
+
+   ::
+
+     sudo groupadd --system heketi
+     sudo useradd -s /sbin/nologin --system -g heketi heketi
+
+#. Create configuration and data path:
+
+   ::
+
+     sudo mkdir -p /var/lib/heketi /etc/heketi /var/log/heketi
+     sudo chown -R heketi:heketi /var/lib/heketi /etc/heketi /var/log/heketi
+
+#. Tune configurations:
+
+   ::
+
+     sudo cp heketi/heketi.json /etc/heketi
+     # Tune options based on the sample "heketi.json" under the templates directory
+     # Verify: sudo cat /etc/heketi/heketi.json | jq "."
+
+#. Generate SSH Keys:
+
+   ::
+
+     sudo ssh-keygen -f /etc/heketi/heketi_key -t rsa
+     sudo chown heketi:heketi /etc/heketi/heketi_key*
+
+#. Configure passwordless SSH access for user "rke":
+
+   ::
+
+     sudo ssh-copy-id -i /etc/heketi/heketi_key.pub rke@k8scentos1
+     sudo ssh-copy-id -i /etc/heketi/heketi_key.pub rke@k8scentos2
+     sudo ssh-copy-id -i /etc/heketi/heketi_key.pub rke@k8scentos3
+     # Verify: sudo ssh -i /etc/heketi/heketi_key rke@k8scentos<1|2|3>
+
+#. Create a systemd service for Heketi:
+
+   ::
+
+     # /etc/systemd/system/heketi.service
+     [Unit]
+     Description=Heketi Server
+     Requires=network-online.target
+     After=network-online.target
+
+     [Service]
+     Type=simple
+     User=heketi
+     Group=heketi
+     Restart=on-failure
+     WorkingDirectory=/var/lib/heketi
+     ExecStart=/usr/local/bin/heketi --config=/etc/heketi/heketi.json
+
+     [Install]
+     WantedBy=multi-user.target
+
+#. Start the service
+
+   ::
+
+     sudo systemctl enable heketi
+     sudo systemctl start heketi
+     sudo systemctl status heketi
+
+#. Create Heketi topology file "/etc/heketi/topology.json" (refer to "heketi-topology.json" under the templates directory)
+#. Load the topology file:
+
+   ::
+
+     # Secret is defined in /etc/heketi/heketi.json
+     heketi-cli topology load --user admin --secret password --json=/etc/heketi/topology.json
+
+#. Verify:
+
+   ::
+
+     # Secret is defined in /etc/heketi/heketi.json
+     # heketi-cli --user admin --secret password cluster list
+     # heketi-cli --user admin --secret password node list
+     export HEKETI_CLI_SERVER=http://localhost:8080
+     export HEKETI_CLI_USER=admin
+     export HEKETI_CLI_KEY=password
+     heketi-cli cluster list
+     heketi-cli node list
+     heketi-cli topology info
+
+Configure StorageClass
+~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Define Kubernetes secret resource for GlusterFS:
+
+   ::
+
+     # gluster-secret.yaml
+     apiVersion: v1
+     kind: Secret
+     metadata:
+       name: heketi-secret
+       namespace: default
+     type: "kubernetes.io/glusterfs"
+     data:
+       # echo -n "PASSWORD" | base64
+       key: cGFzc3dvcmQ=
+
+#. Create the secret:
+
+   ::
+
+     kubectl apply -f gluster-secret.yaml
+     kubectl get secrets
+
+#. Define StorageClass (refer to `Storage Clases Concept <https://kubernetes.io/docs/concepts/storage/storage-classes/>`_):
+
+   ::
+
+     # gluster-storageclass.yaml
+     apiVersion: storage.k8s.io/v1
+     kind: StorageClass
+     metadata:
+       name: gluster-heketi
+     provisioner: kubernetes.io/glusterfs
+     reclaimPolicy: Retain
+     volumeBindingMode: Immediate
+     parameters:
+       resturl: "http://192.168.56.181:8080"
+       # clusterid can be found from the output of command "heketi-cli cluster list"
+       clusterid: "36ae31269beed6e83d95a88da08aafd7"
+       restauthenabled: "true"
+       restuser: "admin"
+       secretName: "heketi-secret"
+       secretNamespace: "default"
+       volumetype: "replicate:3"
+       volumenameprefix: "k8s"
+
+#. Create StorageClass:
+
+   ::
+
+     kubectl apply -f gluster-storageclass.yaml
+     kubectl get sc
+
+Use StorageClass
+~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+
+

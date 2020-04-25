@@ -1122,8 +1122,12 @@ sudoers: <user> ALL = (<user to act as>) <commands>
   Examples:
     # User "alan" can run commands "/bin/ls" and "/bin/kill" as user "root", "bin" or group "operator", "system"
     alan   ALL = (root, bin : operator, system) /bin/ls, /bin/kill
-    superadm  ALL=(ALL)   ALL - User "superadm" can run all commands as anyone
-    adm ALL = (root) NOPASSWD:ALL - User adm can sudo run all "root"'s commands without password
+    # User "superadm" can run all commands as anyone
+    superadm  ALL=(ALL)   ALL
+    # User "adm" can sudo run all "root"'s commands without password'
+    adm ALL = (root) NOPASSWD:ALL
+    # Users in group "wheel" can run all commands as anyone
+    %wheel ALL=(ALL) ALL
 
 Grub2 change boot order
 -----------------------
