@@ -274,7 +274,7 @@ Usage:
 StorageClass with GlusterFS
 ----------------------------
 
-GlusterFS is one of the most popular persistent storage solutions on Kubernetes. This section shares the steps to enable a StorageClass based on GlusterFS on CentOS 7(Other Linux distributions/versions follow a similar process).
+`GlusterFS <https://www.gluster.org/>`_ is one of the most popular persistent storage solutions on Kubernetes. This section shares the steps to enable a StorageClass based on GlusterFS on CentOS 7(Other Linux distributions/versions follow a similar process).
 
 **Prerequisites**: prepare at least 3 x Linux nodes, below is the configuration used in this section.
 
@@ -290,17 +290,18 @@ GlusterFS is one of the most popular persistent storage solutions on Kubernetes.
     192.168.56.182 k8scentos2
     192.168.56.183 k8scentos3
 
-Configure GlusterFS
-~~~~~~~~~~~~~~~~~~~~~
+Configure Gluster
+~~~~~~~~~~~~~~~~~~
 
 
-1. Install GlusterFS on all nodes:
+1. Install GlusterFS server on all nodes:
 
    ::
 
-     # Enable GlusterFS repo
-     sudo yum isntall centos-release-gluster6
-     # Install GlusterFS
+     # Enable Gluster repo
+     # Using a "Long Term Stable" release is recommended, such as 4.1
+     sudo yum isntall centos-release-gluster41
+     # Install GlusterFS server
      sudo yum install glusterfs-server
      gluster --version
 
@@ -325,7 +326,7 @@ Configure GlusterFS
 Configure Heketi
 ~~~~~~~~~~~~~~~~~~
 
-Heketi only needs to be installed on one node, "k8scentos1" is used in this section.
+`Heketi <https://github.com/heketi/heketi>`_ only needs to be installed on one node, "k8scentos1" is used in this section.
 
 1. Configure user "rke" with passwordless sudo privilege:
 
@@ -444,7 +445,7 @@ Configure StorageClass
      apiVersion: v1
      kind: Secret
      metadata:
-       name: heketi-secret
+       name: gluster-secret
        namespace: default
      type: "kubernetes.io/glusterfs"
      data:
@@ -466,7 +467,7 @@ Configure StorageClass
      apiVersion: storage.k8s.io/v1
      kind: StorageClass
      metadata:
-       name: gluster-heketi
+       name: gluster
      provisioner: kubernetes.io/glusterfs
      reclaimPolicy: Retain
      volumeBindingMode: Immediate
@@ -476,7 +477,7 @@ Configure StorageClass
        clusterid: "36ae31269beed6e83d95a88da08aafd7"
        restauthenabled: "true"
        restuser: "admin"
-       secretName: "heketi-secret"
+       secretName: "gluster-secret"
        secretNamespace: "default"
        volumetype: "replicate:3"
        volumenameprefix: "k8s"
@@ -489,9 +490,55 @@ Configure StorageClass
      kubectl get sc
 
 Use StorageClass
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
-TBD
+1. Define a PVC:
 
+   ::
 
+     # gluster-pvc1.yaml
+     apiVersion: v1
+     kind: PersistentVolumeClaim
+     metadata:
+       name: pvc1
+     spec:
+       storageClassName: gluster
+       accessModes:
+         - ReadWriteOnce
+       resources:
+         requests:
+           storage: 1Gi
 
+#. Define a POD which will use the PVC:
+
+   ::
+
+     # gluster-pod.yaml
+     apiVersion: v1
+     kind: Pod
+     metadata:
+       name: gluster-pod
+       labels:
+         name: gluster-pod
+     spec:
+       containers:
+       - name: gluster-pod
+         image: busybox
+         command: ["sleep", "60000"]
+         volumeMounts:
+         - name: pv1
+           mountPath: /usr/share/busybox
+           readOnly: false
+       volumes:
+       - name: pv1
+         persistentVolumeClaim:
+           claimName: pvc1
+
+#. Create PVCs and start PODs:
+
+   ::
+
+     kubectl apply -f gluster-pvc1.yaml
+     kubectl apply -f gluster-pod.yaml
+     kubectl get pvc/pvc1
+     kubectl get pods/gluster-pod -o yaml
