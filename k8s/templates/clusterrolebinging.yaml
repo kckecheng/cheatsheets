@@ -1,0 +1,22 @@
+# Define service account
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tester1
+  namespace: default
+
+# Assign permissions by using cluster role binding
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: clusterrole1
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin # Built-in cluster role
+subjects:
+- kind: ServiceAccount
+  name: tester1
+  namespace: default

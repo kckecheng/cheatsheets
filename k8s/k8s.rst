@@ -176,6 +176,13 @@ Execute commands on containers of a Pod
 
   kubectl exec -it pods/<pod name> -c <container name> [--] <command>
 
+Start a temporary POD for debug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl run -it --rm --restart=Never alpine --image=alpine sh
+
 Create ConfigMap from CLI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -254,22 +261,106 @@ Rolling Update
     kubectl rollout pause deploy/nginx
     kubectl rollout resume deploy/nginx
 
-MISC
------
+User Management
+----------------
 
-Container Registry Mirror
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Service Account and Permission Assignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Container registry mirrors accelerate image usage. For details, refer to `this introduction <https://cloud.google.com/container-registry/docs/using-dockerhub-mirroring>`_.
+Refer to `Using RBAC Ahthorization <https://kubernetes.io/docs/reference/access-authn-authz/rbac/>`_ for the introductions on **Role**, **ClusterRole**, **RoleBinding** and **ClusterRoleBinding**.
 
-Usage:
+- Define a service account and associated cluster role binding:
+
+  ::
+
+    # clusterrolebinding.yaml
+    # Define service account
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: tester1
+      namespace: default
+
+    # Assign permissions by using cluster role binding
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: clusterrole1
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin # Built-in cluster role
+    subjects:
+    -  kind: ServiceAccount
+       name: tester1
+       namespace: default
+
+- Create objects:
+
+  ::
+
+    kubectl apply -f clusterrolebinding.yaml
+    kubectl describe clusterrolebinding/clusterrole1
+    kubectl describe sa/user1
+
+- Define a service account and associated role binding:
+
+  ::
+
+    # rolebinding.yaml
+    # Define a service account
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: tester2
+      namespace: default
+
+    # Define a role
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: role1
+      namespace: default
+    rules:
+    - apiGroups: ["*"]
+      resources: ["*"]
+      verbs: ["*"]
+
+    # Assign permissions by using role binding
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: role1
+      namespace: default
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: role1
+    subjects:
+    - namespace: default
+      kind: ServiceAccount
+      name: tester2
+
+- Create objects:
+
+  ::
+
+    kubectl apply -f rolebinding.yaml
+    kubectl describe rolebinding/role1
+    kubectl describe sa/user2
+
+Generate Kubeconfig
+~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-  # Add an option as below (for China) in /etc/docker/daemon.json
-  {
-    "registry-mirrors": ["https://registry.docker-cn.com"]
-  }
+  kubeconfig_gen.sh tester1
+  kubeconfig_gen.sh tester2
 
 StorageClass with GlusterFS
 ----------------------------
@@ -542,3 +633,21 @@ Use StorageClass
      kubectl apply -f gluster-pod.yaml
      kubectl get pvc/pvc1
      kubectl get pods/gluster-pod -o yaml
+
+MISC
+-----
+
+Container Registry Mirror
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Container registry mirrors accelerate image usage. For details, refer to `this introduction <https://cloud.google.com/container-registry/docs/using-dockerhub-mirroring>`_.
+
+Usage:
+
+::
+
+  # Add an option as below (for China) in /etc/docker/daemon.json
+  {
+    "registry-mirrors": ["https://registry.docker-cn.com"]
+  }
+
