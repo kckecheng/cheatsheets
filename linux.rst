@@ -1465,6 +1465,73 @@ Show CPU architecture, features, sockers, cores, etc.
 
   lscpu
 
+Setup CA with OpenSSL
+----------------------
+
+This tip only lists the most important commands for easy reference. For more information, refer to the `original doc <https://gist.github.com/soarez/9688998>`_.
+
+**Applicant Part:**
+
+- Generate an RSA private key for CA:
+
+  ::
+
+    openssl genrsa -out example.org.key 2048
+
+- Inspect the key:
+
+  ::
+
+    openssl rsa -in example.org.key -noout -text
+
+- Extract RSA public key from the private key:
+
+  ::
+
+    openssl rsa -in example.org.key -pubout -out example.org.pubkey
+    openssl rsa -in example.org.pubkey -pubin -noout -text
+
+- Generate a CSR (Certificate Signing Request):
+
+  ::
+
+    openssl req -new -key example.org.key -out example.org.csr
+    openssl req -in example.org.csr -noout -text
+
+**CA Part:**
+
+- Generate a private key for the root CA:
+
+  ::
+
+    openssl genrsa -out ca.key 2048
+
+- Generate a self signed certificate for the CA:
+
+  ::
+
+    openssl req -new -x509 -key ca.key -out ca.crt
+
+- Sign the applicant CSR to generate a certificate:
+
+  ::
+
+    openssl x509 -req -in example.org.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out example.org.crt
+    openssl x509 -in example.org.crt -noout -text
+
+- Verify the serial number assigned:
+
+  ::
+
+    cat ca.srl
+    openssl x509 -in example.org.crt -noout -text | grep 'Serial Number' -A1
+
+- Verify the certificate:
+
+  ::
+
+    openssl verify -CAfile ca.crt example.org.crt
+
 Disks
 =====
 
