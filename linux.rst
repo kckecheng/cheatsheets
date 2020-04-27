@@ -1087,16 +1087,26 @@ Delete Character with Yast2
 Disable IPv6
 ------------
 
-- Add below contents in /etc/sysctl.conf
+- sysctl
+
+  - Add below contents in /etc/sysctl.conf
+
+    ::
+
+      net.ipv6.conf.all.disable_ipv6 = 1
+      net.ipv6.conf.default.disable_ipv6 = 1
+      net.ipv6.conf.lo.disable_ipv6 = 1
+
+  - sysctl -p
+  - cat /proc/sys/net/ipv6/conf/all/disable_ipv6 ===> If output is 1, IPv6 has been disabled. If not, try reboot the server.
+  - Delete the IPv6 localhost definition entry from /etc/hosts
+  - Regenerate the initial ram disk (initrd) on RHEL/CentOS: "dracut -f"
+
+- Grub: add "ipv6.disable=1" to the linux line
 
   ::
 
-    net.ipv6.conf.all.disable_ipv6 = 1
-    net.ipv6.conf.default.disable_ipv6 = 1
-    net.ipv6.conf.lo.disable_ipv6 = 1
-
-- sysctl -p
-- cat /proc/sys/net/ipv6/conf/all/disable_ipv6 ===> If output is 1, IPv6 has been disabled. If not, try reboot the server.
+     linux   /boot/vmlinuz-xxx xxx xxx ipv6.disable=1
 
 Recode file to UTF-8
 --------------------

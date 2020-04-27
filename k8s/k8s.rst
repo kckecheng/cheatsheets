@@ -93,6 +93,19 @@ Below solution solves the problem:
     net.ipv6.conf.all.disable_ipv6=1
     net.ipv6.conf.default.disable_ipv6=1
 
+- For RHEL/CentOS, the initial RAM disk image (initrd) needs to be rebuilt after disableing IPv6:
+
+  ::
+
+    dracut -f
+
+- Delete the IPv6 localhost entry:
+
+  ::
+
+    # /etc/hosts
+    # ::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
+
 - Specify NIC interface used for network:
 
   ::
