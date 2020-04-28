@@ -196,6 +196,25 @@ Start a temporary POD for debug
 
   kubectl run -it --rm --restart=Never alpine --image=alpine sh
 
+DNS query
+~~~~~~~~~~~
+
+Assume there is a service named www, to query its DNS records:
+
+::
+
+  # Start a pod to query the service
+  kubectl run -it --rm --restart=Never busybox --image=busybox sh
+  # Below commands are run from the POD
+  # Get FQDN suffix: the part after svc
+  cat /etc/resolv.conf
+  nslookup -type=A www.<namespace>.svc.<FQDN suffix>
+
+Output:
+
+- Service: return the cluster IP
+- Headless Service: return all the endpoints
+
 Create ConfigMap from CLI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
