@@ -274,6 +274,20 @@ Rolling Update
     kubectl rollout pause deploy/nginx
     kubectl rollout resume deploy/nginx
 
+Container Registry Mirror
+--------------------------
+
+Container registry mirrors accelerate image usage. For details, refer to `this introduction <https://cloud.google.com/container-registry/docs/using-dockerhub-mirroring>`_.
+
+Usage:
+
+::
+
+  # Add an option as below (for China) in /etc/docker/daemon.json
+  {
+    "registry-mirrors": ["https://registry.docker-cn.com"]
+  }
+
 User Management
 ----------------
 
@@ -646,21 +660,4 @@ Use StorageClass
      kubectl apply -f gluster-pod.yaml
      kubectl get pvc/pvc1
      kubectl get pods/gluster-pod -o yaml
-
-MISC
------
-
-Container Registry Mirror
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Container registry mirrors accelerate image usage. For details, refer to `this introduction <https://cloud.google.com/container-registry/docs/using-dockerhub-mirroring>`_.
-
-Usage:
-
-::
-
-  # Add an option as below (for China) in /etc/docker/daemon.json
-  {
-    "registry-mirrors": ["https://registry.docker-cn.com"]
-  }
 
