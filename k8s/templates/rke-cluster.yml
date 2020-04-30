@@ -83,7 +83,7 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
-    cluster_domain: devbox
+    cluster_domain: cluster
     infra_container_image: ""
     cluster_dns_server: 10.43.0.10
     fail_swap_on: false
@@ -145,7 +145,7 @@ ingress:
   options: {}
   node_selector: {}
   extra_args: {}
-cluster_name: ""
+cluster_name: "rke"
 cloud_provider:
   name: ""
 prefix_path: ""
