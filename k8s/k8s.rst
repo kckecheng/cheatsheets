@@ -37,7 +37,7 @@ rke will create a kubectl config file after k8s deployment with the name as **ku
 Deployment pitfalls - 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Not sure what is going on actually, a werid issue is hit:
+Not sure what is going on actually, a weird issue is hit:
 
 - The Kubernetes is deployed successfully;
 - Deployment and service can be created successfully;
@@ -52,7 +52,7 @@ There are quite some other guys running into the same issue, however, no direct 
 
 Below solution solves the problem:
 
-- Disable iptables manuipulation and IP masquerading for docker daemon:
+- Disable iptables manipulation and IP masquerading for docker daemon:
 
   ::
 
@@ -93,7 +93,7 @@ Below solution solves the problem:
     net.ipv6.conf.all.disable_ipv6=1
     net.ipv6.conf.default.disable_ipv6=1
 
-- For RHEL/CentOS, the initial RAM disk image (initrd) needs to be rebuilt after disableing IPv6:
+- For RHEL/CentOS, the initial RAM disk image (initrd) needs to be rebuilt after disabling IPv6:
 
   ::
 
@@ -292,6 +292,28 @@ Rolling Update
     # Usage: pasue the upgrade->make changes by editing yaml for multiple times->resume
     kubectl rollout pause deploy/nginx
     kubectl rollout resume deploy/nginx
+
+Access Kubernetes API with CURL
+---------------------------------
+
+1. Get the API endpoint:
+
+   ::
+
+     kubectl config view
+
+#. Get the access token:
+
+   ::
+
+     kubectl get secrets
+     kubectl describe secrets/<the secrete name>
+
+#. Access API with CURL:
+
+   ::
+
+     curl -X GET <API Endpoint>/api --header "Authorization: Bearer <Secret Token>" --insecure
 
 Container Registry Mirror
 --------------------------
@@ -511,7 +533,7 @@ Configure Heketi
      sudo ssh-keygen -f /etc/heketi/heketi_key -t rsa
      sudo chown heketi:heketi /etc/heketi/heketi_key*
 
-#. Configure passwordless SSH access for user "rke":
+#. Configure password less SSH access for user "rke":
 
    ::
 
