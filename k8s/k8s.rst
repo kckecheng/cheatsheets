@@ -315,13 +315,6 @@ Access Kubernetes API with CURL
 
      curl -X GET <API Endpoint>/api --header "Authorization: Bearer <Secret Token>" --insecure
 
-Helm 3 Enable Repository
--------------------------
-
-::
-
-  helm repo add stable https://kubernetes-charts.storage.googleapis.com --insecure-skip-tls-verify
-
 Container Registry Mirror
 --------------------------
 

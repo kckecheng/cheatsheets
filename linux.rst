@@ -1271,13 +1271,6 @@ String Contains in Bash
       echo "'$string' does not contain '$substring'"
     fi
 
-Use openssl to fetch CA
------------------------
-
-::
-
-  openssl s_client -showcerts -connect ip:port </dev/null 2>/dev/null | openssl x509 -outform PEM >ca_cert.pem
-
 Tarball with xz
 ---------------
 
@@ -1464,6 +1457,14 @@ Show CPU architecture, features, sockers, cores, etc.
 ::
 
   lscpu
+
+
+Use openssl to download a certificate
+--------------------------------------
+
+::
+
+  openssl s_client -showcerts -connect <IP or FQDN>:<Port> </dev/null 2>/dev/null | openssl x509 -outform PEM > ca.pem
 
 Setup CA with OpenSSL
 ----------------------
