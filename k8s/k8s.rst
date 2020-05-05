@@ -127,6 +127,10 @@ The default config file
 
 kubectl will leverage **~/.kube/config** as the default config file if it exists.
 
+JSONPath
+~~~~~~~~~
+
+Refer to `JSONPath Support <https://kubernetes.io/docs/reference/kubectl/jsonpath/>`_.
 
 List all supported resource types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,7 +184,14 @@ Show logs of containers of a Pod
 
 ::
 
-  kubectl logs pors/<pod name> -c <container name>
+  kubectl logs pods/<pod name> -c <container name>
+
+Show crash logs of a Pod
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl logs --previous pods/<pod name> -c <container name>
 
 Execute commands on containers of a Pod
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
