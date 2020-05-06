@@ -475,14 +475,14 @@ Type assert vs. type conversion
     t := i.(T)
     t, ok := i.(T)
 
-- Type conversion is used to convert between varaible types
+- Type conversion is used to convert between variable types
 
   ::
 
     a, b := 3, 10
     c := float32(a) / flat32(b)
 
-- Type casting exists in go, but is rarelly used - ignore this
+- Type casting exists in go, but is rarely used - ignore this
 - Type switch is only a special switch statement
 
   ::
