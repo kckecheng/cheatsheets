@@ -45,6 +45,8 @@ golang ships with offline document. But **godoc** need to be used to access them
 
   ::
 
+    # Turn off Go module if it is enabled
+    # GO111MODULE=off go get -v golang.org/x/tools/cmd/godoc
     go get -v golang.org/x/tools/cmd/godoc
 
 - Usage
