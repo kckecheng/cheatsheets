@@ -379,6 +379,16 @@ The sample main.go as below is used for the show:
     WORKDIR /app
     CMD ["./main"]
 
+gRPC
+-----
+
+- Generate codes under the same directory as the proto file
+
+  ::
+
+    protoc -I <import_path1 import_path2 ...> <path to proto file>/<xxx>.proto --go_opt=paths=source_relative --go_out=plugins=grpc:<path to proto file>
+
+
 Use consul for go-micro
 ------------------------
 
