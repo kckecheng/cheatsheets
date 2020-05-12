@@ -3,31 +3,45 @@
 Golang Tips
 =============
 
-Pass argument through package flag in go test
------------------------------------------------
+go test
+--------
 
-1. Declare the arguments normally within the test code without calling flag.Parse():
+- Pass argument through "flag"
 
-   .. code-block:: go
+  1. Declare the arguments normally within the test code without calling flag.Parse():
 
-      package hello
+     ::
 
-      import (
-         "flag"
-         "testing"
-      )
+        package hello
 
-      var name = flag.String("name", "", "Name to say hi to")
+        import (
+           "flag"
+           "testing"
+        )
 
-      func TestGenerateGoPackage(t \*testing.T) {
-         t.Log(\*pkgdir)
-      }
+        var name = flag.String("name", "", "Name to say hi to")
 
-2. Pass arguments as below:
+        func TestGenerateGoPackage(t \*testing.T) {
+           t.Log(\*pkgdir)
+        }
 
-   .. code-block:: go
+  2. Pass arguments as below:
 
-      go test -v hello.go -args -name "John Smith"
+     ::
+
+        go test -v hello.go -args -name "John Smith"
+
+- Coverage
+
+  ::
+
+    go test -v -cover ./...
+
+- Run a single test
+
+  ::
+
+    go test -v -run TestXXX ./...
 
 Pass argument with dlv debug
 -----------------------------
