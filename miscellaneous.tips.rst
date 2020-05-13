@@ -66,6 +66,24 @@ Write Document with Sphinx
       "figure_align": "H"
     }
 
+- Add TODO support:
+
+  * Enable the extension
+
+    ::
+
+      # conf.py
+      extensions = ['sphinx.ext.todo']
+      todo_include_todos = True
+
+  * Usage:
+
+    ::
+
+      .. todo::
+
+         hello world
+
 Unix - User friendly configuraiton tool
 ---------------------------------------
 
