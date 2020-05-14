@@ -8,7 +8,7 @@ go test
 
 - Pass argument through "flag"
 
-  1. Declare the arguments normally within the test code without calling flag.Parse():
+  * Declare the arguments normally within the test code without calling flag.Parse():
 
      ::
 
@@ -25,7 +25,7 @@ go test
            t.Log(\*pkgdir)
         }
 
-  2. Pass arguments as below:
+  *  Pass arguments as below:
 
      ::
 
@@ -43,31 +43,62 @@ go test
 
     go test -v -run TestXXX ./...
 
-Pass argument with dlv debug
------------------------------
+Debug with delve
+-----------------
 
-::
+- Basics
 
-  dlv debug <app>.go -- <param1> <param2> ...
+  `Github Reference <https://github.com/go-delve/delve>`_
 
-Offline document
--------------------
-
-golang ships with offline document. But **godoc** need to be used to access them.
-
-- Install godoc
 
   ::
 
-    # Turn off Go module if it is enabled
-    # GO111MODULE=off go get -v golang.org/x/tools/cmd/godoc
-    go get -v golang.org/x/tools/cmd/godoc
+    # if dlv is executed from the directory where main.go is defined
+    dlv debug
+    # if dlv is run from other dirs
+    dlv debug <package name>
+    # pass parameters
+    dlv debug -- -arg1 value1
 
-- Usage
+- Pass argument with dlv debug
 
   ::
 
-    godoc -http=0.0.0.0:8080
+    dlv debug <app>.go -- <param1> <param2> ...
+
+- Debug test
+
+  ::
+
+    # dlv test <package or ./...> -- [-test.v] [-test.cover] [-test.run TestXXX]
+    # Select a single test torun
+    dlv test ./... -- -test.run TestListResources
+
+Document
+---------
+
+- Offline document
+
+  * Install godoc
+
+    ::
+
+      # Turn off Go module if it is enabled
+      # GO111MODULE=off go get -v golang.org/x/tools/cmd/godoc
+      go get -v golang.org/x/tools/cmd/godoc
+
+  * Usage
+
+    ::
+
+      godoc -http=0.0.0.0:8080
+
+- Docs for builtin types and functions
+
+  ::
+
+    go doc builtin
+    go doc builtin.<symbol>
 
 Import
 -------
@@ -90,6 +121,21 @@ Import
   ::
 
     import _ <package name>
+
+- Silence complaints about the unused imports
+
+  * Blank import: this is used mainly for package initialization, the init method will be executed
+
+    ::
+
+      import _ <pacakge name>
+
+  * Refer to some symbols with blank identifier: mainly used during debug
+
+    ::
+
+      import <pacakge name>
+      var _ = <pacakge name>.<any symbol>
 
 Package init
 -------------
@@ -211,24 +257,6 @@ iota
       C2
     )
 
-Silence complaints about the unused imports
---------------------------------------------
-
-Complaints will be raised if a module is imported without usage. This are 2 x methods to supress this:
-
-- Blank import: this is used mainly for package initialization, the init method will be executed
-
-  ::
-
-    import _ <pacakge name>
-
-- Refer to some symbols with blank identifier: mainly used during debug
-
-  ::
-
-    import <pacakge name>
-    var _ = <pacakge name>.<any symbol>
-
 Specify proxy for go commands
 ------------------------------
 
@@ -270,29 +298,6 @@ Beside the above mentioned method(edit go.mod) directly, below commands can also
 ::
 
   go mod edit -replace github.com/user1/pkg1=/local/dir/pkg1
-
-Debug with delve
------------------
-
-`Github Reference <https://github.com/go-delve/delve>`_
-
-
-::
-
-  # if dlv is executed from the directory where main.go is defined
-  dlv debug
-  # if dlv is run from other dirs
-  dlv debug <package name>
-  # pass parameters
-  dlv debug -- -arg1 value1
-
-Docs for builtin types and functions
--------------------------------------
-
-::
-
-  go doc builtin
-  go doc builtin.<symbol>
 
 List packages
 ----------------
