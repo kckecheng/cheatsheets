@@ -6,7 +6,7 @@ Golang Tips
 go test
 --------
 
-- Pass argument through "flag"
+- Pass argument within test through "flag"
 
   * Declare the arguments normally within the test code without calling flag.Parse():
 
@@ -42,6 +42,11 @@ go test
   ::
 
     go test -v -run TestXXX ./...
+
+- Solutions for "flag provided but not defined"
+
+  * Known issue: https://github.com/golang/go/issues/31859
+  * Do not call "flag.Prase()" in any "init()"
 
 Debug with delve
 -----------------
