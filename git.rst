@@ -241,17 +241,6 @@ During merge operations, there are situations only some files are supposed to be
 
      git merge --continue
 
-Github CLI Client hub
----------------------
-
-**hub** is the CLI client for Github: https://hub.github.com
-
-- By default, hub uses git as transfer protocol. To use https:
-
-  ::
-
-    git config --global hub.protocol https
-
 Cache Credentail
 ----------------
 
@@ -446,15 +435,6 @@ Show commit hash for a tag
   git show-ref --abbrev=7 --tags
   git show <tag name>
 
-Gerrit
-------
-
-- Refer to https://docs.openstack.org/infra/manual/developers.html
-- Refer to https://docs.openstack.org/infra/manual/sandbox.html#sandbox
-- git remote rm gerrit
-- git remote add gerrit https://<username>@review.openstack.org/<umbrella repository name>/<repository name>.git
-- git review -s
-
 Compare 2 x repos
 -----------------
 
@@ -536,6 +516,16 @@ Restore a file from a previous commit
 
   # Deprecated command: git checkout <commit hash or HEAD~n> -- <file 1> <file 2> ...
   git restore -s <commit hash or HEAD~n> <file 1> <file 2> ...
+
+Overwrite all local files
++++++++++++++++++++++++++++
+
+::
+
+  git fetch --all
+  git reset --hard origin/master
+  git clean -dn
+  git clean -df
 
 Switch to a branch whose name exists on several remote refs
 -----------------------------------------------------------
