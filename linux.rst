@@ -243,6 +243,35 @@ There is a great diagram, which is from www.brendangregg.com, showing misc traci
 
 .. image:: images/linux_perf_and_trace_utils.png
 
+top
+----
+
+Top is installed on almost all Linux distributions by default for performance monitoring. Here are some tips of using top:
+
+- Select the column for sort: by default "%CPU" is used for sort
+
+  * Press "F": the first line shows the current sort filed which is "%CPU" by default
+  * Press "Up/Down" to navigate: say move to "%MEM"
+  * Press "Right", followed by "Enter" to select the field
+  * Press "s" to set the field as the current sort field, the first line will indicate the changes
+  * Press "ESC" or "q" to see the change
+
+- Reverse sort: Press "R" to reverse the sort order based on the current sort field
+- Highlight the sort field column:
+
+  * Press "x" to highlight the current sort field
+  * Press "b" to highlight the background of the current sort field
+
+- Filter: press "o/O":
+
+  * Show all filters: press "^O"
+  * Clear all filter: press "="
+  * Samples:
+
+     * COMMAND=vim
+     * %CPU>0.5
+     * !COMMAND=vim
+
 sysdig
 ------
 
