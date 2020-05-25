@@ -308,7 +308,7 @@ Show IO status by process.
 iftop
 -----
 
-Display bandwidth usage on an interface by host.
+Display bandwidth usage including host to host (ip to ip) information.
 
 nmon
 ----
