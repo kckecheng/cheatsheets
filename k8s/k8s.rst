@@ -207,6 +207,15 @@ Start a temporary POD for debug
 
   kubectl run -it --rm --restart=Never alpine --image=alpine sh
 
+Delete a label
+~~~~~~~~~~~~~~~~
+
+::
+
+  # Assume xxx/yyy has a label key1=...
+  kubectl label xxx/yyy key1-
+
+
 DNS query
 ~~~~~~~~~~~
 
