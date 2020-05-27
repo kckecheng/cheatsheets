@@ -313,6 +313,22 @@ Rolling Update
     kubectl rollout pause deploy/nginx
     kubectl rollout resume deploy/nginx
 
+Download OpenAPI Definitions
+-----------------------------
+
+1. Start the proxy: kube proxy --port=8080
+#. Download API:
+
+   ::
+
+     curl http://localhost:8080/openapi/v2 > /tmp/raw.json
+
+#. Reformat:
+
+   ::
+
+     cat /tmp/raw.json | jq '.' > swagger.json
+
 Access Kubernetes API with CURL
 ---------------------------------
 
