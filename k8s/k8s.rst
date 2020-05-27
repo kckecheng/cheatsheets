@@ -340,6 +340,14 @@ Usage:
     "registry-mirrors": ["https://registry.docker-cn.com"]
   }
 
+Available registry mirrors in China:
+
+- https://registry.docker-cn.com
+- http://hub-mirror.c.163.com
+- https://3laho3y3.mirror.aliyuncs.com
+- http://f1361db2.m.daocloud.io
+- https://mirror.ccs.tencentyun.com
+
 User Management
 ----------------
 
