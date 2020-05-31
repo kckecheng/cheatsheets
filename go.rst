@@ -210,6 +210,8 @@ Triple dots/ellipsis
 
     # tests all packages in the current directory and its subdirectories
     go test ./...
+    # download all dependent packages of a go module
+    go get ./...
 
 iota
 ------
@@ -413,8 +415,11 @@ gRPC
     protoc -I <import_path1 import_path2 ...> <path to proto file>/<xxx>.proto --go_opt=paths=source_relative --go_out=plugins=grpc:<path to proto file>
 
 
+go-micro
+---------
+
 Use consul for go-micro
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since go-micro v2, etcd is used as the default system discovery system based on `this blog post <https://micro.mu/blog/2019/10/04/deprecating-consul.html>`_. The code base has been restructured accordingly which impacts both go-micro and go-micro/v2. To keep use consul:
 
@@ -469,7 +474,7 @@ To run a go-micro based application with consul:
   go run main.go plugins.go --registry consul --registry_address 192.168.10.10:8500
 
 Use micro runtime with non-default plugins
---------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If non-default plugins (such as consul, kafka, etc.) are used in a service implementation, micro runtime needs to know the changes. Below is an example:
 
@@ -500,42 +505,8 @@ If non-default plugins (such as consul, kafka, etc.) are used in a service imple
       --broker kafka --broker_address localhost:9092 \
       web --address=0.0.0.0:8080
 
-Type assert vs. type conversion
---------------------------------
-
-- Type assert only works for interface
-
-  ::
-
-    // i implements an interface
-    t := i.(T)
-    t, ok := i.(T)
-
-- Type conversion is used to convert between variable types
-
-  ::
-
-    a, b := 3, 10
-    c := float32(a) / flat32(b)
-
-- Type casting exists in go, but is rarely used - ignore this
-- Type switch is only a special switch statement
-
-  ::
-
-    // "type" is literal, no other word can be used;
-    // i.(type) will trigger errors if it is not used with the switch statement;
-    switch v := i.(type) {
-    case T:
-      // some ops
-    case S:
-      // some ops
-    default:
-      // some ops
-    }
-
 go-micro metadata
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 metadata can be used to pass data across requests with the help of context. Below is a simple example:
 
@@ -599,3 +570,48 @@ metadata can be used to pass data across requests with the help of context. Belo
       curl -H 'Token: abc123' -d 'service=go.micro.srv.hello' -d 'method=Hello.Foo' -d 'request={"name": "John"}' http://localhost:8080/rpc
 
   - Known issue: HTTP API cannot be used with "/[service]/[method]" due to a known issue, use "/rpc" instead
+
+Type assert vs. type conversion
+--------------------------------
+
+- Type assert only works for interface
+
+  ::
+
+    // i implements an interface
+    t := i.(T)
+    t, ok := i.(T)
+
+- Type conversion is used to convert between variable types
+
+  ::
+
+    a, b := 3, 10
+    c := float32(a) / flat32(b)
+
+- Type casting exists in go, but is rarely used - ignore this
+- Type switch is only a special switch statement
+
+  ::
+
+    // "type" is literal, no other word can be used;
+    // i.(type) will trigger errors if it is not used with the switch statement;
+    switch v := i.(type) {
+    case T:
+      // some ops
+    case S:
+      // some ops
+    default:
+      // some ops
+    }
+
+go-swagger
+------------
+
+Install swagger CLI
+~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  go get -u -v github.com/go-swagger/go-swagger/cmd/swagger
+  swagger --help
