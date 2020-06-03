@@ -3,6 +3,16 @@
 Golang Tips
 =============
 
+Cross Plafom Build
+-------------------
+
+::
+
+  #Build for Window on Linux or vice versa
+  # CGO_ENABLED=0 can be specified to force static linking
+  GOOS=windows GOARCH=amd64 go build -v
+  GOOS=linux GOARCH=amd64 go build -v
+
 go test
 --------
 
