@@ -962,6 +962,15 @@ git push will not push tags by default, hence it needs to be explicitly specifie
 
   git push origin <tag name>
 
+Delte a tag
++++++++++++++
+::
+
+  # Delete local
+  git tag -d <tag>
+  # Delete remote
+  git push --delete origin <tag>
+
 Revisions and Ranges
 --------------------
 
