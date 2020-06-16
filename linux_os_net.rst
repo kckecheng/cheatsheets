@@ -276,6 +276,37 @@ Usage:
   # Expose localhost 8080 to the Internet
   ngrok http 8080
 
+DNS Lookup
++++++++++++
+
+**nslookup**
+
+- Record types:
+
+  * PTR  : IP to domain name
+  * A    : Domain name to IP
+  * AAAA : Domain name to IPv6
+  * MX   : Mail server
+  * SOA  : Start of Authority record indicates which DNS server is the best source of information
+  * CNAME: Alias
+  * NS   : Name servers for the domain
+  * ANY  : Wildcard for all types
+
+- Commands
+
+  ::
+
+    nslookup 8.8.8.8
+    nslookup dell.com
+    nslookup -type=MX dell.com
+    nslookup -type=SOA dell.com
+    nslookup -type=CNAME dell.com
+    nslookup -type=NS dell.com
+    nslookup -type=ANY dell.com
+    nslookup -server
+    # Lookup with a specified DNS server
+    nslookup -type=ANY google.com 8.8.8.8
+
 Devices
 -------
 
