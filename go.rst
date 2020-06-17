@@ -615,6 +615,21 @@ Type assert vs. type conversion
       // some ops
     }
 
+Type alias vs. type definition
+--------------------------------
+
+- Type alias
+
+  ::
+
+    type T1 = T2
+
+- Type definition
+
+  ::
+
+    type T1 T2
+
 go-swagger
 ------------
 
