@@ -746,3 +746,16 @@ Use StorageClass
      kubectl get pvc/pvc1
      kubectl get pods/gluster-pod -o yaml
 
+etcd operations
+----------------
+
+Access etcd
+~~~~~~~~~~~~~
+
+::
+
+  kubectl get nodes
+  ssh <node where etcd is running>
+  docker ps -a | grep etcd
+  docker exec -it <etcd ID> sh
+  etcdctl get / --prefix --keys-only
