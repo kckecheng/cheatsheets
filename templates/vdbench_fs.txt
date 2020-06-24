@@ -1,0 +1,3 @@
+fsd=fsd1,anchor=C:\ClusterStorage\Volume6,depth=2,width=16,files=100,size=2m
+fwd=fwd1,fsd=fsd1,operation=read,fileio=random,rdpct=00,xfersize=4k,fileselect=random,threads=24
+rd=rd1,fwd=fwd*,fwdrate=max,format=restart,elapsed=7200,interval=5
