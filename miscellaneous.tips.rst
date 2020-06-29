@@ -175,6 +175,26 @@ Windows - Shortcut for minimizing an app
 - Some apps: Win - Down
 - All apps: Alt - Space - n
 
+Windows - Show MPIO Paths
+---------------------------
+
+::
+
+  # PowerShell
+  get-disk
+  mpclaim -s -d
+  mpclaim -s -d <Disk>
+
+Windows - Disable Trim/Unmap
+-------------------------------
+
+When Trim/Unmap is enabled on Windows, quick format may take quite a long time for SAN LUNs.
+
+::
+
+  fsutil behavior set DisableDeleteNotify NTFS 1
+  fsutil behavior query DisableDeleteNotify
+
 OpenStack - Adding Security Group Rules to Allow ICMP and ssh
 -------------------------------------------------------------
 
