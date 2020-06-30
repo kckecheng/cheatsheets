@@ -235,6 +235,16 @@ Output:
 - Service: return the cluster IP
 - Headless Service: return all the endpoints
 
+Drain a Node
+~~~~~~~~~~~~~~
+
+::
+
+  kubectl get nodes
+  kubectl drain <node name>
+  # Resume scheduling on the node
+  kubectl uncordon <node name>
+
 Create ConfigMap from CLI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
