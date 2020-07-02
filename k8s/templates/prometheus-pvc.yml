@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config0001
+data:
+  prometheus_config: |
+    # my global config
+    global:
+      scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+      evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+      # scrape_timeout is set to the global default (10s).
+
+    # Alertmanager configuration
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+    # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+    rule_files:
+      # - "first_rules.yml"
+      # - "second_rules.yml"
+
+    # A scrape configuration containing exactly one endpoint to scrape:
+    # Here it's Prometheus itself.
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+        - targets: ['localhost:9090']
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tsdb-pvc0001
+spec:
+  storageClassName: powerstore
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus0001
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+      instance: prometheus0001
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+        instance: prometheus0001
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+      containers:
+      - name: prometheus
+        image: prom/prometheus
+        args:
+          - "--web.enable-lifecycle"
+          - "--web.enable-admin-api"
+          - "--storage.tsdb.retention.time=1m"
+          - "--storage.tsdb.path=/prometheus/data"
+          - "--config.file=/etc/prometheus/prometheus.yml"
+        ports:
+          - containerPort: 9090
+        volumeMounts:
+          - name: config
+            mountPath: /etc/prometheus
+          - name: tsdb
+            mountPath: /prometheus/data
+      volumes:
+        - name: config
+          configMap:
+            name: prometheus-config0001
+            items:
+              - key: prometheus_config
+                path: prometheus.yml
+        - name: tsdb
+          persistentVolumeClaim:
+            claimName: tsdb-pvc0001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-svc0001
+spec:
+  selector:
+    app: prometheus
+    instance: prometheus0001
+  type: NodePort
+  ports:
+    - port: 9090
+      targetPort: 9090
+      # nodePort: 39090

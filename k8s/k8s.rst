@@ -200,7 +200,7 @@ Execute commands on containers of a Pod
 
   kubectl exec -it pods/<pod name> -c <container name> [--] <command>
 
-Start a temporary POD for debug
+Start a temporary Pod for debug
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -225,7 +225,7 @@ Assume there is a service named www, to query its DNS records:
 
   # Start a pod to query the service
   kubectl run -it --rm --restart=Never busybox --image=busybox sh
-  # Below commands are run from the POD
+  # Below commands are run from the Pod
   # Get FQDN suffix: the part after svc
   cat /etc/resolv.conf
   nslookup -type=A www.<namespace>.svc.<FQDN suffix>
@@ -722,7 +722,7 @@ Use StorageClass
          requests:
            storage: 1Gi
 
-#. Define a POD which will use the PVC:
+#. Define a Pod which will use the PVC:
 
    ::
 
@@ -747,7 +747,7 @@ Use StorageClass
          persistentVolumeClaim:
            claimName: pvc1
 
-#. Create PVCs and start PODs:
+#. Create PVCs and start Pods:
 
    ::
 
@@ -769,3 +769,57 @@ Access etcd
   docker ps -a | grep etcd
   docker exec -it <etcd ID> sh
   etcdctl get / --prefix --keys-only
+
+securityContext
+-----------------
+
+SecurityContext holds security configuration that will be applied to containers. Most of time, it does not need to be used. However, when some processes within a container are not run as "root", the object needs to be configured to avoid permission related issues.
+
+- Problem Origination:
+
+   - We want to run Prometheus on Kubernetes;
+   - Without using PV/PVC, everything is fine;
+   - When PV/PVC is used, "permission denied" will be triggered.
+
+- Analysis:
+
+  - Start a Prometheus Pod without using PV/PVC;
+  - Start a shell session into the container of the Pod:
+
+    ::
+
+      kubectl exec -it pod/prometheus-pod001 -- sh
+
+  - It is found processes within the container are started as "nobody":
+
+    ::
+
+      ~ $ ps -ef
+      PID   USER     TIME  COMMAND
+          1 nobody    0:00 /bin/prometheus --storage.tsdb.path=/prometheus --config.file=/etc/prometheus/prometheus.
+         17 nobody    0:00 sh
+         27 nobody    0:00 ps -ef
+
+  - Since the process "/bin/prometheus" is started as "nobody", it must have access to directory "/prometheus";
+  - But when a PV is mounted to the directory, it is owned by root by default and "nobody" won't have access;
+  - Hence "permission denied" will be triggered.
+
+- Solution:
+
+  - Find the uid and gid which is used to started the processes:
+
+    ::
+
+      ~ $ id
+      uid=65534(nobody) gid=65534(nogroup)
+
+  - Define the securityContext (within the Pod spec section) as below based on the uid and gid we get as above:
+
+    ::
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+
+  - Prometheus + PV/PVC can be used smoothly now.
