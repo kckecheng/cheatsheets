@@ -33,7 +33,7 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus0001
+  name: prometheus-deployment0001
 spec:
   selector:
     matchLabels:
