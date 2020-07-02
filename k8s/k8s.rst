@@ -207,6 +207,17 @@ Start a temporary Pod for debug
 
   kubectl run -it --rm --restart=Never alpine --image=alpine sh
 
+Port Foward
+~~~~~~~~~~~~~
+
+Forward one or more local ports to a Pod.
+
+::
+
+  # kubectl help port-foward
+  kubectl port-forward pod/<name> [--address 0.0.0.0] <local port>:<Pod port>
+  curl http://localhost:<local port>
+
 Delete a label
 ~~~~~~~~~~~~~~~~
 
