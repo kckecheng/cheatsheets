@@ -394,6 +394,15 @@ Available registry mirrors in China:
 - http://f1361db2.m.daocloud.io
 - https://mirror.ccs.tencentyun.com
 
+Helm Chart Repository
+----------------------
+
+It is not quite efficient to access Helm default repositories from China, the below repositories can be used instead:
+
+- http://mirror.azure.cn/kubernetes/charts
+- http://mirror.azure.cn/kubernetes/charts-incubator
+- https://apphub.aliyuncs.com
+
 User Management
 ----------------
 
