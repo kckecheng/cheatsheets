@@ -180,6 +180,8 @@ Windows - Show MPIO Paths
 
 ::
 
+  # To get target port WWN information, fcinfo needs to be used
+  # which can be downloaded from Microsoft official web site
   # PowerShell
   get-disk
   mpclaim -s -d
