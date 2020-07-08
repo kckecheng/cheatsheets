@@ -154,6 +154,19 @@ Docker - Enable Remote API
 - Restart docker service: sudo systemctl daemon-reload; sudo systemctl restart docker.service
 - Reference: https://docs.docker.com/engine/reference/commandline/dockerd/
 
+Docker - Control terminal size for exec
+-----------------------------------------
+
+When "docker exec -it" is used to estabilish a terminal to the container, the terminal size (colums x lines) sometimes is quite small for content display.
+
+::
+
+  # Get the columns and lines of the current terminal
+  tput cols
+  tput lines
+  # Establish a terminal to a container with the same terminal size as the current one
+  docker exec -it -e COLUMNS=<tput cols output> -e LINES=<tput lines output> <container_name> bash
+
 Windows - Make an app always on top
 -----------------------------------
 
