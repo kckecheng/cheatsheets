@@ -237,6 +237,13 @@ Winows - DiskPart
     select disk 0
     attributes
 
+Windows - sg3_utils
+---------------------
+
+sg3_utils is a tool set to send SCSI commands to devices. It supports Linux, **Windows**, Solaris, FreeBSD, etc.
+
+The tool can be downloaded from http://sg.danny.cz/sg/sg3_utils.html
+
 OpenStack - Adding Security Group Rules to Allow ICMP and ssh
 -------------------------------------------------------------
 
