@@ -197,6 +197,46 @@ When Trim/Unmap is enabled on Windows, quick format may take quite a long time f
   fsutil behavior set DisableDeleteNotify NTFS 1
   fsutil behavior query DisableDeleteNotify
 
+Winows - DiskPart
+------------------
+
+**DiskPart** is the builtin tool for managing disks on Windows, which can be used for disk rescan, list, online/offline, etc.
+
+- Rescan disks
+
+  ::
+
+    diskpart
+    rescan
+
+- List disks/volumes
+
+  ::
+
+    diskpart
+    list disk
+    list volume
+
+- Show volume filesystem
+
+  ::
+
+    diskpart
+    list volume
+    # Select volume based on the ID gotten from "list volume"
+    select volume 0
+    filesystem
+
+- Show disk attributes
+
+  ::
+
+    diskpart
+    list disk
+    # Select disk based on the ID gotten from "list disk"
+    select disk 0
+    attributes
+
 OpenStack - Adding Security Group Rules to Allow ICMP and ssh
 -------------------------------------------------------------
 
