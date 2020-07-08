@@ -630,6 +630,92 @@ Type alias vs. type definition
 
     type T1 T2
 
+defer, panic and recover
+--------------------------
+
+- Order: refer to "go doc builtin.panic";
+- Variables referred by deferred functions are determined at **compile time**:
+
+  ::
+
+    /*
+      The output will be:
+      Initial 10
+      Change 20
+      Defer 10 - 10 is determined at the compile time
+    */
+    func main() {
+            a := 10
+            fmt.Println("Initial", a)
+            defer fmt.Println("Defer", a)
+            a = 20
+            fmt.Println("Change", 20)
+    }
+
+- Recover works only when it is called from **the same goroutine** which is panicking;
+- Re-panic can be used to indicate the captured panic cannot be handled by the recover logics;
+- Named return (naked return) must be used to return values from a panic:
+
+  ::
+
+    /*
+        The output will be:
+        foo: panic
+        main received value: 0
+        main received error: Assign value during recover
+
+    */
+    func main() {
+            n, err := foo()
+            fmt.Println("main received value:", n)
+            fmt.Println("main received error:", err)
+    }
+
+    func foo() (retv int, rete error) {
+            defer func() {
+                    if err := recover(); err != nil {
+                            fmt.Println(err)
+                            // retv, rete will be return values once panic is captured
+                            retv = 0
+                            rete = errors.New("Assign value during recover")
+                    }
+            }()
+            retv = 1
+            panic("foo: panic")
+            retv = 3
+            rete = nil
+            // return retv, rete
+            return
+    }
+
+- Recover sample:
+
+  ::
+
+    /*
+      The main function reach the last line "In main: end" since the panic has been recovered
+    */
+    func panicOut() {
+            defer func() {
+                    fmt.Println("In panicOut: defer")
+                    if err := recover(); err != nil {
+                            fmt.Println("In panicOut recover")
+                            fmt.Println("In panicOut recover:", err)
+                            // Re-panic if needed
+                            // panic("Cannot handle the error")
+                    }
+            }()
+            fmt.Println("In panicOut: start")
+            panic("panic")
+            fmt.Println("In panicOut: end")
+    }
+
+    func main() {
+            fmt.Println("In main: start")
+            panicOut()
+            fmt.Println("In main: end")
+    }
+
 go-swagger
 ------------
 
