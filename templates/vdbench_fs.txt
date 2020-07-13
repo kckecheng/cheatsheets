@@ -3,6 +3,18 @@
 #
 # For FSD, the num. of directories will be: width ^ depth
 #
-fsd=fsd1,anchor=C:\ClusterStorage\Volume6,depth=2,width=16,files=100,size=2m
-fwd=fwd1,fsd=fsd1,operation=read,fileio=random,rdpct=90,xfersize=4k,fileselect=random,threads=24
-rd=rd1,fwd=fwd*,fwdrate=max,format=restart,elapsed=7200,interval=5
+# *** Prefill ***
+# - Num. of files  : 16^2 * 100 = 25600
+# - Space occupaied: 16^2 * 100 * 2M =~ 5,1200M
+# - format=yes     : create file system structure based on definition
+#
+#fsd=fsd1,anchor=C:\ClusterStorage\Volume1\vdbench_data,depth=2,width=16,files=100,size=2m
+#fwd=fwd1,fsd=fsd1,operation=read,fileio=random,rdpct=0,xfersize=128k,fileselect=random,threads=16
+#rd=rd1,fwd=fwd*,fwdrate=max,format=yes,elapsed=600,interval=10
+
+# *** I/O ***
+# - format=restart: reuse file system structure created (prefill) previously
+#
+fsd=fsd1,anchor=C:\ClusterStorage\Volume1\vdbench_data,depth=2,width=16,files=100,size=2m
+fwd=fwd1,fsd=fsd1,operation=read,fileio=random,rdpct=50,xfersize=8k,fileselect=random,threads=16
+rd=rd1,fwd=fwd*,fwdrate=max,format=restart,elapsed=600,interval=10

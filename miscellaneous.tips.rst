@@ -406,3 +406,84 @@ PowerCLI - Ignore Certification
 
   Get-PowerCLIConfiguration
   Set-PowerCLIConfiguration -InvalidCertificateAction ignore
+
+PostgreSQL psql
+-----------------
+
+- Get help
+
+  ::
+
+    help
+    \?
+    \h
+
+- List databases
+
+  ::
+
+    \list
+
+- Switch to a database
+
+  ::
+
+    \c <DB name>
+
+- Show schemas
+
+  ::
+
+    SELECT schema_name FROM information_schema.schemata;
+
+- Show current search path
+
+  ::
+
+    SHOW search_path;
+
+- Set new search_path:
+
+  ::
+
+    # After specifying schemas in search_path, there is no need to
+    # specify table as <schema name>.<table name> anymore, just use
+    # <table name> is enough.
+    SET search_path to <schema 1>[,<schema 2>[,...]];
+
+- Control output format
+
+  ::
+
+    # Show only rows toggle
+    \t
+
+    # Toggle expand output
+    \x
+
+    # Toggle aligned/unaliged output
+    \a
+
+    # Wrap lone lines or set a fixed width
+    \pset format wrapped
+    \pset columns 20
+
+- List tables
+
+  ::
+
+    # Show only tables under current search_path
+    \dt
+    # Below command show all tables
+    \dt *.
+    \dt *.*
+    SELECT * FROM pg_catalog.pg_tables;
+    SELECT table_name FROM information_schema.tables;
+
+- Show colume names - below commands are equivalent
+
+  ::
+
+    \d <table name>
+    \d+ <table name>
+    SELECT COLUMN_NAME from information_schema.COLUMNS WHERE TABLE_NAME = '<table name>';
