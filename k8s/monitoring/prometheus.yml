@@ -81,10 +81,13 @@ spec:
           - "--storage.tsdb.retention.time=1m"
           - "--storage.tsdb.path=/prometheus/data"
           - "--config.file=/etc/prometheus/prometheus.yml"
+        ports:
+          - containerPort: 9090
+            name: http
         readinessProbe:
           httpGet:
             path: /-/ready
-            port: 9090
+            port: http
           initialDelaySeconds: 30
           periodSeconds: 5
           timeoutSeconds: 30
@@ -93,14 +96,12 @@ spec:
         livenessProbe:
           httpGet:
             path: /-/healthy
-            port: 9090
+            port: http
           initialDelaySeconds: 30
           periodSeconds: 15
           timeoutSeconds: 30
           failureThreshold: 3
           successThreshold: 1
-        ports:
-          - containerPort: 9090
         volumeMounts:
           - name: config
             mountPath: /etc/prometheus

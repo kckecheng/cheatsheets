@@ -6924,6 +6924,9 @@ spec:
           runAsUser: 1000
         securityContext:
           readOnlyRootFilesystem: true
+        ports:
+          - containerPort: 9116
+            name: http
         readinessProbe:
           httpGet:
             path: /health
@@ -6932,9 +6935,6 @@ spec:
           httpGet:
             path: /health
             port: http
-        ports:
-          - containerPort: 9116
-            name: http
         volumeMounts:
           - name: config
             mountPath: /config

@@ -39,17 +39,18 @@ spec:
             value: "jdbranham-diagram-panel"
         ports:
           - containerPort: 3000
+            name: http
         livenessProbe:
           failureThreshold: 10
           httpGet:
             path: /api/health
-            port: 3000
+            port: http
           initialDelaySeconds: 60
           timeoutSeconds: 30
         readinessProbe:
           httpGet:
             path: /api/health
-            port: 3000
+            port: http
         volumeMounts:
           - name: data
             mountPath: /var/lib/grafana

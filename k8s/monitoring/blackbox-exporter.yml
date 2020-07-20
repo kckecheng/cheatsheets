@@ -94,16 +94,17 @@ spec:
         image: prom/blackbox-exporter
         args:
           - "--config.file=/config/blackbox.yml"
+        ports:
+          - containerPort: 9115
+            name: http
         readinessProbe:
           httpGet:
             path: /health
-            port: 9115
+            port: http
         livenessProbe:
           httpGet:
             path: /health
-            port: 9115
-        ports:
-          - containerPort: 9115
+            port: http
         volumeMounts:
           - name: config
             mountPath: /config

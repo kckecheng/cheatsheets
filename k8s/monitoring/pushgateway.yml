@@ -19,16 +19,17 @@ spec:
         image: prom/pushgateway
         ports:
           - containerPort: 9091
+            name: http
         livenessProbe:
           httpGet:
             path: /-/healthy
-            port: 9091
+            port: http
           initialDelaySeconds: 10
           timeoutSeconds: 10
         readinessProbe:
           httpGet:
             path: /-/ready
-            port: 9091
+            port: http
           initialDelaySeconds: 10
           timeoutSeconds: 10
 
