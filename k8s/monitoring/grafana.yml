@@ -34,8 +34,22 @@ spec:
       containers:
       - name: grafana
         image: grafana/grafana
+        env:
+          - name: GF_INSTALL_PLUGINS
+            value: "jdbranham-diagram-panel"
         ports:
           - containerPort: 3000
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 60
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
         volumeMounts:
           - name: data
             mountPath: /var/lib/grafana
