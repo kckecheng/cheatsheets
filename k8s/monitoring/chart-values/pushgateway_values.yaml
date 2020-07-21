@@ -1,0 +1,3 @@
+# Valuesd for stable/prometheus-pushgateway
+service:
+  type: NodePort
