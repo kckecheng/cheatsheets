@@ -226,6 +226,33 @@ Delete a label
   # Assume xxx/yyy has a label key1=...
   kubectl label xxx/yyy key1-
 
+Use environment variables in a manifest
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use **envsubst**:
+
+#. Define a manifest file referring to environment variables
+
+   ::
+
+     # deployment.yaml
+     ...
+     spec:
+       type: LoadBalancer
+       loadBalancerIP: $LBIP
+     ...
+
+#. Define environment variables
+
+   ::
+
+     export LBIP="192.168.10.10"
+
+#. Use envsubst together with kubectl
+
+   ::
+
+     envsubst < deployment | kubectl apply -f -
 
 DNS query
 ~~~~~~~~~~~
