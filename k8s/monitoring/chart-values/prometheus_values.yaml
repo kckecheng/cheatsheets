@@ -1,0 +1,40 @@
+# For stable/prometheus
+serviceAccounts:
+  alertmanager:
+    create: false
+  nodeExporter:
+    create: false
+  pushgateway:
+    create: false
+
+alertmanager:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: false
+
+nodeExporter:
+  enabled: false
+
+pushgateway:
+  enabled: false
+
+server:
+  extraFlags:
+    - web.enable-lifecycle
+    - web.enable-admin-api
+  persistentVolume:
+    size: 10Gi
+    storageClass: longhorn
+  service:
+    type: NodePort
+  retention: "1m"
+
+serverFiles:
+  prometheus.yml:
+    rule_files: []
+    scrape_configs:
+      - job_name: prometheus
+        static_configs:
+          - targets:
+            - localhost:9090
