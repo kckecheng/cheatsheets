@@ -157,7 +157,7 @@ Docker - Enable Remote API
 Docker - Control terminal size for exec
 -----------------------------------------
 
-When "docker exec -it" is used to estabilish a terminal to the container, the terminal size (colums x lines) sometimes is quite small for content display.
+When "docker exec -it" is used to estabilish a terminal to the container, the terminal size (columns x lines) sometimes is quite small for content display.
 
 ::
 
