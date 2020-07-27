@@ -421,6 +421,20 @@ Available registry mirrors in China:
 - http://f1361db2.m.daocloud.io
 - https://mirror.ccs.tencentyun.com
 
+Specify Insure Reigstries
+---------------------------
+
+To disregard security for registries (such as registries with self signed certs):
+
+- If HTTPS is available but the certificate is invalid, ignore the error about the certificate;
+- If HTTPS is not available, fall back to HTTP.
+
+::
+
+  {
+    "insecure-registries" : ["192.168.10.10:9443", "myregistry1.example.local"]
+  }
+
 Helm Chart Repository
 ----------------------
 
