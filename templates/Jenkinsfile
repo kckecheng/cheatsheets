@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    environment {
+       REGISTRY = '192.168.10.10:9443'
+       CREDENTIAL_ID = 'harbor'
+       IMAGE = 'auto/flaskapp'
+       VER = "$BUILD_NUMBER"
+       LOCAL_IMAGE = "$IMAGE:v1.0.$VER"
+       REMOTE_IMAGE = "$REGISTRY/$LOCAL_IMAGE"
+    }
+    stages {
+      stage('Build') {
+        steps {
+          sh 'echo build...'
+          sh "docker build . -t $LOCAL_IMAGE"
+          sh "docker tag $LOCAL_IMAGE $REMOTE_IMAGE"
+        }
+
+      }
+      stage('Test') {
+        steps {
+          sh 'echo test...'
+          sh 'docker image list'
+        }
+
+      }
+      stage('Deploy') {
+        steps {
+          sh 'echo deploy...'
+          script {
+            docker.withRegistry("https://$REGISTRY", 'harbor') {
+              docker.image("$REMOTE_IMAGE").push()
+            }
+          }
+        }
+      }
+      stage('Cleanup') {
+        steps {
+          sh 'echo cleanup...'
+            sh '''
+              TOBEDELETED=`docker image list | grep "$LOCAL_IMAGE" | awk '{print $3}'`
+              for image in $TOBEDELETED ; do
+                docker rmi --force $image
+              done
+            '''
+        }
+      }
+    }
+}
