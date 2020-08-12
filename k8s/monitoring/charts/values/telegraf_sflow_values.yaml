@@ -1,0 +1,13 @@
+# Values for influxdata/telegraf
+service:
+  type: NodePort
+
+config:
+  outputs:
+    - influxdb:
+        urls:
+          - "http://influxdb0001.monpilot.svc.cluster.local:8086"
+        database: "telegraf"
+  inputs:
+    - sflow:
+        service_address: "udp://:6343"

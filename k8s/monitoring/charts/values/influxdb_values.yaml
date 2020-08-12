@@ -1,0 +1,7 @@
+# Values for influxdata/influxdb
+service:
+  type: NodePort
+
+persistence:
+  enabled: true
+  storageClass: "longhorn"
