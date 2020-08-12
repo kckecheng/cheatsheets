@@ -361,6 +361,95 @@ Rolling Update
     kubectl rollout pause deploy/nginx
     kubectl rollout resume deploy/nginx
 
+helm
+------
+
+Repositories
+~~~~~~~~~~~~~~
+
+It is not quite efficient to access Helm default repositories from China, the below repositories can be used instead:
+
+- http://mirror.azure.cn/kubernetes/charts
+- http://mirror.azure.cn/kubernetes/charts-incubator
+- https://apphub.aliyuncs.com
+
+Hub
+~~~~
+
+- Default Hub : https://hub.helm.sh
+- Kubeapps Hub: https://hub.kubeapps.com
+
+Update Repos
+~~~~~~~~~~~~~~~
+
+::
+
+  helm repo update
+
+Search for Charts
+~~~~~~~~~~~~~~~~~~
+
+::
+
+  helm search repo <pattern>
+
+Show Chart Info
+~~~~~~~~~~~~~~~~
+
+::
+
+  helm show chart <chart name>
+  helm show all <chart name> | pandoc -t plain
+  helm show readme <chart name> | pandoc -t plain
+
+Show Chart Values
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # Customize values after getting the values
+  helm show values <chart name> > values.yaml
+
+List All Installed Chart Releases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  helm list -A
+
+Show Release Info
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  helm get all <release name> -n <name space>
+  helm get manifest <release name> -n <name space>
+  helm get values <release name> -n <name space>
+
+Download a Chart
+~~~~~~~~~~~~~~~~~
+
+::
+
+  helm pull <chart name> [--version <chart version>]
+  tar -zxvf <chart name>-<chart version>.tgz
+
+Dry Run to Capture Changes to Make
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To capture values, manifests, notes, etc.
+
+::
+
+  helm install --dry-run --debug <release name> <chart name or path> -f <values file>.yaml
+
+Upgrade a Release
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  helm upgrade -f new-values.yml <release name> <chart name or path> [--version <chart version>]
+
 Download OpenAPI Definitions
 -----------------------------
 
@@ -434,15 +523,6 @@ To disregard security for registries (such as registries with self signed certs)
   {
     "insecure-registries" : ["192.168.10.10:9443", "myregistry1.example.local"]
   }
-
-Helm Chart Repository
-----------------------
-
-It is not quite efficient to access Helm default repositories from China, the below repositories can be used instead:
-
-- http://mirror.azure.cn/kubernetes/charts
-- http://mirror.azure.cn/kubernetes/charts-incubator
-- https://apphub.aliyuncs.com
 
 User Management
 ----------------
