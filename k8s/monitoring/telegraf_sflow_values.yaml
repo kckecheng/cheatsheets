@@ -1,4 +1,5 @@
-# Values for influxdata/telegraf
+# Values for kckecheng/cheatsheets/k8s/charts/telegraf
+# The official influxdata/telegraf cannot expose sflow port fow now.
 service:
   type: NodePort
 
@@ -10,4 +11,4 @@ config:
         database: "telegraf"
   inputs:
     - sflow:
-        service_address: "udp://:6343"
+        service_address: ":6343"
