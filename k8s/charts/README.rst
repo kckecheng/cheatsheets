@@ -22,4 +22,4 @@ Changes:
 
     inputs:
       - sflow:
-          service_address: ":6343"
+          service_address: "udp://:6343"

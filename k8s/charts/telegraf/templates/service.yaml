@@ -51,8 +51,8 @@ spec:
     name: "webhooks"
     {{- end }}
     {{- if eq $key "sflow" }}
-  - port: {{ trimPrefix ":" $value.service_address | int64 }}
-    targetPort: {{ trimPrefix ":" $value.service_address | int64 }}
+  - port: {{ trimAll "udp://:" $value.service_address | int64 }}
+    targetPort: {{ trimAll "udp://:" $value.service_address | int64 }}
     protocol: "UDP"
     name: "sflow"
     {{- end }}
