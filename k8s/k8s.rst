@@ -371,6 +371,7 @@ It is not quite efficient to access Helm default repositories from China, the be
 
 - http://mirror.azure.cn/kubernetes/charts
 - http://mirror.azure.cn/kubernetes/charts-incubator
+- https://charts.bitnami.com/bitnami
 - https://apphub.aliyuncs.com
 
 Hub
