@@ -14,7 +14,9 @@
 
 # *** I/O ***
 # - format=restart: reuse file system structure created (prefill) previously
+# - openflags=o_sync: synchronized I/O. Windows supports this option although it is not documented in the vdbench
+#                     manual. Refer to "man 2 open" for reference. Async I/O will be used if it is not specified.
 #
-fsd=fsd1,anchor=C:\ClusterStorage\Volume1\vdbench_data,depth=2,width=16,files=100,size=2m
+fsd=fsd1,anchor=C:\ClusterStorage\Volume1\vdbench_data,openflags=o_sync,depth=2,width=16,files=100,size=2m
 fwd=fwd1,fsd=fsd1,operation=read,fileio=random,rdpct=50,xfersize=8k,fileselect=random,threads=16
 rd=rd1,fwd=fwd*,fwdrate=max,format=restart,elapsed=600,interval=10
