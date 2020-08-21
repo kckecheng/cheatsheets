@@ -451,6 +451,54 @@ Upgrade a Release
 
   helm upgrade -f new-values.yml <release name> <chart name or path> [--version <chart version>]
 
+Docker
+--------
+
+Container Registry Mirrors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Container registry mirrors accelerate image usage. For details, refer to `this introduction <https://cloud.google.com/container-registry/docs/using-dockerhub-mirroring>`_.
+
+Usage:
+
+::
+
+  # Add an option as below (for China) in /etc/docker/daemon.json
+  {
+    "registry-mirrors": ["https://registry.docker-cn.com"]
+  }
+
+Available registry mirrors in China:
+
+- https://registry.docker-cn.com
+- http://hub-mirror.c.163.com
+- https://3laho3y3.mirror.aliyuncs.com
+- http://f1361db2.m.daocloud.io
+- https://mirror.ccs.tencentyun.com
+
+Specify Insure Reigstries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To disregard security for registries (such as registries with self signed certs):
+
+- If HTTPS is available but the certificate is invalid, ignore the error about the certificate;
+- If HTTPS is not available, fall back to HTTP.
+
+::
+
+  {
+    "insecure-registries" : ["192.168.10.10:9443", "myregistry1.example.local"]
+  }
+
+Build with multiple tags
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Multiple "-t" can be specified:
+
+::
+
+  docker build -t quay.io/kckecheng/powerstore_exporter:latest -t quay.io/kckecheng/powerstore_exporter:v1.1.0 .
+
 Download OpenAPI Definitions
 -----------------------------
 
@@ -488,42 +536,6 @@ Access Kubernetes API with CURL
    ::
 
      curl -X GET <API Endpoint>/api --header "Authorization: Bearer <Secret Token>" --insecure
-
-Container Registry Mirror
---------------------------
-
-Container registry mirrors accelerate image usage. For details, refer to `this introduction <https://cloud.google.com/container-registry/docs/using-dockerhub-mirroring>`_.
-
-Usage:
-
-::
-
-  # Add an option as below (for China) in /etc/docker/daemon.json
-  {
-    "registry-mirrors": ["https://registry.docker-cn.com"]
-  }
-
-Available registry mirrors in China:
-
-- https://registry.docker-cn.com
-- http://hub-mirror.c.163.com
-- https://3laho3y3.mirror.aliyuncs.com
-- http://f1361db2.m.daocloud.io
-- https://mirror.ccs.tencentyun.com
-
-Specify Insure Reigstries
----------------------------
-
-To disregard security for registries (such as registries with self signed certs):
-
-- If HTTPS is available but the certificate is invalid, ignore the error about the certificate;
-- If HTTPS is not available, fall back to HTTP.
-
-::
-
-  {
-    "insecure-registries" : ["192.168.10.10:9443", "myregistry1.example.local"]
-  }
 
 User Management
 ----------------
