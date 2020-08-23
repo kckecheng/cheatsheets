@@ -310,6 +310,11 @@ iftop
 
 Display bandwidth usage including host to host (ip to ip) information.
 
+nethogs
+--------
+
+NetHogs is a small 'net top' tool. Instead of breaking the traffic down per protocol or per subnet, like most tools do, it groups bandwidth by process.
+
 nmon
 ----
 
