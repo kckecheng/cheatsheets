@@ -499,6 +499,21 @@ Multiple "-t" can be specified:
 
   docker build -t quay.io/kckecheng/powerstore_exporter:latest -t quay.io/kckecheng/powerstore_exporter:v1.1.0 .
 
+Save and Load Images
+~~~~~~~~~~~~~~~~~~~~~~
+
+Docker images can be saved as a tar file:
+
+::
+
+  docker [image] save -o <file name>.tar <image 1 name/ID> [<image 2 name/ID> [...]]
+
+The images packaged into a tar file can be loaded again:
+
+::
+
+  docker [image] load -i <file name>.tar
+
 Download OpenAPI Definitions
 -----------------------------
 
