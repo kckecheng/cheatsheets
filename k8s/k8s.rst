@@ -560,7 +560,7 @@ Provision Kubernetes
 
 ::
 
-  sudo k3s server --docker --disable traefik --disable servicelb
+  sudo k3s server --flannel-iface enp0s8 --node-external-ip 192.168.56.10 --docker --disable traefik --disable servicelb
   sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
   sudo chown a+r ~/.kube/config
   kubectl get all -n kube-system
@@ -599,10 +599,10 @@ Configure MetalLB
     data:
       config: |
         address-pools:
-        A. name: default
-           protocol: layer2
-           addresses:
-           A. 192.168.56.50-192.168.56.99
+        - name: default
+          protocol: layer2
+          addresses:
+          - 192.168.56.50-192.168.56.99
     EOF
     kubectl apply -f metallb-configmap.yaml
 
