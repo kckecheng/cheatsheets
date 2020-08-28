@@ -550,6 +550,104 @@ Below solution solves the problem:
 
 - Done
 
+K3s with MetalLB
+-----------------
+
+Provision a POC Kubernetes env with load balancer supported by MetalLB.
+
+Provision Kubernetes
+~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sudo k3s server --docker --disable traefik --disable servicelb
+  sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+  sudo chown a+r ~/.kube/config
+  kubectl get all -n kube-system
+
+Provision MetalLB
+~~~~~~~~~~~~~~~~~~
+
+Refer to https://metallb.universe.tf/installation for details.
+
+::
+
+  kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+  kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+  # On first install only - run directly afte the above 2 x commands, no need to wait for resource ready
+  kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+
+Configure MetalLB
+~~~~~~~~~~~~~~~~~~
+
+- Identify IP range should be used
+
+  ::
+
+    kubectl get nodes -o wide
+
+- Configure load balancer IP range based on "EXTERNAL-IP" of nodes
+
+  ::
+
+    cat <<-EOF>metallb-configmap.yaml
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      namespace: metallb-system
+      name: config
+    data:
+      config: |
+        address-pools:
+        A. name: default
+           protocol: layer2
+           addresses:
+           A. 192.168.56.50-192.168.56.99
+    EOF
+    kubectl apply -f metallb-configmap.yaml
+
+Kubernetes POC Cluster with Kind
+---------------------------------
+
+Kind creates a POC Kubernetes cluster by leveraging containers (nodes are containers). Refer to https://kind.sigs.k8s.io for details.
+
+::
+
+  cat <<-EOF>kind-cluster.yaml
+  kind: Cluster
+  apiVersion: kind.x-k8s.io/v1alpha4
+  nodes:
+  - role: control-plane
+    extraPortMappings:
+    - containerPort: 80
+      hostPort: 30080
+      protocol: TCP
+    - containerPort: 443
+      hostPort: 30443
+      protocol: UDP
+    kubeadmConfigPatches:
+    - |
+      kind: JoinConfiguration
+      nodeRegistration:
+        kubeletExtraArgs:
+          node-labels: "role=controller"
+  - role: worker
+    kubeadmConfigPatches:
+    - |
+      kind: JoinConfiguration
+      nodeRegistration:
+        kubeletExtraArgs:
+          node-labels: "role=worker"
+  - role: worker
+    kubeadmConfigPatches:
+    - |
+      kind: JoinConfiguration
+      nodeRegistration:
+        kubeletExtraArgs:
+          node-labels: "role=worker"
+  EOF
+  kind create cluster --config kind-cluster.yaml
+
 API
 ----
 
