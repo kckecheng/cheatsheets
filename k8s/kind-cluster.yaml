@@ -1,0 +1,87 @@
+# The frequently used Kind configuration to provision a POC Kubernetes cluster
+# Refer to https://kind.sigs.k8s.io/docs/user/configuration/
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30080
+    hostPort: 30080
+    protocol: TCP
+  - containerPort: 30080
+    hostPort: 30080
+    protocol: UDP
+  - containerPort: 30081
+    hostPort: 30081
+    protocol: TCP
+  - containerPort: 30081
+    hostPort: 30081
+    protocol: UDP
+  - containerPort: 30082
+    hostPort: 30082
+    protocol: TCP
+  - containerPort: 30082
+    hostPort: 30082
+    protocol: UDP
+  - containerPort: 30083
+    hostPort: 30083
+    protocol: TCP
+  - containerPort: 30083
+    hostPort: 30083
+    protocol: UDP
+  - containerPort: 30084
+    hostPort: 30084
+    protocol: TCP
+  - containerPort: 30084
+    hostPort: 30084
+    protocol: UDP
+  - containerPort: 30085
+    hostPort: 30085
+    protocol: TCP
+  - containerPort: 30085
+    hostPort: 30085
+    protocol: UDP
+  - containerPort: 30086
+    hostPort: 30086
+    protocol: TCP
+  - containerPort: 30086
+    hostPort: 30086
+    protocol: UDP
+  - containerPort: 30087
+    hostPort: 30087
+    protocol: TCP
+  - containerPort: 30087
+    hostPort: 30087
+    protocol: UDP
+  - containerPort: 30088
+    hostPort: 30088
+    protocol: TCP
+  - containerPort: 30088
+    hostPort: 30088
+    protocol: UDP
+  - containerPort: 30089
+    hostPort: 30089
+    protocol: TCP
+  - containerPort: 30089
+    hostPort: 30089
+    protocol: UDP
+  kubeadmConfigPatches:
+  - |
+    kind: JoinConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "role=controller"
+- role: worker
+  kubeadmConfigPatches:
+  - |
+    kind: JoinConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "role=worker"
+- role: worker
+  kubeadmConfigPatches:
+  - |
+    kind: JoinConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "role=worker"
