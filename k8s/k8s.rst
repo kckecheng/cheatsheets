@@ -21,12 +21,16 @@ Reference: https://kubernetes.io/docs/reference/using-api/api-concepts/
   kubectl api-resources [--namespaced=<true|false>] [-o <wide|name>] [--verbs=<get|list|post|put|patch>]
 
 
-List all existing resouces
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List all existing resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-  kubectl get all --all-namespaces [--show-labels]
+  # Show POD, service, daemonset, deployment, replicaset, statefulset, job, cronjobs
+  kubectl get all [--all-namespaces|-A|-n <namespace name>] [--show-labels] [-o wide]
+  # To show everything including configmaps, secrets, pvc, etc.
+  kubectl api-resources --verbs=list --namespaced -o name \
+    | xargs -n 1 kubectl get --show-kind --ignore-not-found -n <namespace name>
 
 Check config file
 ~~~~~~~~~~~~~~~~~~
