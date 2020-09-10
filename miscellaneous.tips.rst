@@ -480,6 +480,13 @@ PostgreSQL psql
     SELECT * FROM pg_catalog.pg_tables;
     SELECT table_name FROM information_schema.tables;
 
+- List views
+
+  ::
+
+    \dv
+    SELECT schemaname,viewname from pg_catalog.pg_views;
+
 - Show colume names - below commands are equivalent
 
   ::
