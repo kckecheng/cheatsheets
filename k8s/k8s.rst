@@ -794,6 +794,13 @@ Generate Kubeconfig
   kubeconfig_gen.sh tester1
   kubeconfig_gen.sh tester2
 
+Check User Permissions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl auth can-i <list|create|edit|delete> <resource type>
+
 StorageClass with GlusterFS
 ----------------------------
 

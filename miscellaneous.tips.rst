@@ -434,6 +434,7 @@ PostgreSQL psql
 
   ::
 
+    \dnS+
     SELECT schema_name FROM information_schema.schemata;
 
 - Show current search path
