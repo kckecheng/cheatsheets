@@ -1140,3 +1140,19 @@ SecurityContext holds security configuration that will be applied to containers.
         fsGroup: 65534
 
   - Prometheus + PV/PVC can be used smoothly now.
+
+Spark on Kubernetes
+--------------------
+
+Service Account
+~~~~~~~~~~~~~~~~
+
+The default service account does not have enough permissions to launch executors (`documented as a prerequisite <https://spark.apache.org/docs/latest/running-on-kubernetes.html#prerequisites>`_).
+
+**Solution**
+
+::
+
+  kubectl create serviceaccount spark
+  kubectl create clusterrolebinding spark-role --clusterrole=edit --serviceaccount=default:spark --namespace=default
+  ./bin/spark-submit <options> --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark <app jar | python file | R file> [app arguments]
