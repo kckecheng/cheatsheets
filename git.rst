@@ -843,8 +843,11 @@ Examples:
 
 ::
 
+  # the whole command will fail if the inner command hit an error,
+  # to work around the issue, use the ":" command
+  git submodule foreach 'command | :'
   git submodule foreach [--recursive] 'git reset --hard'
-  git submodule foreach git pull origin master
+  git submodule foreach 'git pull origin master | :'
 
 git stash
 ---------
