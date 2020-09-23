@@ -438,6 +438,11 @@ The images packaged into a tar file can be loaded again:
 
   docker [image] load -i <file name>.tar
 
+podman
+~~~~~~~~
+
+Podman is a daemonless container engine which can run in parallel with docker without leading to any conflict.
+
 RKE
 ----
 
