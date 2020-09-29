@@ -663,7 +663,7 @@ API
 Download OpenAPI Definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Start the proxy: kube proxy --port=8080
+1. Start the proxy: kubectl proxy --port=8080
 #. Download API:
 
    ::
