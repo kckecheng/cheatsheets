@@ -1583,6 +1583,19 @@ Note: sg stands for generic SCSI driver, it is generalized (but lower level) tha
   /dev/sg0  1 0 0 0  5  /dev/sr0
   /dev/sg1  2 0 0 0  0  /dev/sda
 
+**lsblk** can also help list quite some information about block devices:
+
+::
+
+  # List SCSI devices
+  lsblk -S
+  # Show topology information
+  lsblk -Tt
+  # Show devices and associated file system information
+  lsblk -f
+  # Show device paths
+  lsblk -p
+
 Create a LV with all free space
 -------------------------------
 
