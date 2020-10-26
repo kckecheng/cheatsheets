@@ -1,15 +1,16 @@
-# RKE v1.1.1
-# Kubernetes v1.17.5-rancher1
+# RKE v1.2.1
+# Kubernetes v1.19.3 
+# If you intened to deploy Kubernetes in an air-gapped environment,
+# please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: 192.168.56.181
+- address: 10.226.69.168
   port: "22"
-  internal_address: 192.168.57.181
+  internal_address: 192.168.69.168
   role:
   - controlplane
-  - worker
   - etcd
-  hostname_override: "k8scentos1"
-  user: rke
+  hostname_override: ""
+  user: lminfra
   docker_socket: /var/run/docker.sock
   ssh_key: ""
   ssh_key_path: ~/.ssh/id_rsa
@@ -17,15 +18,15 @@ nodes:
   ssh_cert_path: ""
   labels: {}
   taints: []
-- address: 192.168.56.182
+- address: 10.226.69.169
   port: "22"
-  internal_address: 192.168.57.182
+  internal_address: 192.168.69.169
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "k8scentos2"
-  user: rke
+  hostname_override: ""
+  user: lminfra
   docker_socket: /var/run/docker.sock
   ssh_key: ""
   ssh_key_path: ~/.ssh/id_rsa
@@ -33,13 +34,56 @@ nodes:
   ssh_cert_path: ""
   labels: {}
   taints: []
-- address: 192.168.56.183
+- address: 10.226.69.170
   port: "22"
-  internal_address: 192.168.57.183
+  internal_address: 192.168.69.170
   role:
   - worker
-  hostname_override: "k8scentos3"
-  user: rke
+  - etcd
+  hostname_override: ""
+  user: lminfra
+  docker_socket: /var/run/docker.sock
+  ssh_key: ""
+  ssh_key_path: ~/.ssh/id_rsa
+  ssh_cert: ""
+  ssh_cert_path: ""
+  labels: {}
+  taints: []
+- address: 10.226.69.171
+  port: "22"
+  internal_address: 192.168.69.171
+  role:
+  - worker
+  hostname_override: ""
+  user: lminfra
+  docker_socket: /var/run/docker.sock
+  ssh_key: ""
+  ssh_key_path: ~/.ssh/id_rsa
+  ssh_cert: ""
+  ssh_cert_path: ""
+  labels: {}
+  taints: []
+- address: 10.226.69.172
+  port: "22"
+  internal_address: 192.168.69.172
+  role:
+  - worker
+  hostname_override: ""
+  user: lminfra
+  docker_socket: /var/run/docker.sock
+  ssh_key: ""
+  ssh_key_path: ~/.ssh/id_rsa
+  ssh_cert: ""
+  ssh_cert_path: ""
+  labels: {}
+  taints: []
+- address: 10.226.69.173
+  port: "22"
+  internal_address: 192.168.69.173
+  role:
+  - worker
+  hostname_override: ""
+  user: lminfra
   docker_socket: /var/run/docker.sock
   ssh_key: ""
   ssh_key_path: ~/.ssh/id_rsa
@@ -53,6 +97,9 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
+    win_extra_args: {}
+    win_extra_binds: []
+    win_extra_env: []
     external_urls: []
     ca_cert: ""
     cert: ""
@@ -69,6 +116,9 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
+    win_extra_args: {}
+    win_extra_binds: []
+    win_extra_env: []
     service_cluster_ip_range: 10.43.0.0/16
     service_node_port_range: ""
     pod_security_policy: false
@@ -82,6 +132,9 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
+    win_extra_args: {}
+    win_extra_binds: []
+    win_extra_env: []
     cluster_cidr: 10.42.0.0/16
     service_cluster_ip_range: 10.43.0.0/16
   scheduler:
@@ -89,11 +142,17 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
+    win_extra_args: {}
+    win_extra_binds: []
+    win_extra_env: []
   kubelet:
     image: ""
     extra_args: {}
     extra_binds: []
     extra_env: []
+    win_extra_args: {}
+    win_extra_binds: []
+    win_extra_env: []
     cluster_domain: cluster.local
     infra_container_image: ""
     cluster_dns_server: 10.43.0.10
@@ -104,10 +163,12 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
+    win_extra_args: {}
+    win_extra_binds: []
+    win_extra_env: []
 network:
   plugin: canal
-  options:
-    canal_iface: enp0s8
+  options: {}
   mtu: 0
   node_selector: {}
   update_strategy: null
@@ -118,44 +179,45 @@ authentication:
 addons: ""
 addons_include: []
 system_images:
-  etcd: rancher/coreos-etcd:v3.4.3-rancher1
-  alpine: rancher/rke-tools:v0.1.56
-  nginx_proxy: rancher/rke-tools:v0.1.56
-  cert_downloader: rancher/rke-tools:v0.1.56
-  kubernetes_services_sidecar: rancher/rke-tools:v0.1.56
-  kubedns: rancher/k8s-dns-kube-dns:1.15.0
-  dnsmasq: rancher/k8s-dns-dnsmasq-nanny:1.15.0
-  kubedns_sidecar: rancher/k8s-dns-sidecar:1.15.0
-  kubedns_autoscaler: rancher/cluster-proportional-autoscaler:1.7.1
-  coredns: rancher/coredns-coredns:1.6.5
-  coredns_autoscaler: rancher/cluster-proportional-autoscaler:1.7.1
-  nodelocal: rancher/k8s-dns-node-cache:1.15.7
-  kubernetes: rancher/hyperkube:v1.17.5-rancher1
-  flannel: rancher/coreos-flannel:v0.11.0-rancher1
-  flannel_cni: rancher/flannel-cni:v0.3.0-rancher5
-  calico_node: rancher/calico-node:v3.13.0
-  calico_cni: rancher/calico-cni:v3.13.0
-  calico_controllers: rancher/calico-kube-controllers:v3.13.0
-  calico_ctl: rancher/calico-ctl:v2.0.0
-  calico_flexvol: rancher/calico-pod2daemon-flexvol:v3.13.0
-  canal_node: rancher/calico-node:v3.13.0
-  canal_cni: rancher/calico-cni:v3.13.0
-  canal_flannel: rancher/coreos-flannel:v0.11.0
-  canal_flexvol: rancher/calico-pod2daemon-flexvol:v3.13.0
-  weave_node: weaveworks/weave-kube:2.5.2
-  weave_cni: weaveworks/weave-npc:2.5.2
-  pod_infra_container: rancher/pause:3.1
-  ingress: rancher/nginx-ingress-controller:nginx-0.25.1-rancher1
+  etcd: rancher/coreos-etcd:v3.4.13-rancher1
+  alpine: rancher/rke-tools:v0.1.65
+  nginx_proxy: rancher/rke-tools:v0.1.65
+  cert_downloader: rancher/rke-tools:v0.1.65
+  kubernetes_services_sidecar: rancher/rke-tools:v0.1.65
+  kubedns: rancher/k8s-dns-kube-dns:1.15.10
+  dnsmasq: rancher/k8s-dns-dnsmasq-nanny:1.15.10
+  kubedns_sidecar: rancher/k8s-dns-sidecar:1.15.10
+  kubedns_autoscaler: rancher/cluster-proportional-autoscaler:1.8.1
+  coredns: rancher/coredns-coredns:1.7.0
+  coredns_autoscaler: rancher/cluster-proportional-autoscaler:1.8.1
+  nodelocal: rancher/k8s-dns-node-cache:1.15.13
+  kubernetes: rancher/hyperkube:v1.19.3-rancher1
+  flannel: rancher/coreos-flannel:v0.13.0-rancher1
+  flannel_cni: rancher/flannel-cni:v0.3.0-rancher6
+  calico_node: rancher/calico-node:v3.16.1
+  calico_cni: rancher/calico-cni:v3.16.1
+  calico_controllers: rancher/calico-kube-controllers:v3.16.1
+  calico_ctl: rancher/calico-ctl:v3.16.1
+  calico_flexvol: rancher/calico-pod2daemon-flexvol:v3.16.1
+  canal_node: rancher/calico-node:v3.16.1
+  canal_cni: rancher/calico-cni:v3.16.1
+  canal_controllers: rancher/calico-kube-controllers:v3.16.1
+  canal_flannel: rancher/coreos-flannel:v0.13.0-rancher1
+  canal_flexvol: rancher/calico-pod2daemon-flexvol:v3.16.1
+  weave_node: weaveworks/weave-kube:2.7.0
+  weave_cni: weaveworks/weave-npc:2.7.0
+  pod_infra_container: rancher/pause:3.2
+  ingress: rancher/nginx-ingress-controller:nginx-0.35.0-rancher1
   ingress_backend: rancher/nginx-ingress-controller-defaultbackend:1.5-rancher1
   metrics_server: rancher/metrics-server:v0.3.6
-  windows_pod_infra_container: rancher/kubelet-pause:v0.1.3
+  windows_pod_infra_container: rancher/kubelet-pause:v0.1.4
 ssh_key_path: ~/.ssh/id_rsa
 ssh_cert_path: ""
 ssh_agent_auth: false
 authorization:
   mode: rbac
   options: {}
-ignore_docker_version: false
+ignore_docker_version: null
 kubernetes_version: ""
 private_registries: []
 ingress:
@@ -172,6 +234,7 @@ cluster_name: ""
 cloud_provider:
   name: ""
 prefix_path: ""
+win_prefix_path: ""
 addon_job_timeout: 0
 bastion_host:
   address: ""
@@ -191,5 +254,3 @@ restore:
   restore: false
   snapshot_name: ""
 dns: null
-#dns:
-#  provider: coredns
