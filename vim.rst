@@ -151,6 +151,21 @@ Resize
 - :resize +/- <num>
 - :vert[ical] resize +/- <num>
 
+Select
+++++++
+
+- v         - select range of text
+- shift + v - select extire lines
+- ctrl + v  - select columns
+- v/foo     - select from current position to the next instance of 'foo', n to next 'foo', ...
+- ggvG      - select all
+- ma -> :<line num> -> shift + v -> 'a - select from mark 'a' to line num
+
+Copy
++++++
+
+- Copy all: ggyG
+
 Delete
 ++++++
 
@@ -193,15 +208,6 @@ Vertical Edit
              |
              V
             Esc
-
-Select
-++++++
-
-- v         - select range of text
-- shift + v - select extire lines
-- ctrl + v  - select columns
-- v/foo     - select from current position to the next instance of 'foo', n to next 'foo', ...
-- ma -> :<line num> -> shift + v -> 'a - select from mark 'a' to line num
 
 Jumplist
 ++++++++
