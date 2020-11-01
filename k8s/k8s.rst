@@ -244,6 +244,13 @@ Rolling Update
     kubectl rollout pause deploy/nginx
     kubectl rollout resume deploy/nginx
 
+Show Node Resource Utilization Summary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl top node
+
 kubeconfig
 -----------
 
