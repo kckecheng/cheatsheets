@@ -1567,6 +1567,40 @@ This tip only lists the most important commands for easy reference. For more inf
 
     openssl verify -CAfile ca.crt example.org.crt
 
+ipmitool
+---------
+
+- Get system status
+
+  ::
+
+    # IPMI interface will either lan or lanplus
+    ipmitool -I lanplus -H 192.168.10.10 -U admin -P password chassis status
+
+- Power Ops
+
+  ::
+
+    ipmitool -I lanplus -H 192.168.10.10 -U admin -P password power <on|off|soft|reset>
+
+- Change boot order
+
+  ::
+
+    ipmitool -I lanplus -H 192.168.10.10 -U admin -P password chassis bootdev <bios|pxe|cdrom|...>
+
+- Reset IPMI controller
+
+  ::
+
+    ipmitool -I lanplus -H 192.168.10.10 -U admin -P password mc reset [warm|cold]
+
+- Create a console connection
+
+  ::
+
+    ipmitool -I lanplus -H 192.168.10.10 -U admin -P password sol activate
+
 Disks
 =====
 
