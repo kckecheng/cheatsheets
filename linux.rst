@@ -1601,6 +1601,110 @@ ipmitool
 
     ipmitool -I lanplus -H 192.168.10.10 -U admin -P password sol activate
 
+SLES HA Cluster
+----------------
+
+Cluster Environment:
+
+ - node1: 192.168.10.10 (eth0)
+ - node2: 192.168.10.20 (eth0)
+ - Virtual IP: 192.168.10.30
+ - Shared disks:
+
+   * /dev/mapper/mpatha
+   * /dev/mapper/mpathb
+
+Steps:
+
+- Update /etc/hosts
+
+  ::
+
+    192.168.10.10 node1
+    192.168.10.20 node2
+
+- Setup NTP: refer to "Use Chrony for time sync" within the same document
+- Setup the software Watchdog (softdog)
+
+  ::
+
+    echo softdog > /etc/modules-load.d/watchdog.conf
+    echo softdog > /etc/modules-load.d/watchdog.conf
+    systemctl restart systemd-modules-load
+    lsmod | grep softdog
+
+- Init HA cluster from node1
+
+  ::
+
+    ha-cluster-init -u -i eth0 -s /dev/mapper/mpatha
+    crm status
+
+- Join the HA cluster from node2
+
+  ::
+
+    ha-cluster-join -c node1
+    crm status
+
+- Check the configuration
+
+  ::
+
+    # All the configuration is recorded within CIB (/var/lib/pacemaker/cib/cib.xml)
+    # Command "cibadmin -Q" can be used to show the raw xml contents
+    crm configure show
+
+- Adjust SBD options
+
+  ::
+
+    # Add below line into /etc/sysconfig/sbd
+    SBD_OPTS="-W"
+
+- Adjust SBD options for multipathing device
+
+  ::
+
+    sbd -d /dev/mapper/mpatha -4 180 -1 90 create
+
+- Restart the cluster to apply the changes
+
+  ::
+
+    crm cluster stop
+    crm cluster start
+    crm status
+    sbd -d /dev/mapper/mpatha list
+
+- Make sure below packages are installed before going further
+
+  ::
+
+    zypper search -s dlm-kmp
+    zypper install dlm-kmp-default
+    zypper search -s ocfs2-kmp
+    zypper install ocfs2-kmp-default
+    reboot
+    # Select the associated kernel during boot!
+
+- Create OCFS2 Volumes
+
+  ::
+
+    mkfs.ocfs2 -N 2 /dev/mapper/mpathb
+
+- Access SuSE Hawk for cluster admin with default account hacluster/linux: https://192.168.10.<10|20|30>:7630
+- Create OCFS2 cluster resource by following: Hawk -> Configuration -> Wizards -> File System -> OCFS2 File System
+- Frequently used commands
+
+  * Interactive: crm [|configure|mon|resource|etc.]
+  * Show current status: crm_mon -1
+  * List resources: crm resource list
+  * Start/stop/restart: crm resource start/stop/restart <resource name>
+  * Clears the failure counter and re-checks the resource state: crm resource cleanup <resource name>
+  * Delete a resource: crm configure show; crm configure delete <resource name>; crm configure show
+
 Disks
 =====
 
