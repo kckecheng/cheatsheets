@@ -1694,8 +1694,21 @@ Steps:
 
     mkfs.ocfs2 -N 2 /dev/mapper/mpathb
 
-- Access SuSE Hawk for cluster admin with default account hacluster/linux: https://192.168.10.<10|20|30>:7630
-- Create OCFS2 cluster resource by following: Hawk -> Configuration -> Wizards -> File System -> OCFS2 File System
+- Mount:
+
+  * Manual mount:
+
+    ::
+
+      mkdir /mnt/mpathb
+      mount.ocfs2 /dev/mapper/mpathb /mnt/mpathb
+      umount /mnt/mpathb
+
+  * Automatic mount through crm(recommended):
+
+    * Access SuSE Hawk for cluster admin with default account hacluster/linux: https://192.168.10.<10|20|30>:7630
+    * Create OCFS2 cluster resource by following: Hawk -> Configuration -> Wizards -> File System -> OCFS2 File System
+
 - Frequently used commands
 
   * Interactive: crm [|configure|mon|resource|etc.]
