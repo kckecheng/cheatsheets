@@ -1771,14 +1771,25 @@ sg_inq/sg3_inq
 Rescan/discover LUN/disk without reboot
 ---------------------------------------
 
-::
+- FC
 
-  # find . -name "scan"
-  # echo '- - -' > ./devices/pci0000:00/0000:00:07.1/ata1/host0/scsi_host/host0/scan
-  ---OR---
-  # echo '- - -' > /sys/class/scsi_host/host0/scan
-  …
-  # lsblk
+  ::
+
+    # find . -name "scan"
+    # echo '- - -' > ./devices/pci0000:00/0000:00:07.1/ata1/host0/scsi_host/host0/scan
+    ---OR---
+    # echo '- - -' > /sys/class/scsi_host/host0/scan
+    …
+    # lsblk
+
+- iSCSI
+
+  ::
+
+      iscsiadm -m session
+      iscsiadm -m session --sid=<session ID> --rescan
+      # or rescan all sessions
+      iscsiadm -m session --rescan
 
 Remove a SCSI/SAN disk when it is dead
 --------------------------------------
