@@ -39,6 +39,17 @@ Check config file
 
   kubectl config --kubeconfig=<config file name> view [--minify]
 
+List the fields for supported resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl explain deploy
+  kubectl explain deploy.spec
+  kubectl explain deploy.spec.template
+  kubectl explain deploy.spec.template.spec
+  ...
+
 Check service
 ~~~~~~~~~~~~~~
 
