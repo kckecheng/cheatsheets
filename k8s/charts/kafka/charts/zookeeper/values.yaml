@@ -2,8 +2,8 @@
 ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
 ## Current available global Docker image parameters: imageRegistry and imagePullSecrets
 ##
-# global:
-#   imageRegistry: myRegistryName
+global:
+  imageRegistry: quay.io
 #   imagePullSecrets:
 #     - myRegistryKeySecretName
 #   storageClass: myStorageClass
@@ -14,7 +14,7 @@
 image:
   registry: docker.io
   repository: bitnami/zookeeper
-  tag: 3.6.2-debian-10-r10
+  tag: 3.6.2-debian-10-r73
 
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
