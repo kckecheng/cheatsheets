@@ -3,6 +3,78 @@
 Golang Tips
 =============
 
+Module
+-------
+
+Go native dependency management mechanism. Refer to https://github.com/golang/go/wiki/Modules for details.
+
+Enable Go Module
+~~~~~~~~~~~~~~~~~
+
+::
+
+  # export GO111MODULE=auto
+  export GO111MODULE=on
+
+Go Module Proxy
+~~~~~~~~~~~~~~~~
+
+**go get** will fetch packages from their sources directly, such as from github.com, googlesource, etc. Such operations are expensive, and sometimes are even not possible (e.g., golang.org cannot be accessed from within China without a proxy). By enabling the go module feature and setting GOPROXY, packages can be retrieved more fast from a CDN like mirror.
+
+  ::
+
+    export GO111MODULE=on
+    # export GOPROXY=https://goproxy.cn
+    export GOPROXY=https://goproxy.io
+    go get -u <package>
+
+**Tips:** the same problem will be hit when build docker images for go apps. This can be worked around by setting ENV values in a dockerfile as below:
+
+::
+
+  FROM ......
+  ENV GO111MODULE=on
+  ENV GOPROXY=https://goproxy.io
+  ......
+
+Reference:
+
+- `A Global Proxy for Go Modules <https://goproxy.io/>`_
+
+Version Selection
+~~~~~~~~~~~~~~~~~~
+
+By default, a new import will fetch the latest version of a package. However, there are use cases that specified versions of packages should be used.
+
+::
+
+  # within go.mod
+  require github.com/coreos/go-systemd v22.1.0
+  # then run command "go mod tidy"
+
+The Replace Directive
+~~~~~~~~~~~~~~~~~~~~~~
+
+**replace** directive allows to replace module/package dependencies with local copies or alternative repositories. It can be added before/after the require directive in go.mod
+
+::
+
+  replace github.com/user1/pkg1 => /local/dir/pkg1
+  replace golang.org/google/pkg1 => github.com/google/pkg1
+  # specify the exact version
+  replace github.com/coreos/go-systemd => github.com/coreos/go-systemd v22.1.0
+  replace github.com/coreos/go-systemd v22.0.0 => github.com/coreos/go-systemd v22.1.0
+
+Edit go.mod from CLI
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  go mod edit -require github.com/user1/pkg2
+  go mod edit -require github.com/user1/pkg2@version1
+  go mod edit -replace github.com/user1/pkg1=/local/dir/pkg1
+  go mod edit -replace github.com/user1/pkg1@version1=/local/dir/pkg1@version2
+
 Cross Plafom Build
 -------------------
 
@@ -273,48 +345,6 @@ iota
       -
       C2
     )
-
-Specify proxy for go commands
-------------------------------
-
-**go get** will fetch packages from their sources directly, such as from github.com, googlesource, etc. Such operations are expensive, and sometimes are even not possible (e.g., golang.org cannot be accessed from within China without a proxy). By enabling the go module feature and setting GOPROXY, packages can be retrieved more fast from a CDN like mirror.
-
-  ::
-
-    # export GO111MODULE=on
-    export GO111MODULE=auto
-    # export GOPROXY=https://goproxy.cn
-    export GOPROXY=https://goproxy.io
-    go get -u <package>
-
-**Tips:** the same problem will be hit when build docker images for go apps. This can be worked around by setting ENV values in a dockerfile as below:
-
-::
-
-  FROM ......
-  ENV GO111MODULE=on
-  ENV GOPROXY=https://goproxy.io
-  ......
-
-Reference:
-
-- `A Global Proxy for Go Modules <https://goproxy.io/>`_
-
-The replace directive with go module
--------------------------------------
-
-**replace** directive allows to replace module/package dependencies with local copies or alternative repositories. It can be added before/after the require directive in go.mod
-
-::
-
-  replace github.com/user1/pkg1 => /local/dir/pkg1
-  replace golang.org/google/pkg1 => github.com/google/pkg1
-
-Beside the above mentioned method(edit go.mod) directly, below commands can also be leveraged for the same purpose:
-
-::
-
-  go mod edit -replace github.com/user1/pkg1=/local/dir/pkg1
 
 List packages
 ----------------
