@@ -119,6 +119,7 @@ Below options are recommended before using git(without global for per repository
     git config --global credential.helper cache
     git config --global credential.useHttpPath true
     git config --global format.pretty format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(blue)<%aE>%Creset"
+    git config --global init.defaultBranch main
     git config --global -l
 
 Git configuration can also be edited with vim as below:
