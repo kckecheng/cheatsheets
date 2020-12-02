@@ -125,6 +125,12 @@ go test
 
     go test -v -run TestXXX ./...
 
+- Disable test caching
+
+  ::
+
+    go test -v -cover -count=1 ./...
+
 - Solutions for "flag provided but not defined"
 
   * Known issue: https://github.com/golang/go/issues/31859
