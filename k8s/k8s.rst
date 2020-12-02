@@ -262,6 +262,13 @@ Show Node Resource Utilization Summary
 
   kubectl top node
 
+Pod Force Deletion
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl delete pods <pod> --grace-period=0 --force
+
 kubeconfig
 -----------
 
