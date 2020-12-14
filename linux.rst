@@ -1706,8 +1706,35 @@ Steps:
 
   * Automatic mount through crm(recommended):
 
-    * Access SuSE Hawk for cluster admin with default account hacluster/linux: https://192.168.10.<10|20|30>:7630
-    * Create OCFS2 cluster resource by following: Hawk -> Configuration -> Wizards -> File System -> OCFS2 File System
+    * GUI:
+
+      + Access SuSE Hawk for cluster admin with default account hacluster/linux: https://192.168.10.<10|20|30>:7630
+      + Create OCFS2 cluster resource by following: Hawk -> Configuration -> Wizards -> File System -> OCFS2 File System
+
+    * CLI:
+
+      ::
+
+        crm configure
+        primitive dlm ocf:pacemaker:controld
+            op start timeout=90
+            op stop timeout=60
+
+        group g-dlm dlm
+
+        clone c-dlm g-dlm meta interleave=true
+
+        primitive mpathj ocf:heartbeat:Filesystem
+            directory="/mnt/perf"
+            fstype="ocfs2"
+            device="/dev/mapper/mpathb"
+            op start timeout=60s
+            op stop timeout=60s
+            op monitor interval=20s timeout=40s
+        modgroup g-dlm add mpathb
+        exit
+        crm configure show
+        crm status
 
 - Frequently used commands
 
