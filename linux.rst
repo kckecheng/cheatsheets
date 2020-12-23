@@ -93,6 +93,18 @@ a general markup converter supporting md, rst, etc.
   pandoc <file name with suffix> | w3m -T text/html
   pandoc -s --toc <file name with suffix> [--metadata title=<title string>] | w3m -T text/html
 
+tshark
+------
+
+Terminal based Wireshark.
+
+
+::
+
+  tshark --color -i eth0 -f "port 8080"
+  tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
+  tshark --color -V -i eth0
+
 ranger
 ------
 
