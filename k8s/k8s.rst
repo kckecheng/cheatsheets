@@ -463,6 +463,14 @@ The images packaged into a tar file can be loaded again:
 
   docker [image] load -i <file name>.tar
 
+Image History
+~~~~~~~~~~~~~~
+
+::
+
+  docker image list
+  docker image history <image>
+
 podman
 ~~~~~~~~
 
