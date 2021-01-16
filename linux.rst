@@ -469,11 +469,26 @@ List all available versions of a packge with yum
 EPEL for RHEL/CentOS/Fedora
 ----------------------------
 
-EPEL stands for **Extra Pacakges for Enterprise Linux**, which contains lots of tools such as fio, ipvsadm, etc.
+EPEL stands for **Extra Pacakges for Enterprise Linux**, a.k.a repositories for extra packages, which contains lots of tools such as fio, ipvsadm, etc.
 
 ::
 
   yum install epel-release
+
+Fedora Copr
+------------
+
+Fedora Copr is an easy-to-use automatic build system providing a package repository as its output. It can be used as package repositories for non official (including packages which are not covered by epel).
+
+How to leverage Copr:
+
+#. Go to https://copr.fedorainfracloud.org/;
+#. Search the package which is not in the official repositories and epel, say "fasd";
+#. Select/click the project which is the best from the result list;
+#. Click the "Repo Download" link based on the target release;
+#. Copy the URL field of the browser (not the content of the repo), say https://copr.fedorainfracloud.org/coprs/rdnetto/fasd/repo/fedora-33/rdnetto-fasd-fedora-33.repo for fasd;
+#. sudo yum-config-manager --add-repo=<the repo link just copied>;
+#. Done.
 
 Install package offline on Arch
 -------------------------------
