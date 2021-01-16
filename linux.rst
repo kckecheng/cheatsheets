@@ -488,6 +488,10 @@ How to leverage Copr:
 #. Click the "Repo Download" link based on the target release;
 #. Copy the URL field of the browser (not the content of the repo), say https://copr.fedorainfracloud.org/coprs/rdnetto/fasd/repo/fedora-33/rdnetto-fasd-fedora-33.repo for fasd;
 #. sudo yum-config-manager --add-repo=<the repo link just copied>;
+#. Check /etc/yum.repos.d/<the newly created repo name>.repo to make sure the contents generated is correct.
+
+   For example, the baseurl for fasd is https://download.copr.fedorainfracloud.org/results/rdnetto/fasd/fedora-$releasever-$basearch/. If the OS used is CentOS 8, this will be interpreted as https://download.copr.fedorainfracloud.org/results/rdnetto/fasd/fedora-8-x86_64/ which is of course not correct. To fix this issue, hard code the url as https://download.copr.fedorainfracloud.org/results/rdnetto/fasd/fedora-33-$basearch/.
+
 #. Done.
 
 Install package offline on Arch
