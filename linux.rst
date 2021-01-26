@@ -1776,6 +1776,13 @@ Steps:
   * Clears the failure counter and re-checks the resource state: crm resource cleanup <resource name>
   * Delete a resource: crm configure show; crm configure delete <resource name>; crm configure show
 
+Check initramfs contents
+-------------------------
+
+::
+
+  lsinitrd <initrd image>
+
 Disks
 =====
 
