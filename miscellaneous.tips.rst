@@ -495,3 +495,12 @@ PostgreSQL psql
     \d <table name>
     \d+ <table name>
     SELECT COLUMN_NAME from information_schema.COLUMNS WHERE TABLE_NAME = '<table name>';
+
+MySQL
+------
+
+- Show query results vertically
+
+  ::
+
+    select * from t_vm \G;
