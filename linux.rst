@@ -1301,12 +1301,24 @@ Print section between two regular expressions
 Delete broken links
 -------------------
 
-find /etc/apache2 -type l **! -exec test -e {} \;** -print | sudo xargs rm
+::
+
+  find /etc/apache2 -type l **! -exec test -e {} \;** -print | sudo xargs rm
 
 Find and sort by time
 ---------------------
 
-find . -type f -printf '%T@ %p\n' | sort -k 1 -n [-r]
+::
+
+  find . -type f -printf '%T@ %p\n' | sort -k 1 -n [-r]
+
+Find files newer than
+----------------------
+
+::
+
+  find . -type f -newermt '2021-02-05'
+  find -newermt "$(date '+%Y-%m-%d %H:%M:%S' -d '10 minutes ago')"
 
 Sort based on several fields
 ----------------------------
