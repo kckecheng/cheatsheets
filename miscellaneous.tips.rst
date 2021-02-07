@@ -504,3 +504,14 @@ MySQL
   ::
 
     select * from t_vm \G;
+
+SQLite3
+-------
+
+- Change query result display mode
+
+  ::
+
+    .help
+    .mode line
+    select * from t_task limit 3;
