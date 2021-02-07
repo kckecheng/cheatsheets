@@ -407,6 +407,23 @@ PowerCLI - Ignore Certification
   Get-PowerCLIConfiguration
   Set-PowerCLIConfiguration -InvalidCertificateAction ignore
 
+SQL
+----
+
+- Order by
+
+  ::
+
+    select * from t_task oder by create_time asc;
+    select * from t_task oder by create_time desc;
+
+- Limit
+
+  ::
+
+    select * from t_task limit 10;
+    select * from t_task oder by create_time asc limit 5;
+
 PostgreSQL psql
 -----------------
 
