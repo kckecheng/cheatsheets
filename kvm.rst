@@ -233,3 +233,19 @@ Check VM Log
 ::
 
   virt-log -d test
+
+Copy Files to a VM
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # create an iso image
+  genisoimage -o data.iso <files/folder>
+  # find target device
+  virsh dumpxml <ID/Name> # get the target device name, e.g. hdb
+  # attach the iso
+  virsh attach-disk <ID/Name> /<absolute path>/data.iso hdb --sourcetype block --driver qemu --subdriver raw --type cdrom
+  # Mount in the VM
+  virsh console <ID/Name>
+  lsblk # or lsscsi
+  mount /dev/sr0 /mnt
