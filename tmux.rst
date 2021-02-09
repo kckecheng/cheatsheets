@@ -107,7 +107,8 @@ Shortcuts
 +----------------------------------------+-----------------------------------------------+
 |Backup/restore sessions(tmux-rescurrect)|  ^b ^s -> save ; ^b ^r -> restore             |
 +----------------------------------------+-----------------------------------------------+
-|Automatic rename panel                  |  ^b: set-optiong -g automatic-rename on/off   |
+|Automatic rename panel                  |  - ^b: set-optiong -g allow-rename on/off     |
+|                                        |  - ^b: set-optiong -g automatic-rename on/off |
 +----------------------------------------+-----------------------------------------------+
 |Show global options                     |  ^b: show-optionts -g                         |
 +----------------------------------------+-----------------------------------------------+
