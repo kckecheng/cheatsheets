@@ -43,7 +43,30 @@ virtualenvwrapper is a set of extensions to to make virtual env ops easier. It i
   rmvirtualenv project1
 
 pip
----
+----
+
+Specify multiple index-url
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # pip.conf
+  [global]
+  index-url = http://pypi.org
+  extra-index-url = http://extra1.org
+                    http://extra2.org
+
+Specify trusted hosts for pip
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # defualt ~/.pip/pip.conf
+  # virtualenv ~/.virtualenvs/<venv name>/pip.conf
+  [global]
+  trusted-host = pypi.python.org
+                 pypi.org
+
 
 Install for local user only
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
