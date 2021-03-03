@@ -1,10 +1,10 @@
 .. contents:: Linux Tips
 
 Command Line Shortcuts
-========================
+===========================
 
 Command Editing Shortcuts
--------------------------
+----------------------------
 
 - Ctrl + a – go to the start of the command line
 - Ctrl + e – go to the end of the command line
@@ -19,7 +19,7 @@ Command Editing Shortcuts
 - Ctrl + backspace - delete a previous word (support path delimeter, such as /)
 
 Command Recall Shortcuts
-------------------------
+---------------------------
 
 - Ctrl + r – search the history backwards
 - Ctrl + g - quite the search
@@ -29,7 +29,7 @@ Command Recall Shortcuts
 - Alt + . – use the last word of the previous command
 
 Command Control Shortcuts
--------------------------
+----------------------------
 
 - Ctrl + l – clear the screen
 - Ctrl + c – terminate the command
@@ -38,7 +38,7 @@ Command Control Shortcuts
 - Ctrl + q – unfreeze the terminal(allow output to the screen)
 
 List Shortcuts/Bindings
------------------------
+--------------------------
 
 - sh/bash
 
@@ -61,30 +61,30 @@ List Shortcuts/Bindings
     bindkey -M emacs | grep -i '^"^\['
 
 Long Command Edit/edit-command-line
------------------------------------
+--------------------------------------
 
  - export EDITOR='vim'
  - <Ctrl+x><Ctrl+e>
  - :wq
 
 Change Line Editing Mode
-------------------------
+---------------------------
 
 - bash: set -o vi
 - zsh : bindkey <-e|-v>
 
 Command Quick Substitution
---------------------------
+-----------------------------
 
 - ^string1^string2^     - Repeat the last command, replacing string1 with string2. Equivalent to !!:s/string1/string2/
 - !!gs/string1/string2/ - Repeat the last command, replacing all string1 with string2
 - Refer to: https://www.gnu.org/software/bash/manual/bashref.html#History-Interaction
 
 Cutting Edge Tools
-==================
+=====================
 
 pandoc
-------
+---------
 
 a general markup converter supporting md, rst, etc.
 
@@ -94,7 +94,7 @@ a general markup converter supporting md, rst, etc.
   pandoc -s --toc <file name with suffix> [--metadata title=<title string>] | w3m -T text/html
 
 tshark
-------
+---------
 
 Terminal based Wireshark.
 
@@ -106,7 +106,7 @@ Terminal based Wireshark.
   tshark --color -V -i eth0
 
 ranger
-------
+---------
 
 a great command line file browser.
 
@@ -143,7 +143,7 @@ Keyboard Mapping/Shortcuts Cheatsheet: https://ranger.github.io/cheatsheet.png
   2. Edit rifle.conf to associate files with applications;
 
 ripgrep
--------
+----------
 
 ripgrep is a line-oriented search tool that recursively searches your current directory for a regex pattern while respecting your gitignore(use **--no-ignore** to ignore those ignore files) rules. It is much more faster than any other tools, like grep, fd, etc.
 
@@ -155,7 +155,7 @@ ripgrep is a line-oriented search tool that recursively searches your current di
   rg --no-ignore <pattern>
 
 fzf
----
+------
 
 A command-line fuzzy finder, which integrates well with other tools.
 
@@ -173,7 +173,7 @@ A command-line fuzzy finder, which integrates well with other tools.
   rg -e <pattern> | fzf
 
 fd
---
+-----
 
 fd is a simple, fast and user-friendly alternative to find. fd ignore files defined in .gitignore, to search files including such files, use option **--no-ignore**.
 
@@ -185,7 +185,7 @@ fd is a simple, fast and user-friendly alternative to find. fd ignore files defi
   fd --no-ignore <pattern>
 
 curlftpfs
----------
+------------
 
 mount a ftp share as a normal file system:
 
@@ -194,7 +194,7 @@ mount a ftp share as a normal file system:
   curlftpfs ftp://<site url> <mount point>
 
 jq
---
+-----
 
 jq is like sed for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that sed, awk, grep and friends let you play with text. Refer to https://stedolan.github.io/jq/tutorial/ for usage.
 
@@ -205,7 +205,7 @@ E.g., to verify if a json file is well formated:
   cat <file name>.json | jq '.'
 
 yq
---
+-----
 
 yq is similar as jq, but it is used to translate yaml/xml to json:
 
@@ -214,7 +214,7 @@ yq is similar as jq, but it is used to translate yaml/xml to json:
   cat <file name>.yaml | yq '.'
 
 gpg
----
+------
 
 Encryp/decrypt a file.
 
@@ -224,7 +224,7 @@ Encryp/decrypt a file.
   gpg -d <file>
 
 busybox
---------
+-----------
 
 BusyBox combines tiny versions of many common UNIX utilities into a single small executable. Since it provides binary download, it can be used on Unix/Linux based systems which do not support package instalaltion (scp busybox onto them and run directly).
 
@@ -236,7 +236,7 @@ Busybox ships with a large num. of applets (refer to `its document <https://busy
   pkill busybox
 
 moreutils
----------
+------------
 
 **moreutils** is a software package containing quite some useful tools can be leveraged during daily work.
 
@@ -246,17 +246,17 @@ moreutils
 - lckdo: run a program with a lock.
 
 Performance Tuning/Monitoring/Troubleshooting Tools
-===================================================
+======================================================
 
 Overall
--------
+----------
 
 There is a great diagram, which is from www.brendangregg.com, showing misc tracing tools on Linux. Overall, it can be used as a common reference.
 
 .. image:: images/linux_perf_and_trace_utils.png
 
 top
-----
+-------
 
 Top is installed on almost all Linux distributions by default for performance monitoring. Here are some tips of using top:
 
@@ -285,7 +285,7 @@ Top is installed on almost all Linux distributions by default for performance mo
      * !COMMAND=vim
 
 sysdig
-------
+---------
 
 A powerful system and process troubleshooting tool.
 
@@ -308,49 +308,49 @@ A powerful system and process troubleshooting tool.
 
 
 htop
-----
+-------
 
 Similar as the classic top, but much more powerful - it is interactive and ncurses-based, which support mouse operations on terminal.
 
 iotop
------
+--------
 
 Show IO status by process.
 
 iftop
------
+--------
 
 Display bandwidth usage including host to host (ip to ip) information.
 
 nethogs
---------
+-----------
 
 NetHogs is a small 'net top' tool. Instead of breaking the traffic down per protocol or per subnet, like most tools do, it groups bandwidth by process.
 
 nmon
-----
+-------
 
 A great tool to tune system performance, which can show statistics for CPU/memory/disks/kernel/etc.
 
 bwm-ng
-------
+---------
 
 Bandwidth Monitor NG is a small and simple console-based live network and disk *io bandwidth* monitor for Linux, BSD, Solaris, Mac OS X and others.
 
 strace
-------
+---------
 
 Trace system calls and signals
 
 ftrace
-------
+---------
 
 Ftrace is an internal tracer designed to help out developers and designers of systems to find what is going on inside the kernel. It can be used for debugging or analyzing latencies and performance issues that take place outside of user-space.
 
 **Note**: install with command *yay -S trace-cmd* on arch.
 
 blktrace
---------
+-----------
 
 1. **blktrace** is a block layer IO tracing mechanism which provides detailed information about request queue operations up to user space. The trace result is stored in a binary format, which obviously doesn't make for convenient reading;
 2. The tool for that job is **blkparse**, a simple interface for analyzing the IO traces dumped by blktrace;
@@ -359,14 +359,14 @@ blktrace
 5. In the meanwhile, **btrecord** and **btreplay** can be used to recreate IO loads recorded by blktrace.
 
 systemtap
----------
+------------
 
 SystemTap is a tracing and probing tool that allows users to study and monitor the activities of the computer system (particularly, the kernel) in fine detail. It provides information similar to the output of tools like netstat,  ps, top, and iostat, but is designed to provide more filtering and analysis options for collected information.
 
 The advantage of systemtap is you can write a kind of script called **SystemTap Scripts** to perform complicated tracing. Please refer to https://sourceware.org/systemtap/ for details.
 
 perf-tool
----------
+------------
 
 Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
 
@@ -392,10 +392,10 @@ Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
 **Notes**: install through yay on Arch.
 
 Package Mangement
-=================
+====================
 
 Which package provides the binary
----------------------------------
+------------------------------------
 
 - RHEL/CentOS
 
@@ -419,7 +419,7 @@ Which package provides the binary
     apt-file search <file name>
 
 Install a specified version RPM through yum
--------------------------------------------
+----------------------------------------------
 
 ::
 
@@ -427,7 +427,7 @@ Install a specified version RPM through yum
   # yum install <package name>-<version>
 
 arch aur package helper yay
----------------------------
+------------------------------
 
 Yet Another Yogurt - An AUR Helper Written in Go for archlinux based distros:
 
@@ -436,7 +436,7 @@ Yet Another Yogurt - An AUR Helper Written in Go for archlinux based distros:
 - Upgrade pacakges : yay -Syu --aur
 
 Install a Package with a Specific Version on Ubuntu
----------------------------------------------------
+------------------------------------------------------
 
 ::
 
@@ -444,7 +444,7 @@ Install a Package with a Specific Version on Ubuntu
   apt install <package name>=<version>
 
 View package groups on Arch
----------------------------
+------------------------------
 
 ::
 
@@ -452,7 +452,7 @@ View package groups on Arch
   pacman -Qg[g]
 
 List all available versions of a packge with yum
-------------------------------------------------
+---------------------------------------------------
 
 ::
 
@@ -467,7 +467,7 @@ List all available versions of a packge with yum
   kernel-uek.x86_64              3.8.13-35.3.5.el7uek                ol7_UEKR3
 
 EPEL for RHEL/CentOS/Fedora
-----------------------------
+-------------------------------
 
 EPEL stands for **Extra Pacakges for Enterprise Linux**, a.k.a repositories for extra packages, which contains lots of tools such as fio, ipvsadm, etc.
 
@@ -476,7 +476,7 @@ EPEL stands for **Extra Pacakges for Enterprise Linux**, a.k.a repositories for 
   yum install epel-release
 
 Fedora Copr
-------------
+---------------
 
 Fedora Copr is an easy-to-use automatic build system providing a package repository as its output. It can be used as package repositories for non official (including packages which are not covered by epel).
 
@@ -495,22 +495,22 @@ How to leverage Copr:
 #. Done.
 
 Install package offline on Arch
--------------------------------
+----------------------------------
 
 1. Find the package by surfing: https://www.archlinux.org/packages/
 2. **Download From Mirror** from the package page, the file <package name>.pkg.tar.xz will be downloaded;
 3. sudo pacman -U <package name>.pkg.tar.xz
 
 Choose Arch mirror
-------------------
+---------------------
 
 Official Mirror List
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 - https://www.archlinux.org/mirrorlist/all/
 
 List by Speed(based on local test)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -520,7 +520,7 @@ List by Speed(based on local test)
   pacman -Syy
 
 Server Side Ranking
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -528,21 +528,21 @@ Server Side Ranking
   reflector --country China --country Singapore --country 'United States' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 Shortcut for Manjaro
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
 
 Only use mirrors from a country
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sudo pacman-mirrors -c China && sudo pacman -Syyu
 
 Create a local yum repo with DVD iso
-------------------------------------
+---------------------------------------
 
 - Disable all other repositories by make "enabled=0" on all files under /etc/yum.repos.d;
 - Mount the iso: mount -o loop
@@ -561,18 +561,18 @@ Create a local yum repo with DVD iso
 
 
 dnf
-----
+-------
 
 dnf, which means dandified yum, is the default package manager for replacing yum.
 
 Configuration
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 - /etc/dnf/dnf.conf: dnf configuration
 - /etc/yum.repos.d: repo definitions
 
 List
-~~~~~
+~~~~~~~~
 
 - dnf list --all: list all installed and available packages
 - dnf list [<--installed\|--available\|--extras\|--obsoletes\|--recent>] [expression]: list packages [matching expression]
@@ -580,13 +580,13 @@ List
 - dnf list --autoremove: list orphaned packages
 
 Info
-~~~~~~
+~~~~~~~~~
 
 - dnf info <package name>: show information for package
 - dnf provides <path/to/file>: show packages own the file
 
 Install
-~~~~~~~~
+~~~~~~~~~~~
 
 - dnf install <package name>: install package
 - dnf install <path/to/local/rpm>: install a local rpm package
@@ -594,7 +594,7 @@ Install
 - dnf downgrade <package name>: downgrade package
 
 History
-~~~~~~~~~
+~~~~~~~~~~~~
 
 - dnf history list: list dnf transactions
 - dnf history info transaction: show info for a particular transaction
@@ -603,14 +603,14 @@ History
 - dnf history undo transaction: undo a transaction
 
 Update
-~~~~~~~
+~~~~~~~~~~
 
 - dnf check-update: check if updates are available
 - dnf upgrade: upgrade packages to latest version
 - dnf upgrade-minimal: update major patches and security
 
 Repo
-~~~~~
+~~~~~~~~
 
 - dnf repolist [<--enabled\|--disabled\|--all>]: list repos
 - dnf config­manager --add-repo=URL: add a repo
@@ -618,23 +618,23 @@ Repo
 Note: config­manager is a dnf plugin which needs to be installed(dnf install dnf-plugins-core)
 
 Group
-~~~~~~~
+~~~~~~~~~~
 
 - dnf group summary group: show installed and available groups
 - dnf group info <group name>: show information for a group
 - dng group list [expression]: list groups [matching expression]
 
 Uninstall
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 - dnf remove <package name>: remove a package
 - dnf autoremove: remote orphaned packages
 
 Services
-=========
+============
 
 Service Logs
--------------
+----------------
 
 - Check service logs based on time window
 
@@ -663,7 +663,7 @@ Service Logs
     journalctl --vacuum-time=1s
 
 Reload configuration file without restarting service
------------------------------------------------------
+--------------------------------------------------------
 
 SIGHUP as a notification about terminal closing event does not make sense for a daemon, because deamons are detached from their terminal. So the system will never send this signal to them. Then it is common practice for daemons to use it for another meaning, typically reloading the daemon's configuration.
 
@@ -672,7 +672,7 @@ SIGHUP as a notification about terminal closing event does not make sense for a 
   kill -s HUP <daemon pid>
 
 Use Chrony for time sync
--------------------------
+----------------------------
 
 Modern Linux distributions start to use Chrony as the default application for time sync (NTP) instead of the classic ntpd. Chrony comes with 2 x programs:
 
@@ -721,10 +721,10 @@ Usage:
     chronyc makestep
 
 Postfix
---------
+-----------
 
 Configure Postfix as SMTP Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A SMTP server is able to send emails but not receive emails. It is useful for situations such as sending notifications which does not expect any reply.
 
@@ -766,7 +766,7 @@ A SMTP server is able to send emails but not receive emails. It is useful for si
     systemctl start postfix
 
 Send Emails from CLI
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -783,7 +783,7 @@ Send Emails from CLI
   EOF
 
 Check and Clear Mail Queues
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -793,7 +793,7 @@ Check and Clear Mail Queues
   postsuper -d ALL
 
 kdump config
-------------
+---------------
 
 1. Install "kernel-debuginfo-common" and "kernel-debuginfo", by default, these two packages are not kept in yum repository, they need to be downloaded from internet;
 #. Install "kexec-tools" and "crash":
@@ -825,10 +825,10 @@ kdump config
 #. Done.
 
 MISC Tips
-=========
+============
 
 List table of contents of manpage
----------------------------------
+------------------------------------
 
 Based on the level of title you want to see, below commands can be used(3 stands for 3 x levels of titles).
 
@@ -837,7 +837,7 @@ Based on the level of title you want to see, below commands can be used(3 stands
   man ovs-vsctl | grep '^ \{0,3\}[A-Z]'
 
 Here Document
--------------
+----------------
 
 Here document in shell is used to feed a command list(multiple line of strings) to an interactive program or a command, such as ftp, cat, ex.
 
@@ -847,7 +847,7 @@ It has 2 x forms:
 - Suppress leading tabs: <<-EOF
 
 Define a variable containing multiple lines of string
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Note**: a variable should be enclosed in double quotes while referring to it, otherwise, it will be treated as a single line string due to the shell expansion.
 
@@ -860,7 +860,7 @@ Define a variable containing multiple lines of string
   echo "$var_name"
 
 Redirect here document output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -873,7 +873,7 @@ Redirect here document output
 
 
 Here String
------------
+--------------
 
 **<<<** is here string, a form of here document. It is used as: COMMAND <<< $WORD, where $WORD is expanded and fed to the stdin of COMMAND.
 
@@ -888,10 +888,10 @@ Sample:
   done <<< "$variable_name"
 
 awk
----
+------
 
 Built-in Variables
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 - FS : input field separator
 - OFS: output field separator
@@ -901,7 +901,7 @@ Built-in Variables
 - NR : number of roles
 
 Common Command Format
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -914,7 +914,7 @@ Common Command Format
   ' filenames
 
 awk define variables
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 -v <variable name>=<variable value>
 
@@ -929,31 +929,31 @@ Examples:
     2. The second $1, and the following $2 is the first and second column/field of a input record.
 
 Get lines whose fields/columns is a special word
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   awk '$7=="some_word" {for(i=1;i<=NF;++i){printf "%s ", $i}; printf "\n"}'
 
 Get lines whose fields/columns match a sepcial word
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   awk '$7~/some_word/ {for(i=1;i<=NF;++i){printf "%s ", $i}; printf "\n"}'
 
 Output a range of fields
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   awk '{for(i=3;i<=8;++i){printf "%s ", $i}; printf "\n"}'
 
 ssh
-----
+-------
 
 ssh client configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Configuration file: ~/.ssh/config(mode 400, and create if it does not exist);
 2. man ssh_config to find all supported options;
@@ -987,14 +987,14 @@ ssh client configuration
            Protocol 1
 
 Add ssh public key to remote servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To configure key based ssh login, the ssl public key (generated with ssh-keygen -t rsa) needs to be copied and appended to the file **~/.ssh/authorized_keys** on remote servers.
 
 Command **ssh-copy-id** can be leveraged to do the work automatically.
 
 Enable Additional SSH Key Algorithms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When ssh to some equipment, errors as below may be prompted:
 
@@ -1009,7 +1009,7 @@ To login such equipement:
   ssh -oKexAlgorithms=+xxx <user>@<equipment>
 
 Run multiple Remote Commands with SSH
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -1020,10 +1020,10 @@ ssh root@192.168.10.10 "while : ; do top -b -o '+%MEM' | head -n 10; echo; sleep
   ssh root@192.168.10.10 "while :; do docker stats --no-stream; echo; sleep 5; done"
 
 Show Process Information
---------------------------
+-----------------------------
 
 Show cpu, memory, etc. usage per process
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ps command can be used with customized output format to show per process inforamtion including cpu, mem, cgroups, etc.
 
@@ -1032,21 +1032,21 @@ ps command can be used with customized output format to show per process inforam
   ps -e -o "pid,%cpu,%mem,state,tname,time,command"
 
 List Non-Kernel Process
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   ps --ppid 2 -p 2 --deselect
 
 List Task/Process Switch Stats
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   pidstat -w
 
 Sort based on fields with top
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -1055,14 +1055,38 @@ Sort based on fields with top
   top -b -o '+%MEM'
 
 Only show specified processes with top
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   top -c -p <process id, ...>
 
+Command line calculation with bc
+-----------------------------------
+
+By default, bash does not support floating point calculation. For example, below expressions are not valid:
+
+::
+
+  # [[]] does not support floating point
+  A=100.1
+  B=100.1
+  if [[ $A -eq $b ]]; then
+    echo "Equal"
+  fi
+
+  # $(()) does not support floating point
+  $((A + B))
+
+To calculate floating point with bash, use bc as below:
+
+::
+
+  bc -l <<< "scale=10; $A == $B"
+  bc <<< "scale=10; $A + $B"
+
 Run a script automatically during system boot
----------------------------------------------
+------------------------------------------------
 
 Previously, such tasks are achieved by leveraging rc.local, bash profile, etc. However, customized systemd service nowadays is much better for the same purpose.
 
@@ -1094,7 +1118,7 @@ Previously, such tasks are achieved by leveraging rc.local, bash profile, etc. H
      systemctl start route_add.service
 
 Keep running a script in the background during system boot
-----------------------------------------------------------
+-------------------------------------------------------------
 
 A service Type can be defined as oneshot, simple, forking, etc. When it is needed to keep a script running in the background forever, **forking** can be leveraged as below.
 
@@ -1119,7 +1143,7 @@ A service Type can be defined as oneshot, simple, forking, etc. When it is neede
 **Notes**: **fork** needs to be implemented by the app or the script to be executed.
 
 Fork implementation with shell
-------------------------------
+---------------------------------
 
 There are 2 x formats to achive forking with shell:
 
@@ -1137,7 +1161,7 @@ There are 2 x formats to achive forking with shell:
      (xxx; xxx; ...) &
 
 Redhat Linux vmcore Analyzing Getting Started
----------------------------------------------
+------------------------------------------------
 
 ::
   rpm -ivh crash-<version>.<platform>.rpm
@@ -1145,12 +1169,12 @@ Redhat Linux vmcore Analyzing Getting Started
   crash /<absolute path to the system map file used for debug> /<path to the vmlinux used for debug>  /<path to the vmcore file>
 
 Delete Character with Yast2
----------------------------
+------------------------------
 
 - Ctrl + H
 
 Disable IPv6
-------------
+---------------
 
 - sysctl
 
@@ -1174,7 +1198,7 @@ Disable IPv6
      linux   /boot/vmlinuz-xxx xxx xxx ipv6.disable=1
 
 Recode file to UTF-8
---------------------
+-----------------------
 
 - recode -f UTF-8 <file name>
 
@@ -1190,7 +1214,7 @@ Recode file to UTF-8
             Kernel modules: igb
 
 sudoers: <user> ALL = (<user to act as>) <commands>
----------------------------------------------------
+------------------------------------------------------
 
 ::
 
@@ -1205,7 +1229,7 @@ sudoers: <user> ALL = (<user to act as>) <commands>
     %wheel ALL=(ALL) ALL
 
 Grub2 change boot order
------------------------
+--------------------------
 ::
 
   awk -F\' '$1=="menuentry " {print i++ " : " $2}' /etc/grub2.cfg
@@ -1214,34 +1238,34 @@ Grub2 change boot order
   grub2-editenv list
 
 Disable console log
--------------------
+----------------------
 
 ::
 
   # dmesg -n 1
 
 lsof tips
----------
+------------
 
 - lsof <file> ---> Which processes are using the file
 - lsof +D <directory> ---> Which processed are accessing the directory, and which files under the directory are being accessed
 
 Delete trailing new line
-------------------------
+---------------------------
 
 ::
 
   #tr -d '\n'
 
 Change trailing new line to some other character
-------------------------------------------------
+---------------------------------------------------
 
 ::
 
   #tr '\n' ','
 
 Bash wait
----------
+------------
 
 ::
 
@@ -1259,21 +1283,21 @@ Bash wait
   done
 
 Use shell variable in sed
--------------------------
+----------------------------
 
 ::
 
   sed -i -e "s/bindIp:.*$/bindIp: $IP_ADDR/" /etc/mongod.conf
 
 Make grep match for only 1 time
--------------------------------
+----------------------------------
 
 ::
 
   # grep -m1 …...
 
 Shell debugging
----------------
+------------------
 
 ::
 
@@ -1285,35 +1309,35 @@ Shell debugging
   export PS4='+(${BASH_SOURCE}:${LINENO}):${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
 Regular Expression Comparision for sed/vim/awk/grep/etc.
---------------------------------------------------------
+-----------------------------------------------------------
 
 ::
 
   # txt2regex --showmeta
 
 Print section between two regular expressions
----------------------------------------------
+------------------------------------------------
 
 ::
 
   # sed -n -e '/reg1/,/reg2/p' <file>
 
 Delete broken links
--------------------
+----------------------
 
 ::
 
   find /etc/apache2 -type l **! -exec test -e {} \;** -print | sudo xargs rm
 
 Find and sort by time
----------------------
+------------------------
 
 ::
 
   find . -type f -printf '%T@ %p\n' | sort -k 1 -n [-r]
 
 Find files newer than
-----------------------
+-------------------------
 
 ::
 
@@ -1321,12 +1345,12 @@ Find files newer than
   find -newermt "$(date '+%Y-%m-%d %H:%M:%S' -d '10 minutes ago')"
 
 Sort based on several fields
-----------------------------
+-------------------------------
 
 sort -k <field 1 order> -k <field 2 ordr> ... [-n] [-r]
 
 String Contains in Bash
------------------------
+--------------------------
 
 - Leverage Wildcard
 
@@ -1349,7 +1373,7 @@ String Contains in Bash
     fi
 
 Tarball with xz
----------------
+------------------
 
 xz is a newer compression tool than gz, bz, bz2, etc. It delivers better compression ratio and performance.
 
@@ -1358,7 +1382,7 @@ xz is a newer compression tool than gz, bz, bz2, etc. It delivers better compres
   tar -cJf <archive.tar.xz> <files>
 
 Check shared object/library dependencies
-----------------------------------------
+-------------------------------------------
 
 ::
 
@@ -1366,7 +1390,7 @@ Check shared object/library dependencies
   LD_DEBUG=libs ldd <object or executable file>
 
 Check object/executable file information
-----------------------------------------
+-------------------------------------------
 
 - objdump
 - readelf
@@ -1380,7 +1404,7 @@ Check object/executable file information
   readelf --dyn-syms <ELF file>
 
 Record and replay linux CMD screen
-----------------------------------
+-------------------------------------
 
 ::
 
@@ -1394,23 +1418,23 @@ Record and replay linux CMD screen
   scriptreplay --timing file.tm --typescript script.out
 
 Check nfs IO stat
------------------
+--------------------
 
 ::
 
   nfsstat -l
 
 zsh tips
---------
+-----------
 
 Common
-~~~~~~
+~~~~~~~~~
 
 - zsh reference card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
 - zsh tips: http://grml.org/zsh/zsh-lovers.html
 
 zsh set/unset options
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -1420,7 +1444,7 @@ zsh set/unset options
   unsetopt HIST_IGNORE_ALL_DUPS
 
 Development Tools on different distros
---------------------------------------
+-----------------------------------------
 
 - Arch
 
@@ -1447,13 +1471,13 @@ Development Tools on different distros
     sudo zypper install -t pattern devel_C_C++
 
 Assign hostname dynamically with DHCP
--------------------------------------
+----------------------------------------
 
 1. **option host-name** can be used to assign a hostname while assigning IP - https://www.isc.org/wp-content/uploads/2017/08/dhcp41options.html;
 2. **dhcp-eval** can be leveraged to generate a hostname dynamically - https://www.isc.org/wp-content/uploads/2017/08/dhcp41eval.html.
 
 Delete VM on Linux with virsh
------------------------------
+--------------------------------
 
 ::
 
@@ -1471,7 +1495,7 @@ Delete VM on Linux with virsh
   rm -rf <VM source file>
 
 Configure IP with netctl on Arch
---------------------------------
+-----------------------------------
 
 1. Create profiles
 
@@ -1510,7 +1534,7 @@ Configure IP with netctl on Arch
      netctl reenable profile
 
 Change System Clock
--------------------
+----------------------
 
 timedatectl is a new utility, which comes as a part of systemd system and service manager, a replacement for old traditional date command used in sysvinit daemon.
 
@@ -1520,14 +1544,14 @@ timedatectl is a new utility, which comes as a part of systemd system and servic
   timedatectl set-timezone Asia/Shanghai
 
 Change System Locale
---------------------
+-----------------------
 
 ::
 
   localectl --help
 
 Show CPU Summary
-------------------
+---------------------
 
 Show CPU architecture, features, sockers, cores, etc.
 
@@ -1537,14 +1561,14 @@ Show CPU architecture, features, sockers, cores, etc.
 
 
 Use openssl to download a certificate
---------------------------------------
+-----------------------------------------
 
 ::
 
   openssl s_client -showcerts -connect <IP or FQDN>:<Port> </dev/null 2>/dev/null | openssl x509 -outform PEM > ca.pem
 
 Setup CA with OpenSSL
-----------------------
+-------------------------
 
 This tip only lists the most important commands for easy reference. For more information, refer to the `original doc <https://gist.github.com/soarez/9688998>`_.
 
@@ -1611,7 +1635,7 @@ This tip only lists the most important commands for easy reference. For more inf
     openssl verify -CAfile ca.crt example.org.crt
 
 ipmitool
----------
+------------
 
 - Get system status
 
@@ -1645,7 +1669,7 @@ ipmitool
     ipmitool -I lanplus -H 192.168.10.10 -U admin -P password sol activate
 
 SLES HA Cluster
-----------------
+-------------------
 
 Cluster Environment:
 
@@ -1789,17 +1813,17 @@ Steps:
   * Delete a resource: crm configure show; crm configure delete <resource name>; crm configure show
 
 Check initramfs contents
--------------------------
+----------------------------
 
 ::
 
   lsinitrd <initrd image>
 
 Disks
-=====
+========
 
 List all SCSI devices
----------------------
+------------------------
 
 **sg_map** can be used to list all devices support SCSI, such as sd, sr, st, etc. In the meanwhile, it can also list the well known host:bus:scsi:lun inforamtion as lsscsi.
 
@@ -1825,14 +1849,14 @@ Note: sg stands for generic SCSI driver, it is generalized (but lower level) tha
   lsblk -p
 
 Create a LV with all free space
--------------------------------
+----------------------------------
 
 ::
 
   lvcreate -l 100%FREE -n <LV name> <VG name>
 
 Parted
-------
+---------
 
 - fdisk cannot create partitions larger than 2TB, parted should be used under such situation.
 - Select a target disk for partitioning: parted->print devices->select
@@ -1840,7 +1864,7 @@ Parted
 - **Notes** : if error "Warning: The resulting partition is not properly aligned for best performance." is hit, you could use mkpart primary 0% 100% , this will align the disk automatically for you.
 
 sg_inq/sg3_inq
---------------
+-----------------
 
 ::
 
@@ -1859,7 +1883,7 @@ sg_inq/sg3_inq
   # sg_inq -p 0x83 /dev/<device name>
 
 Rescan/discover LUN/disk without reboot
----------------------------------------
+------------------------------------------
 
 - FC
 
@@ -1882,7 +1906,7 @@ Rescan/discover LUN/disk without reboot
       iscsiadm -m session --rescan
 
 Remove a SCSI/SAN disk when it is dead
---------------------------------------
+-----------------------------------------
 
 ::
 
@@ -1907,75 +1931,75 @@ Remove a SCSI/SAN disk when it is dead
   [4:0:0:0]    cd/dvd  PLDS     DVD-RW DU8A5SH   BL61  /dev/sr0
 
 View/Create/Remove SCSI Persistent Reservation Keys
----------------------------------------------------
+------------------------------------------------------
 
 Refer to https://access.redhat.com/solutions/43402
 
 Tool needed - sg3_utils
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   yum install sg3_utils
 
 View registered keys
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --in -k -d /dev/<DEVICE>
 
 View the reservations
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --in -r -d /dev/<DEVICE>
 
 View more info about keys
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --in -s -d /dev/<DEVICE>
 
 Register a key
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --out --register --param-sark=<KEY> /dev/<DEVICE>
 
 Take out a reservation
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --out --reserve --param-rk=<KEY> --prout-type=<TYPE> /dev/<DEVICE>
 
 Release a reservation
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --out --release --param-rk=<KEY> --prout-type=<TYPE> /dev/<DEVICE>
 
 Unregister a key
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --out --register --param-rk=<KEY> /dev/<DEVICE>
 
 Clear the reservation and all registered keys
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   sg_persist --out --clear --param-rk=<KEY> /dev/<DEVICE>
 
 A simple script to clear all reservations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
