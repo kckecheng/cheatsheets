@@ -257,6 +257,18 @@ sg3_utils is a tool set to send SCSI commands to devices. It supports Linux, **W
 
 The tool can be downloaded from http://sg.danny.cz/sg/sg3_utils.html
 
+Windows - winsat
+------------------
+
+winsat is a builtin benchmark tool which supports CPU, memory, disk, etc. benchmarking.
+
+- Disk benchmark
+
+  ::
+
+    winsat disk -drive g
+
+
 OpenStack - Adding Security Group Rules to Allow ICMP and ssh
 -------------------------------------------------------------
 
