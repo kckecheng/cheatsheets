@@ -20,6 +20,19 @@ Tools
 - tmuxp  : tmux session manager, which can be used to start sessions based on yaml definition;
 - xpanes : conduct concurrent ops with multiple panes, e.g., xpanes -c "ssh root@{}" host1 host2
 
+Scripts
+--------
+
+- Create panels from shell
+
+  ::
+
+    tmux new-window -n sshlogins
+    for IP in 11 12 13; do
+      tmux split-window "ssh root@192.168.10.${IP}"
+      tmux select-layout tiled
+    done
+
 Shortcuts
 ----------
 
