@@ -113,6 +113,7 @@ Shortcuts
 |(src/dst format as:                     |  - ^b: move-pane -s <src> -t <dst>            |
 |[session name]:[windows id][.]<pane id>)|  - ^b: join-pane -s <src> -t <dst>            |
 |                                        |  - ^b m + ^b: move/join-window/pane -s <src>  |
+|                                        |  - ^b: move-window -r                         |
 +----------------------------------------+-----------------------------------------------+
 |Shortcut for moving a window            |  ^b .                                         |
 +----------------------------------------+-----------------------------------------------+
