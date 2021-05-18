@@ -1827,6 +1827,18 @@ Caculate the size of hugepage used by a specified process
   # say the huge page size is 2M
   grep -B 11 'KernelPageSize:     2048 kB' /proc/[PID]/smaps | grep "^Size:" | awk 'BEGIN{sum=0}{sum+=$2}END{print sum/1024}'
 
+Caculate used huge pages of a system
+--------------------------------------
+
+::
+
+  # say the huge page size is 2M
+  nr=`cat /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages`
+  free=`cat /sys/kernel/mm/hugepages/hugepages-2048kB/free_hugepages`
+  used=$((nr - free))
+  echo $((used*2))M;
+  echo $((used*2/1024))G
+
 Disks
 ========
 
