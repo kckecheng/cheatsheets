@@ -1819,6 +1819,14 @@ Check initramfs contents
 
   lsinitrd <initrd image>
 
+Caculate the size of hugepage used by a specified process
+--------------------------------------------------------------
+
+::
+
+  # say the huge page size is 2M
+  grep -B 11 'KernelPageSize:     2048 kB' /proc/[PID]/smaps | grep "^Size:" | awk 'BEGIN{sum=0}{sum+=$2}END{print sum/1024}'
+
 Disks
 ========
 
