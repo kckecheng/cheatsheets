@@ -1061,6 +1061,23 @@ Only show specified processes with top
 
   top -c -p <process id, ...>
 
+Show process threads
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ps -T -p <pid>
+  top -H -p <pid>
+
+Show the CPU process/thread is running on
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # psr is the physical cpu
+  ps -F -p <pid>
+  ps -T -F -p <pid>
+
 Command line calculation with bc
 -----------------------------------
 
