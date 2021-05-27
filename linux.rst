@@ -389,7 +389,30 @@ Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
 - tpoint
 - uprobe
 
+Example 1: Scheduler Analysis
+
+::
+
+  # Record all scheduler events within 1 second
+  perf sched record -- sleep 1
+  # To check detailed events
+  perf script [--header]
+  # Summarize scheduler latencies by task
+  perf sched latency [-s max]
+
 **Notes**: install through yay on Arch.
+
+stress-ng
+-----------
+
+A tool to stress cpu, memory, disk, etc.
+
+- Stress all CPUs to specified usage
+
+  ::
+
+    # without specifying -l, stress-ng tries to stress cpus to 100% usage
+    stress-ng --cpu <num. of CPUs> -l <usage in percent, say 90%>
 
 Package Mangement
 ====================
@@ -1856,6 +1879,13 @@ Caculate used huge pages of a system
   echo $((used*2))M;
   echo $((used*2/1024))G
 
+Make a process run on spcified cpu cores
+-------------------------------------------
+
+::
+
+  taskset -cp <cpu cores, such as 1,2,3> <pid>
+
 Disks
 ========
 
@@ -1868,7 +1898,7 @@ Note: sg stands for generic SCSI driver, it is generalized (but lower level) tha
 
 ::
 
-  # sg_map -x                                                                                                                        master ✱
+  # sg_map -x
   /dev/sg0  1 0 0 0  5  /dev/sr0
   /dev/sg1  2 0 0 0  0  /dev/sda
 
