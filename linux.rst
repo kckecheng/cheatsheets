@@ -1106,6 +1106,7 @@ Show the CPU process/thread is running on
   # psr is the physical cpu
   ps -F -p <pid>
   ps -T -F -p <pid>
+  ps -T -p 41869 -o pid,spid,psr,comm
 
 Command line calculation with bc
 -----------------------------------
