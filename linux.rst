@@ -418,6 +418,7 @@ A tool to stress cpu, memory, disk, etc.
 
     # without specifying -l, stress-ng tries to stress cpus to 100% usage
     stress-ng --cpu <num. of CPUs> -l <usage in percent, say 90%>
+    stress-ng -c 0 -l 60
 
 Package Mangement
 ====================
