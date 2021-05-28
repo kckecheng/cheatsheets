@@ -284,6 +284,16 @@ Top is installed on almost all Linux distributions by default for performance mo
      * %CPU>0.5
      * !COMMAND=vim
 
+slabtop, slabinfo
+--------------------
+
+Check kernel slab memory, refer to http://www.secretmango.com/jimb/Whitepapers/slabs/slab.html for slab introductions.
+
+nmon
+-------
+
+A great tool to tune system performance, which can show statistics for CPU/memory/disks/kernel/etc.
+
 sysdig
 ---------
 
@@ -326,11 +336,6 @@ nethogs
 -----------
 
 NetHogs is a small 'net top' tool. Instead of breaking the traffic down per protocol or per subnet, like most tools do, it groups bandwidth by process.
-
-nmon
--------
-
-A great tool to tune system performance, which can show statistics for CPU/memory/disks/kernel/etc.
 
 bwm-ng
 ---------
