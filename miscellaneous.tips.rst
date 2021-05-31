@@ -167,6 +167,18 @@ When "docker exec -it" is used to estabilish a terminal to the container, the te
   # Establish a terminal to a container with the same terminal size as the current one
   docker exec -it -e COLUMNS=<tput cols output> -e LINES=<tput lines output> <container_name> bash
 
+Windows - Shortcuts
+----------------------------------------
+
+- Minimize an app:
+
+  * Some apps: Win - Down
+  * All apps: Alt - Space - n
+
+- Move the active applicaiton to the left/right screen
+
+  * Shift + Win + Left/Right
+
 Windows - Make an app always on top
 -----------------------------------
 
@@ -181,12 +193,6 @@ Windows - Make an app always on top
 4. Save the exit;
 5. Click the script, then a icon for AutoHotKey will appear in your system tray;
 6. Press 'Ctrl - SPACE' to toggle an app as always on top.
-
-Windows - Shortcut for minimizing an app
-----------------------------------------
-
-- Some apps: Win - Down
-- All apps: Alt - Space - n
 
 Windows - Show MPIO Paths
 ---------------------------
