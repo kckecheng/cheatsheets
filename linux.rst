@@ -1893,6 +1893,14 @@ Make a process run on spcified cpu cores
 
   taskset -cp <cpu cores, such as 1,2,3> <pid>
 
+Get a random int within a range
+---------------------------------
+
+::
+
+  N=$(shuf -i 1-100 -n 1)
+  echo $N
+
 Disks
 ========
 
