@@ -352,7 +352,36 @@ ftrace
 
 Ftrace is an internal tracer designed to help out developers and designers of systems to find what is going on inside the kernel. It can be used for debugging or analyzing latencies and performance issues that take place outside of user-space.
 
-**Note**: install with command *yay -S trace-cmd* on arch.
+**event tracing**
+
+::
+
+  cd /sys/kernel/debug/tracing/
+  cat available_events # list all availabel events which can be traced
+  ls events # list all available events which is organized in groups
+  echo 1 > events/path/to/event/enable # enable the event tracing, multiple events can be traced
+  echo 1 > tracing_on
+  echo > trace
+  cat trace # check trace results
+
+**function tracing**
+
+::
+
+  cat available_tracers # list all available traces, function, function_graph are used most frequently
+  # function
+  echo function > current_tracer
+  cat available_filter_functions # get filters which can be used for function tracing
+  echo <available filter> > set_ftrace_filter # multiple filter can be used - echo <another filter> >> set_ftrace_filter
+  echo > trace
+  cat trace # check trace results
+  # function graph
+  echo function_graph > current_tracer
+  cat available_filter_functions # get filters which can be used for function graph tracing
+  echo <available filter> > set_graph_function # multiple filter can be used - echo <another filter> >> set_graph_function
+  echo 10 > max_graph_depth
+  echo > trace
+  cat trace # check trace results
 
 blktrace
 -----------
