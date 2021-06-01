@@ -927,7 +927,7 @@ Built-in Variables
 - RS : record separator
 - ORS: output record separator
 - NF : number of fields
-- NR : number of roles
+- NR : number of records
 
 Common Command Format
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -977,6 +977,13 @@ Output a range of fields
 ::
 
   awk '{for(i=3;i<=8;++i){printf "%s ", $i}; printf "\n"}'
+
+Calculate the sum of a column
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  awk '{sum += $3}END{print sum}'
 
 ssh
 -------
