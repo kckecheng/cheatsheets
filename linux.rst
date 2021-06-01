@@ -1937,6 +1937,14 @@ Get a random int within a range
   N=$(shuf -i 1-100 -n 1)
   echo $N
 
+Create an array based on command output
+------------------------------------------
+
+::
+
+  a1=( $(ps -T -o pid,tid,psr,comm -p `pgrep -f 92e50bee-568d-4cc9-ad5a-617a6eb8206e` | grep CPU | awk '{print $2}' ) )
+  echo ${a[*]}
+
 Disks
 ========
 
