@@ -434,6 +434,19 @@ Example 1: Scheduler Analysis
   # Summarize scheduler latencies by task
   perf sched latency [-s max]
 
+Example 2: Performance Analysis
+
+::
+
+  # the whole system performance stat
+  perf stat record -a sleep 10
+  perf kvm stat record -a sleep 10
+  # specified vcpu performance
+  perf kvm stat record -a -p <vcpu tid> -a sleep 10
+  # report
+  perf stat report
+  perf kvm stat report
+
 **Notes**: install through yay on Arch.
 
 stress-ng
