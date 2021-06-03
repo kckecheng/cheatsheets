@@ -284,6 +284,12 @@ Top is installed on almost all Linux distributions by default for performance mo
      * %CPU>0.5
      * !COMMAND=vim
 
+- Adavance filter: select multiple processes
+
+  ::
+
+    top -p `pgrep -d ',' -f "app1|app2|app3"`
+
 slabtop, slabinfo
 --------------------
 
