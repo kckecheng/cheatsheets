@@ -362,6 +362,7 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
 
 ::
 
+  # method 1 - through event toggle
   cd /sys/kernel/debug/tracing/
   cat available_events # list all availabel events which can be traced
   ls events # list all available events which is organized in groups
@@ -369,6 +370,33 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
   echo 1 > tracing_on
   echo > trace
   cat trace # check trace results
+  # method 2 - through set_event
+  echo > set_event # clear previous events
+  echo "event1" > set_event # multiple event tracing: echo "event2" >> set_event
+  echo 1 > tracing_on
+  echo > trace
+  cat trace
+
+**event filtering**
+
+::
+
+  # event filter
+  cat events/path/to/event/format # understand the supported event format
+  echo "filter expression" > events/path/to/event/filter
+  echo 0 > events/path/to/event/filter # clear the filter
+  # event subsystem filter
+  cd events/subsystem/path
+  echo 0 > filter
+  echo "filter expression" > filter
+
+**event pid filtering**
+
+::
+
+  cd /sys/kernel/debug/tracing
+  echo <PID> > set_event_pid # filtering multiple PIDs: echo <PID1> <PID2> <...> >> set_event_pid
+  ...
 
 **function tracing**
 
@@ -388,6 +416,14 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
   echo 10 > max_graph_depth
   echo > trace
   cat trace # check trace results
+
+**trace_pipe**
+
+::
+
+  # trace_pipe only contains newer data compared with last read, suitable for redirection
+  cat trace_pipe
+  cat trace_pipe > /tmp/trace.log
 
 blktrace
 -----------
