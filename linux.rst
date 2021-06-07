@@ -196,13 +196,23 @@ mount a ftp share as a normal file system:
 jq
 -----
 
-jq is like sed for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that sed, awk, grep and friends let you play with text. Refer to https://stedolan.github.io/jq/tutorial/ for usage.
+Reference:
 
-E.g., to verify if a json file is well formated:
+- https://stedolan.github.io/jq/tutorial/
+- https://programminghistorian.org/en/lessons/json-and-jq
+
+**Exapmples**
 
 ::
 
+  # validate if the conent of a document is a legal json string + pretty format
   cat <file name>.json | jq '.'
+  # select objects based on field match
+  tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80"))'
+  # reverse the match
+  tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80") | not)'
+  # output selected fields as csv - use jq -r to avoid \"
+  tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80")) | [.NetworkInterfaceName, .NetworkInterfaceId] | @csv'
 
 yq
 -----
