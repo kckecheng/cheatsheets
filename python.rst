@@ -10,7 +10,7 @@ Virtual Env
 venv
 ~~~~~
 
-Since version 3.6, python has already provides a builtin module, A.K.A venv, to support virtual env. In other words, without any additional software andconfiguration, virtual env can be used directly.
+Since version 3.6, python has already provides a builtin module, A.K.A venv, to support virtual env. In other words, without any additional software and configuration, virtual env can be used directly. **However, it is not possible to specify a different python version with it.**
 
 ::
 
@@ -24,7 +24,7 @@ Since version 3.6, python has already provides a builtin module, A.K.A venv, to 
 virtualenvwrapper
 ~~~~~~~~~~~~~~~~~~
 
-virtualenvwrapper is a set of extensions to to make virtual env ops easier. It is recommended to be used if there are lots of virtual env setups need to be maintained.
+virtualenvwrapper is a set of extensions to to make virtual env ops easier. **It is recommended on Linux. However, it does not work well on Windows.**
 
 ::
 
@@ -41,6 +41,19 @@ virtualenvwrapper is a set of extensions to to make virtual env ops easier. It i
   lssitepackages
   deactivate
   rmvirtualenv project1
+
+Virtualenv
+~~~~~~~~~~~~
+
+Works well on both Linux and Windows, and it is easy to specify a different python verion. Refer to its official document - https://virtualenv.pypa.io/en/latest/
+
+::
+
+  # Windows example - with git-bash
+  python -m virtualenv -p /c/Python27/python.exe virtenv1
+  cd virtenv1
+  source Scripts/activate
+  deactivate
 
 pip
 ----
