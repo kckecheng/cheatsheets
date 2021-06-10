@@ -1751,6 +1751,69 @@ Create an array based on command output
   a1=( $(ps -T -o pid,tid,psr,comm -p `pgrep -f 92e50bee-568d-4cc9-ad5a-617a6eb8206e` | grep CPU | awk '{print $2}' ) )
   echo ${a[*]}
 
+Create a samba server
+----------------------
+
+#. samba, samba-client needs to be installed at first
+#. Create dirs
+
+   ::
+
+     mkdir -p /samba/private
+     mkdir -p /samba/public
+
+#. Create users
+
+   ::
+
+     groupadd smbgrp
+     useradd user1 # private access
+     usermod -aG smbgrp user1
+     smbpasswd -a user1
+     usermod -aG smbgrp nobody # public access with nobody
+
+#. Change dir access permissions
+
+   ::
+
+     chgrp smbgrp /samba/private
+     chown nobody.smbgrp /samba/public
+
+#. Samba server configuration
+
+   ::
+
+     # /etc/samba/smb.conf - delete original contents
+     [global]
+     workgroup = WORKGROUP
+     security = user
+     map to guest = bad user
+     wins support = no
+     dns proxy = no
+
+     [public]
+     path = /samba/public
+     guest ok = yes
+     force user = nobody
+     browsable = yes
+     writable = yes
+
+     [private]
+     path = /samba/private
+     valid users = @smbgrp
+     guest ok = no
+     browsable = yes
+     writable = yes
+
+#. Restart service
+
+   ::
+
+     systemctl restart smb
+     systemctl restart nmb
+
+#. Done
+
 Disks
 ========
 
