@@ -1733,6 +1733,9 @@ Make a process run on spcified cpu cores
 
 ::
 
+  # query current affinity
+  taskset -cp <pid>
+  # change the affinity
   taskset -cp <cpu cores, such as 1,2,3> <pid>
 
 Get a random int within a range
