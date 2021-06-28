@@ -83,6 +83,11 @@ Command Quick Substitution
 Cutting Edge Tools
 =====================
 
+Modern Unix
+-------------
+
+A set of unix tools improving daily efficiency - https://github.com/ibraheemdev/modern-unix
+
 pandoc
 ---------
 
