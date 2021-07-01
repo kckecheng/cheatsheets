@@ -80,6 +80,38 @@ bwm-ng
 
 Bandwidth Monitor NG is a small and simple console-based live network and disk *io bandwidth* monitor for Linux, BSD, Solaris, Mac OS X and others.
 
+cgroups
+--------
+
+Control process cpu usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Install libcgroup-tools which provides cli tools for using cgroups
+#. Create a cgroup named cpulimite:
+
+   ::
+
+     cgcreate -g cpu:/cpulimit
+
+#. Set the process can use 10% of all CPU resouces
+
+   ::
+
+     # Explanation:
+     # - cfs_period_us: the time period to measure CPU usage, max 1s and min 1000us
+     # - cfs_quota_us: the time all processes within the cgroup can use within each cfs_period_us
+     # Result: processes within the cgroup get cfs_quota_us / cfs_period_us * 100% CPU resources
+     #         in this example, it is 10% of all CPU resouces
+     cgset -r cpu.cfs_period_us=1000000 cpulimit
+     cgset -r cpu.cfs_quota_us=100000 cpulimit
+     cgget -g cpu:cpulimit
+
+#. Start a process and put it under the control of the cgroup
+
+   ::
+
+     cgexec -g cpu:cpulimit YOUR_COMMAND
+
 sysdig
 ---------
 
