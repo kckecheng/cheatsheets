@@ -83,34 +83,55 @@ Bandwidth Monitor NG is a small and simple console-based live network and disk *
 cgroups
 --------
 
-Control process cpu usage
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Control cpu usage
+~~~~~~~~~~~~~~~~~~~
 
-#. Install libcgroup-tools which provides cli tools for using cgroups
-#. Create a cgroup named cpulimite:
+#. Install libcgroup-tools which provides CLI tools for using cgroups
+#. Create a cgroup named cpulimit
 
    ::
 
      cgcreate -g cpu:/cpulimit
 
-#. Set the process can use 10% of all CPU resouces
+# . Set how much CPU resources processes can use within the cgroup
+
+    - Example 1: use 10% of 1 x CPU
+
+      ::
+
+        # Explanation:
+        # - cfs_period_us: the time period to measure CPU usage, max 1s and min 1000us
+        # - cfs_quota_us: the time all processes within the cgroup can use within each cfs_period_us
+        # Result: processes within the cgroup get cfs_quota_us / cfs_period_us * 100% of 1 x CPU resource
+        #         in this example, it is 10% of all CPU resouces
+        cgset -r cpu.cfs_period_us=1000000 cpulimit
+        cgset -r cpu.cfs_quota_us=100000 cpulimit
+        cgget -g cpu:cpulimit
+
+    - Example 2: use 10% of all CPUs
+
+      ::
+
+        # Provided there are 8 x CPUs in total
+        cgset -r cpu.cfs_period_us=1000000 cpulimit
+        cgset -r cpu.cfs_quota_us=$(( 1000000 * 8 * 0.1 )) cpulimit
+        cgget -g cpu:cpulimit
+
+    - Example 3: use 100% of 2 x CPUs
+
+      ::
+
+        # Provided there are 8 x CPUs in total
+        cgset -r cpu.cfs_period_us=1000000 cpulimit
+        cgset -r cpu.cfs_quota_us=$(( 1000000 * 2 )) cpulimit
+        cgget -g cpu:cpulimit
+
+#. Start processes and put them under the control of the cgroup
 
    ::
 
-     # Explanation:
-     # - cfs_period_us: the time period to measure CPU usage, max 1s and min 1000us
-     # - cfs_quota_us: the time all processes within the cgroup can use within each cfs_period_us
-     # Result: processes within the cgroup get cfs_quota_us / cfs_period_us * 100% CPU resources
-     #         in this example, it is 10% of all CPU resouces
-     cgset -r cpu.cfs_period_us=1000000 cpulimit
-     cgset -r cpu.cfs_quota_us=100000 cpulimit
-     cgget -g cpu:cpulimit
-
-#. Start a process and put it under the control of the cgroup
-
-   ::
-
-     cgexec -g cpu:cpulimit YOUR_COMMAND
+     cgexec -g cpu:cpulimit command1
+     cgexec -g cpu:cpulimit command2
 
 sysdig
 ---------
