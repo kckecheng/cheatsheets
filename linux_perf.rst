@@ -83,8 +83,16 @@ Bandwidth Monitor NG is a small and simple console-based live network and disk *
 cgroups
 --------
 
-Control cpu usage
-~~~~~~~~~~~~~~~~~~~
+list supported subsystems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  lssubsys [-am]
+  lscgroup
+
+control cpu usage with cpu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Install libcgroup-tools which provides CLI tools for using cgroups
 #. Create a cgroup named cpulimit
@@ -132,6 +140,18 @@ Control cpu usage
 
      cgexec -g cpu:cpulimit command1
      cgexec -g cpu:cpulimit command2
+
+control cpus process can use with cpuset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cgcreate -g cpuset:/testset
+  # cgset -r cpuset.cpus='0,2,4,6,8,10' testset
+  # cgset -r cpuset.cpus='0-3' testset
+  cgset -r cpuset.cpus=3 testset
+  cgset -r cpuset.mems=0 testset
+  cgexec -g cpuset:testset command
 
 sysdig
 ---------
