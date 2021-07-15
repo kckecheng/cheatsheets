@@ -1767,6 +1767,14 @@ Create an array based on command output
   a1=( $(ps -T -o pid,tid,psr,comm -p `pgrep -f 92e50bee-568d-4cc9-ad5a-617a6eb8206e` | grep CPU | awk '{print $2}' ) )
   echo ${a[*]}
 
+Show cpu and cache topology
+-----------------------------
+
+::
+
+  # Install hwloc and hwloc-gui at first
+  lstopo-no-graphics --no-io --no-legend --of txt
+
 Create a samba server
 ----------------------
 
