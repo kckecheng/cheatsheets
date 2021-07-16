@@ -740,6 +740,17 @@ Redirect here document output
      EOF
   }  | tee -a /tmp/output
 
+Avoid variable interpretation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat > /tmp/a.sh << "EOF"
+  var1=$( ls -l )
+  for i in `seq 1 10`; do
+    echo $i
+  done
+  EOF
 
 Here String
 --------------
