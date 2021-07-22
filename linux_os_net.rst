@@ -318,8 +318,11 @@ rp_filter is the abbreviation of "reverse path filtering". It is used to defend 
 
   # echo "0">/proc/sys/net/ipv4/conf/default/rp_filter
   # echo "0">/proc/sys/net/ipv4/conf/all/rp_filter
+  # echo "0">/proc/sys/net/ipv4/conf/eth1/rp_filter
+  sysctl -a | grep rp_filter
   sysctl -w net.ipv4.conf.default.rp_filter=0
   sysctl -w net.ipv4.conf.all.rp_filter=0
+  sysctl -w net.ipv4.conf.eth1.rp_filter=0
 
 Devices
 -------
