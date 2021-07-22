@@ -307,6 +307,20 @@ DNS Lookup
     # Lookup with a specified DNS server
     nslookup -type=ANY google.com 8.8.8.8
 
+rp_filter
++++++++++++
+
+Refernce: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+
+rp_filter is the abbreviation of "reverse path filtering". It is used to defend network attack such as DDoS, IP Spoofing, etc. The main function of rp_filter is to check whether a receiving packet source address is routable. On a Linux with multiple NICs and package need to be rounted between them, rp_filter should  be disabled:
+
+::
+
+  # echo "0">/proc/sys/net/ipv4/conf/default/rp_filter
+  # echo "0">/proc/sys/net/ipv4/conf/all/rp_filter
+  sysctl -w net.ipv4.conf.default.rp_filter=0
+  sysctl -w net.ipv4.conf.all.rp_filter=0
+
 Devices
 -------
 
