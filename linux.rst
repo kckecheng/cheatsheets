@@ -909,10 +909,17 @@ Run multiple Remote Commands with SSH
 ::
 
   # ssh <user>@<host> ""
-ssh root@192.168.10.10 "while : ; do top -b -o '+%MEM' | head -n 10; echo; sleep 3; done"
+  ssh root@192.168.10.10 "while : ; do top -b -o '+%MEM' | head -n 10; echo; sleep 3; done"
   ssh root@192.168.10.10 "while : ; do top -b -o '+%MEM' | head -n 10; echo; sleep 3; done"
   ssh root@192.168.10.10 "vmstat -w -S m 5 10"
   ssh root@192.168.10.10 "while :; do docker stats --no-stream; echo; sleep 5; done"
+
+Run commands without password by using sshpass
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sshpass -p <password> ssh -p <port> -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 <IP> '<commands>'
 
 Show Process Information
 -----------------------------
