@@ -981,6 +981,14 @@ Show the CPU process/thread is running on
   ps -T -F -p <pid>
   ps -T -p 41869 -o pid,spid,psr,comm
 
+Disable auto logout for CLI console
+-------------------------------------
+
+::
+
+  # add to /etc/profile to persistent the setting
+  export TMOUT=0
+
 Command line calculation with bc
 -----------------------------------
 
