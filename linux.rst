@@ -980,6 +980,7 @@ Show the CPU process/thread is running on
   ps -F -p <pid>
   ps -T -F -p <pid>
   ps -T -p 41869 -o pid,spid,psr,comm
+  taskset -acp <pid>
 
 Disable auto logout for CLI console
 -------------------------------------
