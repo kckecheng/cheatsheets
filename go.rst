@@ -13,8 +13,11 @@ Enable Go Module
 
 ::
 
+  # old style
   # export GO111MODULE=auto
   export GO111MODULE=on
+  # new style
+  go env -w GO111MODULE=on
 
 Go Module Proxy
 ~~~~~~~~~~~~~~~~
@@ -23,9 +26,13 @@ Go Module Proxy
 
   ::
 
+    # old style
     export GO111MODULE=on
-    # export GOPROXY=https://goproxy.cn
     export GOPROXY=https://goproxy.io
+    # new style
+    # go env -w GO111MODULE=on
+    # go env -w GOPROXY=https://goproxy.io
+    # go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
     go get -u <package>
 
 **Tips:** the same problem will be hit when build docker images for go apps. This can be worked around by setting ENV values in a dockerfile as below:
