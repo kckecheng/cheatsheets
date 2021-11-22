@@ -1278,6 +1278,15 @@ Sort based on several fields
 
 sort -k <field 1 order> -k <field 2 ordr> ... [-n] [-r]
 
+Single line for loop with background jobs
+--------------------------------------------
+
+::
+
+  # & is enough, if &; is used, an error will be triggered
+  # refer to https://unix.stackexchange.com/questions/91684/use-ampersand-in-single-line-bash-loop
+  for((i=1;i<=255;i+=1)); do echo $i; /opt/app1 & done
+
 String Contains in Bash
 --------------------------
 
