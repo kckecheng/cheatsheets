@@ -1332,6 +1332,7 @@ Check object/executable file information
 
 - objdump
 - readelf
+- ldd
 
 ::
 
@@ -1340,6 +1341,9 @@ Check object/executable file information
   # Display dynamic symbol tables
   objdump -T <ELF file>
   readelf --dyn-syms <ELF file>
+  # Show dynamic dependencies
+  readelf -d <ELF file> | grep -i need
+  ldd <ELF file>
 
 Record and replay linux CMD screen
 -------------------------------------
