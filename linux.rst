@@ -1330,9 +1330,11 @@ Check shared object/library dependencies
 Check object/executable file information
 -------------------------------------------
 
-- objdump
-- readelf
-- ldd
+- objdump: display info for object files
+- nm: list symbols from object files
+- pahole: show data structures of object files(including running kernels)
+- readelf: display info for ELF files
+- ldd: print object dependencies
 
 ::
 
@@ -1344,6 +1346,8 @@ Check object/executable file information
   # Show dynamic dependencies
   readelf -d <ELF file> | grep -i need
   ldd <ELF file>
+  # show struct task_struct of running kernel
+  pahole task_struct
 
 Record and replay linux CMD screen
 -------------------------------------
