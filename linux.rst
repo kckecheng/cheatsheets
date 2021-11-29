@@ -1349,6 +1349,16 @@ Check object/executable file information
   # show struct task_struct of running kernel
   pahole task_struct
 
+systemcall summary
+--------------------
+
+::
+
+  # get a summary of all system calls
+  man syscalls
+  # get system call convention, including registers used for syscall parameters
+  man syscall
+
 Record and replay linux CMD screen
 -------------------------------------
 
