@@ -180,6 +180,18 @@ strace
 
 Trace system calls and signals
 
+LD_DEBUG
+----------
+
+Work similarly as strace but focus on dynamic linker operations. Especially useful when debugging program compile realted issues:
+
+::
+
+  LD_DEBUG=help ls
+  LD_DEBUG=all ls
+  export LD_DEBUG=all
+  make
+
 ftrace
 ---------
 
