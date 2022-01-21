@@ -1805,6 +1805,13 @@ Make a process run on spcified cpu cores
   # change the affinity
   taskset -cp <cpu cores, such as 1,2,3> <pid>
 
+Change limit settings for running process
+-------------------------------------------
+
+::
+
+  prlimit --nofile=40960:40960 -p 107613
+
 Get a random int within a range
 ---------------------------------
 
