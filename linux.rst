@@ -1836,6 +1836,17 @@ Show cpu and cache topology
   # Install hwloc and hwloc-gui at first
   lstopo-no-graphics --no-io --no-legend --of txt
 
+Linux symbol table
+-------------------
+
+::
+
+  # find the introduction
+  man procfs
+  cat /proc/kallsyms
+  # for symbol type
+  man nm
+
 Create a samba server
 ----------------------
 
