@@ -260,8 +260,10 @@ libvirt needs to understandard cpu features. To support this, src/cpu/cpu_map.xm
 
 To verify if a feature exists within vm, run cpuid from vm os:
 
+- decode ebx='0x00000200' to binary as 0b1000000000
 - cpuid -r -1 -l 7 # here 7 refers to eax_in='0x07'
-- from the output, if ebx='0x00000200', the feature 'erms' is enabled
+- from cpuid output, decode ebx, say 0x209c03a9 to binary as 0b100000100111000000001110101001
+- check 0b1000000000 & 0b100000100111000000001110101001, if it eauals to 0b1000000000, yes - feature enabled
 
 ::
 
