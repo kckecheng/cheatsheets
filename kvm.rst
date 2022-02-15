@@ -249,3 +249,23 @@ Copy Files to a VM
   virsh console <ID/Name>
   lsblk # or lsscsi
   mount /dev/sr0 /mnt
+
+cpuid
+--------
+
+libvirt cpuid definition verification
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+libvirt needs to understandard cpu features. To support this, src/cpu/cpu_map.xml is used.
+
+To verify if a feature exists within vm, run cpuid from vm os:
+
+- cpuid -r -1 -l 7 # here 7 refers to eax_in='0x07'
+- from the output, if ebx='0x00000200', the feature 'erms' is enabled
+
+::
+
+  <feature name='erms'>
+    <cpuid eax_in='0x07' ebx='0x00000200'/>
+  </feature>
+
