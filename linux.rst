@@ -1847,6 +1847,18 @@ Linux symbol table
   # for symbol type
   man nm
 
+Disable Windows PATH with WSL
+-------------------------------
+
+::
+
+  # create /etc/wsl.conf with below contents within a wsl distribution
+  [interop]
+  appendWindowsPath = false
+  # restart the wsl distribution
+  wsl --shutdown
+  wsl -d Ubuntu
+
 Create a samba server
 ----------------------
 
