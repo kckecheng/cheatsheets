@@ -449,3 +449,12 @@ Dynamically Import Module and Initialize Class Based on Strings
 
     class_ = getattr(module, class_name)
     instance = class_()
+
+Literal curly braces within format string
+------------------------------------------
+
+::
+
+  # literal curly braces need to be input as {{ and }}
+  # the result will be { 100 200 }
+  "{{ {a} {b} }}".format(a=100, b=200)

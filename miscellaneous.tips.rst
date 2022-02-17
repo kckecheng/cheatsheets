@@ -274,6 +274,37 @@ winsat is a builtin benchmark tool which supports CPU, memory, disk, etc. benchm
 
     winsat disk -drive g
 
+Windows - fio
+---------------
+
+::
+
+  .\fio.exe --name=job1 --filename=E\:\\test.data --size=2GB --direct=1 --rw=randrw --bs=4k --runtime=120 --numjobs=4 --time_based --group_reporting --verify=md5 --rate=10m,10m
+
+Windows - Run commands in the background
+-----------------------------------------
+
+::
+
+  $session = New-PSSession -cn localhost
+  Invoke-Command -Session $session -ScriptBlock {
+      for (;;) {
+          Copy-Item -Path E:\io.data -Destination F:\io.data -Recurse;
+          Get-FileHash -Path F:\io.data | Select-Object -Property Hash | Format-List | Out-File -Append E:\test.txt;
+          Remove-Item -Path F:\io.data -Recurse;
+          Start-Sleep -Seconds 3;
+      }
+  } -AsJob
+  Disconnect-PSSession $session
+
+Windows - Run powershell commands in the background through ssh
+-----------------------------------------------------------------
+
+OpenSSH server can be enabled on current Windows releases. It makes running cmd commands remotely possible. However, to run powershell commands, all commands need to be formated within one line and wrapped as 'powershell -command "xxx; xxx; ..."'
+
+::
+
+  powershell -command "$session = New-PSSession -cn localhost; Invoke-Command -AsJob -Session $session -ScriptBlock { for (;;) { Copy-Item -Path E:\io.data -Destination F:\io.data -Recurse; Get-FileHash -Path F:\io.data | Select-Object -Property Hash | Format-List | Out-File -Append E:\test2.txt; Remove-Item -Path F:\io.data -Recurse; Start-Sleep -Seconds 3;  }  }; Disconnect-PSSession $session"
 
 OpenStack - Adding Security Group Rules to Allow ICMP and ssh
 -------------------------------------------------------------
