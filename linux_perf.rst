@@ -153,6 +153,14 @@ control cpus process can use with cpuset
   cgset -r cpuset.mems=0 testset
   cgexec -g cpuset:testset command
 
+convert cgroup v1 to v2
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  grubby --update-kernel=/boot/vmlinuz-5.4.119-19-0010 --args "systemd.unified_cgroup_hierarchy=1"
+  reboot
+
 sysdig
 ---------
 
