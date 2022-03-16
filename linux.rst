@@ -1859,6 +1859,12 @@ Disable Windows PATH with WSL
   wsl --shutdown
   wsl -d Ubuntu
 
+autoexpect
+-----------
+
+- expect scripts can be leveraged for autoamtion interactive CLI based tasks. But it is tedious to write such a script.
+- autoexpect can be used to generating the initial expect script more quickly.
+
 Create a samba server
 ----------------------
 
