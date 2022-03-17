@@ -58,3 +58,19 @@ Debug kernel with qemu
     gdb vmlinux
     target remote :1234
     c
+
+- TUI Usage
+
+  * Ctr + x + a: toggle TUI
+  * Ctr + x + 1/2: switch display layout
+
+- Convenience Variables
+
+  * Any name preceded by ‘$’ can be used for a convenience variable;
+  * Reference https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html
+  * Usage:
+
+    ::
+
+      set $foo =  (struct CharDriverState)*0x4dfcb40).chr_write_lock
+      p $foo
