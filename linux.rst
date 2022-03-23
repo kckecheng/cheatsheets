@@ -1865,6 +1865,14 @@ autoexpect
 - expect scripts can be leveraged for autoamtion interactive CLI based tasks. But it is tedious to write such a script.
 - autoexpect can be used to generating the initial expect script more quickly.
 
+Console resize
+---------------
+
+When using virsh console or a tty connection to some equipment, the console size is small to show all the texts within a line. There are 2 x ways to adjust this:
+
+- xterm-resize(preferred): just run "resize"
+- stty: stty rows 45 ; stty columns 140
+
 Create a samba server
 ----------------------
 
