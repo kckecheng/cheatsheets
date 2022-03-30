@@ -228,6 +228,15 @@ yq is similar as jq, but it is used to translate yaml/xml to json:
 
   cat <file name>.yaml | yq '.'
 
+xmllint
+---------
+
+xmllint can be used to process xml with the help of "--xpath". Refer to https://www.w3schools.com/xml/xpath_syntax.asp for the syntax.
+
+::
+
+  cat vm.xml | xmllint --xpath "//vcpu/@cpuset" -
+
 gpg
 ------
 
