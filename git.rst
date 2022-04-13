@@ -399,9 +399,9 @@ Locate changes
 
   - git grep 'string pattern'
 
-- git log -S: Look for differences that change the number of occurrences of the specified string (i.e. addition/deletion) in a file
+- git log -S: Look for differences that change the number of occurrences of the specified string (i.e. addition/deletion) in the repo or the specified file
 
-  - git log -S 'string pattern' <file>
+  - git log -S 'string pattern' [file]
 
 Operations between a forked local branch and the original upstream
 ------------------------------------------------------------------
