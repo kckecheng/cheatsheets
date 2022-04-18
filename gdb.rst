@@ -3,6 +3,14 @@ GDB
 
 GDB tips.
 
+gdb with args
+---------------
+
+::
+
+  # arg1, arg2, ... can be something like --abc -d
+  gdb --args <executable> arg1 arg2 ...
+
 Kernel Debugging
 -----------------
 
