@@ -171,6 +171,8 @@ git log
 - git log --graph --oneline --decorate --author="[Aa]aron"
 - git log --graph --oneline --decorate --author="aaron@gmail.com" -i
 - git show [--format=full] <sha1 hash>
+- git log -S <string> [-p] [file]
+- git log -G <regex> [-p] [file]
 
 git mergetool
 -------------
@@ -387,8 +389,8 @@ Select only files that are:
 
   git log --diff-filter=<A|C|D|R|M|U|X>
 
-Locate changes
---------------
+Search changes
+---------------
 
 - git blame: Show what revision and author last modified each line of a file
 
@@ -399,9 +401,10 @@ Locate changes
 
   - git grep 'string pattern'
 
-- git log -S: Look for differences that change the number of occurrences of the specified string (i.e. addition/deletion) in the repo or the specified file
+- git log: search git log from the specified file or the whole repo by matching a text string or regex
 
-  - git log -S 'string pattern' [file]
+  - git log -S [-p] 'text string' [file]
+  - git log -G [-p] 'regex' [file]
 
 Operations between a forked local branch and the original upstream
 ------------------------------------------------------------------
