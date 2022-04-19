@@ -269,6 +269,18 @@ moreutils
 - combine: combine 2 x files together based on boolean operations;
 - lckdo: run a program with a lock.
 
+cscope and ctags
+------------------
+
+Used together for programming.
+
+::
+
+  find . -name "*.c" -or -name "*.h" > cscope.files
+  cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
+  cscope -dq # use cscope after db buildup
+  ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
+
 Package Mangement
 ====================
 
