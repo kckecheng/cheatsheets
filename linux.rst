@@ -274,6 +274,11 @@ cscope and ctags
 
 Used together for programming.
 
+Notes:
+
+- If vim plugin vista is used together, exuberant ctags is unsupported, using universal-ctags;
+- If a file has Ctrl+M at the end of the line(windows format), cscope may have issues to display the file name. Run command "find . -type f -print0 | xargs -0 dos2unix" to convert such files.
+
 ::
 
   find . -name "*.c" -or -name "*.h" > cscope.files
