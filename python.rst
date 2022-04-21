@@ -458,3 +458,8 @@ Literal curly braces within format string
   # literal curly braces need to be input as {{ and }}
   # the result will be { 100 200 }
   "{{ {a} {b} }}".format(a=100, b=200)
+
+Run nohup through paramiko
+----------------------------
+
+Construct the command as "nohup ./app >/dev/null 2>&1 &" (redirect output to files or discard it directly), otherwise, the connection will wait there until timeout.
