@@ -1541,6 +1541,13 @@ Show CPU architecture, features, sockers, cores, etc.
 
   lscpu
 
+Show CPU frequency and idle statistics
+----------------------------------------
+
+::
+
+  turbostat # https://www.linux.org/docs/man8/turbostat.html
+  cpupower  # https://www.linux.org/docs/man1/cpupower.html
 
 Use openssl to download a certificate
 -----------------------------------------
