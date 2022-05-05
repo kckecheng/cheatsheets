@@ -29,6 +29,10 @@ After compiling the linux kernel, there will be symbol link named "vmlinux-gdb.p
 
 ::
 
+  # scripts can be loaded manually as below:
+  # gdb vmlinux
+  # add-auto-load-safe-path /path/to/linux/src/root
+  # source vmlinux-gdb.py
   echo "add-auto-load-safe-path /path/to/linux/src/root" > ~/.gdbinit
   gdb vmlinux
   info auto-load
