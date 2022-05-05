@@ -16,14 +16,47 @@ Kernel Debugging
 
 Linux kernel debugging tips.
 
+Build linux kernel
+~~~~~~~~~~~~~~~~~~~~
+
+- Generate the init .config
+
+	::
+
+		make defconfig
+    make kvm_guest.config
+
+- Turn on below options within .config
+
+  ::
+
+    CONFIG_DEBUG_INFO=y
+    CONFIG_GDB_SCRIPTS=y # if this is not on, run "make scripts_gdb" after kernel compiling
+    CONFIG_DEBUG_INFO_REDUCED=n
+
+- Regenerate the .config to reflect option updates
+
+  ::
+
+    make olddefconfig
+
+- Build the kernel
+
+  ::
+
+    # vmlinux, arch/x86/boot/bzImage will be created
+    make -j`nproc`
+
+- Create initramfs file
+
+  ::
+
+    # sudo apt install -y dracut
+    make modules_install INSTALL_MOD_PATH=/customized/module/installation/path
+    dracut -k /customized/module/installation/path/lib/modules/kernel_version initrd.img
+
 Load linux gdb scripts
 ~~~~~~~~~~~~~~~~~~~~~~~~
-
-Required options:
-
-- CONFIG_DEBUG_INFO=y
-- CONFIG_GDB_SCRIPTS=y
-- CONFIG_DEBUG_INFO_REDUCED=n
 
 After compiling the linux kernel, there will be symbol link named "vmlinux-gdb.py" points to scripts/gdb/vmlinux-gdb.py. To load it:
 
@@ -44,7 +77,7 @@ Debug kernel with qemu
 
   * Manual installation: https://github.com/hardenedlinux/Debian-GNU-Linux-Profiles/blob/master/docs/harbian_qa/fuzz_testing/syzkaller_general.md
   * Build root: https://github.com/buildroot/buildroot (google search how to leverage qemu + buildroot together)
-  * Syzkaller create-image: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#image
+  * Syzkaller create-image(the recommended method): https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#image
 
 - Boot the compiled kernel with the qemu image(qemu cpu, mem, smp, etc. can be adjusted based on real cases):
 
