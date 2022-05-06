@@ -134,7 +134,7 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
 - The Linux Kernel Teaching Labs(the easiest method): https://linux-kernel-labs.github.io
 
   * git clone https://github.com/linux-kernel-labs/linux
-  * cd linux/tools/labs && make docs
+  * cd linux/tools/labs && make docs # check raw docs under Documentation/teaching if the build fails
   * Then follow the docs (Virtual Machine Setup section) to kick start kernel debugging practices
   * Pros: well prepared lectures teaching how to perform kernel debug
   * Cons: the kernel shipped together is not up to date
