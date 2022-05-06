@@ -55,46 +55,118 @@ Build linux kernel
     make modules_install INSTALL_MOD_PATH=/customized/module/installation/path
     dracut -k /customized/module/installation/path/lib/modules/kernel_version initrd.img
 
-Load linux gdb scripts
-~~~~~~~~~~~~~~~~~~~~~~~~
+Create a customized qemu vm and start it with gdb server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After compiling the linux kernel, there will be symbol link named "vmlinux-gdb.py" points to scripts/gdb/vmlinux-gdb.py. To load it:
+The basic idea behind linux kernel debugging is running a qemu vm with a customized kernel(with debugging info) and a gdb server, then gdb remote debugging can be leveraged to debug kernel codes.
 
-::
+There are quite a lot methods to prepare such a qemu vm, 3 of them are introduced as below:
 
-  # scripts can be loaded manually as below:
-  # gdb vmlinux
-  # add-auto-load-safe-path /path/to/linux/src/root
-  # source vmlinux-gdb.py
-  echo "add-auto-load-safe-path /path/to/linux/src/root" > ~/.gdbinit
-  gdb vmlinux
-  info auto-load
+- Buildroot: https://github.com/buildroot/buildroot
 
-Debug kernel with qemu
-~~~~~~~~~~~~~~~~~~~~~~~~
+  * Clone the code:
 
-- A qemu image containing the base system is required. Below methods can be referred to:
+    ::
 
-  * Manual installation: https://github.com/hardenedlinux/Debian-GNU-Linux-Profiles/blob/master/docs/harbian_qa/fuzz_testing/syzkaller_general.md
-  * Build root: https://github.com/buildroot/buildroot (google search how to leverage qemu + buildroot together)
-  * Syzkaller create-image(the recommended method): https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#image
+      # or git clone https://git.busybox.net/buildroot/
+      git clone https://git.busybox.net/buildroot/
 
-- Boot the compiled kernel with the qemu image(qemu cpu, mem, smp, etc. can be adjusted based on real cases):
+  * Check supported configurations: make list-defconfigs
+  * Create the config and start building:
+
+    ::
+
+      make qemu_x86_64_defconfig
+      make menuconfig
+      # Build options:
+      # - build packages with debugging symbols: enabled
+      # - gcc debug level: 3
+      # - strip target binaries: disabled
+      # - gcc optimization level: optimize for debugging
+      # Kernel options:
+      # - Kernel version: Latest version
+      # Target packages options:
+      # - Networking applications: openssh
+      # Filesystem images options:
+      # - ext2/3/4 root filesystem: ext4
+      # save and exit
+      make -j `nproc` # this will take quite some time
+      # if build fails with error like "mkfs.ext2: Could not allocate block in ext2 filesystem while populating file system"
+      # make menuconfig
+      # Filesystem images -> exact size -> extend the default 60MB, say 120MB
+
+  * Rebuild the kernel image with debug info
+
+    ::
+
+      make linux-menuconfig
+      # Kernel hacking -> Compile the kernel with debug info:
+      # - Compile the kernel with debug info: enabled
+      # - Provide GDB scripts for kernel debugging: enabled
+      make -j `nproc`
+
+  * Run the qemu vm with gdb server:
+
+    * Edit buildroot/output/images/start-qemu.sh, adding -s to the qemu command line(start a qemu server)
+    * ./start-qemu.sh # login the vm as root without password
+
+  * Start kernel debugging from another session
+
+    ::
+
+      cd buildroot/output/build/linux-x.y.z
+      echo "add-auto-load-safe-path $PWD" >> ~/.gdbinit
+      gdb vmlinux
+      info auto-load
+      target remote :1234
+
+  * Pros: no need to build a kernel image in advance, buildroot will cover this
+  * Cons: the build process is really time consuming
+
+- The Linux Kernel Teaching Labs(the easiest method): https://linux-kernel-labs.github.io
+
+  * git clone https://github.com/linux-kernel-labs/linux
+  * cd linux/tools/labs && make docs
+  * Then follow the docs (Virtual Machine Setup section) to kick start kernel debugging practices
+  * Pros: well prepared lectures teaching how to perform kernel debug
+  * Cons: the kernel shipped together is not up to date
+
+- Syzkaller create-image: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#image
+
+  * After creating the image, start the linux kernel as below with qemu(options like cpu, mem, smp, etc. can be adjusted based on real cases):
+
+    ::
+
+      # KERNEL - kernel src/build dir
+      # IMAGE - where the qemu image is stored
+      # The initial ramdisk image can be loaded based on real use cases
+      qemu-system-x86_64 \
+      -m 512m \
+      -kernel $KERNEL/arch/x86/boot/bzImage \
+      -append "console=ttyS0 root=/dev/sda earlyprintk=serial nokaslr net.ifnames=0" \
+      -drive file=$IMAGE/qemu_image.img,format=raw \
+      -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
+      -net nic,model=virtio \
+      -nographic \
+      -pidfile vm.pid \
+      -s -S
+
+Connect to the gdb server and begin kernel debugging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Load linux gdb scripts
+
+  After compiling the linux kernel, there will be symbol link named "vmlinux-gdb.py" points to scripts/gdb/vmlinux-gdb.py. To load it:
 
   ::
 
-    # KERNEL - kernel src/build dir
-    # IMAGE - where the qemu image is stored
-    qemu-system-x86_64 \
-    -m 512m \
-    -kernel $KERNEL/arch/x86/boot/bzImage \
-    -append "console=ttyS0 root=/dev/sda earlyprintk=serial nokaslr net.ifnames=0" \
-    -drive file=$IMAGE/buster.img,format=raw \
-    -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-    -net nic,model=virtio \
-    -nographic \
-    -pidfile vm.pid \
-    -s -S
+    # scripts can be loaded manually as below:
+    # gdb vmlinux
+    # add-auto-load-safe-path /path/to/linux/src/root
+    # source vmlinux-gdb.py
+    echo "add-auto-load-safe-path /path/to/linux/src/root" > ~/.gdbinit
+    gdb vmlinux
+    info auto-load
 
 - Attach to the qemu process with gdb:
 
