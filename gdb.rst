@@ -197,3 +197,20 @@ Connect to the gdb server and begin kernel debugging
 
       set $foo =  (struct CharDriverState)*0x4dfcb40).chr_write_lock
       p $foo
+
+Kernel gdb breakpoints
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+gdb breakpoints can be set on kernel symbols which can be located as below:
+
+::
+
+  # symbol type info: man nm
+  cat /proc/kallsyms
+
+Here is an example - debug syscall open:
+
+- Based on our knowledge, syscall open will be named as something like sys_open in the kernel;
+- grep sys_open /proc/kallsyms: symbol T __x64_sys_open can be located;
+- Then set gdb breakpoint on __x64_sys_open: break __x64_sys_open
+
