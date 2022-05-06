@@ -21,9 +21,9 @@ Build linux kernel
 
 - Generate the init .config
 
-	::
+  ::
 
-		make defconfig
+    make defconfig
     make kvm_guest.config
 
 - Turn on below options within .config
