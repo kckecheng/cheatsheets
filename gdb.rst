@@ -55,14 +55,14 @@ Build linux kernel
     make modules_install INSTALL_MOD_PATH=/customized/module/installation/path
     dracut -k /customized/module/installation/path/lib/modules/kernel_version initrd.img
 
-Create a customized qemu vm and start it with gdb server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create a qemu image and start it with the customized kernel and gdb server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The basic idea behind linux kernel debugging is running a qemu vm with a customized kernel(with debugging info) and a gdb server, then gdb remote debugging can be leveraged to debug kernel codes.
+The basic idea behind linux kernel debugging is running a qemu vm with a customized kernel(with debugging info) and a gdb server for remote debugging.
 
 There are quite a lot methods to prepare such a qemu vm, 3 of them are introduced as below:
 
-- Buildroot: https://github.com/buildroot/buildroot
+- Buildroot(recommended): https://github.com/buildroot/buildroot
 
   * Clone the code:
 
@@ -72,7 +72,7 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
       git clone https://git.busybox.net/buildroot/
 
   * Check supported configurations: make list-defconfigs
-  * Create the config and start building:
+  * Create a config and start building:
 
     ::
 
@@ -83,6 +83,8 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
       # - gcc debug level: 3
       # - strip target binaries: disabled
       # - gcc optimization level: optimize for debugging
+      # Toolchain options:
+      # - Host GDB Options: enable all
       # Kernel options:
       # - Kernel version: Latest version
       # Target packages options:
@@ -105,20 +107,26 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
       # - Provide GDB scripts for kernel debugging: enabled
       make -j `nproc`
 
-  * Run the qemu vm with gdb server:
+  * Run the qemu vm with gdb server on:
 
-    * Edit buildroot/output/images/start-qemu.sh, adding -s to the qemu command line(start a qemu server)
+    * Edit buildroot/output/images/start-qemu.sh, adding **-s** to the qemu command line(start a qemu server)
+    * Add **nokaslr** to the kernel cmdline
     * ./start-qemu.sh # login the vm as root without password
+    * The script uses buildroot installed qemu-system-x86_64 binary instead of the default one on the system
+    * To use the default qemu-system-x86_64 installed on your system, just type: qemu-system-x86_64 ...... directly from the cli
 
   * Start kernel debugging from another session
 
     ::
 
+      # it is highly recommended to start gdb from the kernel source root directory
       cd buildroot/output/build/linux-x.y.z
       echo "add-auto-load-safe-path $PWD" >> ~/.gdbinit
       gdb vmlinux
       info auto-load
       target remote :1234
+      lx-symbols
+      apropos lx-
 
   * Pros: no need to build a kernel image in advance, buildroot will cover this
   * Cons: the build process is really time consuming
@@ -133,7 +141,7 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
 
 - Syzkaller create-image: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#image
 
-  * After creating the image, start the linux kernel as below with qemu(options like cpu, mem, smp, etc. can be adjusted based on real cases):
+  * After creating the image, start the linux kernel as below with qemu(options like cpu, mem, smp, etc. can be adjusted based on real cases, **nokaslr** is always required):
 
     ::
 
@@ -154,18 +162,14 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
 Connect to the gdb server and begin kernel debugging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Load linux gdb scripts
-
-  After compiling the linux kernel, there will be symbol link named "vmlinux-gdb.py" points to scripts/gdb/vmlinux-gdb.py. To load it:
+- Load linux gdb scripts: after compiling the linux kernel, there will be symbol link named "vmlinux-gdb.py" points to scripts/gdb/vmlinux-gdb.py.
 
   ::
 
     # scripts can be loaded manually as below:
-    # gdb vmlinux
-    # add-auto-load-safe-path /path/to/linux/src/root
-    # source vmlinux-gdb.py
+    # it is highly recommended to start gdb from the kernel source root directory
     echo "add-auto-load-safe-path /path/to/linux/src/root" > ~/.gdbinit
-    gdb vmlinux
+    gdb
     info auto-load
 
 - Attach to the qemu process with gdb:
@@ -174,7 +178,9 @@ Connect to the gdb server and begin kernel debugging
 
     gdb vmlinux
     target remote :1234
-    c
+    lx-symbols
+    apropos lx-
+    c # if -S is used while starting the qemu vm
 
 - TUI Usage
 
