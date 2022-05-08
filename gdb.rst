@@ -20,6 +20,37 @@ Find commands
   apropos info
   apropos break
 
+TUI usage
+-----------
+
+TUI is short for text UI which can be used to display source code, asm, and registers during debugging:
+
+- tui enable/disable:  toggle TUI, Ctr + x + a as the shortcut
+- layout src/asm/splig: witch TUI display layout, Ctr + x + 1/2 as the shortcut
+
+Convenience Variables
+-----------------------
+
+* Any name preceded by '$' can be used for a convenience variable;
+* Reference https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html
+* Usage:
+
+  ::
+
+    set $foo =  (struct CharDriverState *)0x4dfcb40
+    p $foo->chr_write_lock
+
+Check registers
+-----------------
+
+::
+
+  info registers
+  info registers <register name>
+  print /x $eax # every register gets a convenience variable assigned automationly as $<register name>
+  x /x $eax
+  monitor info registers
+
 Kernel Debugging
 -----------------
 
@@ -191,22 +222,6 @@ Connect to the gdb server and begin kernel debugging
     apropos lx- # list gdb scripts supported for kernel debugging
     hb start_kernel # if -S is used while starting the qemu vm
     c
-
-- TUI Usage
-
-  * Ctr + x + a: toggle TUI - the same as gdb command tui enable/disable
-  * Ctr + x + 1/2: switch display layout - the same as gdb command layout src/asm/split/reg
-
-- Convenience Variables
-
-  * Any name preceded by ‘$’ can be used for a convenience variable;
-  * Reference https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html
-  * Usage:
-
-    ::
-
-      set $foo =  (struct CharDriverState)*0x4dfcb40).chr_write_lock
-      p $foo
 
 Kernel gdb breakpoints
 ~~~~~~~~~~~~~~~~~~~~~~~~
