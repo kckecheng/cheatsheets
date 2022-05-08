@@ -11,6 +11,15 @@ gdb with args
   # arg1, arg2, ... can be something like --abc -d
   gdb --args <executable> arg1 arg2 ...
 
+Find commands
+---------------
+
+::
+
+  # apropos <command regex>
+  apropos info
+  apropos break
+
 Kernel Debugging
 -----------------
 
@@ -179,12 +188,13 @@ Connect to the gdb server and begin kernel debugging
     gdb vmlinux
     target remote :1234
     lx-symbols
-    apropos lx-
-    c # if -S is used while starting the qemu vm
+    apropos lx- # list gdb scripts supported for kernel debugging
+    hb start_kernel # if -S is used while starting the qemu vm
+    c
 
 - TUI Usage
 
-  * Ctr + x + a: toggle TUI
+  * Ctr + x + a: toggle TUI - the same as gdb command tui enable/disable
   * Ctr + x + 1/2: switch display layout
 
 - Convenience Variables
