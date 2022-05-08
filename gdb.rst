@@ -195,7 +195,7 @@ Connect to the gdb server and begin kernel debugging
 - TUI Usage
 
   * Ctr + x + a: toggle TUI - the same as gdb command tui enable/disable
-  * Ctr + x + 1/2: switch display layout
+  * Ctr + x + 1/2: switch display layout - the same as gdb command layout src/asm/split/reg
 
 - Convenience Variables
 
