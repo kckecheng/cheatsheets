@@ -1345,45 +1345,6 @@ xz is a newer compression tool than gz, bz, bz2, etc. It delivers better compres
 
   tar -cJf <archive.tar.xz> <files>
 
-Check shared object/library dependencies
--------------------------------------------
-
-::
-
-  ldd <object or executable file>
-  LD_DEBUG=libs ldd <object or executable file>
-
-Check object/executable file information
--------------------------------------------
-
-- objdump: display info for object files
-- nm: list symbols from object files
-- pahole: show data structures of object files(including running kernels)
-- readelf: display info for ELF files
-- ldd: print object dependencies
-
-::
-
-  # Disamble
-  objdump -S <ELF file>
-  # Display dynamic symbol tables
-  objdump -T <ELF file>
-  readelf --dyn-syms <ELF file>
-  # Show dynamic dependencies
-  readelf -d <ELF file> | grep -i need
-  ldd <ELF file>
-  # show struct task_struct of running kernel
-  pahole task_struct
-
-systemcall summary
---------------------
-
-::
-
-  # get a summary of all system calls
-  man syscalls
-  # get system call convention, including registers used for syscall parameters
-  man syscall
 
 Record and replay linux CMD screen
 -------------------------------------

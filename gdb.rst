@@ -3,6 +3,56 @@ GDB
 
 GDB tips.
 
+Tools which facilitate gdb
+---------------------------
+
+Tools which can be used to get more information about the program being debugged before leveraging gdb.
+
+Check shared object/library dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ldd <object or executable file>
+  LD_DEBUG=libs ldd <object or executable file>
+
+Check object/executable file information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- objdump: display info for object files
+- nm: list symbols from object files
+- pahole: show data structures of object files(including running kernels)
+- readelf: display info for ELF files
+- ldd: print object dependencies
+- elfutils: a set of tools used to read, create and modify elf files(refer to https://sourceware.org/elfutils/)
+
+::
+
+  # Disamble
+  objdump -S <ELF file>
+  # Display dynamic symbol tables
+  objdump -T <ELF file>
+  readelf --dyn-syms <ELF file>
+  # Show dynamic dependencies
+  readelf -d <ELF file> | grep -i need
+  # Show section information
+  readelf -S vmlinux
+  ldd <ELF file>
+  # show struct task_struct of running kernel
+  pahole task_struct
+  # just an example: locate source code info based on the pc register during kernel oops
+  # - say the oops pc is as: [   88.635314 ] pc : [<c01b063c>]    lr : [<c01b0640>]    psr: a0000013
+  # - get the source code info based on the pc value
+  addr2line -f -e vmlinux c01b063c # this tells the source code function name mapped to the pc address c01b063c
+
+Get core file's application info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # sometimes, it is not easy to find which application triggers the core to be debugged just based on the core file's name
+  eu-unstrip -c --core <core file> # the first entry points to the absolute path of the application
+
 gdb with args
 ---------------
 
@@ -230,12 +280,32 @@ gdb breakpoints can be set on kernel symbols which can be located as below:
 
 ::
 
+  # to get user space system call summary
+  # man syscalls
   # symbol type info: man nm
-  cat /proc/kallsyms
+  cat /proc/kallsyms # the informaiton is the same as /boot/System.map-x.y.z
 
 Here is an example - debug syscall open:
 
 - Based on our knowledge, syscall open will be named as something like sys_open in the kernel;
 - grep sys_open /proc/kallsyms: symbol T __x64_sys_open can be located;
 - Then set gdb breakpoint on __x64_sys_open: break __x64_sys_open
+
+Check special registers
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If kernel is debugged with qemu + gdb remotely, info registers will cover only common registers but not those special registers like control registers(CR0, CR1, etc.), protected mode registers(GDT, LDT, IDT, etc.). Refer to below docs for the introduction of registers.
+
+- https://wiki.osdev.org/CPU_Registers_x86
+- https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf
+
+Qemu provides the ability to check all registers including special registers:
+
+::
+
+  # below is an example to dump interrupt description table
+  gdb vmlinux
+  target remote :1234
+  monitor info registers # this is qemu specialized
+  set $idtr = 0xfffffe0000001000 # 0xfffffe0000001000 is the value of IDT gotten from monitor info registers
 
