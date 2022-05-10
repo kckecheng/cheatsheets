@@ -90,6 +90,19 @@ Convenience Variables
     set $foo =  (struct CharDriverState *)0x4dfcb40
     p $foo->chr_write_lock
 
+Define a customized command
+-----------------------------
+
+::
+
+  define idt_entry
+  set $entry = *(uint64_t*)($idtr + 8 * $arg0)
+  print (void *)(($entry>>48<<16)|($entry&0xffff))
+  end
+  set $idtr = 0xfffffe0000000000
+  idt_entry 0
+  idt_entry 1
+
 Check registers
 -----------------
 
@@ -99,7 +112,7 @@ Check registers
   info registers <register name>
   print /x $eax # every register gets a convenience variable assigned automationly as $<register name>
   x /x $eax
-  monitor info registers
+  monitor info registers # this is only available when debugging kernel with qemu(a qemu extension)
 
 Kernel Debugging
 -----------------
