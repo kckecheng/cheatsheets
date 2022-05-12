@@ -1,7 +1,7 @@
 GDB
 =====
 
-GDB tips.
+GDB tips. Refer to https://www.sourceware.org/gdb/current/onlinedocs/gdb.html for gdb reference.
 
 Tools which facilitate gdb
 ---------------------------
@@ -321,4 +321,32 @@ Qemu provides the ability to check all registers including special registers:
   target remote :1234
   monitor info registers # this is qemu specialized
   set $idtr = 0xfffffe0000001000 # 0xfffffe0000001000 is the value of IDT gotten from monitor info registers
+
+Check code segments
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  monitor info registers
+  set $gdtr = 0xfffffe0000000000 # 0xfffffe0000000000 is the GDT value
+  print /x $cs # output 0x10 - current code segment value
+  print $cs>>3 # output 0x2 or 2 in decimal, is the GDT/LDT index, refer to https://wiki.osdev.org/Segment_Selector
+  # GDT/LDT entries are segment descriptors, refer to https://wiki.osdev.org/Global_Descriptor_Table
+  print /z ((uint64_t*)$gdtr)[2] # output is 0x00af9b000000ffff, is the segment descriptor, refer to https://wiki.osdev.org/Global_Descriptor_Table
+  # use print /z to apply zore padding on the left
+  # below lines are just an example - with x86_64, base and limit are ignored, refer to:
+  # - https://wiki.osdev.org/Global_Descriptor_Table: segment descriptor section
+  # - https://nixhacker.com/segmentation-in-intel-64-bit
+  # decode the limit: every page is 4k, 0xffff is the last 16 bits of the segment descriptor
+  print /x 0xffff * 4096 # output is 0xffff000, is 4GB
+  # decode the base of the segment descriptor
+  set $prog_code = ((uint64_t*)$gdtr)[2]
+  print /x (($prog_code>>32)&0xFF000000)|(($prog_code>>16)&0x00FFFFFF) # output is 0x0
+  # decode the DPL
+  print /x ($prog_code>>45)&3 # output is 0x0, which means ring 0 - kernel code is running, if it is 0x3, then user code is running
+
+Check IDT
+~~~~~~~~~~
+
+TBD
 
