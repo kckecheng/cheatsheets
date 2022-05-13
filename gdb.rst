@@ -70,6 +70,24 @@ Find commands
   apropos info
   apropos break
 
+Search variables/functions
+----------------------------
+
+::
+
+  # args for current stack
+  info args
+  info args <arg name regex>
+  # locals for current stack
+  info locals
+  info locals <local name regex>
+  # global/staic variables
+  info variables
+  info ariables <variable name regex>
+  # functions
+  info funtsions
+  info functions <func name regex>
+
 Binary values
 ---------------
 
@@ -361,10 +379,29 @@ Check IDT
 
   # Refer to https://wiki.osdev.org/Interrupt_Descriptor_Table to find x64 IDT and gate descriptor layout
 
-MISC
-------
-
 The crash utility
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
-The crash utility can also be leveraged for analyzing vmcore files or a live system(read only basic analysis without qemu). Check https://crash-utility.github.io/crash_whitepaper.html for reference.
+The crash utility can also be leveraged for analyzing vmcore files or a live system(read only  + basic analysis + without qemu usage). Check https://crash-utility.github.io/crash_whitepaper.html for reference.
+
+Use gdb
+~~~~~~~~~
+
+::
+
+  gdb info variable task_struct
+
+Search memory
+~~~~~~~~~~~~~~~~
+
+::
+
+  search -c task_struct # Ctrl + c to exit search
+
+Iterate over a list
+~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # address is the list address
+  list <address> -s sli_event.event_type,event_id
