@@ -70,6 +70,15 @@ Find commands
   apropos info
   apropos break
 
+Binary values
+---------------
+
+::
+
+  set $v1 = 0b10
+  print /t $v1
+  print $v1
+
 TUI usage
 -----------
 
@@ -348,5 +357,14 @@ Check code segments
 Check IDT
 ~~~~~~~~~~
 
-TBD
+::
 
+  # Refer to https://wiki.osdev.org/Interrupt_Descriptor_Table to find x64 IDT and gate descriptor layout
+
+MISC
+------
+
+The crash utility
+~~~~~~~~~~~~~~~~~~~~
+
+The crash utility can also be leveraged for analyzing vmcore files or a live system(read only basic analysis without qemu). Check https://crash-utility.github.io/crash_whitepaper.html for reference.
