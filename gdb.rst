@@ -122,6 +122,7 @@ Define a customized command
 
 ::
 
+  # this demo is based on x86_32
   define idt_entry
   set $entry = *(uint64_t*)($idtr + 8 * $arg0)
   print (void *)(($entry>>48<<16)|($entry&0xffff))
@@ -145,6 +146,8 @@ Kernel Debugging
 -----------------
 
 Linux kernel debugging tips.
+
+Notes: all demos used in this part is based on x86_64.
 
 Build linux kernel
 ~~~~~~~~~~~~~~~~~~~~
@@ -378,6 +381,14 @@ Check IDT
 ::
 
   # Refer to https://wiki.osdev.org/Interrupt_Descriptor_Table to find x64 IDT and gate descriptor layout
+  monitor info registers
+  set $idtr = 0xfffffe0000000000 # 0xfffffe0000000000 is the value of IDT
+  # each entries in IDT is a gate descriptor, refer to https://wiki.osdev.org/Interrupt_Descriptor_Table
+  p *(struct gate_struct *)$idtr
+  set $gd4 = *(struct gate_struct *)($idtr + 128 * 3) # for x86_64, each gate decriptor takes 128 bit, 128 * 3 is the 4th gate descriptor
+  print /x $gd4 # output is {offset_low = 0x80d8, segment = 0x10, bits = {ist = 0x0, zero = 0x0, type = 0xe, dpl = 0x0, p = 0x1}, offset_middle = 0x81f1, offset_high = 0xffffffff, reserved = 0x0}
+  print (void *) 0xffffffff81f180d8 # 0xffffffff81f180d8 is a combination of offset_high(32 bits), offset_middle(16 bits) and offset_low(16 bits)
+  # the above command output the interrupt handler: (void *) 0xffffffff81800b40 <asm_exc_double_fault>
 
 The crash utility
 --------------------
