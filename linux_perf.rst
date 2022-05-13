@@ -254,6 +254,7 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
   echo function > current_tracer
   cat available_filter_functions # get filters which can be used for function tracing
   echo <available filter> > set_ftrace_filter # multiple filter can be used - echo <another filter> >> set_ftrace_filter
+  # multiple function filters can be configured as : echo <function_name_prefix>* > set_ftrace_filter
   echo > trace
   cat trace # check trace results
   # function graph
