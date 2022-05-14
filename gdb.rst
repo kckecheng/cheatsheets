@@ -352,33 +352,49 @@ Qemu provides the ability to check all registers including special registers:
   monitor info registers # this is qemu specialized
   set $idtr = 0xfffffe0000001000 # 0xfffffe0000001000 is the value of IDT gotten from monitor info registers
 
-Check code segments
-~~~~~~~~~~~~~~~~~~~~~
+Inspect GDT/LDT
+~~~~~~~~~~~~~~~~
 
 ::
 
   monitor info registers
-  set $gdtr = 0xfffffe0000000000 # 0xfffffe0000000000 is the GDT value
-  print /x $cs # output 0x10 - current code segment value
-  print $cs>>3 # output 0x2 or 2 in decimal, is the GDT/LDT index, refer to https://wiki.osdev.org/Segment_Selector
-  # GDT/LDT entries are segment descriptors, refer to https://wiki.osdev.org/Global_Descriptor_Table
-  print /z ((uint64_t*)$gdtr)[2] # output is 0x00af9b000000ffff, is the segment descriptor, refer to https://wiki.osdev.org/Global_Descriptor_Table
-  # use print /z to apply zore padding on the left
-  # below lines are just an example - with x86_64, base and limit are ignored, refer to:
-  # - https://wiki.osdev.org/Global_Descriptor_Table: segment descriptor section
-  # - https://nixhacker.com/segmentation-in-intel-64-bit
-  # decode the limit: every page is 4k, 0xffff is the last 16 bits of the segment descriptor
-  print /x 0xffff * 4096 # output is 0xffff000, is 4GB
-  # decode the base of the segment descriptor
-  set $prog_code = ((uint64_t*)$gdtr)[2]
-  print /x (($prog_code>>32)&0xFF000000)|(($prog_code>>16)&0x00FFFFFF) # output is 0x0
-  # decode the DPL
-  print /x ($prog_code>>45)&3 # output is 0x0, which means ring 0 - kernel code is running, if it is 0x3, then user code is running
+  set $gdtr = 0xfffffe0000001000 # 0xfffffe0000001000 is the GDT value
+  # GDT/LDT is an array of struct desc_struct (segment descriptor)
+  # - arch/x86/kernel/cpu/common.c DEFINE_PER_CPU_PAGE_ALIGNED
+  # - arch/x86/include/asm/desc.h gdt_page
+  # - arch/x86/include/asm/desc_defs.h desc_struct
+  # print the 1st element
+  print /x *(struct desc_struct *)$gdtr
+  # print the 2nd element
+  print /x *(struct desc_struct *)($gdtr + sizeof(struct desc_struct))
 
-Check IDT
-~~~~~~~~~~
+Inspect code selector
+~~~~~~~~~~~~~~~~~~~~~~
 
 ::
+
+  print /x $cs # output 0x10 - current code selector
+  print $cs>>3 # output 0x2 or 2 in decimal, is the GDT/LDT index, refer to https://wiki.osdev.org/Segment_Selector
+  monitor info registers
+  set $gdtr = 0xfffffe0000000000 # 0xfffffe0000000000 is the GDT value
+  # GDT/LDT entries are segment descriptors, refer to https://wiki.osdev.org/Global_Descriptor_Table
+  # print the cs corresponding segment descriptor(based on the index, it should be 2nd)
+  set $csp = (struct desc_struct *)($gdtr + 1 *sizeof(struct desc_struct)) # the 2nd is 1 * sizeof(struct desc_struct)
+  print /x *csp
+  # output {limit0 = 0xffff, base0 = 0x0, base1 = 0x0, type = 0xb, s = 0x1, dpl = 0x0, p = 0x1, limit1 = 0xf, avl = 0x0, l = 0x0, d = 0x1, g = 0x1, base2 = 0x0}
+  # DPL
+  print $csp->dpl # output is 0x0, which means ring 0 - kernel code is running, if it is 0x3, then user code is running
+  # get base and limit - with x86_64, base and limit are ignored(works for x86_32), refer to:
+  # - https://wiki.osdev.org/Global_Descriptor_Table: segment descriptor section
+  # - https://nixhacker.com/segmentation-in-intel-64-bit
+  # the limit: 0xfffff - construct with limit1(4 bits) and limit0(16 bits) together(totally 20 bits)
+  # the base: 0x0 - construct with base2(8 bits), base1(8 bits) and base0(16 bits) together(totally 32 bits)
+
+Inspect IDT
+~~~~~~~~~~~~~
+
+:
+# - arch/x86/include/asm/desc_defs.h desc_struct:
 
   # Refer to https://wiki.osdev.org/Interrupt_Descriptor_Table to find x64 IDT and gate descriptor layout
   monitor info registers
