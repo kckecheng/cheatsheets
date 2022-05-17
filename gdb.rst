@@ -53,6 +53,15 @@ Get core file's application info
   # sometimes, it is not easy to find which application triggers the core to be debugged just based on the core file's name
   eu-unstrip -c --core <core file> # the first entry points to the absolute path of the application
 
+gdb verbose
+------------
+
+::
+
+  # turn on verbose to let's gdb show where it find symbol files automatically, etc.
+  set verbose on
+  show verbose
+
 gdb with args
 ---------------
 
@@ -69,6 +78,7 @@ Load separate debug files
   # keep a program’s debugging information in a file separate from the executable itself
   # and allow gdb to search and load the information automatically
   # the setup can be added init .gdbinit
+  set verbose on
   show debug-file-directory
   set debug-file-directory path1
   set debug-file-directory path2
