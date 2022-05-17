@@ -110,15 +110,6 @@ Search variables/functions
   info funtsions
   info functions <func name regex>
 
-Binary values
----------------
-
-::
-
-  set $v1 = 0b10
-  print /t $v1
-  print $v1
-
 TUI usage
 -----------
 
@@ -163,6 +154,27 @@ Check registers
   print /x $eax # every register gets a convenience variable assigned automationly as $<register name>
   x /x $eax
   monitor info registers # this is only available when debugging kernel with qemu(a qemu extension)
+
+Follow child processes
+-------------------------
+
+::
+
+  # gdb follows the parent process by default, to follow the child process
+  set follow-fork-mode child
+  # follow both the parent and the children
+  set detach-on-fork off
+  info inferiors
+  inferior <parent or children id>
+
+Binary values
+---------------
+
+::
+
+  set $v1 = 0b10
+  print /t $v1
+  print $v1
 
 Kernel Debugging
 -----------------
