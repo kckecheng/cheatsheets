@@ -53,8 +53,13 @@ Get core file's application info
   # sometimes, it is not easy to find which application triggers the core to be debugged just based on the core file's name
   eu-unstrip -c --core <core file> # the first entry points to the absolute path of the application
 
+gdb common tips
+-----------------
+
+Common tips.
+
 gdb verbose
-------------
+~~~~~~~~~~~~
 
 ::
 
@@ -63,7 +68,7 @@ gdb verbose
   show verbose
 
 gdb with args
----------------
+~~~~~~~~~~~~~~~
 
 ::
 
@@ -71,7 +76,7 @@ gdb with args
   gdb --args <executable> arg1 arg2 ...
 
 Load separate debug files
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -83,8 +88,23 @@ Load separate debug files
   set debug-file-directory path1
   set debug-file-directory path2
 
+Specify where to find source files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # it is recommended to start debugging from the source code directory(gdb will search source files from current dir automatically)
+  # however, it is not always possible - for example, to show source code from glibc which is not under current directory
+  # under such a situation, use directory to add source file search paths
+  gdb /path/to/prog
+  set verbose on
+  start
+  directory path1
+  directory path2
+  show directory
+
 Find commands
----------------
+~~~~~~~~~~~~~~~
 
 ::
 
@@ -93,7 +113,7 @@ Find commands
   apropos break
 
 Search variables/functions
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -111,7 +131,7 @@ Search variables/functions
   info functions <func name regex>
 
 TUI usage
------------
+~~~~~~~~~~~
 
 TUI is short for text UI which can be used to display source code, asm, and registers during debugging:
 
@@ -119,7 +139,7 @@ TUI is short for text UI which can be used to display source code, asm, and regi
 - layout src/asm/splig: witch TUI display layout, Ctr + x + 1/2 as the shortcut
 
 Convenience Variables
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 * Any name preceded by '$' can be used for a convenience variable;
 * Reference https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html
@@ -131,7 +151,7 @@ Convenience Variables
     p $foo->chr_write_lock
 
 Define a customized command
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -145,7 +165,7 @@ Define a customized command
   idt_entry 1
 
 Check registers
------------------
+~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -156,7 +176,7 @@ Check registers
   monitor info registers # this is only available when debugging kernel with qemu(a qemu extension)
 
 Follow child processes
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -168,13 +188,41 @@ Follow child processes
   inferior <parent or children id>
 
 Binary values
----------------
+~~~~~~~~~~~~~~~
 
 ::
 
   set $v1 = 0b10
   print /t $v1
   print $v1
+
+trace into glibc
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # glibc debug information is not provided by default
+  # install glibc debugging information
+  # this is an example on ubuntu, other distros are similar
+  sudo apt install -y libc6-dbg
+  # except for the symbols, source code of glibc is also needed
+  # here is an example on ubuntu, other distros are similar
+  sudo apt install -y glibc-source
+  cp /usr/src/glibc/glibc-2.31.tar.xz ~/
+  tar -Jxf glibc-2.31.tar.xz
+  # begin debug
+  cd /path/to/program
+  gdb /path/to/program
+  set verbose on # to show how the glibc symbols are searched and loaded
+  start # start will run the program and stop at main (different from run)
+  list
+  b printf # or any functions defined within glibc
+  c
+  # gdb may prompt that: printf.c: No such file or directory
+  # add the source file direcotry
+  find ~/glibc-2.31 -name printf.c
+  directory ~/glibc-2.31/stdio-common
+  list # the source code from glibc will be shown
 
 Kernel Debugging
 -----------------
