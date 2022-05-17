@@ -61,6 +61,18 @@ gdb with args
   # arg1, arg2, ... can be something like --abc -d
   gdb --args <executable> arg1 arg2 ...
 
+Load separate debug files
+---------------------------
+
+::
+
+  # keep a program’s debugging information in a file separate from the executable itself
+  # and allow gdb to search and load the information automatically
+  # the setup can be added init .gdbinit
+  show debug-file-directory
+  set debug-file-directory path1
+  set debug-file-directory path2
+
 Find commands
 ---------------
 
