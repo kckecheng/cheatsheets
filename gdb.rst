@@ -475,12 +475,11 @@ Inspect code selector
 Inspect IDT
 ~~~~~~~~~~~~~
 
-:
-# - arch/x86/include/asm/desc_defs.h desc_struct:
+::
 
   # Refer to https://wiki.osdev.org/Interrupt_Descriptor_Table to find x64 IDT and gate descriptor layout
   monitor info registers
-  set $idtr = 0xfffffe0000000000 # 0xfffffe0000000000 is the value of IDT
+  # - arch/x86/include/asm/desc_defs.h desc_struct:
   # each entries in IDT is a gate descriptor, refer to https://wiki.osdev.org/Interrupt_Descriptor_Table
   p *(struct gate_struct *)$idtr
   set $gd4 = *(struct gate_struct *)($idtr + 128 * 3) # for x86_64, each gate decriptor takes 128 bit, 128 * 3 is the 4th gate descriptor
