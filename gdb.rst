@@ -130,6 +130,18 @@ Search variables/functions
   info funtsions
   info functions <func name regex>
 
+List source code
+~~~~~~~~~~~~~~~~~~
+
+::
+
+  # some non-default usage of list
+  list *0xc021e50e # list source from the line where the address points to
+  list *vt_ioctl+0xda8 # list souce from the line based on the function address(*vt_ioctl) and its offset(+0xda8)
+  list *$pc # list source from the line where the pc register points to
+  # 1 x line of source code might be compiled into several lines of instructions, use info line linespec to show the starting and ending addresses
+  info line *0xffffffff81026260 # show the starting and ending addresses for the source line the address 0xffffffff81026260 points to
+
 TUI usage
 ~~~~~~~~~~~
 
