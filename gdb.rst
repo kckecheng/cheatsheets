@@ -492,6 +492,8 @@ The crash utility
 
 The crash utility can also be leveraged for analyzing vmcore files or a live system(read only  + basic analysis + without qemu usage). Check https://crash-utility.github.io/crash_whitepaper.html for reference.
 
+In the meanwhile, there is a great sample on how to use crash to anylyze a core dump - https://www.dedoimedo.com/computers/crash-analyze.html
+
 Use gdb
 ~~~~~~~~~
 
