@@ -759,20 +759,16 @@ References:
 - The unique identifier/handle(understand major and minitor): https://tldp.org/HOWTO/Traffic-Control-HOWTO/components.html#c-handle
 - The qdisc concept(understand root): https://tldp.org/HOWTO/Traffic-Control-HOWTO/components.html#c-qdisc
 - Classful qdisc: https://lartc.org/howto/lartc.qdisc.classful.html
-- Filter basics: https://lartc.org/howto/lartc.qdisc.filters.html
 - HTB basics: https://tldp.org/HOWTO/Traffic-Control-HOWTO/classful-qdiscs.html#qc-htb
 - HTB examples with wonderful diagrams: https://wiki.debian.org/TrafficControl
 - NETEM(mainly used for emulating abnormal scenarios such as package delay, loss, duplication, etc.): https://wiki.linuxfoundation.org/networking/netem
+- Filter basics: https://lartc.org/howto/lartc.qdisc.filters.html
 - The u32 classifier(protocol level match): https://tldp.org/HOWTO/Adv-Routing-HOWTO/lartc.adv-filter.u32.html
 - Commands:
+  * man tc: the PARAMETERS section lists the syntax of RATES, TIMES, and SIZES
   * man tc-htb
   * man tc-netem
   * man tc-u32
-  * tc qdisc show
-  * tc -s -d qdisc show
-  * tc class show
-  * tc -s -d class show
-  * tc filter show
 
 Examples:
 
@@ -780,10 +776,18 @@ Examples:
 
   # refer to https://wiki.debian.org/TrafficControl to understand htb
   tc qdisc del dev eth0 root # clear egress which is named root
-  tc qdisc add dev eth0 root handle 1: htb r2q 1
-  tc class add dev eth0 parent 1:0 classid 1:1 htb rate 1000mbit ceil 1000mbit
-  tc qdisc add dev eth0 parent 1:1 netem loss 5%
-  tc filter add dev eth0 parent 1:0 protocol ip prio 16 u32 match ip dst 10.132.35.53 flowid 1:1
+
+  # tc qdisc add dev eth0 root handle 1: htb r2q 1
+  tc qdisc add dev eth0 root handle 1: htb default 6
+
+  tc class add dev eth0 parent 1: classid 1:1 htb rate 10mbit ceil 10mbit
+
+  tc class add dev eth0 parent 1:1 classid 1:5 htb rate 0.1mbit ceil 0.1mbit
+  tc filter add dev eth0 protocol ip parent 1:1 prio 1 u32 match ip sport 3260 0xffff flowid 1:5
+  tc filter add dev eth0 protocol ip parent 1:1 prio 1 u32 match ip dst 192.168.10.10 flowid 1:5
+  tc qdisc add dev eth0 handle 30: parent 1:5 netem loss 100%
+
+  tc class add dev eth0 parent 1:1 classid 1:6 htb rate 10.9mbit ceil 10.9mbit
 
 ======================
 OpenStack Network Tips
