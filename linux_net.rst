@@ -748,6 +748,37 @@ To connect 2 x Open vSwitch together, we need to use patch port:
   ovs-vsctl set interface patch-ovs-2 type=patch
   ovs-vsctl set interface patch-ovs-2 options:peer=patch-ovs-1
 
+Traffic control - tc
+----------------------
+
+tc is a tool within iproute2, which is used mainly for egress traffic control(works for ingress traffic, but supports limited functions). It can be used to control network bandwidth, add package delay, emulate package loss, etc. Classful qdiscs are used for most use cases since more features are supported(especially HTB), hence use htb whenever possible.
+
+References:
+
+- The overall manual: https://tldp.org/HOWTO/Traffic-Control-HOWTO/index.html
+- The unique identifier/handle(understand major and minitor): https://tldp.org/HOWTO/Traffic-Control-HOWTO/components.html#c-handle
+- The qdisc concept(understand root): https://tldp.org/HOWTO/Traffic-Control-HOWTO/components.html#c-qdisc
+- HTB basics: https://tldp.org/HOWTO/Traffic-Control-HOWTO/classful-qdiscs.html#qc-htb
+- HTB examples with wonderful diagrams: https://wiki.debian.org/TrafficControl
+- NETEM(mainly used for emulating abnormal scenarios such as package delay, loss, duplication, etc.): https://wiki.linuxfoundation.org/networking/netem
+- The u32 classifier(protocol level match): https://tldp.org/HOWTO/Adv-Routing-HOWTO/lartc.adv-filter.u32.html
+- Commands:
+  * man tc-htb
+  * man tc-netem
+  * man tc-u32
+  * man tc-xxx
+
+Examples:
+
+::
+
+  # refer to https://wiki.debian.org/TrafficControl to understand htb
+  tc qdisc del dev eth0 root # clear
+  tc qdisc add dev eth0 root handle 1: htb r2q 1
+  tc class add dev eth0 parent 1:0 classid 1:1 htb rate 1000mbit ceil 1000mbit
+  tc qdisc add dev eth0 parent 1:1 netem loss 5%
+  tc filter add dev eth0 parent 1:0 protocol ip prio 16 u32 match ip dst 10.132.35.53 flowid 1:1
+
 ======================
 OpenStack Network Tips
 ======================
