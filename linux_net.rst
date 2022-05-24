@@ -758,6 +758,8 @@ References:
 - The overall manual: https://tldp.org/HOWTO/Traffic-Control-HOWTO/index.html
 - The unique identifier/handle(understand major and minitor): https://tldp.org/HOWTO/Traffic-Control-HOWTO/components.html#c-handle
 - The qdisc concept(understand root): https://tldp.org/HOWTO/Traffic-Control-HOWTO/components.html#c-qdisc
+- Classful qdisc: https://lartc.org/howto/lartc.qdisc.classful.html
+- Filter basics: https://lartc.org/howto/lartc.qdisc.filters.html
 - HTB basics: https://tldp.org/HOWTO/Traffic-Control-HOWTO/classful-qdiscs.html#qc-htb
 - HTB examples with wonderful diagrams: https://wiki.debian.org/TrafficControl
 - NETEM(mainly used for emulating abnormal scenarios such as package delay, loss, duplication, etc.): https://wiki.linuxfoundation.org/networking/netem
@@ -766,14 +768,18 @@ References:
   * man tc-htb
   * man tc-netem
   * man tc-u32
-  * man tc-xxx
+  * tc qdisc show
+  * tc -s -d qdisc show
+  * tc class show
+  * tc -s -d class show
+  * tc filter show
 
 Examples:
 
 ::
 
   # refer to https://wiki.debian.org/TrafficControl to understand htb
-  tc qdisc del dev eth0 root # clear
+  tc qdisc del dev eth0 root # clear egress which is named root
   tc qdisc add dev eth0 root handle 1: htb r2q 1
   tc class add dev eth0 parent 1:0 classid 1:1 htb rate 1000mbit ceil 1000mbit
   tc qdisc add dev eth0 parent 1:1 netem loss 5%
