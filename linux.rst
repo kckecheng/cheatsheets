@@ -1299,6 +1299,13 @@ Find files newer than
   find . -type f -newermt '2021-02-05'
   find -newermt "$(date '+%Y-%m-%d %H:%M:%S' -d '10 minutes ago')"
 
+Find files and show their contents together with file names
+-------------------------------------------------------------
+
+::
+
+  find /sys/kernel/mm/hugepages/hugepages-2048kB/ -type f -print0 | xargs -0 -r grep .
+
 Sort based on several fields
 -------------------------------
 
