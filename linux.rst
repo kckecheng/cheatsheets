@@ -712,6 +712,40 @@ Show the CPU process/thread is running on
   ps -T -p 41869 -o pid,spid,psr,comm
   taskset -acp <pid>
 
+Random number
+---------------
+
+Get a simple random int within a range
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # use shuf
+  N=$(shuf -i 1-100 -n 1)
+  echo $N
+  # use RANDOM
+  echo $RANDOM
+
+Get pseudo random numbers in binary, decimal, hex, etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # od supports output format as character, decimal, unsigned decimal, hex, etc.
+  # xxd, hexdump also supports similar functions with their specific focus, man xxd|hexdump
+  od -vAn -N2 -tu2 < /dev/urandom
+
+Randomness test
+~~~~~~~~~~~~~~~~
+
+::
+
+  # FIPS 140-2 tests
+  rngtest -c 1000000 </dev/urandom
+  # Diehard - https://webhome.phy.duke.edu/~rgb/General/dieharder.php
+  # diehard -g -l
+  cat /dev/urandom | diehard -g 200 -a
+
 Disable auto logout for CLI console
 -------------------------------------
 
@@ -1392,14 +1426,6 @@ Caculate used huge pages of a system
   used=$((nr - free))
   echo $((used*2))M;
   echo $((used*2/1024))G
-
-Get a random int within a range
----------------------------------
-
-::
-
-  N=$(shuf -i 1-100 -n 1)
-  echo $N
 
 Create an array based on command output
 ------------------------------------------
