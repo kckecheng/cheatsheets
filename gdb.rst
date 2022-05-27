@@ -337,8 +337,10 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
   * Run the qemu vm with gdb server on:
 
     * Edit buildroot/output/images/start-qemu.sh, adding **-s** to the qemu command line(start a qemu server)
+    * Modify network options as **-net nic,model=virtio -net user,hostfwd=tcp::36000-:22** (enable ssh from localhost:36000 on host)
     * Add **nokaslr** to the kernel cmdline
     * ./start-qemu.sh # login the vm as root without password
+    * Edit /etc/ssh/sshd_config to enable root empty password login by adding 2 x lines: "PermitRootLogin yes", "PermitEmptyPasswords yes"
     * The script uses buildroot installed qemu-system-x86_64 binary instead of the default one on the system
     * To use the default qemu-system-x86_64 installed on your system, just type: qemu-system-x86_64 ...... directly from the cli
 
