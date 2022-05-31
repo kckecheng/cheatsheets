@@ -760,7 +760,9 @@ References:
 - The qdisc concept(understand root): https://tldp.org/HOWTO/Traffic-Control-HOWTO/components.html#c-qdisc
 - Classful qdisc: https://lartc.org/howto/lartc.qdisc.classful.html
 - HTB basics: https://tldp.org/HOWTO/Traffic-Control-HOWTO/classful-qdiscs.html#qc-htb
-- HTB examples with wonderful diagrams: https://wiki.debian.org/TrafficControl
+- HTB examples with wonderful diagrams:
+  * https://wiki.debian.org/TrafficControl
+  * https://www.sobyte.net/post/2022-03/linux-tc-flow-control
 - NETEM(mainly used for emulating abnormal scenarios such as package delay, loss, duplication, etc.): https://wiki.linuxfoundation.org/networking/netem
 - Filter basics: https://lartc.org/howto/lartc.qdisc.filters.html
 - The u32 classifier(protocol level match): https://tldp.org/HOWTO/Adv-Routing-HOWTO/lartc.adv-filter.u32.html
