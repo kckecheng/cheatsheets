@@ -289,8 +289,8 @@ Notes:
 MISC Tips
 ============
 
-List table of contents of manpage
-------------------------------------
+manpage toc
+--------------
 
 Based on the level of title you want to see, below commands can be used(3 stands for 3 x levels of titles).
 
@@ -745,6 +745,41 @@ Randomness test
   # Diehard - https://webhome.phy.duke.edu/~rgb/General/dieharder.php
   # diehard -g -l
   cat /dev/urandom | diehard -g 200 -a
+
+Binary/raw data view/edit
+---------------------------
+
+Tools
+~~~~~~
+
+- xxd: hexdump or reverse
+- hexdump: ASCII, decimal, hexadecimal, octal dump
+- od: dump in octal, decimal, hexadecimal, integer, etc.
+- hexedit: view and edit files in hex or ASCII, refer to https://github.com/pixel/hexedit
+
+Examples
+~~~~~~~~~
+
+- Generate a random unsigned decimal 2-byte integer
+
+  ::
+
+    od -vAn -N2 -tu2 < /dev/urandom
+
+- Search file content with a raw disk
+
+  ::
+
+    # hexdump -C can also be used
+    # hexedit can also be used
+    xxd /dev/sda | grep <ASCII string>
+
+- Change file contents from a raw disk
+
+  ::
+
+    # man hexedit to find the commands supported by hexedit
+    hexedit /dev/sdc
 
 Disable auto logout for CLI console
 -------------------------------------
