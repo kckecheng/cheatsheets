@@ -781,6 +781,53 @@ Examples
     # man hexedit to find the commands supported by hexedit
     hexedit /dev/sdc
 
+journalctl
+------------
+
+Check service logs based on time window
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  systemctl | grep '<service name>' ---> locate the service unit name
+  journalctl -S <time stamp> -u <service name>
+
+Check latest logs
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  journalctl -f ---> As tail
+
+Do not wrap log lines
+~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  journalctl --all --output cat -u <service name>
+
+Clean logs
+~~~~~~~~~~~~
+
+::
+
+  journalctl --flush --rotate
+  journalctl --vacuum-time=1s
+
+Show logs related with a specific process
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  journalctl _PID=`pidof pal`
+
+Show logs for currebt boot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  journalctl -b0
+
 Disable auto logout for CLI console
 -------------------------------------
 
@@ -2005,35 +2052,6 @@ Uninstall
 
 Services
 ============
-
-Service Logs
-----------------
-
-- Check service logs based on time window
-
-  ::
-
-    systemctl | grep '<service name>' ---> locate the service unit name
-    journalctl -S <time stamp> -u <service name>
-
-- Check latest logs
-
-  ::
-
-    journalctl -f ---> As tail
-
-- Do not wrap log lines
-
-  ::
-
-    journalctl --all --output cat -u <service name>
-
-- Clean logs
-
-  ::
-
-    journalctl --flush --rotate
-    journalctl --vacuum-time=1s
 
 Reload configuration file without restarting service
 --------------------------------------------------------
