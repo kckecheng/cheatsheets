@@ -329,14 +329,15 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
     ::
 
       make linux-menuconfig
-      # Kernel hacking -> Compile the kernel with debug info:
+      # Kernel hacking -> Compile-time checks and compiler options
       # - Compile the kernel with debug info: enabled
       # - Provide GDB scripts for kernel debugging: enabled
       make -j `nproc`
 
   * Run the qemu vm with gdb server on:
 
-    * Edit buildroot/output/images/start-qemu.sh, adding **-s** to the qemu command line(start a qemu server)
+    * Edit buildroot/output/images/start-qemu.sh, adding **-s** to the qemu command line to start gdb server listening on tcp::1234
+    * Edit buildroot/output/images/start-qemu.sh, adding **-S** to the qemu command line to disable CPU at startup(to capture everything, continue with gdb continue)
     * Modify network options as **-net nic,model=virtio -net user,hostfwd=tcp::36000-:22** (enable ssh from localhost:36000 on host)
     * Add **nokaslr** to the kernel cmdline
     * ./start-qemu.sh # login the vm as root without password
