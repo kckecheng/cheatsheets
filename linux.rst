@@ -522,6 +522,7 @@ Find files and show their contents together with file names
 ::
 
   find /sys/kernel/mm/hugepages/hugepages-2048kB/ -type f -print0 | xargs -0 -r grep .
+  find . -type f -name "*.sh" -print0 | xargs -0 -n1 grep -H 'hello world'
 
 Delete broken links
 ~~~~~~~~~~~~~~~~~~~~
