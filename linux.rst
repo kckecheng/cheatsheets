@@ -189,6 +189,26 @@ fd is a simple, fast and user-friendly alternative to find. fd ignore files defi
   fd -i <pattern>
   fd --no-ignore <pattern>
 
+bat
+-----
+
+an enhanced cat clone with syntax highlighting and Git integration.
+
+::
+
+  bat README.rst
+
+exa
+-----
+
+a modern replacement for ls.
+
+::
+
+  exa
+  exa -1
+  exa -l
+
 curlftpfs
 ------------
 
