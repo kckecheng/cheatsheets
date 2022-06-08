@@ -209,6 +209,13 @@ a modern replacement for ls.
   exa -1
   exa -l
 
+delta
+-------
+
+A syntax-highlighting pager for git, diff, and grep output. Refer to https://github.com/dandavison/delta.
+
+Usage: download the package from https://github.com/dandavison/delta/releases, then install and configure it by following its README.
+
 curlftpfs
 ------------
 
@@ -305,6 +312,11 @@ Notes:
   cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
   cscope -dq # use cscope after db buildup
   ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
+
+hexedit
+----------
+
+View and edit files in hexadecimal or in ASCII, especially useful for checking raw disk/file. Refer to https://github.com/pixel/hexedit
 
 MISC Tips
 ============
