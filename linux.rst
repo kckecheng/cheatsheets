@@ -216,6 +216,21 @@ A syntax-highlighting pager for git, diff, and grep output. Refer to https://git
 
 Usage: download the package from https://github.com/dandavison/delta/releases, then install and configure it by following its README.
 
+tldr
+-----
+
+Simplified man pages.
+
+::
+
+  tldr tar
+  tldr xargs
+
+broot
+-------
+
+tree like file manager which supports advanced search.
+
 curlftpfs
 ------------
 
