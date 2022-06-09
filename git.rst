@@ -264,6 +264,60 @@ Cache Credentail
      # Specify timeout
      git config --global credential.helper 'cache --timeout=3600'
 
+tag
+----
+
+Tag is used as a mechanism for version release: each time a tag is created, a release (on github) is created.
+
+Create a tag
++++++++++++++
+
+- Lightweight tag
+
+  ::
+
+    git tag [-m <message>] <name> [commit]
+
+- Annotated tag: recommended, it stores extra meta data for a tag
+
+  ::
+
+    git tag -a [-m <message>] <name> [commit]
+
+List tags
+++++++++++
+
+::
+
+  git tag
+
+Checkout a tag
++++++++++++++++
+
+::
+
+  git checkout tags/<tag name>
+  # Checkout the tag and create a new branch to avoid overwritten
+  git checkout tags/<tag name> -b <branch name>
+
+Push a tag to remote
++++++++++++++++++++++
+
+git push will not push tags by default, hence it needs to be explicitly specified.
+
+::
+
+  git push origin <tag name>
+
+Delte a tag
++++++++++++++
+::
+
+  # Delete local
+  git tag -d <tag>
+  # Delete remote
+  git push --delete origin <tag>
+
 Move git HEAD
 -------------
 
@@ -333,7 +387,16 @@ https to ssh
   origin  git@github.com:USERNAME/REPOSITORY.git (push)
 
 Log
----
+----
+
+Show changes only related with file object operations
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Query file added, copied, deleted, modified, renamed, changed, ...
+
+::
+
+  git log --diff-filter=<A|C|D|M|R|T|U|X|B> [-- <path/to/file/or/directory>]
 
 Show changes on a file/folder
 +++++++++++++++++++++++++++++
@@ -925,60 +988,6 @@ Cleanup
   git stash drop [stash name]
   --- OR to clean all stashes ---
   git stash clear
-
-tag
-----
-
-Tag is used as a mechanism for version release: each time a tag is created, a release (on github) is created.
-
-Create a tag
-+++++++++++++
-
-- Lightweight tag
-
-  ::
-
-    git tag [-m <message>] <name> [commit]
-
-- Annotated tag: recommended, it stores extra meta data for a tag
-
-  ::
-
-    git tag -a [-m <message>] <name> [commit]
-
-List tags
-++++++++++
-
-::
-
-  git tag
-
-Checkout a tag
-+++++++++++++++
-
-::
-
-  git checkout tags/<tag name>
-  # Checkout the tag and create a new branch to avoid overwritten
-  git checkout tags/<tag name> -b <branch name>
-
-Push a tag to remote
-+++++++++++++++++++++
-
-git push will not push tags by default, hence it needs to be explicitly specified.
-
-::
-
-  git push origin <tag name>
-
-Delte a tag
-+++++++++++++
-::
-
-  # Delete local
-  git tag -d <tag>
-  # Delete remote
-  git push --delete origin <tag>
 
 Revisions and Ranges
 --------------------
