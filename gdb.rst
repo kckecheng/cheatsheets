@@ -30,9 +30,13 @@ Check object/executable file information
 
   # Disamble
   objdump -S <ELF file>
+  # Display symbol tables
+  objdump -t <ELF file>
   # Display dynamic symbol tables
   objdump -T <ELF file>
   readelf --dyn-syms <ELF file>
+  # Display static + dynamic symbols
+  objdump -tT <ELF file>
   # Show dynamic dependencies
   readelf -d <ELF file> | grep -i need
   # Show section information
@@ -52,6 +56,18 @@ Get core file's application info
 
   # sometimes, it is not easy to find which application triggers the core to be debugged just based on the core file's name
   eu-unstrip -c --core <core file> # the first entry points to the absolute path of the application
+
+unstrip/combine files with degbugging info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
+  cp /usr/local/bin/qemu-system-x86_64 /usr/local/bin/qemu-system-x86_64.bak
+  cp /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug.bak
+  eu-unstrip /usr/local/bin/qemu-system-x86_64 /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
+  mv /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug /usr/local/bin/qemu-system-x86_64
+  chmod a+x /usr/local/bin/qemu-system-x86_64
 
 gdb common tips
 -----------------

@@ -203,9 +203,12 @@ Work similarly as strace but focus on dynamic linker operations. Especially usef
 ftrace
 ---------
 
-Ftrace is an internal tracer designed to help out developers and designers of systems to find what is going on inside the kernel. It can be used for debugging or analyzing latencies and performance issues that take place outside of user-space.
+Ftrace is an internal tracer designed to help out developers and designers of systems to find what is going on inside the kernel. It can be used for debugging or analyzing latencies and performance issues that take place outside of user-space. Refer to https://www.kernel.org/doc/Documentation/trace/ftrace.txt for information on ftrace.
 
-**event tracing**
+event tracing
+~~~~~~~~~~~~~~~~~~
+
+**tracing**
 
 ::
 
@@ -224,7 +227,7 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
   echo > trace
   cat trace
 
-**event filtering**
+**filtering**
 
 ::
 
@@ -237,7 +240,7 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
   echo 0 > filter
   echo "filter expression" > filter
 
-**event pid filtering**
+**pid filtering**
 
 ::
 
@@ -245,7 +248,10 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
   echo <PID> > set_event_pid # filtering multiple PIDs: echo <PID1> <PID2> <...> >> set_event_pid
   ...
 
-**function tracing**
+function tracing
+~~~~~~~~~~~~~~~~~~~~~
+
+**tracing**
 
 ::
 
@@ -272,6 +278,60 @@ Ftrace is an internal tracer designed to help out developers and designers of sy
   # trace_pipe only contains newer data compared with last read, suitable for redirection
   cat trace_pipe
   cat trace_pipe > /tmp/trace.log
+
+kprobe
+~~~~~~~~
+
+uprobe
+~~~~~~~~
+
+The usage of uprobe is more complicated than kprobe. Let's demonstrace how to trace the function hmp_info_cpus of application qemu-system-x86_64.
+
+**Calculate function offset**
+
+1. Find the function offset:
+
+::
+
+  # refer to https://www.kernel.org/doc/html/latest/_sources/filesystems/proc.rst.txt for information on /proc/PID/maps
+  objdump -tT /usr/local/bin/qemu-system-x86_64 | grep hmp_info_cpus
+  # the output is: 00000000005ce6d0 g    DF .text  0000000000000158  Base        hmp_info_cpus
+  # the offset is 00000000005ce6d0
+  cat /proc/`pidof qemu-system-x86_64`/maps | grep r-xp | grep qemu-system-x86_64
+  # th output is: 00400000-00baf000 r-xp 00000000 08:03 131826                             /usr/local/bin/qemu-system-x86_64
+  # the output indicates the code segment address(r-xp) range for the application(qemu-system-x86_64),
+  # for other user applications on the same system, the range actually will be the same value.
+  # based on 0x00400000(code segment begins) and 0x5ce6d0(hmp_info_cpus offset), the real offset
+  # of hmp_info_cpus compared with the staring address can be gotten as: 0x5ce6d0-0x400000 = 0x1ce6d0
+
+2. Enable uprobe tracers:
+
+::
+
+  # refer to https://www.kernel.org/doc/Documentation/trace/uprobetracer.txt for information on uprobe usage syntax
+  # refer to https://docs.kernel.org/_sources/trace/uprobetracer.rst.txt for uprobe examples
+  cd /sys/kernel/debug/tracing
+  echo 0 > tracing_on # disable ftrace
+  echo 0 > events/uprobes/enable # disable uprobes
+  echo > uprobe_events # clear
+  # pitfalls: the application to be traced must have been started before issuing below commands
+  echo 'p:hmp_info_cpus_entry /usr/local/bin/qemu-system-x86_64:0x1ce6d0' > uprobe_events # uprobe
+  echo 'r:hmp_info_cpus_exit /usr/local/bin/qemu-system-x86_64:0x1ce6d0' >> uprobe_events # uretprobe
+  # after running the above commands, events/uprobes/hmp_info_cpus/ will be created dynamically
+  # check the event format: cat events/uprobes/hmp_info_cpus/format
+  # enable the individual uprobe events: echo 1 > events/uprobes/hmp_info_cpus/enable
+  echo 1 > events/uprobes/enable # enable all uprobes
+  echo 1 > tracing_on # turn on ftrace
+  echo > trace
+  virsh qemu-monitor-command xxxxxx --hmp info cpus # trigger the hmp_info_cpus function
+  cat trace # the tracing result
+  echo 1 > options/latency-format # enable latency output format
+  echo 1 > options/userstacktrace # enable user stack strace
+  echo > trace
+  virsh qemu-monitor-command xxxxxx --hmp info cpus
+  cat trace
+  # if the application is not compiled with debugging information enabled,
+  # the user stack gotten is just memory address with no symbol info
 
 blktrace
 -----------
