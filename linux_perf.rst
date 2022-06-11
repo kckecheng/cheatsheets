@@ -327,11 +327,14 @@ The usage of uprobe is more complicated than kprobe. Let's demonstrace how to tr
   cat trace # the tracing result
   echo 1 > options/latency-format # enable latency output format
   echo 1 > options/userstacktrace # enable user stack strace
+  echo 1 > options/sym-userobj
+  echo 1 > options/sym-addr
+  echo 1 > options/sym-offset
   echo > trace
   virsh qemu-monitor-command xxxxxx --hmp info cpus
   cat trace
-  # if the application is not compiled with debugging information enabled,
-  # the user stack gotten is just memory address with no symbol info
+  # make sure the application is compiled with debugging info,
+  # otherwise, the user stack trace will be memory addresses based
 
 blktrace
 -----------

@@ -224,6 +224,30 @@ Binary values
   print /t $v1
   print $v1
 
+Automate with a command file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # print backtrace automatically when a function is hit, then exit
+  cat >pbt.gdb<<EOF
+  set verbose off
+  set confirm off
+  set pagination off
+  set logging file gdb.txt
+  set logging on
+  set width 0
+  set height 0
+  file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
+  break hmp_info_cpus
+  c
+  bt
+  q
+  EOF
+  gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
+  # from another session, trigger the breakpint by executing below command:
+  # virsh qmeu-monitor-command xxxxxx --hmp info cpus
+
 trace into glibc
 ~~~~~~~~~~~~~~~~~~~
 
