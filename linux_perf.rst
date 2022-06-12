@@ -325,6 +325,9 @@ The usage of uprobe is more complicated than kprobe. Let's demonstrace how to tr
   echo > trace
   virsh qemu-monitor-command xxxxxx --hmp info cpus # trigger the hmp_info_cpus function
   cat trace # the tracing result
+  # show user space stack
+  # make sure the application is compiled with debugging info,
+  # otherwise, the user stack trace will be memory addresses based
   echo 1 > options/latency-format # enable latency output format
   echo 1 > options/userstacktrace # enable user stack strace
   echo 1 > options/sym-userobj
@@ -333,8 +336,6 @@ The usage of uprobe is more complicated than kprobe. Let's demonstrace how to tr
   echo > trace
   virsh qemu-monitor-command xxxxxx --hmp info cpus
   cat trace
-  # make sure the application is compiled with debugging info,
-  # otherwise, the user stack trace will be memory addresses based
 
 blktrace
 -----------

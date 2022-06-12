@@ -655,7 +655,7 @@ Run commands without password by using sshpass
 
   sshpass -p <password> ssh -p <port> -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 <IP> '<commands>'
 
-Show CPU and Process Information
+Show CPU/Process Information
 ---------------------------------
 
 Show CPU Summary
@@ -759,6 +759,17 @@ Show the CPU process/thread is running on
   ps -T -F -p <pid>
   ps -T -p 41869 -o pid,spid,psr,comm
   taskset -acp <pid>
+
+Show process kernel stack
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Notes: gstack, eu-stack works the same.
+
+::
+
+  cat /proc/<PID>/stack # main thread stack
+  cat /proc/<PID>/task/<TID>/stack # stack for child process
+  pstack <PID> # print kernel stack for the main and children within the same group
 
 Random number
 ---------------
