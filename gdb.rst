@@ -192,6 +192,16 @@ Define a customized command
   idt_entry 0
   idt_entry 1
 
+Set breakpoints on all functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  rbreak <regex> # set breakpoints on all functions matching the regular expression
+  rbeak <file>:<regex> # set breakpoints on all functions matching the regular expression for the file
+  rbreak . # break in all functions
+  rbreak <file>:. # break in all functions for the file
+
 Check registers
 ~~~~~~~~~~~~~~~~~
 
@@ -227,6 +237,8 @@ Binary values
 Automate with a command file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**Simple script**
+
 ::
 
   # print backtrace automatically when a function is hit, then exit
@@ -242,6 +254,33 @@ Automate with a command file
   break hmp_info_cpus
   c
   bt
+  q
+  EOF
+  gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
+  # from another session, trigger the breakpint by executing below command:
+  # virsh qmeu-monitor-command xxxxxx --hmp info cpus
+
+**Script with a loop**
+
+::
+
+  # print backtrace automatically when a function is hit, then exit
+  cat >pbt.gdb<<EOF
+  set verbose off
+  set confirm off
+  set pagination off
+  set logging file gdb.txt
+  set logging on
+  set width 0
+  set height 0
+  file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
+  break hmp_info_cpus
+  set $counter = 1
+  while ($count <= 10)
+  c
+  bt
+  set $counter = $counter + 1
+  end
   q
   EOF
   gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
