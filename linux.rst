@@ -880,12 +880,13 @@ Show logs related with a specific process
 
   journalctl _PID=`pidof pal`
 
-Show logs for currebt boot
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Show logs for specified boot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-  journalctl -b0
+  journalctl --list-boots
+  journalctl -b <index, such as 0, -1, etc.> -e
 
 Disable auto logout for CLI console
 -------------------------------------
