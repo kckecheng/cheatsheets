@@ -27,7 +27,7 @@ Commands
 
 - :his / q:             ---> list command history
 - :sav <name>           ---> Save the file as
-- :map                  ---> list currently mapped keys
+- :map                  ---> list all currently mapped keys
 - :set                  ---> list all currently options which are different from the default
 - :version              ---> Check features enabled/compiled in vim
 - :colorscheme desert   ---> Change color schemes
@@ -68,6 +68,8 @@ Keymap
 ------
 
 - :map -> check existing map
+  - :map <C-e>: checking the current key mapping for Ctr + e
+  - :verbose map <C-e>: checking the current key mapping for Ctr + e with verbose information
 - Examples
   - map <C-n> :NERDTreeToggle<CR>
   - map <C-t> :Tagbar<CR>
