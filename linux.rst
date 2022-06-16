@@ -1023,6 +1023,16 @@ lsof tips
 - lsof <file> ---> Which processes are using the file
 - lsof +D <directory> ---> Which processed are accessing the directory, and which files under the directory are being accessed
 
+tail tips
+----------
+
+By default, tail -f follows a file based on the file descriptor. Once the file is rotated, the file descript gets changed, tail -f will stop working.
+
+::
+
+  tail -f /path/to/file # if file descriptor never changes
+  tail --follow=name --retry /path/to/file # if file may get rotated which lead to fd changes
+
 Process the new line character
 --------------------------------
 
