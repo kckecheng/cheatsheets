@@ -83,6 +83,13 @@ gdb verbose
   set verbose on
   show verbose
 
+breakpoint with regular expression
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  rbreak <regex>
+
 gdb with args
 ~~~~~~~~~~~~~~~
 
