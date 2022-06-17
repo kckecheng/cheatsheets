@@ -7,6 +7,7 @@ Git Tips
 Reference
 ---------
 
+- Git tutorial: man gittutorial
 - Pro Git: https://git-scm.com/docs
 - Reset Demystified: https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified
 - Git Branching: https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell
