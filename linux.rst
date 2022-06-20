@@ -311,6 +311,31 @@ moreutils
 - combine: combine 2 x files together based on boolean operations;
 - lckdo: run a program with a lock.
 
+Programming Tools
+====================
+
+gnu global
+------------
+
+GNU Global is a source code tagging system which can be used as a replacement of cscope.
+
+::
+
+  # export GTAGSLABEL='native'
+  export GTAGSLABEL='native-pygments' # pygments need to be installed to support other languages
+  find . -type f ! -type l -name "*.[chS]" > gtags.files
+  gtags
+  gtags-cscope -d -p3
+
+gnu cflow
+----------
+
+GNU cflow analyzes a collection of C source files and prints a graph, charting control flow within the program.
+
+::
+
+  cflow -b -m start_kernel init/main.c
+
 cscope and ctags
 ------------------
 
