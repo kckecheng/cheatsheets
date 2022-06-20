@@ -589,6 +589,13 @@ Calculate duplicate rows with hash
   # column 1 is used as the key, and calculate the sum when it is the same
   awk '{cnt[$1] += $2}END{for (k in cnt) print k, cnt[k]}'
 
+Get the last 2 columns
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ping -c 100 localhost | awk '/time=/{print $(NF-1), $NF}'
+
 Find
 ------
 
