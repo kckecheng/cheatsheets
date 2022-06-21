@@ -326,6 +326,12 @@ GNU Global is a source code tagging system which can be used as a replacement of
   find . -type f ! -type l -name "*.[chS]" > gtags.files
   gtags
   gtags-cscope -d -p3
+  # leverage http server
+  # brew install http-server
+  htags
+  cd HTML/
+  http-server
+  # open browser and access http://<IP>:8080
 
 gnu cflow
 ----------
@@ -621,6 +627,16 @@ Find files and show their contents together with file names
 
   find /sys/kernel/mm/hugepages/hugepages-2048kB/ -type f -print0 | xargs -0 -r grep .
   find . -type f -name "*.sh" -print0 | xargs -0 -n1 grep -H 'hello world'
+
+Exclude paths
+~~~~~~~~~~~~~~~
+
+::
+
+  # NOTES:
+  # ./ prefix is a must
+  # /* suffix is a must
+  find . -type f ! -path ./samples/* ! -path ./Documentation/*
 
 Delete broken links
 ~~~~~~~~~~~~~~~~~~~~
@@ -939,6 +955,25 @@ Show logs for specified boot
   journalctl --list-boots
   journalctl -b <index, such as 0, -1, etc.> -e
 
+zsh tips
+-----------
+
+Common
+~~~~~~~~~
+
+- zsh reference card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
+- zsh tips: http://grml.org/zsh/zsh-lovers.html
+
+zsh set/unset options
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  setopt # Display all enabled options
+  setopt HIST_IGNORE_ALL_DUPS
+  unsetopt # Display all off options
+  unsetopt HIST_IGNORE_ALL_DUPS
+
 Disable auto logout for CLI console
 -------------------------------------
 
@@ -1224,25 +1259,6 @@ Check nfs IO stat
 ::
 
   nfsstat -l
-
-zsh tips
------------
-
-Common
-~~~~~~~~~
-
-- zsh reference card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
-- zsh tips: http://grml.org/zsh/zsh-lovers.html
-
-zsh set/unset options
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  setopt # Display all enabled options
-  setopt HIST_IGNORE_ALL_DUPS
-  unsetopt # Display all off options
-  unsetopt HIST_IGNORE_ALL_DUPS
 
 Development Tools on different distros
 -----------------------------------------
