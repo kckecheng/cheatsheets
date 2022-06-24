@@ -291,6 +291,8 @@ List tags
 ::
 
   git tag
+  # list tags with additional information such as date
+  git tag --list --format='%(creatordate:short):  %(refname:short)'
 
 Checkout a tag
 +++++++++++++++
