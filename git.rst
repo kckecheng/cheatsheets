@@ -1106,3 +1106,14 @@ git reflog
   git reflog show --all
   git reflog show <branch name>
   git reflog
+
+git delta
+----------
+
+git delta is a powerful pager for git diff/show/log. Refer to https://github.com/dandavison/delta for configuration. If it is not provided within the distribution repositories, install it with homebrew.
+
+::
+
+  git config -l
+  git -c delta.side-by-side=false show <commit id>
+
