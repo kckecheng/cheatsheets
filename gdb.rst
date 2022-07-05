@@ -617,3 +617,15 @@ Iterate over a list
 
   # address is the list address
   list <address> -s sli_event.event_type,event_id
+
+MISC
+------
+
+Trigger panic when softlockup(or other problems) is hit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # sysctl -a | grep -i panic
+  echo 1 > /proc/sys/kernel/softlockup_panic
+
