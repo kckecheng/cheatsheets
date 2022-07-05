@@ -415,6 +415,7 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
     ::
 
       make linux-menuconfig
+      # Kernel debugging: enabled
       # Kernel hacking -> Compile-time checks and compiler options
       # - Compile the kernel with debug info: enabled
       # - Provide GDB scripts for kernel debugging: enabled
