@@ -392,15 +392,6 @@ https to ssh
 Log
 ----
 
-Show changes only related with file object operations
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Query file added, copied, deleted, modified, renamed, changed, ...
-
-::
-
-  git log --diff-filter=<A|C|D|M|R|T|U|X|B> [-- <path/to/file/or/directory>]
-
 Show changes on a file/folder
 +++++++++++++++++++++++++++++
 
@@ -420,6 +411,13 @@ Show change with diff
 - git log -p
 - git log -5 -p --stat
 
+Show changes for a user
++++++++++++++++++++++++++
+
+::
+
+  git log -p --author <author name>
+
 Show differences between commits/branches
 +++++++++++++++++++++++++++++++++++++++++
 
@@ -427,21 +425,12 @@ Show differences between commits/branches
 
   ::
 
+    git log <commit1>^..<commit2>
     git log origin/master..master
     git log remotes/origin/master..master
 
-Show file changes between commits
-+++++++++++++++++++++++++++++++++
-
-- git log -p <-X|-n X> --follow <path>
-
-  ::
-
-    git log -p -1 --follow lib/modules/fio.py
-    git log -p -n 1 --follow lib/modules/fio.py
-
-Filter logs related with specified operations
-+++++++++++++++++++++++++++++++++++++++++++++
+Filter logs related with specified file operations
+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Select only files that are:
 
@@ -453,7 +442,7 @@ Select only files that are:
 
 ::
 
-  git log --diff-filter=<A|C|D|R|M|U|X>
+  git log --diff-filter=<A|C|D|M|R|T|U|X|B> [-- <path/to/file/or/directory>]
 
 Search changes
 ---------------
