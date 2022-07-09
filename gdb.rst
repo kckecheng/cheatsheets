@@ -629,3 +629,17 @@ Trigger panic when softlockup(or other problems) is hit
   # sysctl -a | grep -i panic
   echo 1 > /proc/sys/kernel/softlockup_panic
 
+Work around PATH|LD_LIBRARY_PATH compiling error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # This works for not just kernel but also other projects.
+  # Below error might be hit:
+  You seem to have the current working directory in your <PATH|LD_LIBRARY_PATH> environment variable. This doesn't work.
+  # Fix
+  export PATH=`echo $PATH | sed -e 's/::/:/g'`
+  export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's/::/:/g'`
+  make
+
+
