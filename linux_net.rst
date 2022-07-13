@@ -791,6 +791,57 @@ Examples:
 
   tc class add dev eth0 parent 1:1 classid 1:6 htb rate 10.9mbit ceil 10.9mbit
 
+Testing tools
+--------------
+
+Bandwidth testing/stressing
++++++++++++++++++++++++++++++
+
+::
+
+  # TCP:
+  # Server side
+  iperf3 -s
+  # Client side
+  iperf3 -c <server ip>
+  iperf3 -c <server ip> -P 8
+  iperf3 -c <server ip> -w 32k # it is not recommened to set window size for most cases
+  #
+  # UDP:
+  # Server side
+  iperf3 -s
+  # Client side
+  iperf3 -c <server ip> -u -b 0
+  iperf3 -c <server ip> -u  -b 0 -P 8
+
+PPS testing/stressing
+++++++++++++++++++++++
+
+::
+
+  # Only for UDP
+  # Server side
+  iperf3 -s
+  # Client side
+  iperf3 -c 172.16.0.4 -l 16 -u -b 0
+  iperf3 -c 172.16.0.4 -l 16 -u -b 0 -P 8
+
+Latency testing
++++++++++++++++++
+
+::
+
+  # Use ping:
+  ping -f <target ip> # ctr + c to stop the execution, then check the output or as below
+  ping -f <target ip> -c 100000
+  # Use qperf:
+  # Server side
+  qperf
+  # Client side - TCP
+  qperf -ip 19766 -t 60 --use_bits_per_sec <server ip> tcp_lat
+  # Client side - UDP
+  qperf -ip 19766 -t 60 --use_bits_per_sec <server ip> udp_lat
+
 ======================
 OpenStack Network Tips
 ======================
