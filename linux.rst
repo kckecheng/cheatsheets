@@ -785,6 +785,8 @@ Show cpu and cache topology
 Show CPU frequency and idle statistics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Refer to https://metebalci.com/blog/a-minimum-complete-tutorial-of-cpu-power-management-c-states-and-p-states/ for C-states
+
 ::
 
   turbostat # https://www.linux.org/docs/man8/turbostat.html
