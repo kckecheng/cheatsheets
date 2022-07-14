@@ -405,3 +405,11 @@ Example 3: perf trace
   echo 22542 >> /sys/fs/cgroup/perf_event/bpftools/tasks
   echo 20514 >> /sys/fs/cgroup/perf_event/bpftools/tasks
   perf trace -G bpftools -a -- sleep 10
+
+Example 4: what is running on a specific cpu
+
+::
+
+  perf record -C 1 -F 99 -- sleep 10
+  perf report
+
