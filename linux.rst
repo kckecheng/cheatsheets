@@ -334,7 +334,7 @@ Notes: global does not get the capability to list caller/callee. Use cflow toget
   # brew install http-server
   htags
   cd HTML/
-  http-server
+  http-serve
   # open browser and access http://<IP>:8080
 
 gnu cflow
@@ -381,6 +381,33 @@ These tools can be used together to create call graph/tree.
   # install graphviz to use dot
   dot -Tsvg -O tceetree.out # the output will be tceetree.out.svc
   dot -Tsvg -Grankdir=LR -O tceetree.out # the output will get a layout from left to right
+
+doxygen + graphviz
+---------------------
+
+These tools can be used to create call graph, but it is really time consuming.
+
+::
+
+  cd /path/to/source/code
+  doxygen -g
+  vim Doxyfile
+  # Make changes to below options
+  # PROJECT_NAME = "a proper name"
+  # HAVE_DOT = YES
+  # EXTRACT_ALL = YES
+  # EXTRACT_PRIVATE = YES
+  # EXTRACT_STATIC = YES
+  # EXTRACT_xxxxxx = YES # based on needs
+  # CALL_GRAPH = YES
+  # CALLER_GRAPH = YES
+  # RECURSIVE = YES
+  # GENERATE_LATEX = NO
+  # tune other options based on need
+  doxygen Doxyfile
+  brew install http-server
+  cd html
+  http-serve
 
 hexedit
 ----------
