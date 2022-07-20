@@ -346,6 +346,39 @@ GNU cflow analyzes a collection of C source files and prints a graph, charting c
 
   cflow -b -m start_kernel init/main.c
 
+doxygen
+--------
+
+Doxygen can be used to create documents, call graphs(graphviz is required in advance), etc.
+
+::
+
+  cd /path/to/source/code
+  doxygen -g # doxywizard can be used to generate the configuration if UI is available(install doxygen-gui)
+  vim Doxyfile
+  # Make changes to below options
+  # PROJECT_NAME = "a proper name"
+  # HAVE_DOT = YES
+  # EXTRACT_ALL = YES
+  # EXTRACT_PRIVATE = YES
+  # EXTRACT_STATIC = YES
+  # EXTRACT_xxxxxx = YES # based on needs
+  # INLINE_SOURCES = YES # based on needs
+  # CALL_GRAPH = YES
+  # CALLER_GRAPH = YES
+  # RECURSIVE = YES
+  # GENERATE_LATEX = NO
+  # EXCLUDE_PATTERNS = */samples/* \
+  #                    */tests/*
+  # tune other options based on need, e.g.:
+  # DISABLE_INDEX = NO
+  # GENERATE_TREEVIEW = YES
+  # Note: this is time cosuming for large projects
+  doxygen Doxyfile
+  brew install http-server
+  cd html
+  http-serve
+
 cscope and ctags
 ------------------
 
@@ -381,33 +414,6 @@ These tools can be used together to create call graph/tree.
   # install graphviz to use dot
   dot -Tsvg -O tceetree.out # the output will be tceetree.out.svc
   dot -Tsvg -Grankdir=LR -O tceetree.out # the output will get a layout from left to right
-
-doxygen + graphviz
----------------------
-
-These tools can be used to create call graph, but it is really time consuming.
-
-::
-
-  cd /path/to/source/code
-  doxygen -g
-  vim Doxyfile
-  # Make changes to below options
-  # PROJECT_NAME = "a proper name"
-  # HAVE_DOT = YES
-  # EXTRACT_ALL = YES
-  # EXTRACT_PRIVATE = YES
-  # EXTRACT_STATIC = YES
-  # EXTRACT_xxxxxx = YES # based on needs
-  # CALL_GRAPH = YES
-  # CALLER_GRAPH = YES
-  # RECURSIVE = YES
-  # GENERATE_LATEX = NO
-  # tune other options based on need
-  doxygen Doxyfile
-  brew install http-server
-  cd html
-  http-serve
 
 hexedit
 ----------
