@@ -1737,6 +1737,14 @@ When using virsh console or a tty connection to some equipment, the console size
 - xterm-resize(preferred): just run "resize"
 - stty: stty rows 45 ; stty columns 140
 
+Split larter files
+-------------------
+
+::
+
+  split -d -b 100M file_name file_name.
+  cat `ls file_name.*` > file_name
+
 Create a samba server
 ----------------------
 
