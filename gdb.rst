@@ -322,6 +322,16 @@ trace into glibc
   directory ~/glibc-2.31/stdio-common
   list # the source code from glibc will be shown
 
+Disable paging
+~~~~~~~~~~~~~~~~
+
+::
+
+  # by default, bt and some other commands will page,
+  # end users need to press return again and again
+  # to disable it:
+  set pagination off
+
 Kernel Debugging
 -----------------
 
