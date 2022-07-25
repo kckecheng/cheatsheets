@@ -1745,6 +1745,14 @@ Split larter files
   split -d -b 100M file_name file_name.
   cat `ls file_name.*` > file_name
 
+Join multiple lines into one
+-----------------------------
+
+::
+
+  # paste -sd
+  cat /etc/passwd | sed 's/:.*$//' | paste -sd '|'
+
 Create a samba server
 ----------------------
 
