@@ -360,6 +360,37 @@ GNU cflow analyzes a collection of C source files and prints a graph, charting c
 
   cflow -b -m start_kernel init/main.c
 
+cscope and ctags
+------------------
+
+Used together for programming.
+
+Notes:
+
+- If vim plugin vista is used together, exuberant ctags is unsupported, using universal-ctags;
+- If a file has Ctrl+M at the end of the line(windows format), cscope may have issues to display the file name. Run command "find . -type f -print0 | xargs -0 dos2unix" to convert such files.
+
+::
+
+  # find . -type f -a ! -type l -a \( -name "*.c" -or -name "*.h" -or -name "*.S" \) > cscope.files
+  find . -type f ! -type l -name "*.[chS]" > cscope.files
+  cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
+  cscope -dq # use cscope after db buildup
+  ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
+
+codequery
+----------
+
+Based on cscope and ctags, and combine their strength together. In the meanwhile, both a GUI and a CLI tool(cqsearch) is avaiable.
+
+::
+
+  cscope -bckqi cscope.files # assembly code is not supported, make sure files with .S suffix is not included
+  ctags --fields=+i -L cscope.files
+  cqmakedb -s cq.db -c cscope.out -t tags -p
+  codequery # gui
+  cqsearch -h # cli
+
 doxygen
 --------
 
@@ -392,24 +423,6 @@ Doxygen can be used to create documents, call graphs(graphviz is required in adv
   brew install http-server
   cd html
   http-serve
-
-cscope and ctags
-------------------
-
-Used together for programming.
-
-Notes:
-
-- If vim plugin vista is used together, exuberant ctags is unsupported, using universal-ctags;
-- If a file has Ctrl+M at the end of the line(windows format), cscope may have issues to display the file name. Run command "find . -type f -print0 | xargs -0 dos2unix" to convert such files.
-
-::
-
-  # find . -type f -a ! -type l -a \( -name "*.c" -or -name "*.h" -or -name "*.S" \) > cscope.files
-  find . -type f ! -type l -name "*.[chS]" > cscope.files
-  cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
-  cscope -dq # use cscope after db buildup
-  ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
 
 cscope + tceetree + graphviz
 -------------------------------
