@@ -328,6 +328,17 @@ moreutils
 Programming Tools
 ====================
 
+ripgrep
+---------
+
+rg can be used for simple code search:
+
+::
+
+  rg -g '*.c' vhost_net_start_one
+  rg -g '*.c' -g '!*.h' 'main\('
+  rg -g '*.{c,h}' 'start_kernel'
+
 gnu global
 ------------
 
