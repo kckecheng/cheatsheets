@@ -1058,6 +1058,18 @@ zsh set/unset options
   unsetopt # Display all off options
   unsetopt HIST_IGNORE_ALL_DUPS
 
+Hardware information qurey
+----------------------------
+
+Besides individual tools like lspci, lscpu, etc. which can be used to list special kinds of hardware devices, dmidecode can be used to query almost all kind of hardware:
+
+::
+
+  man dmidecode # check DMI TYPES section
+  dmidecode -t 4 # CPU information
+  dmidecode -t 17 # physical memory information
+  ...
+
 Disable auto logout for CLI console
 -------------------------------------
 
