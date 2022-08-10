@@ -103,7 +103,7 @@ Load separate debug files
 
 ::
 
-  # keep a program’s debugging information in a file separate from the executable itself
+  # keep a program's debugging information in a file separate from the executable itself
   # and allow gdb to search and load the information automatically
   # the setup can be added init .gdbinit
   set verbose on

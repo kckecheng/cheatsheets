@@ -453,10 +453,11 @@ These tools can be used together to create call graph/tree.
   dot -Tsvg -O tceetree.out # the output will be tceetree.out.svc
   dot -Tsvg -Grankdir=LR -O tceetree.out # the output will get a layout from left to right
 
-hexedit
-----------
+hex editor
+-----------
 
-View and edit files in hexadecimal or in ASCII, especially useful for checking raw disk/file. Refer to https://github.com/pixel/hexedit
+- hexedit: View and edit files in hexadecimal or in ASCII, especially useful for checking raw disk/file. Refer to https://github.com/pixel/hexedit
+- ImHex: A Hex Editor for Reverse Engineers, Programmers. Refer to https://github.com/WerWolv/ImHex
 
 Binary/raw data view/edit
 ---------------------------
