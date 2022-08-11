@@ -182,17 +182,7 @@ Windows - Shortcuts
 Windows - Make an app always on top
 -----------------------------------
 
-1. Install AutoHotKey;
-2. From the desktop (or any folder you want to put your AutoHotKey scripts)->New->AutoHotKey Script;
-3. Add below contents:
-
-   ::
-
-     ^SPACE::  Winset, Alwaysontop, , A
-
-4. Save the exit;
-5. Click the script, then a icon for AutoHotKey will appear in your system tray;
-6. Press 'Ctrl - SPACE' to toggle an app as always on top.
+Leverage windows powertoys - https://github.com/microsoft/PowerToys
 
 Windows - Show MPIO Paths
 ---------------------------
