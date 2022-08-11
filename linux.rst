@@ -383,7 +383,8 @@ Notes:
 
 ::
 
-  # find . -type f -a ! -type l -a \( -name "*.c" -or -name "*.h" -or -name "*.S" \) > cscope.files
+  # find . -type f -name "*.[chS]" ! -path "./tools/*" ! -path "./Documentation/*" ! -path "./samples/*" ! -path "./scripts/*" ! -path "./arch/*" > cscope.files
+  # find . -type f -name "*.[chS]" -path "./arch/x86/*" >> cscope.files
   find . -type f ! -type l -name "*.[chS]" > cscope.files
   cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
   cscope -dq # use cscope after db buildup
