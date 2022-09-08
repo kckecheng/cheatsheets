@@ -484,6 +484,18 @@ podman
 
 Podman is a daemonless container engine which can run in parallel with docker without leading to any conflict.
 
+KubeKey
+---------
+
+Kubekey is a tool to deploy kubernetes easily, and it supports deploying kubesphere together.
+
+::
+
+  kk create config [--with-kubernetes version] [--with-kubesphere version]
+  # Edit the generated config-sample.yaml, e.g, change calico to cilium
+  export KKZONE=cn
+  kk create cluster -f config-sample.yaml
+
 RKE
 ----
 
