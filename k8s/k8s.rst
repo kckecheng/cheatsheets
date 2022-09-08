@@ -269,6 +269,14 @@ Pod Force Deletion
 
   kubectl delete pods <pod> --grace-period=0 --force
 
+Get/Delete everything within a namespece
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  kubectl get all -n k8stest
+  kubectl delete all --all -n k8stest
+
 kubeconfig
 -----------
 
