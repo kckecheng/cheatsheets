@@ -28,6 +28,7 @@ Check object/executable file information
 
 ::
 
+  # if objdump hit errors such, try eu-objdump
   # Disamble
   objdump -S <ELF file>
   # Display symbol tables
