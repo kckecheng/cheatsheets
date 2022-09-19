@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oc86ltp
+spec:
+  selector:
+    matchLabels:
+      app: oc86ltp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: oc86ltp
+    spec:
+      containers:
+      - name: oc86ltp
+        image: opencloudos/opencloudos:8.6
+        command: ["sh", "-c", "while : ; do echo '.'; sleep 10; done"]
+        securityContext:
+          privileged: true # to access /dev with enough permission
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: dev
+          mountPath: /dev
+        - name: cgroup
+          mountPath: /sys/fs/cgroup
+      volumes:
+      - name: data
+        hostPath:
+          path: /root/data # where ltp data is stored
+      - name: dev
+        hostPath:
+          path: /dev # for accessing /dev/kmsg and other devices
+      - name: cgroup
+        hostPath:
+          path: /sys/fs/cgroup
