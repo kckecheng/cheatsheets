@@ -491,6 +491,11 @@ Kubekey is a tool to deploy kubernetes easily, and it supports deploying kubesph
 
 ::
 
+  # Install the latest KubeKey, the same can be downloaded from https://github.com/kubesphere/kubekey
+  curl -sfL https://get-kk.kubesphere.io | sh -
+  mv kk /usr/local/bin/
+  # Detals of prerequisites can be found https://github.com/kubesphere/kubekey
+  sudo yum install -y conntrack socat ebtables ipset ipvsadm
   kk create config [--with-kubernetes version] [--with-kubesphere version]
   # Edit the generated config-sample.yaml, e.g, change calico to cilium
   export KKZONE=cn
