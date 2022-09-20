@@ -284,7 +284,7 @@ Automate with a command file
   file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
   break hmp_info_cpus
   set $counter = 1
-  while ($count <= 10)
+  while ($counter <= 10)
   c
   bt
   set $counter = $counter + 1
