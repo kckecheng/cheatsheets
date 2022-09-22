@@ -141,6 +141,23 @@ nmcli is a command-line tool for controlling NetworkManager and reporting networ
 
     nmcli con edit <name|ID>
 
+- Create a bond
+
+  ::
+
+    nmcli con add type bond ifname bond0
+    # nmcli con add type bond ifname bond0 bond.options "mode=balance-rr,miimon=100"
+    nmcli con add type ethernet ifname eth0 master bond0
+    nmcli con add type ethernet ifname eth1 master bond0
+    # the slave nic name can be gotten based on script name under /etc/sysconfig/network-scirpts
+    nmcli con up bond-slave-eth0
+    nmcli con up bond-slave-eth1
+    # assign ip statically as normal nic
+    vim /etc/sysconfig/network-scripts/ifcfg-bond-bon0
+    # configure IPADDR, etc.
+    systemctl restart NetworkManager
+    ip a show
+
 nmap
 +++++
 
