@@ -863,7 +863,8 @@ Refer to https://metebalci.com/blog/a-minimum-complete-tutorial-of-cpu-power-man
 ::
 
   turbostat # https://www.linux.org/docs/man8/turbostat.html
-  cpupower  # https://www.linux.org/docs/man1/cpupower.html
+  cpupower monitor # https://www.linux.org/docs/man1/cpupower.html
+  powertop
 
 Make a process run on spcified cpu cores
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
