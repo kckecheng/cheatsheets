@@ -629,6 +629,15 @@ Iterate over a list
   # address is the list address
   list <address> -s sli_event.event_type,event_id
 
+VA_BITS_ACTUAL error
+~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # error as below may be seen on arm, specify -m vabits_actual to fix the issue
+  # crash: cannot determine VA_BITS_ACTUAL
+  crash /boot/vmlinux-5.4.119-19-0009.8 vmcore -m vabits_actual=48
+
 MISC
 ------
 
