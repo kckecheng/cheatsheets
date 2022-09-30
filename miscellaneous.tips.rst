@@ -4,6 +4,27 @@
 MISC Tips
 =========
 
+Manual toc for restructuredText
+---------------------------------
+
+Section titles, footnotes, and citations automatically generate hyperlink targets (the title text or footnote/citation label is used as the hyperlink name).
+
+::
+
+  Title
+  =======
+
+  **TOC**
+
+  - `header 1 title`_
+  - `heder 2 title`_
+
+  header 1 title
+  ----------------
+
+  header 2 title
+  ----------------
+
 Write Document with Sphinx
 ---------------------------
 
