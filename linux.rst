@@ -1572,7 +1572,10 @@ ipmitool
 
   ::
 
+    # deactive at fist
+    ipmitool -I lanplus -H 192.168.10.10 -U admin -P password sol deactivate
     ipmitool -I lanplus -H 192.168.10.10 -U admin -P password sol activate
+    # type ~. to quite the sol session
 
 SLES HA Cluster
 -------------------
