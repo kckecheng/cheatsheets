@@ -2098,8 +2098,16 @@ Install a specified version RPM through yum
 
 ::
 
-  # yum --showduplicates list <package name>
-  # yum install <package name>-<version>
+  yum --showduplicates list <package name>
+  yum install <package name>-<version>
+
+Download src rpm
+------------------
+
+::
+
+  yum install -y yum-utils
+  yumdownloader --source kernel
 
 arch aur package helper yay
 ------------------------------
