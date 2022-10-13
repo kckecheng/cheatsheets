@@ -827,6 +827,14 @@ Run multiple Remote Commands with SSH
   ssh root@192.168.10.10 "vmstat -w -S m 5 10"
   ssh root@192.168.10.10 "while :; do docker stats --no-stream; echo; sleep 5; done"
 
+ssh login with a private key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # make sure the permission of a private key is configured as 400 or 600
+  ssh -i /path/to/private/key/pem root@xxx.xxx.xxx.xxx
+
 Run commands without password by using sshpass
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
