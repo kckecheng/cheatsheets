@@ -42,6 +42,7 @@ ss is the newly recommended tool (part of the iproute2 package) as a replacement
 
   ::
 
+    # similar as ip -d -s addr/link
     ss -s
 
 - List all listening ports
@@ -86,6 +87,14 @@ ss is the newly recommended tool (part of the iproute2 package) as a replacement
   ::
 
     ss -[l][t|u|x]o
+
+tcptrack
+++++++++++
+
+::
+
+  # monitor tcp traffics between addresses
+  tcptrack -i eth0
 
 nmcli
 ++++++
