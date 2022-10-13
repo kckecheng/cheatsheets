@@ -1069,6 +1069,16 @@ zsh set/unset options
   unsetopt # Display all off options
   unsetopt HIST_IGNORE_ALL_DUPS
 
+Who is on the server
+----------------------
+
+::
+
+  # who is on the server
+  who [...]
+  # who is on the server and what they are doing
+  w [...]
+
 Hardware information qurey
 ----------------------------
 
