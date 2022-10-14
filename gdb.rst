@@ -347,6 +347,7 @@ Build linux kernel
 
   ::
 
+    make help
     make defconfig
     make kvm_guest.config
 
