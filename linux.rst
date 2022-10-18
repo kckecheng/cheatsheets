@@ -2260,6 +2260,13 @@ Create a local yum repo with DVD iso
 - yum repolist : You should be able to see the new repo
 - Or through command line: yum-config-manager --add-repo file:///<Mount point> (Public key should be imported with command like "rpm --import /media/RPM-GPG-KEY-redhat-beta" before installing packages with the newly added repo )
 
+Check yum repo package dependencies
+-------------------------------------
+
+::
+
+  repoclosure --repo rawhide
+  dnf repoclosure --repo rawhide
 
 dnf
 -------
