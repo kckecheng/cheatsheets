@@ -272,6 +272,8 @@ Reference:
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80"))'
   # reverse the match
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80") | not)'
+  # select multiple fields
+  tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80")) | .NetworkInterfaceName, .NetworkInterfaceId'
   # output selected fields as csv - use jq -r to avoid \"
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80")) | [.NetworkInterfaceName, .NetworkInterfaceId] | @csv'
 
