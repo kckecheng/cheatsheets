@@ -1813,7 +1813,7 @@ When using virsh console or a tty connection to some equipment, the console size
 - xterm-resize(preferred): just run "resize"
 - stty: stty rows 45 ; stty columns 140
 
-Split larter files
+Split large files
 -------------------
 
 ::
@@ -1828,6 +1828,17 @@ Join multiple lines into one
 
   # paste -sd
   cat /etc/passwd | sed 's/:.*$//' | paste -sd '|'
+
+Create application core dump
+-----------------------------
+
+::
+
+  # it is recommended to change ulimit in its configuration file
+  ulimit -c unlimited
+  kill -11 <pid> # different application may accept different signals to trigger a core dump
+  coredumpctl list
+  coredumpctl list <core dump pid>
 
 Create a samba server
 ----------------------
