@@ -228,7 +228,7 @@ Import
 
     ::
 
-      import _ <pacakge name>
+      import _ <package name>
 
   * Refer to some symbols with blank identifier: mainly used during debug
 
@@ -390,10 +390,8 @@ List the full API of a package:
 
   # Locate the package/module name
   go list ...
-  # Show the API
-  go tool api <package|module>
   # Show the document for an object of the package/module
-  go doc <package>[.<object>]
+  go doc [-short|-all] [-src] <package>[.<object>]
 
 Techs to build docker image
 -----------------------------
