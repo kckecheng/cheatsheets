@@ -88,6 +88,15 @@ ss is the newly recommended tool (part of the iproute2 package) as a replacement
 
     ss -[l][t|u|x]o
 
+rpcinfo
+++++++++++
+
+ss -ntlp might show some ports opened without processes attached, such ports may be used by rpc:
+
+::
+
+  rpcinfo -p
+
 tcptrack
 ++++++++++
 
