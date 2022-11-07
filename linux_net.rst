@@ -877,6 +877,56 @@ Latency testing
   # Client side - UDP
   qperf -ip 19766 -t 60 --use_bits_per_sec <server ip> udp_lat
 
+Proxy
+-------
+
+Socks5 Proxy with Shadowsocks
++++++++++++++++++++++++++++++++
+
+Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-rust>`_ or `Shadowsocks-libev <https://github.com/shadowsocks/shadowsocks-libev>`_ instead of the original shadowsocks. The configuration options can be found `here <https://github.com/shadowsocks/shadowsocks/wiki>`_.
+
+::
+
+  # Server side configs:
+  # - server: the ip to binds to
+  # - password: choose a strong password
+  # - method: choose a strong encryption
+  # - mode: tcp_and_udp or tcp_only based on real cases
+  # - nameserver:
+  #   - without this option: use the same dns server where shadowsocks server is running
+  #   - 8.8.8.8: use google
+  #   - 1.1.1.1: use cloudflare
+  {
+      "server": ["0.0.0.0"],
+      "mode": "tcp_only",
+      "server_port": 58388,
+      "local_port": 10800,
+      "password": "Iamthepassword!",
+      "timeout": 300,
+      "nameserver": "1.1.1.1",
+      "method": "chacha20-ietf-poly1305"
+  }
+
+  # Clise side configs:
+  # - use the same options as the server if there is no idea
+  # - server: ss server ip
+  # - server_port: the same as on the ss server
+  # - password: the same as on the ss server
+  # - mode: the same as on the ss server
+  # - local_port: any port to be used for local proxy
+  {
+      "server": "ss server ip"
+      "server_port": 58388,
+      "mode": "tcp_only",
+      "local_address": "127.0.0.1",
+      "local_port": 10800,
+      "password": "Iamthepassword!",
+      "timeout": 300,
+      "method": "chacha20-ietf-poly1305"
+  }
+  # NOTES:
+  # - password: it is recommended to get a strong password with "openssl rand -base64 24"(24 is just an example)
+
 ======================
 OpenStack Network Tips
 ======================
