@@ -927,6 +927,12 @@ Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-r
   # NOTES:
   # - password: it is recommended to get a strong password with "openssl rand -base64 24"(24 is just an example)
 
+MISC
+++++++
+
+- xray: https://github.com/XTLS/Xray-core
+- v2ray: https://github.com/v2fly/v2ray-core
+
 ======================
 OpenStack Network Tips
 ======================
