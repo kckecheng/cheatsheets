@@ -25,6 +25,37 @@ Section titles, footnotes, and citations automatically generate hyperlink target
   header 2 title
   ----------------
 
+Embed html color in restructuredText
+---------------------------------------
+
+::
+
+  .. raw:: html
+
+     <style>
+     .red {color: red;}
+     .blue {color: blue;}
+     .green {color: green;}
+     </style>
+
+  .. role:: red
+       :class: red
+
+  .. role:: blue
+      :class: blue
+
+  .. role:: green
+      :class: green
+
+  Title
+  ======
+
+  html colored text:
+
+  - :red:`this sentence will be shown in red`
+  - :blue:`this sentence will be shown in blue`
+  - :green:`this sentence will be shown in green`
+
 Write Document with Sphinx
 ---------------------------
 
