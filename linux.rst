@@ -1830,6 +1830,17 @@ Join multiple lines into one
   # paste -sd
   cat /etc/passwd | sed 's/:.*$//' | paste -sd '|'
 
+Bind to both ipv4 and ipv6 with all addresses
+-----------------------------------------------
+
+::
+
+  bind 0.0.0.0 # bind to all ipv4
+  bind ::0 # bint to all ipv6
+  bind 0.0.0.0 ::0 # bind to both ipv4 and ipv6
+  bind 0.0.0.0:80 ::0:80 # bint to the 80 port
+  bind 0.0.0.0:80 :::80 # bint to the 80 port
+
 Create application core dump
 -----------------------------
 
