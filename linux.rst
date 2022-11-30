@@ -1852,6 +1852,14 @@ Create application core dump
   coredumpctl list
   coredumpctl list <core dump pid>
 
+max number of open file descriptors
+-------------------------------------
+
+- it is well known that tuning nofile options within /etc/security/limits.conf can control the max num. of open fds;
+- all documents including the manpage for limits.conf declare **-1** for nofile mean no limited;
+- however, on some system, -1 may lead to login permission deny;
+- hence, nofile should be set to a value less than or equal to **sysctl fs.nr_open**
+
 Create a samba server
 ----------------------
 
