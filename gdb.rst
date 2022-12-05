@@ -242,6 +242,17 @@ Binary values
   print /t $v1
   print $v1
 
+Run gdb commands through CLI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  grep r--p /proc/6666/maps \
+    | sed -n 's/^\([0-9a-f]*\)-\([0-9a-f]*\) .*$/\1 \2/p' \
+    | while read start stop; do \
+      gdb --batch --pid 6666 -ex "dump memory 6666-$start-$stop.dump 0x$start 0x$stop"; \
+      done
+
 Automate with a command file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
