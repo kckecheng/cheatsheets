@@ -141,15 +141,19 @@ Search variables/functions
 
 ::
 
+  bt
   # args for current stack
   info args
   info args <arg name regex>
   # locals for current stack
   info locals
   info locals <local name regex>
+  # change to another frame/stack and repeat
+  frame xxx
+  info xxx
   # global/staic variables
   info variables
-  info ariables <variable name regex>
+  info variables <variable name regex>
   # functions
   info funtsions
   info functions <func name regex>
