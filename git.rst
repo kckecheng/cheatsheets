@@ -174,6 +174,7 @@ git log
 - git show [--format=full] <sha1 hash>
 - git log -S <string> [-p] [file]
 - git log -G <regex> [-p] [file]
+- git log --all
 
 git mergetool
 -------------
