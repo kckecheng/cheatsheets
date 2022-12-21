@@ -1093,6 +1093,16 @@ Besides individual tools like lspci, lscpu, etc. which can be used to list speci
   dmidecode -t 17 # physical memory information
   ...
 
+Error Detection And Correction query
+--------------------------------------
+
+::
+
+  # memory related errors can be reported by EDAC module.
+  # refer to https://www.kernel.org/doc/html/latest/driver-api/edac.html for basic concepts
+  edac-util --report=ce
+  edac-util --report=simple -vvv
+
 Disable auto logout for CLI console
 -------------------------------------
 
