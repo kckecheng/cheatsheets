@@ -2130,6 +2130,11 @@ A simple script to clear all reservations
 NVME
 ------
 
+Refer to below docs:
+
+- https://narasimhan-v.github.io/2020/06/12/Managing-NVMe-Namespaces.html
+- https://www.drewthorst.com/posts/nvme/namespaces/readme/
+
 Delete a NVME name space
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
