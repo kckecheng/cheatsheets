@@ -2127,6 +2127,92 @@ A simple script to clear all reservations
     sg_persist --out --clear --param-rk=${k} ${DEVICE}
   done
 
+NVME
+------
+
+Delete a NVME name space
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+	[root@devbox ~]# nvme list
+	Node             SN                   Model                                    Namespace Usage                      Format           FW Rev
+	---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+	/dev/nvme0n1     S5G3NA0R107888       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+	/dev/nvme1n1     S5G3NA0R107886       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+	/dev/nvme2n1     S5G3NA0R107879       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+	/dev/nvme3n1     S5G3NA0R107885       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+	[root@devbox ~]# nvme id-ctrl /dev/nvme0 | grep cntlid
+	cntlid    : 41
+	[root@devbox ~]# nvme detach-ns /dev/nvme0 -n 1 -c 0x41
+	detach-ns: Success, nsid:1
+	[root@devbox ~]# nvme ns-rescan /dev/nvme0
+	[root@devbox ~]# nvme list
+	Node             SN                   Model                                    Namespace Usage                      Format           FW Rev
+	---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+	/dev/nvme1n1     S5G3NA0R107886       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+	/dev/nvme2n1     S5G3NA0R107879       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+	/dev/nvme3n1     S5G3NA0R107885       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+
+Create a NVMe name space
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  [root@devbox ~]# nvme list-subsys
+  nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1733:2.5-inch:S5G3NA0R107888
+  \
+   +- nvme0 pcie 0000:81:00.0 live
+  nvme-subsys1 - NQN=nqn.1994-11.com.samsung:nvme:PM1733:2.5-inch:S5G3NA0R107886
+  \
+   +- nvme1 pcie 0000:82:00.0 live
+  nvme-subsys2 - NQN=nqn.1994-11.com.samsung:nvme:PM1733:2.5-inch:S5G3NA0R107879
+  \
+   +- nvme2 pcie 0000:83:00.0 live
+  nvme-subsys3 - NQN=nqn.1994-11.com.samsung:nvme:PM1733:2.5-inch:S5G3NA0R107885
+  \
+   +- nvme3 pcie 0000:84:00.0 live
+  [root@devbox ~]# ls -l /dev/nvme*
+  crw------- 1 root root 243, 0 Dec 29 17:27 /dev/nvme0
+  crw------- 1 root root 243, 1 Dec 29 17:27 /dev/nvme1
+  brw-rw---- 1 root disk 259, 3 Dec 29 19:33 /dev/nvme1n1
+  crw------- 1 root root 243, 2 Dec 29 17:27 /dev/nvme2
+  brw-rw---- 1 root disk 259, 5 Dec 29 19:33 /dev/nvme2n1
+  crw------- 1 root root 243, 3 Dec 29 17:27 /dev/nvme3
+  brw-rw---- 1 root disk 259, 7 Dec 29 19:33 /dev/nvme3n1
+  [root@devbox ~]# nvme id-ctrl /dev/nvme0 | grep cap
+  tnvmcap   : 3840755982336
+  unvmcap   : 0
+  sanicap   : 0x3
+  anacap    : 0
+  [root@devbox ~]# echo 3840755982336 / 4096 | bc
+  937684566
+  [root@devbox ~]# nvme create-ns /dev/nvme0 -s 937684566 -c 937684566 -b 4096
+  create-ns: Success, created nsid:1
+  [root@devbox ~]# nvme list-ns /dev/nvme0 -a
+  [   0]:0x1
+  [root@devbox ~]# nvme id-ctrl /dev/nvme0 | grep cntlid
+  cntlid    : 41
+  [root@devbox ~]# nvme attach-ns /dev/nvme0 -n 0x1 -c 0x41
+  attach-ns: Success, nsid:1
+  [root@devbox ~]# nvme ns-rescan /dev/nvme0
+  [root@devbox ~]# nvme list
+  Node             SN                   Model                                    Namespace Usage                      Format           FW Rev
+  ---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+  /dev/nvme0n1     S5G3NA0R107888       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+  /dev/nvme1n1     S5G3NA0R107886       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+  /dev/nvme2n1     S5G3NA0R107879       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+  /dev/nvme3n1     S5G3NA0R107885       SAMSUNG MZWLJ3T8HBLS-0007C               1           3.84  TB /   3.84  TB      4 KiB +  0 B   EPK9BJ5Q
+  [root@devbox ~]# ls -l /dev/nvme*
+  crw------- 1 root root 243, 0 Dec 29 17:27 /dev/nvme0
+  brw-rw---- 1 root disk 259, 8 Dec 29 20:07 /dev/nvme0n1
+  crw------- 1 root root 243, 1 Dec 29 17:27 /dev/nvme1
+  brw-rw---- 1 root disk 259, 3 Dec 29 19:33 /dev/nvme1n1
+  crw------- 1 root root 243, 2 Dec 29 17:27 /dev/nvme2
+  brw-rw---- 1 root disk 259, 5 Dec 29 19:33 /dev/nvme2n1
+  crw------- 1 root root 243, 3 Dec 29 17:27 /dev/nvme3
+  brw-rw---- 1 root disk 259, 7 Dec 29 19:33 /dev/nvme3n1
+
 Package Mangement
 ====================
 
