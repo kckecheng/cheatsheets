@@ -2621,6 +2621,7 @@ kdump config
    - This can be done with command: grubby --update-kernel=ALL --args="crashkernel=yM@xM";
    - "crashkernel=yM@0" or "crashkernel=yM" should be used if kdump service cannot start;
 
+#. It is also recommended to configure multiple options together: crashkernel=0M-2G:128M,2G-6G:256M,6G-8G:512M,8G-:768M
 #. Reboot and check with command: cat /proc/iomem | grep 'Crash kernel';
 #. Configure /etc/kdump.conf to set dump path and other options, by default, only below two options are required:
 
