@@ -2164,6 +2164,12 @@ Create a NVMe name space
 
 ::
 
+  # nvme multipath:
+  # cat /sys/module/nvme_core/parameters/multipath
+  # grubby --update-kernel=ALL --args="nvme_core.multipath=Y" # enable
+  # grubby --update-kernel=ALL --args="nvme_core.multipath=N" # disable
+  # when nvme multipath is on, /sys/bus/pci/devices/<pci addr>/nvme/nvmeX will have a dir named nvmeXc0n1
+  # when nvme multipath is off, /sys/bus/pci/devices/<pci addr>/nvme/nvmeX will have a dir named nvmeXn1
   [root@devbox ~]# nvme list-subsys
   nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1733:2.5-inch:S5G3NA0R107888
   \
