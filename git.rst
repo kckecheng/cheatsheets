@@ -1107,3 +1107,19 @@ git delta is a powerful pager for git diff/show/log. Refer to https://github.com
   git config -l
   git -c delta.side-by-side=false show <commit id>
 
+git proxy
+-----------
+
+::
+
+  # use https.proxy for https
+  git config [--global] http.proxy http://proxyuser:proxypwd@proxy.server.com:8080
+  git config [--global] http.proxy 'socks5://127.0.0.1:8080'
+  git config [--global] --unset http.proxy
+  # use env vars, use https_proxy for https
+  export http_proxy=http://proxyuser:proxypwd@proxy.server.com:8080
+  export http_proxy=socks5://127.0.0.1:8080
+  export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+  unset http_proxy
+
+
