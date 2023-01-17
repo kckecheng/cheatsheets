@@ -161,35 +161,21 @@ convert cgroup v1 to v2
   grubby --update-kernel=/boot/vmlinuz-5.4.119-19-0010 --args "systemd.unified_cgroup_hierarchy=1"
   reboot
 
-sysdig
+Tracing
 ---------
 
-A powerful system and process troubleshooting tool.
+Overview
+~~~~~~~~~~~
 
-- Common options
-
-  - sudo sysdig -cl
-  - sudo sysdig -i <chisel name>
-  - sudo sysdig -c <chisel name>
-  - sudo sysdig -l
-  - sudo csysdig
-
-- Examples: https://github.com/draios/sysdig/wiki/sysdig-examples
-
-systemtap
-------------
-
-SystemTap is a tracing and probing tool that allows users to study and monitor the activities of the computer system (particularly, the kernel) in fine detail. It provides information similar to the output of tools like netstat,  ps, top, and iostat, but is designed to provide more filtering and analysis options for collected information.
-
-The advantage of systemtap is you can write a kind of script called **SystemTap Scripts** to perform complicated tracing. Please refer to https://sourceware.org/systemtap/ for details.
+- https://jvns.ca/blog/2017/07/05/linux-tracing-systems/#data-sources
 
 strace
----------
+~~~~~~~~~
 
 Trace system calls and signals
 
 LD_DEBUG
-----------
+~~~~~~~~~~
 
 Work similarly as strace but focus on dynamic linker operations. Especially useful when debugging program compile realted issues:
 
@@ -201,12 +187,12 @@ Work similarly as strace but focus on dynamic linker operations. Especially usef
   make
 
 ftrace
----------
+~~~~~~~~~
 
 Ftrace is an internal tracer designed to help out developers and designers of systems to find what is going on inside the kernel. It can be used for debugging or analyzing latencies and performance issues that take place outside of user-space. Refer to https://www.kernel.org/doc/Documentation/trace/ftrace.txt for information on ftrace.
 
 event tracing
-~~~~~~~~~~~~~~~~~~
+****************
 
 **tracing**
 
@@ -249,7 +235,7 @@ event tracing
   ...
 
 function tracing
-~~~~~~~~~~~~~~~~~~~~~
+*******************
 
 **tracing**
 
@@ -280,10 +266,12 @@ function tracing
   cat trace_pipe > /tmp/trace.log
 
 kprobe
-~~~~~~~~
+*********
+
+TBD
 
 uprobe
-~~~~~~~~
+********
 
 The usage of uprobe is more complicated than kprobe. Let's demonstrace how to trace the function hmp_info_cpus of application qemu-system-x86_64.
 
@@ -338,7 +326,7 @@ The usage of uprobe is more complicated than kprobe. Let's demonstrace how to tr
   cat trace
 
 blktrace
------------
+~~~~~~~~~~~
 
 1. **blktrace** is a block layer IO tracing mechanism which provides detailed information about request queue operations up to user space. The trace result is stored in a binary format, which obviously doesn't make for convenient reading;
 2. The tool for that job is **blkparse**, a simple interface for analyzing the IO traces dumped by blktrace;
