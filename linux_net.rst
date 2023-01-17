@@ -88,6 +88,17 @@ ss is the newly recommended tool (part of the iproute2 package) as a replacement
 
     ss -[l][t|u|x]o
 
+ethtool
++++++++++
+
+- Change and show NIC queue/channel
+
+  ::
+
+    ethtool -l eth0
+    ethtool -L eth0 combined 2
+    ethtool -l eth0
+
 rpcinfo
 ++++++++++
 
