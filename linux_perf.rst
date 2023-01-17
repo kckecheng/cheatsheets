@@ -401,3 +401,9 @@ Example 4: what is running on a specific cpu
   perf record -C 1 -F 99 -- sleep 10
   perf report
 
+Example 5: system profiling overview
+
+::
+
+  perf top
+
