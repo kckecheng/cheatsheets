@@ -1302,7 +1302,11 @@ Shell debugging
 ::
 
   #!/bin/bash -xv
+  # set PS4 to print script filename, line num., func name
+  # important: using single quote
   export PS4='+(${BASH_SOURCE}:${LINENO}):${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+  # or with only script filename and lineno
+  # export PS4='${BASH_SOURCE}:${LINENO}: '
   --- OR ---
   set -o errexit == set -e
   set -o xtrace == set -x
