@@ -702,6 +702,36 @@ Disassemble
     76    {
     77            smp_ops.stop_other_cpus(1);
 
+Check kernel memory of a task
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  crash> bt
+  PID: 0      TASK: ffff8887fcb68000  CPU: 10  COMMAND: "swapper/10"
+   #0 [ffffc900002a8bd0] machine_kexec at ffffffff810621ef
+   #1 [ffffc900002a8c28] __crash_kexec at ffffffff8112bf62
+   #2 [ffffc900002a8cf8] panic at ffffffff81bf88f4
+   #3 [ffffc900002a8d78] watchdog_timer_fn.cold.9 at ffffffff81bff156
+   #4 [ffffc900002a8db0] __hrtimer_run_queues at ffffffff8110b1e7
+  ...
+  crash> kmem ffff8887fcb68000
+  CACHE             OBJSIZE  ALLOCATED     TOTAL  SLABS  SSIZE  NAME
+  ffff8887fc80a680     9984        232       291     97    32k  task_struct
+    SLAB              MEMORY            NODE  TOTAL  ALLOCATED  FREE
+    ffffea001ff2da00  ffff8887fcb68000     0      3          3     0
+    FREE / [ALLOCATED]
+    [ffff8887fcb68000]
+
+      PID: 0
+  COMMAND: "swapper/10"
+     TASK: ffff8887fcb68000  (1 of 16)  [THREAD_INFO: ffff8887fcb68000]
+      CPU: 10
+    STATE: TASK_RUNNING (PANIC)
+
+        PAGE        PHYSICAL      MAPPING       INDEX CNT FLAGS
+  ffffea001ff2da00 7fcb68000 ffff8887fc80a680        0  1 17ffffc0010200 slab,head
+
 MISC
 ------
 
