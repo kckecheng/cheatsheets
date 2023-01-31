@@ -4,62 +4,10 @@
 MISC Tips
 =========
 
-Manual toc for restructuredText
----------------------------------
+Sphinx Markdown
+----------------
 
-Section titles, footnotes, and citations automatically generate hyperlink targets (the title text or footnote/citation label is used as the hyperlink name).
-
-::
-
-  Title
-  =======
-
-  **TOC**
-
-  - `header 1 title`_
-  - `heder 2 title`_
-
-  header 1 title
-  ----------------
-
-  header 2 title
-  ----------------
-
-Embed html color in restructuredText
----------------------------------------
-
-::
-
-  .. raw:: html
-
-     <style>
-     .red {color: red;}
-     .blue {color: blue;}
-     .green {color: green;}
-     </style>
-
-  .. role:: red
-       :class: red
-
-  .. role:: blue
-      :class: blue
-
-  .. role:: green
-      :class: green
-
-  Title
-  ======
-
-  html colored text:
-
-  - :red:`this sentence will be shown in red`
-  - :blue:`this sentence will be shown in blue`
-  - :green:`this sentence will be shown in green`
-
-Write Document with Sphinx
----------------------------
-
-1. Install
+#. Install
 
    ::
 
@@ -135,6 +83,58 @@ Write Document with Sphinx
       .. todo::
 
          hello world
+
+RST: Manual TOC
+----------------
+
+Section titles, footnotes, and citations automatically generate hyperlink targets (the title text or footnote/citation label is used as the hyperlink name).
+
+::
+
+  Title
+  =======
+
+  **TOC**
+
+  - `header 1 title`_
+  - `heder 2 title`_
+
+  header 1 title
+  ----------------
+
+  header 2 title
+  ----------------
+
+RST: Embed html color
+----------------------
+
+::
+
+  .. raw:: html
+
+     <style>
+     .red {color: red;}
+     .blue {color: blue;}
+     .green {color: green;}
+     </style>
+
+  .. role:: red
+       :class: red
+
+  .. role:: blue
+      :class: blue
+
+  .. role:: green
+      :class: green
+
+  Title
+  ======
+
+  html colored text:
+
+  - :red:`this sentence will be shown in red`
+  - :blue:`this sentence will be shown in blue`
+  - :green:`this sentence will be shown in green`
 
 Unix - User friendly configuraiton tool
 ---------------------------------------
