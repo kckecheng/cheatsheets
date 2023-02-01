@@ -186,10 +186,12 @@ Delete
 
 - Delete the whole line matching a pattern
 
+  - :help :g
   - :g/pattern/d
 
 - Delete the whole line which does not match a pattern
 
+  - :help :v
   - :v/pattern/d
 
 Vertical Edit
