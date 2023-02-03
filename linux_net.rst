@@ -890,6 +890,13 @@ Latency testing
   # Client side - UDP
   qperf -ip 19766 -t 60 --use_bits_per_sec <server ip> udp_lat
 
+New Tools - ethr
++++++++++++++++++
+
+ethr is based on golang, it supports TCP, UDP, HTTP/HTTPS, and ICMP for measuring bandwidth, connections/s, packets/s, latency, loss & jitter.
+
+Reference: https://github.com/microsoft/ethr
+
 Proxy
 -------
 
