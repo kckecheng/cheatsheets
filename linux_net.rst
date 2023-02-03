@@ -99,6 +99,14 @@ ethtool
     ethtool -L eth0 combined 2
     ethtool -l eth0
 
+- Map NIC name to PCI device
+
+  ::
+
+    # the bus info can be gotten by running command:
+    # cat /sys/class/net/eth0/device/uevent
+    ethtool -i eth0 | grep bus-info
+
 rpcinfo
 ++++++++++
 
