@@ -1172,15 +1172,17 @@ Shell debugging
 
 ::
 
-  #!/bin/bash -xv
+  #!/bin/bash -xvT
+  # important: using single quote + insert "export PS4=xxx" into the script but not from CLI
   # set PS4 to print script filename, line num., func name
-  # important: using single quote
   export PS4='+(${BASH_SOURCE}:${LINENO}):${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
   # or with only script filename and lineno
   # export PS4='${BASH_SOURCE}:${LINENO}: '
-  --- OR ---
-  set -o errexit == set -e
-  set -o xtrace == set -x
+  # --- OR ---
+  #!/bin/bash
+  set -o errexit
+  set -o xtrace
+  set -o functrace
   export PS4='+(${BASH_SOURCE}:${LINENO}):${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
 Regular Expression Comparision for sed/vim/awk/grep/etc.
