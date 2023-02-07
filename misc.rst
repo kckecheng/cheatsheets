@@ -136,6 +136,11 @@ RST: Embed html color
   - :blue:`this sentence will be shown in blue`
   - :green:`this sentence will be shown in green`
 
+Diagram Scripting
+--------------------
+
+- d2: https://d2lang.com/tour/intro/ && https://github.com/terrastruct/d2
+
 Unix - User friendly configuraiton tool
 ---------------------------------------
 
