@@ -360,3 +360,18 @@ Show full path of a file
 
 - Shortcut: **1**, then **Ctrl + G**
 - Status line: set statusline+=%F
+
+Define a custom command
+++++++++++++++++++++++++++
+
+::
+
+  # create a command "TagbarToggle" which calls VoomToggle markdown for ft=markdown
+  # since TagbarToggle already exists, this works as an overwriting when current buffer
+  # is with ft=markdown
+  # refer to :help command for "command" details
+  autocmd FileType markdown call SetVoomMD()
+  function SetVoomMD()
+    command! -buffer TagbarToggle VoomToggle markdown
+  endfunction
+
