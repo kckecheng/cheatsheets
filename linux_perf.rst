@@ -358,6 +358,10 @@ Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
 - tpoint
 - uprobe
 
+References:
+
+- https://perf.wiki.kernel.org/index.php/Tutorial
+
 Example 0: Help
 
 ::
