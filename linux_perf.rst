@@ -423,3 +423,15 @@ Example 6: record with call graph
   perf record -ag -e 'sched:*' -- sleep 10
   perf report -g --stdio
 
+Example 7: probe a user space function defined in libc
+
+::
+
+  perf probe -l
+  perf probe -f -x /usr/lib64/libc-2.28.so -a inet_pton
+  perf probe -l
+  # start a process which triggers inet_pton in another terminal
+  perf record -e probe_libc:inet_pton ...
+  perf report --stdio
+  perf probe -d probe_libc:inet_pton
+
