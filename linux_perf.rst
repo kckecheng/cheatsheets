@@ -358,6 +358,15 @@ Performance analysis tools based on Linux perf_events (aka perf) and ftrace:
 - tpoint
 - uprobe
 
+Example 0: Help
+
+::
+
+  perf help
+  # list supported events
+  perf list
+  perf list 'sched:*'
+
 Example 1: Scheduler Analysis
 
 ::
@@ -406,4 +415,11 @@ Example 5: system profiling overview
 ::
 
   perf top
+
+Example 6: record with call graph
+
+::
+
+  perf record -ag -e 'sched:*' -- sleep 10
+  perf report -g --stdio
 
