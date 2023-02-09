@@ -249,7 +249,7 @@ function tracing
   # multiple function filters can be configured as : echo <function_name_prefix>* > set_ftrace_filter
   echo > trace
   cat trace # check trace results
-  # function graph
+  # function graph: function graph will provides latency data which is recommended
   echo function_graph > current_tracer
   cat available_filter_functions # get filters which can be used for function graph tracing
   echo <available filter> > set_graph_function # multiple filter can be used - echo <another filter> >> set_graph_function
@@ -324,6 +324,19 @@ The usage of uprobe is more complicated than kprobe. Let's demonstrace how to tr
   echo > trace
   virsh qemu-monitor-command xxxxxx --hmp info cpus
   cat trace
+
+trace-cmd
+~~~~~~~~~~
+
+trace-cmd is a frontend for ftrace, and its cli works similar as perf. Use it directly instead of using ftrace whenever possible.
+
+::
+
+  trace-cmd list
+  trace-cmd record -P `pidof qemu` -e kvm
+  trace-cmd report
+  trace-cmd record -p function_graph -P `pidof top`
+  trace-cmd report
 
 blktrace
 ~~~~~~~~~~~
