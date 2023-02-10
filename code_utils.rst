@@ -48,6 +48,7 @@ GNU cflow analyzes a collection of C source files and prints a graph, charting c
 
   cflow -b -m start_kernel init/main.c
   cflow -b *.c # all .c files under current directory
+  # leverage the bash globstar feature
   cflow **/*.c # all .c files under current directory and its subdirectories
 
 cscope and ctags
