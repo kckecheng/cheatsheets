@@ -134,3 +134,11 @@ These tools can be used together to create call graph/tree.
   dot -Tsvg -O tceetree.out # the output will be tceetree.out.svc
   dot -Tsvg -Grankdir=LR -O tceetree.out # the output will get a layout from left to right
 
+valgrind
+----------
+
+::
+
+  # multiple tools are supported, man valgrind, check the --tool options
+  valgrind --leak-check=full --track-origins=yes --verbose qemu-system-i386
+
