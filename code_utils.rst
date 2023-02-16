@@ -21,8 +21,6 @@ gnu global
 
 GNU Global is a source code tagging system which can be used as a replacement of cscope.
 
-Notes: global does not get the capability to list caller/callee. Use cflow together to find caller/callee for c/c++. To extract caller/callee information, further processing needs to be performed, please refer to https://github.com/xenomonadbase/glcall/blob/master/bin/glcall.py
-
 ::
 
   # export GTAGSLABEL='native'
@@ -38,6 +36,23 @@ Notes: global does not get the capability to list caller/callee. Use cflow toget
   cd HTML/
   http-serve
   # open browser and access http://<IP>:8080
+
+NOTE 1: global doesnot support listing functions called by 'this function' (not quite useful, since one can go to the the definition of 'this function' to find such info). Use cscope or cflow(c/c++ only) if the capability is important.
+
+NOTE 2: gtags only supports tagging files under current source tree (the directory where gtags is run). For external source tree:
+
+- Use soft link: ln -s /path/to/external/source/tree .
+- Use GTAGSLIBPATH:
+
+  ::
+
+    # tags need to be generated under each source tree dir
+    export GTAGSLIBPATH=/path/to/lib1:/path/to/lib2:...
+    cd /path/to/lib1
+    gtags ...
+    cd /path/to/lib2
+    gtags ...
+    ...
 
 gnu cflow
 ----------
