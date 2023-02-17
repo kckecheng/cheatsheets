@@ -54,6 +54,8 @@ NOTE 2: gtags only supports tagging files under current source tree (the directo
     gtags ...
     ...
 
+NOTE3: for not tag/symbol related search, such as "Find this text string", "Find this file", "Find files #including this file", etc., global/cscope only searchs the dir and sub dirs it is started.
+
 gnu cflow
 ----------
 
