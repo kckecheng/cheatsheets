@@ -908,6 +908,20 @@ Reference: https://github.com/microsoft/ethr
 Proxy
 -------
 
+Environment variable
+++++++++++++++++++++++
+
+::
+
+  # if all_proxy is set, there is no need to set others
+  # using ALL_RPXOY, HTTP_PROXY, etc. if lower case donot work
+  export all_proxy=socks5://127.0.0.1:10800
+  export http_proxy=http://xxx:xxx
+  export https_proxy=$http_proxy
+  export ftp_proxy=$http_proxy
+  export rsync_proxy=$http_proxy
+  export no_proxy='www.test.com,127.0.0.1,2.2.2.2'
+
 Socks5 Proxy with Shadowsocks
 +++++++++++++++++++++++++++++++
 
