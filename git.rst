@@ -590,7 +590,7 @@ Overwrite all local files
   git clean -df
 
 Switch to a branch whose name exists on several remote refs
------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Error as below will be triggered when switch to a branch which exists on several remote refs:
 
@@ -662,7 +662,7 @@ After running *git fetch*, it is good to have a look at what will be changed aft
   git diff ...origin/master
 
 diff with time info
--------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Refer to *man gitrevisions* for how to specify date time info.
 
@@ -992,38 +992,6 @@ Revisions and Ranges
   # leverage <refname>@{<date>} of gitrevisions
   git diff master@{0} master@{1 day ago}
 
-Create pull request from the CLI
---------------------------------
-
-Leverage the tool hub, which can be found @https://github.com/github/hub
-
-- Installation
-
-  ::
-
-    sudo pacman -S hub
-
-- Configuration
-
-  - example.com: your github or enterprise github https access url(without https://)
-  - oauth_token: token generated for accessing the site
-
-  ::
-
-    git config --global --add hub.host example.com
-    cat > ~/.config/hub<<EOF
-    example.com:
-      - user: user_name
-        oauth_token:
-        protocol: https
-    EOF
-
-- Usage:
-
-  ::
-
-    hub pull-request -b upstream:feature_branch
-
 git cherry-pick
 ---------------
 
@@ -1078,6 +1046,16 @@ Sometimes, there will be conflicts, which need to be solved just like using merg
     diff --git a/a2.txt b/a2.txt
     new file mode 100644
     index 0000000..e69de29
+
+Shallow clone
+---------------
+
+Pull just the latest commits, not the entire repo history which improve clone performance(but w/o history):
+
+::
+
+  git clone --depth 1 https://gitlab.gnome.org/GNOME/glib.git
+  git clone --depth X ...
 
 Restore a deleted branch
 ------------------------
