@@ -286,6 +286,11 @@ yq is similar as jq, but it is used to translate yaml/xml to json:
 
   cat <file name>.yaml | yq '.'
 
+atop
+-----
+
+atop is able to write output compressed as raw file and read them back later, hence it is a good choice for continuous monitoring in the background.
+
 xmllint
 ---------
 
