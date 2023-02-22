@@ -828,7 +828,15 @@ References:
   * man tc-netem
   * man tc-u32
 
-Examples:
+Example 1:
+
+::
+
+  tc qdisc del dev eth0 root netem
+  # specify several options together
+  tc qdisc add dev eth0 netem delay 10ms reorder 5% loss 5%
+
+Example 2:
 
 ::
 
