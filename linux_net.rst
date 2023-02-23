@@ -444,14 +444,14 @@ VXLAN Interface
   ip link add vx0 type vxlan id 100 local 1.1.1.1 remote 2.2.2.2 dev eth0 dstport 4789
 
 Linux Bridge
-++++++++++++
+++++++++++++++
 
 Simply put, a bridge is a layer two device that is used to join two (Ethernet) networks together to form a single larger network. Why is this useful? Imagine a business spread across two different sites each with it’s own LAN. Without an interconnection between the two networks machines on one LAN couldn’t communicate with machines on the other. This can be fixed by installing a bridge between the two sites which will forward packets from one LAN to the other effectively making the two LANs into one large network.
 
 Bridges may or may not learn about the hosts connected to the networks they are bridging. A basic transparent bridge will just pass all packets arriving on it’s input port out the output port(s). This strategy is simple but it can be very wasteful and potentially expensive if the bridge link is charged on the amount of data that passes across it. A better solution is to use a learning bridge that will learn the MAC addresses of hosts on each connected network and only put packets on the bridge when the required. Note that in many respects a learning bridge is much like a regular Ethernet switch which is why bridges as a piece of real hardware have all but disappeared.
 
 Bridge Utilities
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 In the modern network switches have largely made bridges obsolete but the concept of the bridge is still very useful in the virtual world. By installing the package "bridge-utils" on any mainstream Linux machine the you get the ability to create virtual bridges with commands such as:
 
@@ -483,7 +483,7 @@ Finally you can remove an interface and delete a bridge like this:
 
 
 iproute2 Bridges
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 The examples above use the brctl command from the bridge-utils package but that has now been superseded by the newer iproute2 utility which can also create bridges. To create a bridge with iproute2 use the following command:
 
@@ -526,19 +526,19 @@ And finally to delete the bridge:
   ip link delete br0
 
 TUN/TAP Devices
-+++++++++++++++
++++++++++++++++++
 
 Typically a network device in a system, for example eth0, has a physical device associated with it which is used to put packets on the wire. In contrast a TUN or a TAP device is entirely virtual and managed by the kernel. User space applications can interact with TUN and TAP devices as if they were real and behind the scenes the operating system will push or inject the packets into the regular networking stack as required making everything appear as if a real device is being used.
 
 You might wonder why there are two options, surely a network device is a network device and that’s the end of the story. That’s partially true but TUN and TAP devices aim to solve different problems.
 
 TUN Interfaces
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 TUN devices work at the IP level or layer three level of the network stack and are usually point-to-point connections. A typical use for a TUN device is establishing VPN connections since it gives the VPN software a chance to encrypt the data before it gets put on the wire. Since a TUN device works at layer three it can only accept IP packets and in some cases only IPv4. If you need to run any other protocol over a TUN device you're out of luck. Additionally because TUN devices work at layer three they can't be used in bridges and don't typically support broadcasting
 
 TAP Interfaces
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 TAP devices, in contrast, work at the Ethernet level or layer two and therefore behave very much like a real network adaptor. Since they are running at layer two they can transport any layer three protocol and aren't limited to point-to-point connections. TAP devices can be part of a bridge and are commonly used in virtualization systems to provide virtual network adaptors to multiple guest machines. Since TAP devices work at layer two they will forward broadcast traffic which normally makes them a poor choice for VPN connections as the VPN link is typically much narrower than a LAN network (and usually more expensive).
 
@@ -566,7 +566,7 @@ The above command creates a new TAP interface called tap0 and then shows some in
 To remove a TUN/TAP interface just replace "add" in the creation command with "del". Note that you have to specify the mode when deleting, presumably you can create both a tun and a tap interface with the same name.
 
 veth Pairs
-++++++++++
+++++++++++++
 
 A pair of connected interfaces, commonly known as a veth pair, can be created to act as virtual wiring. Essentially what you are creating is a virtual equivalent of a patch cable. What goes in one end comes out the other. The command to create a veth pair is a little more complicated than some:
 
@@ -905,6 +905,20 @@ Latency testing
   qperf -ip 19766 -t 60 --use_bits_per_sec <server ip> tcp_lat
   # Client side - UDP
   qperf -ip 19766 -t 60 --use_bits_per_sec <server ip> udp_lat
+
+TCP/IP stack sanity - packetdrill
++++++++++++++++++++++++++++++++++++
+
+Google realease of packetdrill for testing entire TCP/UDP/IPv4/IPv6 network stacks, from the system call layer down to the NIC hardware.
+
+Reference: https://github.com/google/packetdrill
+
+TCP/IP stack robustness - isic
++++++++++++++++++++++++++++++++++
+
+ISIC, abbreviation for IP Stack Integrity Checker, is designed for testing the integrity of TCP/IP stack. It consists of isic/isic6, tcpsic/tpcsic6, udpsic/udpsic6, esic, icmpsic/icmpsic6, and multisic. Most of time, it can be used for generating stress of desired types of traffic.
+
+Reference: https://github.com/IPv4v6/isic
 
 New Tools - ethr
 +++++++++++++++++
