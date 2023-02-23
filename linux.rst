@@ -1851,13 +1851,11 @@ Create a LV with all free space
 
   lvcreate -l 100%FREE -n <LV name> <VG name>
 
-Parted
----------
+gdisk
+-------
 
-- fdisk cannot create partitions larger than 2TB, parted should be used under such situation.
-- Select a target disk for partitioning: parted->print devices->select
-- Create a partition: mklabel->unit->mkpart
-- **Notes** : if error "Warning: The resulting partition is not properly aligned for best performance." is hit, you could use mkpart primary 0% 100% , this will align the disk automatically for you.
+- Designed for GUID partition table;
+- Able to backup and load partition data(sgdisk -b/-l)
 
 sg_inq/sg3_inq
 -----------------
