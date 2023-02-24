@@ -75,6 +75,13 @@ gdb common tips
 
 Common tips.
 
+Debuginfod
+~~~~~~~~~~~~
+
+Debuginfod is a service providing debug information over an HTTP API. This means that users will be able to debug programs without the need to manually install a distribution’s debuginfo packages once the debuginfod server(always provisioned by a distributor vendor, such as ubuntu, hence there is no need to configure it for most cases) and client(quite some tools now ship with the client, e.g., elfutils-debuginfod-client, libelf, gdb, perf, etc.) are configured.
+
+If debuginfod client is enabled, there will be a configuraiton under /etc/debuginfod (or /usr/xxx), and env var DEBUGINFOD_URLS will be configured. If the client is configured but it cannot access the debuginfod server, related tools such as gdb/perf may work slowly during startup. To disable the client, export DEBUGINFOD_URLS="".
+
 gdb verbose
 ~~~~~~~~~~~~
 
