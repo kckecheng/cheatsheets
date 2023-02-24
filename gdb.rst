@@ -177,6 +177,18 @@ List source code
   # 1 x line of source code might be compiled into several lines of instructions, use info line linespec to show the starting and ending addresses
   info line *0xffffffff81026260 # show the starting and ending addresses for the source line the address 0xffffffff81026260 points to
 
+Pretty print
+~~~~~~~~~~~~~~
+
+::
+
+  # print struct pretty
+  apropos pretty
+  set print pretty
+  set print pretty
+  lx-ps
+  p (struct task_struct *)0xffff888002ebb000
+
 TUI usage
 ~~~~~~~~~~~
 
