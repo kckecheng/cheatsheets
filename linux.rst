@@ -1113,7 +1113,7 @@ lsof tips
 
 - lsof <file> ---> Which processes are using the file
 - lsof +D <directory> ---> Which processed are accessing the directory, and which files under the directory are being accessed
-- lsof -ni :80 ---> which process is listening on a specific port
+- lsof -nP -i :80 ---> which process is listening on a specific port
 
 tail tips
 ----------
