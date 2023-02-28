@@ -9,10 +9,9 @@ Plugins
 - tmux-open      : open highlighted selection directly from tmux copy mode;
 - tmux-copycat   : enhance tmux search;
 - tmux-yank      : copy to system clipboard;
+- tmux-fingers   : copy pasting with vimium/vimperator like hints;
 - tmux-sensible  : basic tmux setting sensible for everyone;
-- tmux-continuum : continuous saving of tmux environment and automatic restore when tmux is started;
-- tmux-resurrect : persists tmux environment across system restarts;
-- tmux-themepack : thems;
+- nord-tmux      : the nord theme for tmux;
 
 Tools
 -----
@@ -119,6 +118,9 @@ Shortcuts
 |Shortcut for moving a window            |  ^b .                                         |
 +----------------------------------------+-----------------------------------------------+
 |Run same commands on all panes          |  ^b: set-option [-g] synchronize-panes on/off |
+|                                        |  To exclude a pane from sync:                 |
+|                                        |  - select-pane -d -t x: disable input         |
+|                                        |  - select-pane -e -t x: enable input          |
 +----------------------------------------+-----------------------------------------------+
 |Backup/restore sessions(tmux-rescurrect)|  ^b ^s -> save ; ^b ^r -> restore             |
 +----------------------------------------+-----------------------------------------------+
