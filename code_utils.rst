@@ -67,6 +67,9 @@ GNU cflow analyzes a collection of C source files and prints a graph, charting c
   cflow -b *.c # all .c files under current directory
   # leverage the bash globstar feature
   cflow **/*.c # all .c files under current directory and its subdirectories
+  # cover functions not reachable from main
+  cflow -b --all a.c b/*.c
+  cflow -b --no-main a.c b.c c/**/*.c
 
 cscope and ctags
 ------------------
