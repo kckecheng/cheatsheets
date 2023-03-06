@@ -212,23 +212,21 @@ an enhanced cat clone with syntax highlighting and Git integration.
 
   bat README.rst
 
-exa
------
-
-a modern replacement for ls.
-
-::
-
-  exa
-  exa -1
-  exa -l
-
 delta
 -------
 
 A syntax-highlighting pager for git, diff, and grep output. Refer to https://github.com/dandavison/delta.
 
 Usage: download the package from https://github.com/dandavison/delta/releases, then install and configure it by following its README.
+
+aria2
+-------
+
+A CLI based download manager supporting multiple threads.
+
+::
+
+  aria2c -x 16 -s 16 <the url to resource>
 
 tldr
 -----
@@ -239,11 +237,6 @@ Simplified man pages.
 
   tldr tar
   tldr xargs
-
-broot
--------
-
-tree like file manager which supports advanced search.
 
 curlftpfs
 ------------
