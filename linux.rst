@@ -1276,56 +1276,11 @@ Check nfs IO stat
 
   nfsstat -l
 
-Development Tools on different distros
------------------------------------------
-
-- Arch
-
-  ::
-
-    sudo pacman -S base-devel
-
-- Ubuntu
-
-  ::
-
-    sudo apt-get install build-essential
-
-- RHEL/CentOS
-
-  ::
-
-    sudo yum groupinstall "Development Tools"
-
-- SuSE
-
-  ::
-
-    sudo zypper install -t pattern devel_C_C++
-
 Assign hostname dynamically with DHCP
 ----------------------------------------
 
 1. **option host-name** can be used to assign a hostname while assigning IP - https://www.isc.org/wp-content/uploads/2017/08/dhcp41options.html;
 2. **dhcp-eval** can be leveraged to generate a hostname dynamically - https://www.isc.org/wp-content/uploads/2017/08/dhcp41eval.html.
-
-Delete VM on Linux with virsh
---------------------------------
-
-::
-
-  virsh list
-  virsh dumpxml VM_NAME | grep 'source file'
-  # OR as below
-  # virsh dumpxml --domain VM_NAME | grep 'source file'
-  # <source file='/nfswheel/kvm/VM_NAME.qcow2'/>
-  virsh shutdown VM_NAME
-  # OR as below
-  # virsh destroy VM_NAME
-  virsh snapshot-list VM_NAME
-  virsh snapshot-delete VM_NAME
-  virsh undefine VM_NAME
-  rm -rf <VM source file>
 
 Configure IP with netctl on Arch
 -----------------------------------
@@ -1755,6 +1710,13 @@ max number of open file descriptors
 - all documents including the manpage for limits.conf declare **-1** for nofile mean no limited;
 - however, on some system, -1 may lead to login permission deny;
 - hence, nofile should be set to a value less than or equal to **sysctl fs.nr_open**
+
+Display /proc/interrupts w/o wrapping
+---------------------------------------
+
+::
+
+  less -S /proc/interrupts
 
 Create a samba server
 ----------------------
