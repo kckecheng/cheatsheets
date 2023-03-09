@@ -62,6 +62,8 @@ Shortcuts
 - Ctrl + ]   ---> Jump to the section under the cursor while browsing VIM documents (such as :help index)
 - Ctrl + ^   ---> Jump back to origin file from alternative file
 - Ctrl + u/d ---> Scroll up/down half screen (:help usr_03.txt)
+- Ctrl + b/f ---> Scroll back/forward one full screen
+- {}         ---> Jump to previous/next paragraph
 - Reference  ---> Refer to https://vim.rtorr.com/
 
 Keymap

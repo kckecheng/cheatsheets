@@ -8,9 +8,12 @@ Command Editing Shortcuts
 
 - Ctrl + a – go to the start of the command line
 - Ctrl + e – go to the end of the command line
+- Ctrl + b - move the cursor back one character
+- Ctrl + f - move the cursor forward one character
+- Ctrl + d - delete the character under cursor
+- Ctrl + w – delete from cursor to start of word (i.e. delete backwards one word)
 - Ctrl + k – delete from cursor to the end of the command line
 - Ctrl + u – delete from cursor to the start of the command line
-- Ctrl + w – delete from cursor to start of word (i.e. delete backwards one word)
 - Ctrl + y – paste word or text that was cut using one of the deletion shortcuts after the cursor
 - Alt  + b – move backward one word (or go to start of word the cursor is currently on)
 - Alt  + f – move forward one word (or go to end of word the cursor is currently on)
