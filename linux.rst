@@ -80,19 +80,27 @@ Command Quick Substitution
 - !!gs/string1/string2/ - Repeat the last command, replacing all string1 with string2
 - Refer to: https://www.gnu.org/software/bash/manual/bashref.html#History-Interaction
 
-Double asterisk glob
----------------------
+Special glob
+-------------
 
 ::
 
+  # 1. match files, directories and subdirectories
   # "*" matches all files and directories(without subdirectories);
   # "**" matches all files and directories and their subdirectories;
-  # turn bash support
+  # bash support
   shopt globstar
   shopt -s globstar
-  # zsh
-  setopt
-  setopt GLOBSTARSHORT # the reverse is unsetopt
+  # zsh support
+  setopt extendedglob # prerequisite
+  setopt GLOB_STAR_SHORT
+  unset GLOB_STAR_SHORT
+  # 2. respect/ignore case
+  # bash support - no such function w/ bash
+  # zsh support
+  setopt extendedglob # prerequisite
+  setopt CASE_GLOB
+  unsetopt CASE_GLOB
 
 Cutting Edge Tools
 =====================
