@@ -600,6 +600,40 @@ defer, panic and recover
             fmt.Println("In main: end")
     }
 
+break for select
+------------------
+
+::
+
+  // for loop won't be stopped if break w/o using a lable
+  t := time.NewTicker(3 * time.Second)
+  loop:
+  for {
+    select {
+      case <-a:
+      // action 1
+      case <-b:
+      // action 2
+      case <-t.C:
+      break loop
+    }
+  }
+
+return from function w/o return
+--------------------------------
+
+::
+
+  // if a function is defined w/o any return,
+  // return is valid and will just return from the function execution
+  func t1() {
+    // some actions
+    return
+  }
+  func main() {
+    t1()
+  }
+
 go-swagger
 ------------
 
