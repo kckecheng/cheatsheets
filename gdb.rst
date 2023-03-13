@@ -195,7 +195,8 @@ TUI usage
 TUI is short for text UI which can be used to display source code, asm, and registers during debugging:
 
 - tui enable/disable:  toggle TUI, Ctr + x + a as the shortcut
-- layout src/asm/splig: witch TUI display layout, Ctr + x + 1/2 as the shortcut
+- layout src/asm/split/regs: witch TUI display layout, Ctr + x + 1/2 as the shortcut
+- tune window's size: info win; winheight/wh src/cmd/asm/regs +/- <num. of lines>
 
 Convenience Variables
 ~~~~~~~~~~~~~~~~~~~~~~~
