@@ -744,6 +744,23 @@ Show cpu and cache topology
   # Install hwloc and hwloc-gui at first
   lstopo-no-graphics --no-io --no-legend --of txt
 
+Check slab information
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  slabtop
+  cat /proc/slabinfo
+  vmstat -m
+
+Check page allocator statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # page allocator is actully the buddy system
+  cat /proc/buddyinfo
+  cat /proc/pagetypeinfo
 
 Show CPU frequency and idle statistics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
