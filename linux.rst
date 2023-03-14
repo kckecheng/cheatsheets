@@ -870,6 +870,13 @@ Check page allocator statistics
   cat /proc/buddyinfo
   cat /proc/pagetypeinfo
 
+Check memory watermark
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat /proc/zoneinfo
+
 Cache line info
 ~~~~~~~~~~~~~~~~~
 
