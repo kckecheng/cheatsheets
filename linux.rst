@@ -1718,6 +1718,17 @@ Display /proc/interrupts w/o wrapping
 
   less -S /proc/interrupts
 
+Manpages db update
+---------------------
+
+if apropos, man -k give no results:
+
+::
+
+  # run either of below based on your distribution
+  makewhatis
+  mandb
+
 Create a samba server
 ----------------------
 
