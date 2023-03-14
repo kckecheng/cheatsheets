@@ -196,7 +196,15 @@ TUI is short for text UI which can be used to display source code, asm, and regi
 
 - tui enable/disable:  toggle TUI, Ctr + x + a as the shortcut
 - layout src/asm/split/regs: witch TUI display layout, Ctr + x + 1/2 as the shortcut
-- tune window's size: info win; winheight/wh src/cmd/asm/regs +/- <num. of lines>
+- info win: list all displayed windows and their names, size, etc.
+- winheight/wh src/cmd/asm/regs +/- <num. of lines>: change window's height based on its name gotten from info win
+
+Print definition of an expression
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ptype (struct task_struct *)0xffffffff81e12580
 
 Convenience Variables
 ~~~~~~~~~~~~~~~~~~~~~~~
