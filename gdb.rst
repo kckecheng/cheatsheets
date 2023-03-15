@@ -30,7 +30,12 @@ Check object/executable file information
 
   # if objdump hit errors such, try eu-objdump
   # Disassemble
+  objdump -d <ELF file>
   objdump -S <ELF file>
+  # disassemble a module
+  cat /proc/modules # get module name and alive address
+  modinfo <module name> # get module path
+  objdump -S path/to/module --adjust-vma=<live address>
   # Display symbol tables
   objdump -t <ELF file>
   # Display dynamic symbol tables
