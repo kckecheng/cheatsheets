@@ -29,7 +29,7 @@ Check object/executable file information
 ::
 
   # if objdump hit errors such, try eu-objdump
-  # Disamble
+  # Disassemble
   objdump -S <ELF file>
   # Display symbol tables
   objdump -t <ELF file>
@@ -205,6 +205,23 @@ Print definition of an expression
 ::
 
   ptype (struct task_struct *)0xffffffff81e12580
+
+Examine memory
+~~~~~~~~~~~~~~~~~
+
+::
+
+  help x
+  x /16xw 0xffffffff81e12580
+  x # repeat last command
+
+Disassemble
+~~~~~~~~~~~~~
+
+::
+
+  disassemble 0xffffffff816abe9e
+  disassemble default_idle_call
 
 Convenience Variables
 ~~~~~~~~~~~~~~~~~~~~~~~
