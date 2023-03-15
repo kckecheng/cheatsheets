@@ -661,6 +661,16 @@ Inspect IDT
   print (void *) 0xffffffff81f180d8 # 0xffffffff81f180d8 is a combination of offset_high(32 bits), offset_middle(16 bits) and offset_low(16 bits)
   # the above command output the interrupt handler: (void *) 0xffffffff81800b40 <asm_exc_double_fault>
 
+Inspect system call table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  p sys_call_table
+  ptype sys_call_table
+  x /16x sys_call_table
+  x /16x &sys_call_table
+
 The crash utility
 --------------------
 
