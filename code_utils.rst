@@ -162,3 +162,35 @@ valgrind
   # multiple tools are supported, man valgrind, check the --tool options
   valgrind --leak-check=full --track-origins=yes --verbose qemu-system-i386
 
+clang
+------
+
+Static Analyzer:
+
+::
+
+  clang --analyze -I /path/to/additional/include1 -I ... <file to check>
+  # checkers can be listed w/ command: scan-build --help-checkers
+  clang --analyze -Xanalyzer \
+    -analyzer-checker=<checker class such as core or specific checker name such as core.CallAndMessage> \
+    -analyzer-checker=...
+    ...
+    <file to check>
+
+Makefile
+---------
+
+Overriding Variables
+
+::
+
+  # choose a suitable method directly from below options
+  # for gcc options, man gcc to get the enable/disable arguments
+  # 1. w/ Makefile, adding an options as below:
+  CFLAGS+=-Wno-deprecated-declarations
+  # Notice: below 2 x options won't respect existing options
+  # 2. pass the env var ahead of the make command
+  CFLAGS=-Wno-deprecated-declarations make
+  # 3. pass the env var w/ make parameter
+  make -e CFLAGS=-Wno-deprecated-declarations
+
