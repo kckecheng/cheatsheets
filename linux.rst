@@ -1370,7 +1370,11 @@ Change System Locale
 
 ::
 
-  localectl --help
+  # some locales such as zh_CN.utf8 need additional langpacks
+  # yum search langpack
+  # yum search languagepack
+  locale -a
+  export LC_ALL=en_US.utf8
 
 Use openssl to download a certificate
 -----------------------------------------
