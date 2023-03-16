@@ -549,6 +549,7 @@ Clean untracked local files
   git clean -f # Remove file
   git clean -df # Remove both files and directories
   git clean -xdf # Remove files, directories, and ignored files and directories
+  git clean -f -e abc -x # Remove files and excluding pattern abc
 
 switch/pull/fetch
 -----------------
