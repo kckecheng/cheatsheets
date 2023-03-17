@@ -473,6 +473,15 @@ Define a variable containing multiple lines of string
   EOF
   echo "$var_name"
 
+Use a variable containing multiple lines of string
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  lines=`ls -l /etc`
+  echo $lines # if lines contains special words, signs, this may not work
+  echo "$lines" # this always works
+
 Redirect here document output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
