@@ -855,6 +855,16 @@ Example 2:
 
   tc class add dev eth0 parent 1:1 classid 1:6 htb rate 10.9mbit ceil 10.9mbit
 
+Example 3:
+
+::
+
+  # control overall bandwidth
+  tc qdisc del dev eth0 root htb
+  tc qdisc add dev eth0 root handle 1: htb default 10
+  tc class add dev eth0 parent 1: classid 1:10 htb rate 2mbit ceil 2mbit
+  tc qdisc show dev eth0
+
 Testing tools
 --------------
 
