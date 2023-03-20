@@ -153,6 +153,19 @@ control cpus process can use with cpuset
   cgset -r cpuset.mems=0 testset
   cgexec -g cpuset:testset command
 
+control block io
+~~~~~~~~~~~~~~~~~
+
+::
+
+  # mount blkio if it is not mounted/enabled
+  # mount -t cgroup -o blkio none /sys/fs/cgroup/blkio
+  # echo "major:minor value > xxxx", where xxx is one of:
+  # blkio.throttle.read_bps_device
+  # blkio.throttle.write_bps_device
+  # blkio.throttle.read_iops_device
+  # blkio.throttle.write_iops_device
+
 convert cgroup v1 to v2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
