@@ -835,6 +835,7 @@ Example 1:
   tc qdisc del dev eth0 root netem
   # specify several options together
   tc qdisc add dev eth0 netem delay 10ms reorder 5% loss 5%
+  tc qdisc show dev eth0
 
 Example 2:
 
@@ -855,6 +856,9 @@ Example 2:
 
   tc class add dev eth0 parent 1:1 classid 1:6 htb rate 10.9mbit ceil 10.9mbit
 
+  tc qdisc show dev eth0
+  tc class show dev eth0
+
 Example 3:
 
 ::
@@ -864,6 +868,7 @@ Example 3:
   tc qdisc add dev eth0 root handle 1: htb default 10
   tc class add dev eth0 parent 1: classid 1:10 htb rate 2mbit ceil 2mbit
   tc qdisc show dev eth0
+  tc class show dev eth0
 
 Testing tools
 --------------
