@@ -75,6 +75,13 @@ unstrip/combine files with degbugging info
   mv /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug /usr/local/bin/qemu-system-x86_64
   chmod a+x /usr/local/bin/qemu-system-x86_64
 
+create core file for a running process
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  gcore <pid>
+
 gdb common tips
 -----------------
 
@@ -492,10 +499,15 @@ There are quite a lot methods to prepare such a qemu vm, 3 of them are introduce
     ::
 
       make linux-menuconfig
-      # Kernel debugging: enabled
+      # Kernel hacking:
+      # - Kernel debugging: enabled
       # Kernel hacking -> Compile-time checks and compiler options
-      # - Compile the kernel with debug info: enabled
+      # - Debug information: Generate DWARF Version 5 debuginfo
       # - Provide GDB scripts for kernel debugging: enabled
+      # Kernel hacking -> Generic Kernel Debugging Instruments
+      # - Debug Filesystem
+      # Kernel hacking -> Memory Debugging:
+      # - Export kernel pagetable layout to userspace via debugfs
       make -j `nproc`
 
   * Run the qemu vm with gdb server on:
@@ -816,4 +828,16 @@ Work around PATH|LD_LIBRARY_PATH compiling error
   export LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed -e 's/::/:/g'`
   make
 
+Get kernel memory mappings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # make sure below options are enabled during kernel compilation
+  # Kernel hacking -> Generic Kernel Debugging Instruments
+  # - Debug Filesystem(DEBUG_FS)
+  # Kernel hacking -> Memory Debugging:
+  # - Export kernel pagetable layout to userspace via debugfs(PTDUMP_DEBUGFS)
+  # make sure debugfs is mouted, if not: mount -t debugfs none /sys/kernel/debug
+  cat /sys/kernel/debug/page_tables/kernel
 
