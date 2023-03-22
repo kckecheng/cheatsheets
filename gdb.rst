@@ -75,12 +75,26 @@ unstrip/combine files with degbugging info
   mv /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug /usr/local/bin/qemu-system-x86_64
   chmod a+x /usr/local/bin/qemu-system-x86_64
 
-create core file for a running process
+Create core file for a running process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   gcore <pid>
+
+Extract bits w/ bitwise ops
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # 1. create a suitable binary mask with ones only covering the position needed;
+  # 2. perform a bitwise and operation between the number and the mastk;
+  # 3. right shift;
+  # Example: get the middle 48 bits(totally 64 bits) from 0xffffffff81e0a000
+  d = 0xffffffff81e0a000
+  mask = 0x00ffffffffffff00 # with prefix and suffix total 16 bits as 0
+  d & mask # 0xffffff81e0a000
+  0xffffff81e0a000 >> 8 # 0xffffff81e0a0
 
 gdb common tips
 -----------------
