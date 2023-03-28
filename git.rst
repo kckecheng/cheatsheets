@@ -175,6 +175,7 @@ git log
 - git log -S <string> [-p] [file]
 - git log -G <regex> [-p] [file]
 - git log --all
+- git log --all -i --grep='xxx yyy' # find the commit with message xxx yyy
 
 git mergetool
 -------------
