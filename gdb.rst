@@ -709,6 +709,8 @@ The crash utility can also be leveraged for analyzing vmcore files or a live sys
 
 In the meanwhile, there is a great sample on how to use crash to anylyze a core dump - https://www.dedoimedo.com/computers/crash-analyze.html
 
+NOTES: kernel debuginfo needs to be installed, the package will be named as kernel-debuginfo, kernel-debuginfo-common, etc. on most distributions.
+
 Use gdb
 ~~~~~~~~~
 
