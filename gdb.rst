@@ -829,6 +829,29 @@ Trigger panic when softlockup(or other problems) is hit
   # sysctl -a | grep -i panic
   echo 1 > /proc/sys/kernel/softlockup_panic
 
+Trigger a vmcore to analyze system problems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  echo b > /proc/sysrq-trigger
+
+Change kernel log level
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Append loglevel=X to cmdline(refer to kernel-parameters.txt):
+
+- 0 ~ 7
+- 0: KERN_EMERG
+- 1: KERN_ALERT
+- 2: KERN_CRIT
+- 3: KERN_ERR
+- 4: KERN_WARNING
+- 5: KERN_NOTICE
+- 6: KERN_INFO
+- 7: KERN_DEBUG
+
+
 Work around PATH|LD_LIBRARY_PATH compiling error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
