@@ -7,8 +7,19 @@ Linux Network Tips
 Basic
 -----
 
+Overall knowledge
++++++++++++++++++++
+
+- `How can DPDK access devices from user space <https://codilime.com/blog/how-can-dpdk-access-devices-from-user-space/>`_:
+
+  - Linux network software stack
+  - Interface between NIC and kernel
+  - NIC to kernel data flow
+  - User space driver
+  - Hugepages
+
 net-tools vs. iproute2
-++++++++++++++++++++++
+++++++++++++++++++++++++
 
 +----------------+---------------------------------+--------------------------------+
 | Legacy Utility | Obsoleted by                    | Note                           |
