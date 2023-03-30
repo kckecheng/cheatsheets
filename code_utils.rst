@@ -15,6 +15,8 @@ rg can be used for simple code search:
   rg -g '*.c' vhost_net_start_one
   rg -g '*.c' -g '!*.h' 'main\('
   rg -g '*.{c,h}' 'start_kernel'
+  rg -g '*.S' -w idt arch/x86
+  rg -g '*.S' -w idt -o arch/x86
 
 gnu global
 ------------
