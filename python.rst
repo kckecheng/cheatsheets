@@ -161,33 +161,6 @@ Log
 
   pip <commands> --log /tmp/pip.log
 
-ElasticSearch
--------------
-
-Common Search
-~~~~~~~~~~~~~
-
-::
-
-  from elasticsearch import Elasticsearch
-  es = Elasticsearch(['http://localhost:9200'])
-  query = {
-     'query': {
-        'term': {
-           'source': '/var/log/ycsb.log'
-        }
-     }
-  }
-  res = es.search(index='_all', body=query, _source=['host.name', 'message'], size=100)
-
-Search Definition
-~~~~~~~~~~~~~~~~~
-
-Refer to:
-
-  - `Request Body Search <https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html>`_
-  - `Query DSL <https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html>`_
-
 source code check
 ------------------
 
@@ -202,11 +175,6 @@ format json
 
   cat <json file> | python -m json.tool
   vim <json file> -> :%!python -m json.tool (toggle vim plugin indentLine at fisrt)
-
-python decorator
-----------------
-
-Refer to https://www.artima.com/weblogs/viewpost.jsp?thread=240845 for detailed explanations
 
 Change Anaconda IPython Font Size
 ---------------------------------
@@ -230,30 +198,6 @@ Common Error Capture
     e_type, e_value, e_trace = sys.exc_info()
     print(f'Error type: {e_type}, Error value: {e_value}')
     traceback.print_tb(e_trace)
-
-Datetime Conversion
--------------------
-
-::
-
-  from datetime import datetime
-  from datetime import timedelta
-  import pprint
-
-  d1 = datetime.now() + timedelta(days=-1)
-  d2 = datetime.now() + timedelta(days=1)
-  if d1 < d2:
-      pprint.pprint(d2 - d1)
-
-  s1 = d1.strftime('%Y %m %d %H %M %S')
-  s2 = d2.strftime('%Y %m %d %H %M %S')
-  pprint.pprint(s1)
-  pprint.pprint(s2)
-
-  d1_new = datetime.strptime(s1, '%Y %m %d %H %M %S')
-  d2_new = datetime.strptime(s2, '%Y %m %d %H %M %S')
-  pprint.pprint(d1_new)
-  pprint.pprint(d2_new)
 
 Logging
 --------
@@ -323,49 +267,6 @@ Function Cache
   testFunc1.cache_info()
   testFunc1.clear_cache()
 
-Run jupyter notebook with virtualenv
--------------------------------------
-
-Beside below ops, "Kernel->Change kernel" need to be used to select the right execution virtualenv from the jupyter notebook.
-
-::
-
-  # Add virtualenv into jupyter
-  ipython kernel install --user --name=<venv name>
-  # Remove virtualenv from jupyter
-  jupyter kernelspec list
-  jupyter kernelspec uninstall <venv name>
-
-Collect results from coroutines
--------------------------------
-
-::
-
-  import pprint
-  import asyncio
-  import random
-
-
-  async def worker():
-      num = random.randint(0, 100)
-      data = list(range(0, num))
-      return data
-
-
-  async def main():
-      tasks = []
-      num = random.randint(1, 10)
-      for i in range(0, num):
-          tasks.append(worker())
-
-      results = await asyncio.gather(*tasks)
-      return results
-
-
-  if __name__ == '__main__':
-      results = asyncio.run(main())
-      pprint.pprint(results)
-
 Reload modules in IPython
 --------------------------
 
@@ -406,32 +307,6 @@ Sort List of Dicts based on Dict Key
 ::
 
   sorted(list_of_dict_to_be_sorted, lambda x: x['sort_key'])
-
-Customize Package Name Swagger Codegen Creates
-------------------------------------------------
-
-By default, the package name swagger codegen creates will be swagger_api which is meaningless. This can be changed by defining a JSON configuration file as below:
-
-1. Create config.json with below contents:
-
-   ::
-
-     {
-       "packageName": "<package name, such as abc_api>",
-       "projectName": "<project name, such as abc-api>"
-     }
-
-#. Generate SDK with the package name:
-
-   ::
-
-      java -jar swagger-codegen-cli.jar generate -i openapi.json -l python -c config.json -o <project name>
-
-#. Other supported customization can be seen based on the help:
-
-   ::
-
-     java -jar swagger-codegen-cli.jar config-help -l python
 
 Dynamically Import Module and Initialize Class Based on Strings
 -----------------------------------------------------------------
