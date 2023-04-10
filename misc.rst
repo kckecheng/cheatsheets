@@ -618,6 +618,18 @@ MySQL
 
     select * from t_vm \G;
 
+- Dump specified tables from a database
+
+  ::
+
+    mysqldump -h192.168.100.10 -uroot -P3306 -p --column-statistics=0 db1 tab1 tab2 | tee tabledump.sql
+
+- Load sql dump into another database
+
+  ::
+
+    mysql -h192.168.100.10 -uroot -P3306 -p --column-statistics=0 target_db1 < tabledump.sql
+
 SQLite3
 -------
 
@@ -628,3 +640,4 @@ SQLite3
     .help
     .mode line
     select * from t_task limit 3;
+
