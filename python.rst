@@ -98,6 +98,13 @@ List outdated packages
 
   pip list [--local] --outdated
 
+List files owned by a package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  pip show -f <package name>
+
 show pip dependency
 ~~~~~~~~~~~~~~~~~~~
 
