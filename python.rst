@@ -338,3 +338,31 @@ Run nohup through paramiko
 ----------------------------
 
 Construct the command as "nohup ./app >/dev/null 2>&1 &" (redirect output to files or discard it directly), otherwise, the connection will wait there until timeout.
+
+argparse with subcommands
+--------------------------------
+
+::
+
+  import argparse
+
+  if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="argparse demo w/ subcommands")
+
+    # to use subcommands, subparse is required, and dest is used to store the subcommand name(within namespace)
+    subparser = parser.add_subparsers(title="subcommands", description="subcommands", dest="cmd")
+
+    # a subcommand w/o any arguments
+    subc1 = subparser.add_parser(name='command1', help="command1 w/o any arguments")
+
+    subc2 = subparser.add_parser(name='command2', help="command2 w/ arguments")
+    subc2.add_argument('-n', '--name', required=True, help='required argument for command2')
+
+    args = parser.parse_args()
+    if args.cmd == 'command1':
+      print("actions for command1")
+
+    if args.cmd == 'command2':
+      print("actions for command2")
+      print("argument name for command 2", args.name)
+
