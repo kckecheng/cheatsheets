@@ -295,6 +295,10 @@ List tags
   git tag
   # list tags with additional information such as date
   git tag --list --format='%(creatordate:short):  %(refname:short)'
+  # show annotation lines, w/o -n, annotation won't be shown
+  git tag -n
+  git tag -n100
+  git tag -l -n
 
 Checkout a tag
 +++++++++++++++
