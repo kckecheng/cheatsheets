@@ -43,7 +43,7 @@ NOTE 1: global doesnot support listing functions called by 'this function' (not 
 
 NOTE 2: gtags only supports tagging files under current source tree (the directory where gtags is run). For external source tree:
 
-- Use soft link: ln -s /path/to/external/source/tree .
+- Use soft link(use "find -L ..." to create gtags.files): ln -s /path/to/external/source/tree .
 - Use GTAGSLIBPATH:
 
   ::
