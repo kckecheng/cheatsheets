@@ -144,6 +144,7 @@ Branch
 
 **git switch** is the newly operation added recently, which foucses on branch switch ops in order to replace **git checkout**
 
+- git remote update origin --prune ---> update the local list of remote branches
 - git branch -a[v]
 - git branch <name>    ---> Create a branch
 - git branch -d <name> ---> Delete a branch
