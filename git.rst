@@ -328,6 +328,13 @@ Delte a tag
   # Delete remote
   git push --delete origin <tag>
 
+Update remote tags
+++++++++++++++++++++
+
+::
+
+  git fetch --tags --prune [--all]
+
 Move git HEAD
 -------------
 
