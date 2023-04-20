@@ -556,6 +556,15 @@ Clean untracked local files
   git clean -xdf # Remove files, directories, and ignored files and directories
   git clean -f -e abc -x # Remove files and excluding pattern abc
 
+Show diff introduced by a merge
+---------------------------------
+
+::
+
+  git show -m <commit id>
+  git show --first-parent <commit id>
+  git diff <commit id>^ <commit id>
+
 switch/pull/fetch
 -----------------
 
@@ -596,7 +605,7 @@ Overwrite all local files
   git clean -df
 
 Switch to a branch whose name exists on several remote refs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------------------
 
 Error as below will be triggered when switch to a branch which exists on several remote refs:
 
@@ -668,7 +677,7 @@ After running *git fetch*, it is good to have a look at what will be changed aft
   git diff ...origin/master
 
 diff with time info
-~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++
 
 Refer to *man gitrevisions* for how to specify date time info.
 
