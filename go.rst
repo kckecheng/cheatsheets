@@ -33,7 +33,7 @@ Go Module Proxy
     # go env -w GO111MODULE=on
     # go env -w GOPROXY=https://goproxy.io
     # go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
-    go get -u <package>
+    go get example.com/pkg
 
 **Tips:** the same problem will be hit when build docker images for go apps. This can be worked around by setting ENV values in a dockerfile as below:
 
@@ -81,6 +81,22 @@ Edit go.mod from CLI
   go mod edit -require github.com/user1/pkg2@version1
   go mod edit -replace github.com/user1/pkg1=/local/dir/pkg1
   go mod edit -replace github.com/user1/pkg1@version1=/local/dir/pkg1@version2
+
+Manage dependencies w/ go get
+-------------------------------
+
+::
+
+  # add a dependency w/ the latest version
+  go get example.com/pkg
+  # add/upgrade/downgrade a dependency w/ a specified version
+  go get example.com/pkg@v1.2.3
+  # update a dependency
+  go get -u example.com/pkg
+  # update a dependency w/ a patch release, such as bug patch releases
+  go get -u=patch example.com/pkg
+  # remove a dependency
+  go get example.com/pkg@none
 
 Cross Plafom Build
 -------------------
