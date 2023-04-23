@@ -616,8 +616,11 @@ defer, panic and recover
             fmt.Println("In main: end")
     }
 
+select
+--------
+
 break for select
-------------------
+~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -632,6 +635,23 @@ break for select
       // action 2
       case <-t.C:
       break loop
+    }
+  }
+
+turn off a case in select
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  for {
+    select {
+    case v, ok := <-in1:
+      if !ok {
+        in1 = nil // if in1 is closed, turn it off by assinging nil,
+                  // otherwise, it will always be successful
+      }
+    case v, ok := <-in2:
+      ...
     }
   }
 
