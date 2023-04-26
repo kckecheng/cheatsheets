@@ -185,7 +185,13 @@ Overview
 strace
 ~~~~~~~~~
 
-Trace system calls and signals
+Trace system calls and signals:
+
+::
+
+  strace -c xxx
+  strace -c -f xxx
+  strace xxx
 
 LD_DEBUG
 ~~~~~~~~~~
@@ -198,6 +204,22 @@ Work similarly as strace but focus on dynamic linker operations. Especially usef
   LD_DEBUG=all ls
   export LD_DEBUG=all
   make
+
+trace-cmd
+~~~~~~~~~~
+
+trace-cmd is a frontend for ftrace, and its cli works similar as perf. Use it directly instead of using ftrace whenever possible.
+
+::
+
+  trace-cmd list
+  trace-cmd record -P `pidof qemu` -e kvm
+  trace-cmd report
+  trace-cmd record -p function_graph -P `pidof top`
+  trace-cmd report
+  trace-cmd list -f | grep kvm_create
+  trace-cmd record -l kvm_create_* -p function_graph
+  trace-cmd stop && trace-cmd clear
 
 ftrace
 ~~~~~~~~~
@@ -337,22 +359,6 @@ The usage of uprobe is more complicated than kprobe. Let's demonstrace how to tr
   echo > trace
   virsh qemu-monitor-command xxxxxx --hmp info cpus
   cat trace
-
-trace-cmd
-~~~~~~~~~~
-
-trace-cmd is a frontend for ftrace, and its cli works similar as perf. Use it directly instead of using ftrace whenever possible.
-
-::
-
-  trace-cmd list
-  trace-cmd record -P `pidof qemu` -e kvm
-  trace-cmd report
-  trace-cmd record -p function_graph -P `pidof top`
-  trace-cmd report
-  trace-cmd list -f | grep kvm_create
-  trace-cmd record -l kvm_create_* -p function_graph
-  trace-cmd stop && trace-cmd clear
 
 blktrace
 ~~~~~~~~~~~
