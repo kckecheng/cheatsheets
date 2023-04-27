@@ -317,6 +317,35 @@ Binary values
   print /t $v1
   print $v1
 
+Array
+~~~~~~
+
+::
+
+  (gdb) list 7
+  2       #include <string.h>
+  3
+  4       int main() {
+  5           char *s[] = {"Hello", "world", "!"};
+  6
+  7           printf("s: ");
+  8           for (int i = 0; i < 3; i++) {
+  9               printf("%s ", s[i]);
+  10          }
+  11          printf("\n");
+  (gdb) p *s@0
+  Invalid number 0 of repetitions.
+  (gdb) p *s@1
+  $21 = {0x555555556004 "Hello"}
+  (gdb) p *s@2
+  $22 = {0x555555556004 "Hello", 0x55555555600a "world"}
+  (gdb) p *s@3
+  $23 = {0x555555556004 "Hello", 0x55555555600a "world", 0x555555556010 "!"}
+  (gdb) p *s@4
+  $24 = {0x555555556004 "Hello", 0x55555555600a "world", 0x555555556010 "!", 0x6a1689e82a6cdf00 <error: Cannot access memory at address 0x6a1689e82a6cdf00>}
+  (gdb) p/x s
+  $25 = {0x555555556004, 0x55555555600a, 0x555555556010}
+
 Run gdb commands through CLI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
