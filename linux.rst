@@ -2171,6 +2171,14 @@ Download src rpm
   yum install -y yum-utils
   yumdownloader --source kernel
 
+Enable all repos w/o modifying configurations
+-----------------------------------------------
+
+::
+
+  yum --enablerepo="*" search ...
+  yum --enablerepo="*" install ...
+
 arch aur package helper yay
 ------------------------------
 
