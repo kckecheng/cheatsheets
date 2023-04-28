@@ -448,6 +448,18 @@ Disable paging
   # to disable it:
   set pagination off
 
+Grep output
+~~~~~~~~~~~~~~
+
+::
+
+  set pagination off
+  set logging on # or set logging file xxx
+  bt
+  set logging off
+  shell tail gdb.txt # or tail xxx
+  shell grep xxx gdb.txt
+
 Kernel Debugging
 -----------------
 
