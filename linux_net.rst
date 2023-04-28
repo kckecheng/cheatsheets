@@ -1020,9 +1020,9 @@ Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-r
 MISC
 ++++++
 
-- clash(recommended): https://github.com/Dreamacro/clash
-- xray: https://github.com/XTLS/Xray-core
+- xray core(recommended): https://github.com/XTLS/Xray-core
 - v2ray: https://github.com/v2fly/v2ray-core
+- warp one-click script: https://github.com/fscarmen/warp
 
 ======================
 OpenStack Network Tips
