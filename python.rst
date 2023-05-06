@@ -202,9 +202,11 @@ Common Error Capture
   try:
     1 / 0
   except Exception as e:
-    e_type, e_value, e_trace = sys.exc_info()
-    print(f'Error type: {e_type}, Error value: {e_value}')
-    traceback.print_tb(e_trace)
+    # e_type, e_value, e_trace = sys.exc_info()
+    # print(f'Error type: {e_type}, Error value: {e_value}')
+    # traceback.print_tb(e_trace)
+    err = sys.exc_info()
+    traceback.print_exception(*err)
 
 Logging
 --------
