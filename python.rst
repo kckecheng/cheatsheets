@@ -375,3 +375,14 @@ argparse with subcommands
       print("actions for command2")
       print("argument name for command 2", args.name)
 
+Generator expressions
+-----------------------
+
+::
+
+  # syntax: (expression for item in iterable)
+  # example:
+  squares_generator = (i * i for i in range(5)) # the generator
+  for i in squares_generator: # iterate over the generator
+    print(i)
+
