@@ -2556,3 +2556,8 @@ kdump config
 #. Check if vmcore file is generated under the kdump path;
 #. Done.
 
+iSCSI Server
+--------------
+
+iSCSI server can be configured with Targetcli, please refer to https://www.server-world.info/en/note?os=CentOS_Stream_9&p=iscsi&f=1
+
