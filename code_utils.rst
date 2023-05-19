@@ -25,10 +25,13 @@ GNU Global is a source code tagging system which can be used as a replacement of
 
 ::
 
-  # export GTAGSLABEL='native'
-  # pygments need to be installed to support other languages, if global is used only for c/c++/java, then
-  # it is not needed to export GTAGSLABEL
-  export GTAGSLABEL='native-pygments'
+  # if a language is not supported by the used parser, gtags won't work, to specify a parser:
+  # - default: builtin parser, support asm, c/c++, java, php, yacc;
+  # - ctags: use exuberant-ctags as parser, support more than 40 x languages;
+  # - new-ctags: use universal-ctags as parser, support more than 100 x languages;
+  # - pygments: use pygments(apt install python3-pygments or pip install pygments) as parser, support more than 300 x languages;
+  # - native-pygments(recommended): use builtin parse for asm, c/c++, java, php, yacc and pygments for others;
+  export GTAGSLABEL='native-pygments' # or gtags --gtagslabel=native-pygments
   find . -type f ! -type l -name "*.[chS]" > gtags.files
   gtags
   gtags-cscope -d -p5
