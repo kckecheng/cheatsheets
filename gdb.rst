@@ -783,6 +783,24 @@ VA_BITS_ACTUAL error
   # crash: cannot determine VA_BITS_ACTUAL
   crash /boot/vmlinux-5.4.119-19-0009.8 vmcore -m vabits_actual=48
 
+Show log
+~~~~~~~~~~
+
+::
+
+  crash> log
+  [39199.057754] Kernel panic - not syncing: hung_task: blocked tasks
+  [39199.295349] CPU: 8 PID: 93 Comm: khungtaskd Kdump: loaded Tainted: G           O      5.4.119-19.0009.27 #1
+  [39199.297017] Hardware name: Tencent Cloud CVM, BIOS seabios-1.9.1-qemu-project.org 04/01/2014
+  [39199.298362] Call Trace:
+  [39199.299069]  dump_stack+0x57/0x6d
+  [39199.299861]  panic+0xfb/0x2cb
+  [39199.300612]  watchdog+0x2dc/0x340
+  [39199.301395]  kthread+0x11a/0x140
+  [39199.302157]  ? hungtask_pm_notify+0x50/0x50
+  [39199.303002]  ? kthread_park+0x90/0x90
+  [39199.303795]  ret_from_fork+0x1f/0x40
+
 Disassemble
 ~~~~~~~~~~~~~
 
