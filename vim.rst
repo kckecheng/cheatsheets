@@ -64,6 +64,7 @@ Shortcuts
 - Ctrl + u/d ---> Scroll up/down half screen (:help usr_03.txt)
 - Ctrl + b/f ---> Scroll back/forward one full screen
 - {}         ---> Jump to previous/next paragraph
+- Ctrl + G   ---> Show the full path of the file being edited
 - Reference  ---> Refer to https://vim.rtorr.com/
 
 Keymap
