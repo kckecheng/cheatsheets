@@ -1244,12 +1244,26 @@ Regular Expression Comparision for sed/vim/awk/grep/etc.
 
   txt2regex --showmeta
 
-Print section between two regular expressions
-------------------------------------------------
+Posix regular expression definitions
+--------------------------------------
+
+::
+
+  man 7 regex
+
+Print section between two regular expressions with sed
+---------------------------------------------------------
 
 ::
 
   sed -n -e '/reg1/,/reg2/p' <file>
+
+Remove unprintable characters from a file with sed
+----------------------------------------------------
+
+::
+
+  sed -n -e 's/[^[:print:]]//g' /path/to/file
 
 Sort based on several fields
 -------------------------------
