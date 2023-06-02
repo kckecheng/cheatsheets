@@ -492,6 +492,15 @@ Build linux kernel
 
     make olddefconfig
 
+- Define a customized kernel name suffix(optional)
+
+  ::
+
+    echo "CONFIG_LOCALVERSION=xxx" >> .config
+    make oldconfig
+    # or through menuconfig
+    # make menuconfig->General setup->Local version->Enter xxx->Save->Exit
+
 - Build the kernel
 
   ::
@@ -504,6 +513,7 @@ Build linux kernel
   ::
 
     # sudo apt install -y dracut
+    make modules
     make modules_install INSTALL_MOD_PATH=/customized/module/installation/path
     dracut -k /customized/module/installation/path/lib/modules/kernel_version initrd.img
 
