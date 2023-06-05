@@ -1721,10 +1721,11 @@ autoexpect
 Console resize
 ---------------
 
-When using virsh console or a tty connection to some equipment, the console size is small to show all the texts within a line. There are 2 x ways to adjust this:
+When using virsh console or a tty connection to some equipment, the console size is small to show all the texts within a line. There are serveral ways to adjust this:
 
 - xterm-resize(preferred): just run "resize"
 - stty: stty rows 45 ; stty columns 140; stty size
+- export LINES=45 && export COLUMNS=163
 
 Split large files
 -------------------
