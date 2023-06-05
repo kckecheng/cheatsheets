@@ -810,6 +810,19 @@ Show log
   [39199.302157]  ? hungtask_pm_notify+0x50/0x50
   [39199.303002]  ? kthread_park+0x90/0x90
   [39199.303795]  ret_from_fork+0x1f/0x40
+  ......
+  crash> log | grep -C 5 NULL
+  [145753.346080] cgroup1: Unknown subsys name 'debug'
+  [145753.372424] cgroup1: Unknown subsys name 'debug'
+  [145753.398409] cgroup1: Unknown subsys name 'debug'
+  [145753.424387] cgroup1: Unknown subsys name 'debug'
+  [145753.450265] cgroup1: Unknown subsys name 'debug'
+  [145972.585235] BUG: kernel NULL pointer dereference, address: 0000000000000860
+  [145972.586490] #PF: supervisor write access in kernel mode
+  [145972.587509] #PF: error_code(0x0002) - not-present page
+  [145972.588516] PGD 0 P4D 0
+  [145972.589248] Oops: 0002 [#1] SMP NOPTI
+  [145972.590104] CPU: 5 PID: 15045 Comm: kworker/5:17 Kdump: loaded Tainted: G           OE     5.4.241-1-tlinux4-0017.prerelease4 #1
 
 Disassemble
 ~~~~~~~~~~~~~
