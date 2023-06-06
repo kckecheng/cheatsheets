@@ -238,6 +238,15 @@ Explanations:
 - \\v: magic pattern (:help magic), ease the use of escape for special characters
 - @!: does not match the preceding word
 
+Search within a range
++++++++++++++++++++++++
+
+::
+
+  # :help search-range
+  # search "pattern" between line 100(\%>100l) and 200(\%<200l)
+  /\%>100l\%<200lpattern
+
 Search/Replace respecting case
 ++++++++++++++++++++++++++++++
 
