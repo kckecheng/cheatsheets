@@ -877,6 +877,25 @@ Check kernel memory of a task
 
 ::
 
+  crash> kmem -i
+                   PAGES        TOTAL      PERCENTAGE
+      TOTAL MEM  16137886      61.6 GB         ----
+           FREE  16016721      61.1 GB   99% of TOTAL MEM
+           USED   121165     473.3 MB    0% of TOTAL MEM
+         SHARED    10454      40.8 MB    0% of TOTAL MEM
+        BUFFERS     1878       7.3 MB    0% of TOTAL MEM
+         CACHED    39042     152.5 MB    0% of TOTAL MEM
+           SLAB    16582      64.8 MB    0% of TOTAL MEM
+
+     TOTAL HUGE        0            0         ----
+      HUGE FREE        0            0    0% of TOTAL HUGE
+
+     TOTAL SWAP        0            0         ----
+      SWAP USED        0            0    0% of TOTAL SWAP
+      SWAP FREE        0            0    0% of TOTAL SWAP
+
+   COMMIT LIMIT  8068943      30.8 GB         ----
+      COMMITTED   108376     423.3 MB    1% of TOTAL LIMIT
   crash> bt
   PID: 0      TASK: ffff8887fcb68000  CPU: 10  COMMAND: "swapper/10"
    #0 [ffffc900002a8bd0] machine_kexec at ffffffff810621ef
