@@ -811,6 +811,7 @@ Show log
   [39199.303002]  ? kthread_park+0x90/0x90
   [39199.303795]  ret_from_fork+0x1f/0x40
   ......
+  crash> log | less
   crash> log | grep -C 5 NULL
   [145753.346080] cgroup1: Unknown subsys name 'debug'
   [145753.372424] cgroup1: Unknown subsys name 'debug'
