@@ -970,7 +970,7 @@ Environment variable
   export rsync_proxy=$http_proxy
   export no_proxy='www.test.com,127.0.0.1,2.2.2.2'
 
-Socks5 Proxy with Shadowsocks
+SOCKS5 Proxy with Shadowsocks
 +++++++++++++++++++++++++++++++
 
 Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-rust>`_ or `Shadowsocks-libev <https://github.com/shadowsocks/shadowsocks-libev>`_ instead of the original shadowsocks. The configuration options can be found `here <https://github.com/shadowsocks/shadowsocks/wiki>`_.
@@ -1020,7 +1020,8 @@ Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-r
 MISC
 ++++++
 
-- xray core(recommended, refer to https://xtls.github.io/document/): https://github.com/XTLS/Xray-core
+- clash(recommended as the local client, refer to https://github.com/Dreamacro/clash): https://github.com/Dreamacro/clash
+- xray core(recommended as both the server and the client, refer to https://xtls.github.io/document/): https://github.com/XTLS/Xray-core
 - v2ray: https://github.com/v2fly/v2ray-core
 - warp one-click script: https://github.com/fscarmen/warp
 
