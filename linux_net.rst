@@ -1025,6 +1025,25 @@ MISC
 - v2ray: https://github.com/v2fly/v2ray-core
 - warp one-click script: https://github.com/fscarmen/warp
 
+New Bing Access
+-----------------
+
+An error like "Sorry, looks like your network settings are preventing access to this feature" may be hit from some network while accessing new bing, fix:
+
+*Microsoft Edge*:
+
+  1. Open edge -> Settings(the triple dots icon) -> Extensions -> Search ModHeader -> Install;
+  2. Extensions -> ModHeader -> Show in toolbar;
+  3. ModHeader -> Profile 1 -> Add Header -> Add X-Forwarded-For w/ value 1.1.1.1;
+  4. Extensions -> ModHeader -> Settings(the triple dots icon) -> This can read and change site data -> On bing.com;
+  5. Refresh/restart new bing;
+
+*Chrome*:
+
+  1. Chrome by default cannot access new bing, plugins need to be installed;
+  2. Open chrome -> Extensions -> Search "Bing Chat for All Browsers" and ModHeader -> Install them;
+  3. Cofnigure ModHeader as for edge;
+
 ======================
 OpenStack Network Tips
 ======================
