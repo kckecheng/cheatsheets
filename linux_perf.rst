@@ -454,6 +454,7 @@ Example 5: system profiling overview
 ::
 
   perf top
+  perf top --sort pid,comm,dso,symbol
 
 Example 6: record with call graph
 
@@ -473,4 +474,12 @@ Example 7: probe a user space function defined in libc
   perf record -e probe_libc:inet_pton ...
   perf report --stdio
   perf probe -d probe_libc:inet_pton
+
+Example 8: visualize total system behavior
+
+::
+
+  perf timechart record
+  perf report
+  # open the output svg
 

@@ -893,6 +893,23 @@ Cache line info
 
   getconf -a | grep CACHE_LINESIZE
 
+Check overcommit config
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat /proc/sys/vm/overcommit_memory
+  cat /proc/sys/vm/overcommit_ratio
+
+Check/Adjust oom score
+~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat /proc/<pid>/oom_score
+  cat /proc/<pid>/oom_score_adj
+  echo -1000 > /proc/<pid>/oom_score_adj
+
 Random number
 ---------------
 
