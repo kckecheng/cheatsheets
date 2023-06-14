@@ -1041,8 +1041,11 @@ An error like "Sorry, looks like your network settings are preventing access to 
 *Chrome*:
 
   1. Chrome by default cannot access new bing, plugins need to be installed;
-  2. Open chrome -> Extensions -> Search "Bing Chat for All Browsers" and ModHeader -> Install them;
-  3. Cofnigure ModHeader as for edge;
+  2. chrome -> Extensions -> Search "Bing Chat for All Browsers" and ModHeader -> Install them;
+  3. chrome -> Extensions -> Manage extensions -> ModHeader Details;
+  4. Site access -> Allow this extension to read and change all your data on websites you visit -> On specific sites;
+  5. Add https://www.bing.com/*;
+  6. Refresh/restart new bing;
 
 ======================
 OpenStack Network Tips
