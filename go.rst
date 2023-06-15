@@ -95,6 +95,10 @@ Manage dependencies w/ go get
   go get -u example.com/pkg
   # update a dependency w/ a patch release, such as bug patch releases
   go get -u=patch example.com/pkg
+  # upgrade all dependencies
+  go get -u ./...
+  # upgrade all dependencies, includign test dependencies
+  go get -t -u ./...
   # remove a dependency
   go get example.com/pkg@none
 
