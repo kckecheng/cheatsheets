@@ -828,50 +828,59 @@ Show log
 Disassemble
 ~~~~~~~~~~~~~
 
-::
+- If vmcore is available:
 
-  crash> bt
-  PID: 0      TASK: ffff8887fcb68000  CPU: 10  COMMAND: "swapper/10"
-   #0 [ffffc900002a8bd0] machine_kexec at ffffffff810621ef
-   #1 [ffffc900002a8c28] __crash_kexec at ffffffff8112bf62
-   #2 [ffffc900002a8cf8] panic at ffffffff81bf88f4
-   #3 [ffffc900002a8d78] watchdog_timer_fn.cold.9 at ffffffff81bff156
-  crash> dis ffffffff81bf88f4
-  0xffffffff81bf88f4 <panic+267>: xor    %edi,%edi
-  crash> dis ffffffff81bf88f4 5
-  0xffffffff81bf88f4 <panic+267>: xor    %edi,%edi
-  0xffffffff81bf88f6 <panic+269>: mov    0xe3e6fb(%rip),%rax        # 0xffffffff82a36ff8 <smp_ops+24>
-  0xffffffff81bf88fd <panic+276>: callq  0xffffffff82001000 <__x86_indirect_thunk_rax>
-  0xffffffff81bf8902 <panic+281>: jmp    0xffffffff81bf8909 <panic+288>
-  0xffffffff81bf8904 <panic+283>: callq  0xffffffff81063470 <crash_smp_send_stop>
-  crash> help dis
-  crash> dis -s ffffffff81bf88f4
-  FILE: /usr/src/debug/kernel-5.4.119-19.0009.16/kernel-5.4.119-19.0009.16/arch/x86/include/asm/smp.h
-  LINE: 72
+  ::
 
-    67    #ifdef CONFIG_SMP
-    68    extern struct smp_ops smp_ops;
-    69
-    70    static inline void smp_send_stop(void)
-    71    {
-  * 72            smp_ops.stop_other_cpus(0);
-    73    }
+    crash> bt
+    PID: 0      TASK: ffff8887fcb68000  CPU: 10  COMMAND: "swapper/10"
+     #0 [ffffc900002a8bd0] machine_kexec at ffffffff810621ef
+     #1 [ffffc900002a8c28] __crash_kexec at ffffffff8112bf62
+     #2 [ffffc900002a8cf8] panic at ffffffff81bf88f4
+     #3 [ffffc900002a8d78] watchdog_timer_fn.cold.9 at ffffffff81bff156
+    crash> dis ffffffff81bf88f4
+    0xffffffff81bf88f4 <panic+267>: xor    %edi,%edi
+    crash> dis ffffffff81bf88f4 5
+    0xffffffff81bf88f4 <panic+267>: xor    %edi,%edi
+    0xffffffff81bf88f6 <panic+269>: mov    0xe3e6fb(%rip),%rax        # 0xffffffff82a36ff8 <smp_ops+24>
+    0xffffffff81bf88fd <panic+276>: callq  0xffffffff82001000 <__x86_indirect_thunk_rax>
+    0xffffffff81bf8902 <panic+281>: jmp    0xffffffff81bf8909 <panic+288>
+    0xffffffff81bf8904 <panic+283>: callq  0xffffffff81063470 <crash_smp_send_stop>
+    crash> help dis
+    crash> dis -s ffffffff81bf88f4
+    FILE: /usr/src/debug/kernel-5.4.119-19.0009.16/kernel-5.4.119-19.0009.16/arch/x86/include/asm/smp.h
+    LINE: 72
 
-  crash> dis -s ffffffff81bf88f4 5
-  FILE: /usr/src/debug/kernel-5.4.119-19.0009.16/kernel-5.4.119-19.0009.16/arch/x86/include/asm/smp.h
-  LINE: 72
+      67    #ifdef CONFIG_SMP
+      68    extern struct smp_ops smp_ops;
+      69
+      70    static inline void smp_send_stop(void)
+      71    {
+    * 72            smp_ops.stop_other_cpus(0);
+      73    }
 
-    67    #ifdef CONFIG_SMP
-    68    extern struct smp_ops smp_ops;
-    69
-    70    static inline void smp_send_stop(void)
-    71    {
-  * 72            smp_ops.stop_other_cpus(0);
-    73    }
-    74
-    75    static inline void stop_other_cpus(void)
-    76    {
-    77            smp_ops.stop_other_cpus(1);
+    crash> dis -s ffffffff81bf88f4 5
+    FILE: /usr/src/debug/kernel-5.4.119-19.0009.16/kernel-5.4.119-19.0009.16/arch/x86/include/asm/smp.h
+    LINE: 72
+
+      67    #ifdef CONFIG_SMP
+      68    extern struct smp_ops smp_ops;
+      69
+      70    static inline void smp_send_stop(void)
+      71    {
+    * 72            smp_ops.stop_other_cpus(0);
+      73    }
+      74
+      75    static inline void stop_other_cpus(void)
+      76    {
+      77            smp_ops.stop_other_cpus(1);
+
+- If vmcore is not available
+
+  ::
+
+    # identify the backtrace found w/ dmesg/console, then search keywords from objdump -S xxx
+    objdump -S /boot/vmlinux-xxx | less -is
 
 Check kernel memory of a task
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
