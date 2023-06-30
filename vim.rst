@@ -387,3 +387,11 @@ Define a custom command
     command! -buffer TagbarToggle VoomToggle markdown
   endfunction
 
+Debug log
+++++++++++++
+
+::
+
+  # vim.log will record all debug info with verbose lever 9, default is 10
+  vim -V9vim.log /path/to/some/file
+
