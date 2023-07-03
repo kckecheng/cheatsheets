@@ -1039,6 +1039,7 @@ An error like "Sorry, looks like your network settings are preventing access to 
   5. Extensions -> ModHeader -> Settings(the triple dots icon) -> This can read and change site data -> On bing.com;
   6. Click "Settings and quick links" at the top right corner of the bing homepage -> Settings -> Select a supported Country/Region + Language as English;
   7. Refresh/restart new bing;
+  8. If it does not work, clear cache and restart the browser, then repeat steps 6 and 7;
 
 *Chrome*:
 
@@ -1049,6 +1050,7 @@ An error like "Sorry, looks like your network settings are preventing access to 
   5. Site access -> Allow this extension to read and change all your data on websites you visit -> On specific sites -> Add https://www.bing.com/*;
   6. Click "Settings and quick links" at the top right corner of the bing homepage -> Settings -> Select a supported Country/Region + Language as English;
   7. Refresh/restart new bing;
+  8. If it does not work, clear cache and restart the browser, then repeat steps 6 and 7;
 
 ======================
 OpenStack Network Tips
