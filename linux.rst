@@ -40,6 +40,14 @@ Command Control Shortcuts
 - Ctrl + s – freeze the terminal(stops the output to the screen)
 - Ctrl + q – unfreeze the terminal(allow output to the screen)
 
+Freeze/unfreeze the terminal
+------------------------------
+
+NOTE: some terminal may not react for the shortcuts
+
+- Ctrl + s - suspend/freeze the terminal, no input can be performed
+- Ctrl + q - resume the terminal, input can be performed again
+
 List Shortcuts/Bindings
 --------------------------
 
