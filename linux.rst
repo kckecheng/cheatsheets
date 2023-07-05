@@ -25,10 +25,10 @@ Command Recall Shortcuts
 ---------------------------
 
 - Ctrl + r – search the history backwards
+- Ctrl + s - search the history forward(xon needs to be turned off: stty -ixon)
 - Ctrl + g - quite the search
 - Ctrl + p – previous command in history (i.e. walk back through the command history)
 - Ctrl + n – next command in history (i.e. walk forward through the command history)
-
 - Alt + . – use the last word of the previous command
 
 Command Control Shortcuts
@@ -43,7 +43,15 @@ Command Control Shortcuts
 Freeze/unfreeze the terminal
 ------------------------------
 
-NOTE: some terminal may not react for the shortcuts
+NOTE: some terminal may not react for the shortcuts due to xon/xoff value.
+
+::
+
+  stty -a | grep -E 'xon|xoff'
+  # turn on
+  stty ixon
+  # turn off
+  stty -ixon
 
 - Ctrl + s - suspend/freeze the terminal, no input can be performed
 - Ctrl + q - resume the terminal, input can be performed again
