@@ -308,6 +308,17 @@ Follow child processes
   info inferiors
   inferior <parent or children id>
 
+Switch among threads
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  b <some breakpoint>
+  c
+  info threads
+  thread x
+  bt
+
 Binary values
 ~~~~~~~~~~~~~~~
 
