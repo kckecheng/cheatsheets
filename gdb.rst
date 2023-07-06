@@ -428,26 +428,29 @@ trace into glibc
 
   # glibc debug information is not provided by default
   # install glibc debugging information
-  # this is an example on ubuntu, other distros are similar
+  # for centos
+  # yum --enablerepo="*" install -y glibc-debuginfo
+  # for ubuntu
   sudo apt install -y libc6-dbg
-  # except for the symbols, source code of glibc is also needed
-  # here is an example on ubuntu, other distros are similar
-  sudo apt install -y glibc-source
-  cp /usr/src/glibc/glibc-2.31.tar.xz ~/
-  tar -Jxf glibc-2.31.tar.xz
   # begin debug
   cd /path/to/program
   gdb /path/to/program
   set verbose on # to show how the glibc symbols are searched and loaded
   start # start will run the program and stop at main (different from run)
-  list
   b printf # or any functions defined within glibc
   c
+  info symbol printf
+  info function printf
+  list printf
   # gdb may prompt that: printf.c: No such file or directory
-  # add the source file direcotry
+  # get the source files
+  sudo apt install -y glibc-source # or apt source glibc
+  cp /usr/src/glibc/glibc-2.31.tar.xz ~/
+  tar -Jxf glibc-2.31.tar.xz
   find ~/glibc-2.31 -name printf.c
+  # add the source file direcotry
   directory ~/glibc-2.31/stdio-common
-  list # the source code from glibc will be shown
+  list printf # the source code from glibc will be shown
 
 Disable paging
 ~~~~~~~~~~~~~~~~
