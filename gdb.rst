@@ -477,6 +477,13 @@ Disable paging
   # to disable it:
   set pagination off
 
+Run shell command in the background
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  shell ls &
+
 Grep output
 ~~~~~~~~~~~~~~
 
