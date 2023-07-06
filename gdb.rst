@@ -368,6 +368,21 @@ Run gdb commands through CLI
       gdb --batch --pid 6666 -ex "dump memory 6666-$start-$stop.dump 0x$start 0x$stop"; \
       done
 
+Run a command for specified times
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # while X command: while 10 next
+  # while X
+  # command1
+  # command2
+  # end
+  while 10
+  call sleep(1)
+  c
+  end
+
 Automate with a command file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
