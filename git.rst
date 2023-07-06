@@ -984,17 +984,9 @@ There are several options to re-apply stashed changes:
 View diffs
 ++++++++++
 
-- Show a summury of a stash:
+::
 
-  ::
-
-    git stash show [stash name]
-
-- Show detailed diffs of a stash:
-
-  ::
-
-    git stash show -p [stash name]
+  git stash show -p stash@{0}
 
 Cleanup
 +++++++
@@ -1004,6 +996,17 @@ Cleanup
   git stash drop [stash name]
   --- OR to clean all stashes ---
   git stash clear
+
+Create a branch based on a stash
+++++++++++++++++++++++++++++++++++
+
+::
+
+  git stash branch abc stash@{1}
+  git switch abc
+  # check files at the timestamp when the stash is created
+  git switch -f master
+  git branch -D abc
 
 Revisions and Ranges
 --------------------
