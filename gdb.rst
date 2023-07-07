@@ -124,6 +124,43 @@ breakpoint with regular expression
 
   rbreak <regex>
 
+Set breakpoints on all functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  rbreak <regex> # set breakpoints on all functions matching the regular expression
+  rbeak <file>:<regex> # set breakpoints on all functions matching the regular expression for the file
+  rbreak . # break in all functions
+  rbreak <file>:. # break in all functions for the file
+
+Assocaite breakpoints with a bunch of commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+commands x: x is the breakpoint id, multiple ids can be provided, the last one will be used if not provided
+
+::
+
+  info b
+  break func1
+  commands 1
+  bt
+  c
+  end
+  d 1
+  break func2
+  commands
+  set $count = 0
+  bt
+  c
+  while $count < 6
+  bt
+  set $count = $count + 1
+  c
+  end
+  end
+  q
+
 gdb with args
 ~~~~~~~~~~~~~~~
 
@@ -275,16 +312,6 @@ Define a customized command
   idt_entry 0
   idt_entry 1
 
-Set breakpoints on all functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  rbreak <regex> # set breakpoints on all functions matching the regular expression
-  rbeak <file>:<regex> # set breakpoints on all functions matching the regular expression for the file
-  rbreak . # break in all functions
-  rbreak <file>:. # break in all functions for the file
-
 Check registers
 ~~~~~~~~~~~~~~~~~
 
@@ -401,8 +428,10 @@ Automate with a command file
   set height 0
   file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
   break hmp_info_cpus
-  c
+  commands 1
   bt
+  c
+  end
   q
   EOF
   gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
@@ -424,9 +453,11 @@ Automate with a command file
   set height 0
   file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
   break hmp_info_cpus
+  commands
+  set $counter = 0
   c
-  set $counter = 1
-  while ($counter <= 10)
+  end
+  while $counter < 10
   bt
   set $counter = $counter + 1
   c
