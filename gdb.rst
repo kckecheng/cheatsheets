@@ -242,6 +242,15 @@ Search variables/functions
   info funtsions
   info functions <func name regex>
 
+Check macros
+~~~~~~~~~~~~~~~
+
+::
+
+  # the program needs to be compiled with -g3
+  info macro var1
+  macro expand var1
+
 List source code
 ~~~~~~~~~~~~~~~~~~
 
