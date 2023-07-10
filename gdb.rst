@@ -144,12 +144,6 @@ commands x: x is the breakpoint id, multiple ids can be provided, the last one w
   info b
   break func1
   commands 1
-  bt
-  c
-  end
-  d 1
-  break func2
-  commands
   set $count = 0
   bt
   c
@@ -160,6 +154,26 @@ commands x: x is the breakpoint id, multiple ids can be provided, the last one w
   end
   end
   q
+
+
+Assocaite watchpoints with a bunch of commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  info watch
+  watch var1
+  # print var1 everytime var1 is hit
+  commands
+  print var1
+  end
+  # NOTE: the same can be achieved with breakpoints which is more flexible
+  info b
+  b path/to/file:lineX
+  commands
+  print var1
+  c
+  end
 
 gdb with args
 ~~~~~~~~~~~~~~~
@@ -247,7 +261,6 @@ Pretty print
 
   # print struct pretty
   apropos pretty
-  set print pretty
   set print pretty
   lx-ps
   p (struct task_struct *)0xffff888002ebb000
