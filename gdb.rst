@@ -848,7 +848,10 @@ The crash utility
 
 The crash utility can also be leveraged for analyzing vmcore files or a live system(read only  + basic analysis + without qemu usage). Check https://crash-utility.github.io/crash_whitepaper.html for reference.
 
-In the meanwhile, there is a great sample on how to use crash to anylyze a core dump - https://www.dedoimedo.com/computers/crash-analyze.html
+In the meanwhile, there are some samples on how to use crash to anylyze a core dump:
+
+- https://www.dedoimedo.com/computers/crash-analyze.html
+- https://blogs.oracle.com/linux/post/extracting-kernel-stack-function-arguments-from-linux-x86-64-kernel-crash-dumps
 
 NOTES: kernel debuginfo needs to be installed, the package will be named as kernel-debuginfo, kernel-debuginfo-common, etc. on most distributions.
 
@@ -915,6 +918,16 @@ Show log
   [145972.589248] Oops: 0002 [#1] SMP NOPTI
   [145972.590104] CPU: 5 PID: 15045 Comm: kworker/5:17 Kdump: loaded Tainted: G           OE     5.4.241-1-tlinux4-0017.prerelease4 #1
 
+Get more info from backtrace
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  bt
+  bt -sx
+  bt -FFsx
+  bt -l
+
 Disassemble
 ~~~~~~~~~~~~~
 
@@ -936,7 +949,7 @@ Disassemble
     0xffffffff81bf88fd <panic+276>: callq  0xffffffff82001000 <__x86_indirect_thunk_rax>
     0xffffffff81bf8902 <panic+281>: jmp    0xffffffff81bf8909 <panic+288>
     0xffffffff81bf8904 <panic+283>: callq  0xffffffff81063470 <crash_smp_send_stop>
-    crash> help dis
+    crash> help dis # dis -s, dis -rx are used frequently
     crash> dis -s ffffffff81bf88f4
     FILE: /usr/src/debug/kernel-5.4.119-19.0009.16/kernel-5.4.119-19.0009.16/arch/x86/include/asm/smp.h
     LINE: 72
