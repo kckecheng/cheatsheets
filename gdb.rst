@@ -846,14 +846,32 @@ Inspect system call table
 The crash utility
 --------------------
 
-The crash utility can also be leveraged for analyzing vmcore files or a live system(read only  + basic analysis + without qemu usage). Check https://crash-utility.github.io/crash_whitepaper.html for reference.
+NOTES:
 
-In the meanwhile, there are some samples on how to use crash to anylyze a core dump:
+- kernel debuginfo needs to be installed, the package will be named as kernel-debuginfo, kernel-debuginfo-common, etc. on most distributions.
+- the crash utility can also be leveraged for analyzing vmcore files or a live system(read only  + basic analysis + without qemu usage).
 
+References:
+
+- https://crash-utility.github.io/crash_whitepaper.html
 - https://www.dedoimedo.com/computers/crash-analyze.html
 - https://blogs.oracle.com/linux/post/extracting-kernel-stack-function-arguments-from-linux-x86-64-kernel-crash-dumps
 
-NOTES: kernel debuginfo needs to be installed, the package will be named as kernel-debuginfo, kernel-debuginfo-common, etc. on most distributions.
+Help
+~~~~~~
+
+::
+
+  apropos <command pattern>
+  help <command>
+
+Show the summary when system crashes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  sys
+  sys -i
 
 Use gdb
 ~~~~~~~~~
@@ -927,6 +945,22 @@ Get more info from backtrace
   bt -sx
   bt -FFsx
   bt -l
+
+Show symbol definitions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  crash> help whatis
+  crash> bt
+  ...
+   #9 [ffff80007442f990] misc_open at ffff80004878b0ec
+  #10 [ffff80007442f9d0] chrdev_open at ffff80004838bfd8
+  #11 [ffff80007442fa30] do_dentry_open at ffff8000483810fc
+  #12 [ffff80007442fa70] vfs_open at ffff8000483827bc
+  ...
+  crash> whatis misc_open
+  int misc_open(struct inode *, struct file *);  
 
 Disassemble
 ~~~~~~~~~~~~~
