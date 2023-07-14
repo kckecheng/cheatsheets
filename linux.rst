@@ -1,7 +1,7 @@
 .. contents:: Linux Tips
 
-Command Line Shortcuts
-===========================
+Command Line/Console
+=======================
 
 Command Editing Shortcuts
 ----------------------------
@@ -55,6 +55,24 @@ NOTE: some terminal may not react for the shortcuts due to xon/xoff value.
 
 - Ctrl + s - suspend/freeze the terminal, no input can be performed
 - Ctrl + q - resume the terminal, input can be performed again
+
+Console resize
+---------------
+
+When using virsh console or a tty connection to some equipment, the console size is small to show all the texts within a line. There are serveral ways to adjust this:
+
+- xterm-resize(preferred): just run "resize"
+- stty: stty rows 45 ; stty columns 140; stty size
+- export LINES=45 && export COLUMNS=163
+
+Show cursor icon
+-------------------
+
+Sometimes, the termianl cursor icon for current input position may get lost:
+
+::
+
+  tput cnorm
 
 List Shortcuts/Bindings
 --------------------------
@@ -1750,15 +1768,6 @@ autoexpect
 
 - expect scripts can be leveraged for autoamtion interactive CLI based tasks. But it is tedious to write such a script.
 - autoexpect can be used to generating the initial expect script more quickly.
-
-Console resize
----------------
-
-When using virsh console or a tty connection to some equipment, the console size is small to show all the texts within a line. There are serveral ways to adjust this:
-
-- xterm-resize(preferred): just run "resize"
-- stty: stty rows 45 ; stty columns 140; stty size
-- export LINES=45 && export COLUMNS=163
 
 Split large files
 -------------------
