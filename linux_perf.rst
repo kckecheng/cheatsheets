@@ -174,6 +174,20 @@ convert cgroup v1 to v2
   grubby --update-kernel=/boot/vmlinuz-5.4.119-19-0010 --args "systemd.unified_cgroup_hierarchy=1"
   reboot
 
+move a process into a cgroup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cgcreate -g cpu:mygroup
+  # move a specified process into the cgroup
+  nohup xxxx &
+  pgrep xxxx # ge the process id of the process
+  echo <pid of xxxx> | tee /sys/fs/cgroup/cpu/mygroup/cgroup.procs
+  # move all processes started from current shell into the cgroup
+  # $$ is the current shell pid, all processes started from current shell share the same cgroup
+  echo $$ > /sys/fs/cgroup/cpu/mygroup/cgroup.procs
+
 Tracing
 ---------
 
