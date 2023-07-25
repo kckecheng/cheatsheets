@@ -1270,6 +1270,15 @@ Make grep match for only 1 time
 
   grep -m1 …...
 
+grep with multiple patterns
+-----------------------------
+
+::
+
+  grep -E 'a|b|c|d|e'
+  grep -e 'a' -e 'b' -e 'c' -e 'd' -e 'e'
+  grep -v -e 'a' -e 'b' -e 'c' -e 'd' -e 'e'
+
 Shell debugging
 ------------------
 
