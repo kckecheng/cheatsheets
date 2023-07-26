@@ -223,6 +223,13 @@ Jumplist
 - Ctrl + O ---> Jump backward
 - Ctrl + I ---> Jump forward
 
+Search whole word
++++++++++++++++++++
+
+::
+
+  /\<word\>
+
 Reverse Search
 ++++++++++++++
 
