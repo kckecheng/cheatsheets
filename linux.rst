@@ -74,6 +74,16 @@ Sometimes, the termianl cursor icon for current input position may get lost:
 
   tput cnorm
 
+Use 256 colors terminal
+-------------------------
+
+::
+
+  # anyone of below choice
+  export TERM=xterm-256color
+  export TERM=screen-256color
+  export TERM=tmux-256color
+
 List Shortcuts/Bindings
 --------------------------
 
