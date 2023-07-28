@@ -960,7 +960,7 @@ Show symbol definitions
   #12 [ffff80007442fa70] vfs_open at ffff8000483827bc
   ...
   crash> whatis misc_open
-  int misc_open(struct inode *, struct file *);  
+  int misc_open(struct inode *, struct file *);
 
 Disassemble
 ~~~~~~~~~~~~~
@@ -1127,4 +1127,12 @@ Get kernel memory mappings
   # - Export kernel pagetable layout to userspace via debugfs(PTDUMP_DEBUGFS)
   # make sure debugfs is mouted, if not: mount -t debugfs none /sys/kernel/debug
   cat /sys/kernel/debug/page_tables/kernel
+
+Get kernel memory layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat /proc/iomem
+  cat /boot/System.map-`uname -r` | grep -w -e '_text' -e '_etext' -e '_edata' -e '_end'
 
