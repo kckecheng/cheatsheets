@@ -17,6 +17,7 @@ rg can be used for simple code search:
   rg -g '*.{c,h}' 'start_kernel'
   rg -g '*.S' -w idt arch/x86
   rg -g '*.S' -w idt -o arch/x86
+  rg -l -g '*.[chS]' # list file names w/o any contents
 
 gnu global
 ------------
