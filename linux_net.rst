@@ -110,6 +110,13 @@ ethtool
     ethtool -L eth0 combined 2
     ethtool -l eth0
 
+- Change and show NIC feature such as tsp
+
+  ::
+
+    ethtool -k eth0
+    ethtool -K eth0 tso on
+
 - Map NIC name to PCI device
 
   ::
