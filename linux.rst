@@ -1870,6 +1870,13 @@ if apropos, man -k give no results:
   makewhatis
   mandb
 
+Change password non-interactive
+---------------------------------
+
+::
+
+  echo 'root:password' | chpasswd
+
 Create a samba server
 ----------------------
 
