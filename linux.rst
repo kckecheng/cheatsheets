@@ -920,6 +920,14 @@ Change process scheduler policy
 
   chrt -r -p <process id>
 
+Show cpu power suppy
+~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ipmi-sensors
+  ipmi-sensors --sensors="35"
+
 Operations on memory
 ---------------------
 
