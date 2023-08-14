@@ -920,13 +920,16 @@ Change process scheduler policy
 
   chrt -r -p <process id>
 
-Show cpu power suppy
-~~~~~~~~~~~~~~~~~~~~~~
+Show cpu power suppy/consumption
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-  ipmi-sensors
+  ipmi-sensors | grep Total_Power
   ipmi-sensors --sensors="35"
+  # some impitool versions donot support Total_Power, use lm_sensors
+  yum install -y lm_sensors
+  sensors
 
 Operations on memory
 ---------------------
