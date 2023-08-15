@@ -1609,6 +1609,13 @@ ipmitool
     ipmitool -I lanplus -H 192.168.10.10 -U admin -P password sol activate
     # type ~. to quite the sol session
 
+- Check sensors
+
+  ::
+
+    ipmitool sdr | grep Total_Power
+    ipmitool-sensors
+
 SLES HA Cluster
 -------------------
 
