@@ -926,8 +926,8 @@ Show cpu power suppy/consumption
 ::
 
   ipmi-sensors | grep Total_Power
-  ipmi-sensors --sensors="35"
-  # some impitool versions donot support Total_Power, use lm_sensors
+  ipmitool sdr | grep Total_Power
+  # lm_sensors are recommended against ipmitools
   yum install -y lm_sensors
   sensors
 
