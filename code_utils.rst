@@ -44,7 +44,7 @@ GNU Global is a source code tagging system which can be used as a replacement of
   http-serve
   # open browser and access http://<IP>:8080
 
-NOTE 1: global doesnot support listing functions called by 'this function' (not quite useful, since one can go to the the definition of 'this function' to find such info). Use cscope or cflow(c/c++ only) if the capability is important.
+NOTE 1: global does not support listing functions called by 'this function'. Use cscope for such requirements.
 
 NOTE 2: gtags only supports tagging files under current source tree (the directory where gtags is run). For external source tree:
 
@@ -81,7 +81,7 @@ GNU cflow analyzes a collection of C source files and prints a graph, charting c
 cscope and ctags
 ------------------
 
-Used together for programming.
+Since GNU Global ships with more features and supports incremental update, cscope is only recommended for analyzing caller/callee relationships which is lacked in GNU Global.
 
 Notes:
 
