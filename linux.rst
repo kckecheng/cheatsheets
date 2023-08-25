@@ -1367,7 +1367,16 @@ Remove unprintable characters from a file with sed
 Sort based on several fields
 -------------------------------
 
-sort -k <field 1 order> -k <field 2 ordr> ... [-n] [-r]
+::
+
+  sort -k <field 1 order> -k <field 2 ordr> ... [-n] [-r]
+
+Sort with a random order
+----------------------------
+
+::
+
+  cat /etc/passwd | shuf
 
 Single line for loop with background jobs
 --------------------------------------------
