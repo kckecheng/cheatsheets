@@ -164,6 +164,9 @@ a general markup converter supporting md, rst, etc.
 
 ::
 
+  # convert to html
+  pandoc -s -t html abc.rst -o abc.html
+  # show in w3m
   pandoc <file name with suffix> | w3m -T text/html
   pandoc -s --toc <file name with suffix> [--metadata title=<title string>] | w3m -T text/html
 
