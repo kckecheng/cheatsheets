@@ -2079,6 +2079,18 @@ Remove a SCSI/SAN disk when it is dead
   [1:0:0:0]    disk    Single   Flash Reader     1.00  /dev/sde
   [4:0:0:0]    cd/dvd  PLDS     DVD-RW DU8A5SH   BL61  /dev/sr0
 
+Change I/O Scheduler
+-----------------------
+
+::
+
+  # persistent - may not work for some systems
+  grubby --update-kernel=ALL --args="elevator=bfq"
+  # on the fly
+  cat /sys/block/sda/queue/scheduler
+  echo bfq > /sys/block/sda/queue/scheduler
+  cat /sys/block/sda/queue/scheduler
+
 View/Create/Remove SCSI Persistent Reservation Keys
 ------------------------------------------------------
 
