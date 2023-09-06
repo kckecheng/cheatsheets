@@ -1265,6 +1265,13 @@ By default, tail -f follows a file based on the file descriptor. Once the file i
   tail -f /path/to/file # if file descriptor never changes
   tail --follow=name --retry /path/to/file # if file may get rotated which lead to fd changes
 
+head and tail together
+-----------------------
+
+::
+
+  cat /etc/passwd | (head; echo; tail)
+
 Process the new line character
 --------------------------------
 
