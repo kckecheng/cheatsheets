@@ -135,8 +135,26 @@ Shortcuts
 +----------------------------------------+-----------------------------------------------+
 |Create a new session                    |  ^b: new -s <session name>                    |
 +----------------------------------------+-----------------------------------------------+
-|Set border color                        |  - ^b: set -g pane-active-border-bg default   |
-|                                        |  - ^b: set -g pane-active-border-fg colour208 |
+|Set active window focus                 |  ^b: set-option -g window-style ...           |
+|                                        |  fg=colour247,bg=colour236                    |
+|                                        |  ^b: set-option -g window-active-style ...    |
+|                                        |  fg=default,bg=colour234                      |
++----------------------------------------+-----------------------------------------------+
+|Set status bar style                    |  ^b: set-option -g status-justify centre      |
+|                                        |  ^b: set-option -g status-position bottom     |
++----------------------------------------+-----------------------------------------------+
+|Set active window style in status bar   |  ^b: set-option -g ...                        |
+|                                        |  window-status-current-style bg=colour52      |
++----------------------------------------+-----------------------------------------------+
+|Set status bar colour                   |  ^b: set-option -g status-stype ...           |
+|                                        |  - fg=default/colour69                        |
+|                                        |  - bg=default                                 |
+|                                        |  - bg=default,fg=colour69                     |
++----------------------------------------+-----------------------------------------------+
+|Set border colour                       |  ^b: set-option -g pane-active-border-style ..|
+|                                        |  - fg=default/colour126                       |
+|                                        |  - bg=default                                 |
+|                                        |  - bg=default,fg=colour126                    |
 +----------------------------------------+-----------------------------------------------+
 |Display information                     |  ^b: display-message -p '#{pane_width}'       |
 +----------------------------------------+-----------------------------------------------+
