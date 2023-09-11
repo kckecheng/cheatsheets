@@ -79,10 +79,27 @@ Use 256 colors terminal
 
 ::
 
-  # anyone of below choice
+  # anyone of below choices
   export TERM=xterm-256color
   export TERM=screen-256color
   export TERM=tmux-256color
+
+Colour names
+---------------
+
+- Colours can be referred with names like "colourxxx";
+- Frequent used 8 colors can also be referred as black, red, green, yellow, blue, magenta, cyan, white;
+- Tool colortest(available on debian/ubuntu) can be used to show the effect of difference colors, e.g. colortest-8 to show effects of 8 colors when they are used as fg and bg;
+- Builtin tput commands can be used to show colors:
+
+  ::
+
+    # man terminfo for references
+    # setf/setb for 8 colors, setaf/setab(set ascii foreground/background) for 256 colors
+    # foreground
+    for c in {0..255}; do tput setaf $c; tput setaf $c | cat -v; echo =colour$c; done
+    # background
+    for c in {0..255}; do tput setab $c; tput setab $c | cat -v; echo =colour$c; done
 
 List Shortcuts/Bindings
 --------------------------
