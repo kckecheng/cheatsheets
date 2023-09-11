@@ -795,7 +795,8 @@ Run commands without password by using sshpass
 
 ::
 
-  sshpass -p <password> ssh -p <port> -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 <IP> '<commands>'
+  # if multiple commands are used, they can be formated as "command1 && echo && command2 && ..." or "command1; command2; ..."
+  sshpass -p <password> ssh -p <port> -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -o LogLevel=error <IP> '<commands>'
 
 Verify ssh password with a loop with sshpass
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -807,7 +808,7 @@ Verify ssh password with a loop with sshpass
   f="ips.txt"
   while read -r IPADDR; do
     # sshpass needs to be processed specially, refer to https://superuser.com/questions/1236851/what-is-wrong-with-this-while-loop
-    </dev/null sshpass -f $p  ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${IPADDR} ls>/dev/null 2>/dev/null
+    </dev/null sshpass -f $p  ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=error ${IPADDR} ls>/dev/null 2>/dev/null
     if [[ $? -eq 0 ]]; then
       echo "$IPADDR SUCCESS"
     else
