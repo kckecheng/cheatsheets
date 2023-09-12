@@ -113,6 +113,7 @@ Below options are recommended before using git(without global for per repository
 
   ::
 
+    # show all options: git config -l --show-origin
     git config --global user.name "<First Name> <Second Name>"
     git config --global user.email <email>
     git config --global http.sslVerify false
