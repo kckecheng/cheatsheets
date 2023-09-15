@@ -2475,6 +2475,7 @@ Create a local yum repo with DVD iso
     name=Description name
     baseurl=file://absolute path to the mount point
     enabled=1
+    gpgcheck=0
 
 - yum clean all
 - yum repolist : You should be able to see the new repo
