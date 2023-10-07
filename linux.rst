@@ -513,7 +513,6 @@ A service Type can be defined as oneshot, simple, forking, etc. When it is neede
 
 **Notes**: **fork** needs to be implemented by the app or the script to be executed.
 
-
 Here Document
 ----------------
 
@@ -1105,6 +1104,50 @@ zsh set/unset options
   unsetopt # Display all off options
   unsetopt HIST_IGNORE_ALL_DUPS
 
+Run jobs in background
+--------------------------
+
+Wait jobs
+~~~~~~~~~~~~
+
+::
+
+  While : ; do
+      pids=""
+      <process 1/command 1>  &
+      pids="$pids $!"
+      ……  &
+      <process N/command N> &
+      pids="$pids $!"
+      for id in $pids; do
+          wait $id
+          echo $?
+      done
+  done
+
+Single line for loop with background jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # & is enough, if &; is used, an error will be triggered
+  # refer to https://unix.stackexchange.com/questions/91684/use-ampersand-in-single-line-bash-loop
+  for((i=1;i<=255;i+=1)); do echo $i; /opt/app1 & done
+
+Run a shell function with nohup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  abc () {
+    while : ; do
+      echo "hello"
+      sleep 1
+    done
+  }
+  export -f abc
+  nohup bash -c "abc" >/dev/null 2>&1 &
+
 Who is on the server
 ----------------------
 
@@ -1305,24 +1348,6 @@ Process the new line character
 
     tr '\n' ','
 
-Bash wait
-------------
-
-::
-
-  While : ; do
-      pids=""
-      <process 1/command 1>  &
-      pids="$pids $!"
-      ……  &
-      <process N/command N> &
-      pids="$pids $!"
-      for id in $pids; do
-          wait $id
-          echo $?
-      done
-  done
-
 Use shell variable in sed
 ----------------------------
 
@@ -1405,15 +1430,6 @@ Sort with a random order
 ::
 
   cat /etc/passwd | shuf
-
-Single line for loop with background jobs
---------------------------------------------
-
-::
-
-  # & is enough, if &; is used, an error will be triggered
-  # refer to https://unix.stackexchange.com/questions/91684/use-ampersand-in-single-line-bash-loop
-  for((i=1;i<=255;i+=1)); do echo $i; /opt/app1 & done
 
 String Contains in Bash
 --------------------------
