@@ -1415,7 +1415,7 @@ Remove unprintable characters from a file with sed
 
 ::
 
-  sed -n -e 's/[^[:print:]]//g' /path/to/file
+  sed -e 's/[^[:print:]]//g' /path/to/file
 
 Sort based on several fields
 -------------------------------
