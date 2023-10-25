@@ -1371,6 +1371,15 @@ grep with multiple patterns
   grep -e 'a' -e 'b' -e 'c' -e 'd' -e 'e'
   grep -v -e 'a' -e 'b' -e 'c' -e 'd' -e 'e'
 
+grep non greddy match
+-----------------------
+
+::
+
+  # the default and extended(-E) grep does not support non greedy match,
+  # perl mode(-P) should be used
+  ps -ef | grep qemu-system-x86_64 | grep -Po 'bdf=.*?,'
+
 Shell debugging
 ------------------
 
