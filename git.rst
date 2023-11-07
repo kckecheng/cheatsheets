@@ -336,6 +336,13 @@ Update remote tags
 
   git fetch --tags --prune [--all]
 
+List commints between tags
++++++++++++++++++++++++++++++
+
+::
+
+  git log tag1..tag2 | wc -l
+
 Move git HEAD
 -------------
 
