@@ -113,7 +113,7 @@ Shortcuts
 +----------------------------------------+-----------------------------------------------+
 |Move window/pane                        |  - ^b: move-window -s <src> -t <dst>          |
 |(src/dst format as:                     |  - ^b: move-pane -s <src> -t <dst>            |
-|[session name]:[windows id][.]<pane id>)|  - ^b: join-pane -s <src> -t <dst>            |
+|[session name]:[window id][.]<pane id>) |  - ^b: join-pane -s <src> -t <dst>            |
 |                                        |  - ^b m + ^b: move/join-window/pane -s <src>  |
 |                                        |  - ^b: move-window -r                         |
 +----------------------------------------+-----------------------------------------------+
@@ -124,7 +124,7 @@ Shortcuts
 |                                        |  - select-pane -d -t x: disable input         |
 |                                        |  - select-pane -e -t x: enable input          |
 +----------------------------------------+-----------------------------------------------+
-|Backup/restore sessions(tmux-rescurrect)|  ^b ^s -> save ; ^b ^r -> restore             |
+|Backup/restore session(tmux-rescurrect) |  ^b ^s -> save ; ^b ^r -> restore             |
 +----------------------------------------+-----------------------------------------------+
 |Automatic rename panel                  |  - ^b: set-optiong -g allow-rename on/off     |
 |                                        |  - ^b: set-optiong -g automatic-rename on/off |
@@ -151,7 +151,7 @@ Shortcuts
 |                                        |  - bg=default                                 |
 |                                        |  - bg=default,fg=colour69                     |
 +----------------------------------------+-----------------------------------------------+
-|Set border colour                       |  ^b: set-option -g pane-active-border-style ..|
+|Set border colour                       |  ^b: set-option -g pane-active-border-style.. |
 |                                        |  - fg=default/colour126                       |
 |                                        |  - bg=default                                 |
 |                                        |  - bg=default,fg=colour126                    |
