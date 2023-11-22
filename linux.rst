@@ -2056,6 +2056,14 @@ Create a LV with all free space
 
   lvcreate -l 100%FREE -n <LV name> <VG name>
 
+Find the corresponding dm-X device for a lv
+---------------------------------------------
+
+::
+
+  dmsetup ls # find the major, minor number for lv device
+  ls -l /dev/dm-* # based on the major, minor number for the dm-X device
+
 gdisk
 -------
 
