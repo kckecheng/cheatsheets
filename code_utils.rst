@@ -20,10 +20,25 @@ rg can be used for simple code search:
   rg -g '*.S' -w idt -o arch/x86
   rg -l -g '*.[chS]' # list file names w/o any contents
 
+gnu cflow
+----------
+
+GNU cflow analyzes a collection of C source files and prints a graph, charting control flow within the program to explain relationships of caller/callee.
+
+::
+
+  cflow -b -m start_kernel init/main.c
+  cflow -b *.c # all .c files under current directory
+  # leverage the bash globstar feature
+  cflow **/*.c # all .c files under current directory and its subdirectories
+  # cover functions not reachable from main
+  cflow -b --all a.c b/*.c
+  cflow -b --no-main a.c b.c c/**/*.c
+
 gnu global
 ------------
 
-GNU Global is a source code tagging system which can be used as a replacement of cscope.
+GNU Global is a source code tagging system which can be used as a replacement of cscope(to some extent).
 
 ::
 
@@ -36,7 +51,7 @@ GNU Global is a source code tagging system which can be used as a replacement of
   export GTAGSLABEL='native-pygments' # or gtags --gtagslabel=native-pygments
   find . -type f ! -type l -name "*.[chS]" > gtags.files
   gtags
-  gtags-cscope -d -p5
+  gtags-cscope -dp5
   # leverage http server - not recommended since it costs huge storage space
   # brew install http-server
   htags
@@ -44,7 +59,10 @@ GNU Global is a source code tagging system which can be used as a replacement of
   http-serve
   # open browser and access http://<IP>:8080
 
-NOTE 1: global does not support listing functions called by 'this function'. Use cscope for such requirements.
+NOTE 1: use cscope when below scenarios are important
+
+- global does not support 'Find functions called by this function'
+- global does not list the caller's name while 'Find references of this function'
 
 NOTE 2: gtags only supports tagging files under current source tree (the directory where gtags is run). For external source tree:
 
@@ -61,27 +79,12 @@ NOTE 2: gtags only supports tagging files under current source tree (the directo
     gtags ...
     ...
 
-NOTE3: for not tag/symbol related search, such as "Find this text string", "Find this file", "Find files #including this file", etc., global/cscope only searchs the dir and sub dirs it is started.
-
-gnu cflow
-----------
-
-GNU cflow analyzes a collection of C source files and prints a graph, charting control flow within the program to explain relationships of caller/callee.
-
-::
-
-  cflow -b -m start_kernel init/main.c
-  cflow -b *.c # all .c files under current directory
-  # leverage the bash globstar feature
-  cflow **/*.c # all .c files under current directory and its subdirectories
-  # cover functions not reachable from main
-  cflow -b --all a.c b/*.c
-  cflow -b --no-main a.c b.c c/**/*.c
+NOTE 3: for not tag/symbol related search, such as "Find this text string", "Find this file", "Find files #including this file", etc., global/cscope only searchs the dir and sub dirs it is started.
 
 cscope and ctags
 ------------------
 
-Since GNU Global ships with more features and supports incremental update, cscope is only recommended for analyzing caller/callee relationships which is lacked in GNU Global.
+Cscope is recommended for analyzing caller/callee relationships which is lacked in GNU Global.
 
 Notes:
 
@@ -94,7 +97,7 @@ Notes:
   # find . -type f -name "*.[chS]" -path "./arch/x86/*" >> cscope.files
   find . -type f ! -type l -name "*.[chS]" > cscope.files
   cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
-  cscope -dq # use cscope after db buildup
+  cscope -dp5 # use cscope after db buildup
   ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
 
 codequery
