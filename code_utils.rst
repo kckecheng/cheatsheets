@@ -38,7 +38,7 @@ GNU cflow analyzes a collection of C source files and prints a graph, charting c
 gnu global
 ------------
 
-GNU Global is a source code tagging system which can be used as a replacement of cscope(to some extent).
+GNU Global is a source code tagging system which works similarly as cscope but provide some distinct features.
 
 ::
 
@@ -51,6 +51,8 @@ GNU Global is a source code tagging system which can be used as a replacement of
   export GTAGSLABEL='native-pygments' # or gtags --gtagslabel=native-pygments
   find . -type f ! -type l -name "*.[chS]" > gtags.files
   gtags
+  # incremental updates
+  gtags -i
   gtags-cscope -dp5
   # leverage http server - not recommended since it costs huge storage space
   # brew install http-server
@@ -59,7 +61,16 @@ GNU Global is a source code tagging system which can be used as a replacement of
   http-serve
   # open browser and access http://<IP>:8080
 
-NOTE 1: use cscope when below scenarios are important
+GNU Global can be used from CLI directly:
+
+::
+
+  gtags -i
+  global -x start_kernel
+  global -rx start_kernel
+  global -src start_kernel
+
+NOTE 1: use cscope when analyzing caller/callee is important
 
 - global does not support 'Find functions called by this function'
 - global does not list the caller's name while 'Find references of this function'
@@ -84,7 +95,7 @@ NOTE 3: for not tag/symbol related search, such as "Find this text string", "Fin
 cscope and ctags
 ------------------
 
-Cscope is recommended for analyzing caller/callee relationships which is lacked in GNU Global.
+cscope is recommended for analyzing caller/callee relationships which is lacked in GNU Global.
 
 Notes:
 
@@ -97,8 +108,17 @@ Notes:
   # find . -type f -name "*.[chS]" -path "./arch/x86/*" >> cscope.files
   find . -type f ! -type l -name "*.[chS]" > cscope.files
   cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
-  cscope -dp5 # use cscope after db buildup
+  cscope -dqp5 # use cscope after db buildup
   ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
+
+- cscope supports line-oriented useage:
+
+::
+
+  # -Lnum: num is from 0~9, man cscope for details
+  cscope -d -L0 start_kernel
+  cscope -d -L1 start_kernel
+  cscope -d -L2 start_kernel
 
 codequery
 ----------
