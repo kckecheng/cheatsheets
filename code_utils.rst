@@ -38,7 +38,7 @@ GNU cflow analyzes a collection of C source files and prints a graph, charting c
 gnu global
 ------------
 
-GNU Global is a source code tagging system which works similarly as cscope but provide some distinct features.
+GNU Global is a source code tagging system which works similarly as cscope. It provides more accurate results when used for finding global definitions.
 
 ::
 
@@ -95,30 +95,31 @@ NOTE 3: for not tag/symbol related search, such as "Find this text string", "Fin
 cscope and ctags
 ------------------
 
-cscope is recommended for analyzing caller/callee relationships which is lacked in GNU Global.
+cscope is recommended for analyzing caller/callee relationships which is not supported well in GNU Global. When it is used for finding global definitions, the results are not quite accurate since external declarations and some references will also be included.
 
 Notes:
 
 - If vim plugin vista is used together, exuberant ctags is unsupported, using universal-ctags;
 - If a file has Ctrl+M at the end of the line(windows format), cscope may have issues to display the file name. Run command "find . -type f -print0 | xargs -0 dos2unix" to convert such files.
 
-::
+  ::
 
-  # find . -type f -name "*.[chS]" ! -path "./tools/*" ! -path "./Documentation/*" ! -path "./samples/*" ! -path "./scripts/*" ! -path "./arch/*" > cscope.files
-  # find . -type f -name "*.[chS]" -path "./arch/x86/*" >> cscope.files
-  find . -type f ! -type l -name "*.[chS]" > cscope.files
-  cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
-  cscope -dqp5 # use cscope after db buildup
-  ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
+    # find . -type f -name "*.[chS]" ! -path "./tools/*" ! -path "./Documentation/*" ! -path "./samples/*" ! -path "./scripts/*" ! -path "./arch/*" > cscope.files
+    # find . -type f -name "*.[chS]" -path "./arch/x86/*" >> cscope.files
+    find . -type f ! -type l -name "*.[chS]" > cscope.files
+    cscope -b -k -q -i cscope.files # build cscope db by scanning files within cscope.files instead of the whole folder
+    cscope -dqp5 # use cscope after db buildup
+    ctags -L cscope.files # build ctags db by scanning files within cscope.files instead of the whole folder
 
+- Filter: use ^ to filter results, e.g., use ^ + grep -v ';$' to exclude external declarations, or use ^ + grep '{$' to focus on real type declarations.
 - cscope supports line-oriented useage:
 
-::
+  ::
 
-  # -Lnum: num is from 0~9, man cscope for details
-  cscope -d -L0 start_kernel
-  cscope -d -L1 start_kernel
-  cscope -d -L2 start_kernel
+    # -Lnum: num is from 0~9, man cscope for details
+    cscope -d -L0 start_kernel
+    cscope -d -L1 start_kernel
+    cscope -d -L2 start_kernel
 
 codequery
 ----------
