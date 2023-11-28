@@ -19,6 +19,7 @@ rg can be used for simple code search:
   rg -g '*.S' -w idt arch/x86
   rg -g '*.S' -w idt -o arch/x86
   rg -l -g '*.[chS]' # list file names w/o any contents
+  rg --color=always task_struct | less -R
 
 gnu cflow
 ----------
