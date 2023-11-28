@@ -2071,6 +2071,13 @@ Find the corresponding dm-X device for a lv
   dmsetup ls # find the major, minor number for lv device
   ls -l /dev/dm-* # based on the major, minor number for the dm-X device
 
+Query disk basic info like model, sn, firmware, etc.
+-------------------------------------------------------
+
+::
+
+  smartctl -i /dev/sda
+
 gdisk
 -------
 
