@@ -62,6 +62,7 @@ Get core file's application info
 
   # sometimes, it is not easy to find which application triggers the core to be debugged just based on the core file's name
   eu-unstrip -n --core <core file> # the first entry points to the absolute path of the application
+  eu-unstrip -n -e /path/to/binary # check if the hash for a binary is the same as in the core
 
 unstrip/combine files with degbugging info
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
