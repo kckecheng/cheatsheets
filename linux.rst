@@ -1440,6 +1440,13 @@ Sort with a random order
 
   cat /etc/passwd | shuf
 
+Preserve colors with less
+----------------------------
+
+::
+
+  rg task_struct | less -R
+
 String Contains in Bash
 --------------------------
 
