@@ -1137,3 +1137,15 @@ Get kernel memory layout
   cat /proc/iomem
   cat /boot/System.map-`uname -r` | grep -w -e '_text' -e '_etext' -e '_edata' -e '_end'
 
+Decode dmesg timestamp
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # some old version linux does not support changing dmesg timestamp to human friendly format
+  # meanwhile, dmesg during crash cannot be decoded as human friendly format
+  # get the timestamp when the system is booted
+  uptime -s
+  # dmesg timestamp is the seconds passed since the boot time, just add it to boot time
+  # cat /proc/stat | grep btime # the seconds since the Epoch
+
