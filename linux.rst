@@ -2518,3 +2518,13 @@ Non-interactive ops with vm
   echo reboot > $pty
   echo > $pty
 
+kernel unsorted
+===================
+
+Unsorted kernel related hints, will be consolidated later.
+
+Device I/O
+-------------
+
+I/O port -> I/O memory -> Memory mapped I/O(MMIO) -> DMA -> IOMMU
+
