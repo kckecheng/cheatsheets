@@ -1137,6 +1137,13 @@ Get kernel memory layout
   cat /proc/iomem
   cat /boot/System.map-`uname -r` | grep -w -e '_text' -e '_etext' -e '_edata' -e '_end'
 
+Get I/O ports information
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat /proc/ioports
+
 Decode dmesg timestamp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
