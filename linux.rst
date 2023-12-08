@@ -199,43 +199,6 @@ Terminal based Wireshark.
   tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
   tshark --color -V -i eth0
 
-ranger
----------
-
-a great command line file browser.
-
-::
-
-  sudo apt install ranger
-  ranger
-
-Keyboard Mapping/Shortcuts Cheatsheet: https://ranger.github.io/cheatsheet.png
-
-*Configuration:*
-
-- Use vi as the default editor:
-
-  ::
-
-    export VISUAL='vim'
-    export EDITOR='vim'
-
-    (Note: handle_extension in ~/.config/ranger/scope.sh may need to be modified when vim is not used)
-
-- Enable syntax highlighting:
-
-  ::
-
-    (in ~/.config/ranger/scope.sh, enable below line but comment out the highlight line)
-    pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}" -- "${FILE_PATH}" && exit 5
-
-- Integrate with fzf: refer to https://github.com/ranger/ranger/wiki/Commands
-
-- Customize applications to use when open a given type of files
-
-  1. ranger --copy-config=rifle if ~/.config/ranger/rifle.conf does not exist;
-  2. Edit rifle.conf to associate files with applications;
-
 ripgrep
 ----------
 
@@ -1230,11 +1193,6 @@ There are 2 x formats to achive forking with shell:
 
      (xxx; xxx; ...) &
 
-Delete Character with Yast2
-------------------------------
-
-- Ctrl + H
-
 Disable IPv6
 ---------------
 
@@ -1398,13 +1356,6 @@ Shell debugging
   set -o functrace
   export PS4='+(${BASH_SOURCE}:${LINENO}):${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
-Regular Expression Comparision for sed/vim/awk/grep/etc.
------------------------------------------------------------
-
-::
-
-  txt2regex --showmeta
-
 Posix regular expression definitions
 --------------------------------------
 
@@ -1506,45 +1457,6 @@ Assign hostname dynamically with DHCP
 
 1. **option host-name** can be used to assign a hostname while assigning IP - https://www.isc.org/wp-content/uploads/2017/08/dhcp41options.html;
 2. **dhcp-eval** can be leveraged to generate a hostname dynamically - https://www.isc.org/wp-content/uploads/2017/08/dhcp41eval.html.
-
-Configure IP with netctl on Arch
------------------------------------
-
-1. Create profiles
-
-   ::
-
-     cd /etc/netctl
-     cp examples/ethernet-static ethernet-ensXXX
-     cp examples/ethernet-dhcp ethernet-ensYYY
-     # Modify ethernet-ensXXX ethernet-ensYYY
-
-2. Disable NetworkManager
-
-   ::
-
-     systemctl stop NetworkManage
-     systemctl disable NetworkManage
-
-3. Enable profiles
-
-   ::
-
-     netctl enable ethernet-ensXXX
-     netctl enable ethernet-ensYYY
-
-4. Start profiles
-
-   ::
-
-     netctl start ethernet-ensXXX
-     netctl start ethernet-ensYYY
-
-5. Reenable profiles: after changing a profile, it must be re-enable
-
-   ::
-
-     netctl reenable profile
 
 Change System Clock
 ----------------------
@@ -1685,150 +1597,6 @@ ipmitool
     ipmitool sdr | grep Total_Power
     ipmitool-sensors
 
-SLES HA Cluster
--------------------
-
-Cluster Environment:
-
- - node1: 192.168.10.10 (eth0)
- - node2: 192.168.10.20 (eth0)
- - Virtual IP: 192.168.10.30
- - Shared disks:
-
-   * /dev/mapper/mpatha
-   * /dev/mapper/mpathb
-
-Steps:
-
-- Update /etc/hosts
-
-  ::
-
-    192.168.10.10 node1
-    192.168.10.20 node2
-
-- Setup NTP: refer to "Use Chrony for time sync" within the same document
-- Setup the software Watchdog (softdog)
-
-  ::
-
-    echo softdog > /etc/modules-load.d/watchdog.conf
-    echo softdog > /etc/modules-load.d/watchdog.conf
-    systemctl restart systemd-modules-load
-    lsmod | grep softdog
-
-- Init HA cluster from node1
-
-  ::
-
-    ha-cluster-init -u -i eth0 -s /dev/mapper/mpatha
-    crm status
-
-- Join the HA cluster from node2
-
-  ::
-
-    ha-cluster-join -c node1
-    crm status
-
-- Check the configuration
-
-  ::
-
-    # All the configuration is recorded within CIB (/var/lib/pacemaker/cib/cib.xml)
-    # Command "cibadmin -Q" can be used to show the raw xml contents
-    crm configure show
-
-- Adjust SBD options
-
-  ::
-
-    # Add below line into /etc/sysconfig/sbd
-    SBD_OPTS="-W"
-
-- Adjust SBD options for multipathing device
-
-  ::
-
-    sbd -d /dev/mapper/mpatha -4 180 -1 90 create
-
-- Restart the cluster to apply the changes
-
-  ::
-
-    crm cluster stop
-    crm cluster start
-    crm status
-    sbd -d /dev/mapper/mpatha list
-
-- Make sure below packages are installed before going further
-
-  ::
-
-    zypper search -s dlm-kmp
-    zypper install dlm-kmp-default
-    zypper search -s ocfs2-kmp
-    zypper install ocfs2-kmp-default
-    reboot
-    # Select the associated kernel during boot!
-
-- Create OCFS2 Volumes
-
-  ::
-
-    mkfs.ocfs2 -N 2 /dev/mapper/mpathb
-
-- Mount:
-
-  * Manual mount:
-
-    ::
-
-      mkdir /mnt/mpathb
-      mount.ocfs2 /dev/mapper/mpathb /mnt/mpathb
-      umount /mnt/mpathb
-
-  * Automatic mount through crm(recommended):
-
-    * GUI:
-
-      + Access SuSE Hawk for cluster admin with default account hacluster/linux: https://192.168.10.<10|20|30>:7630
-      + Create OCFS2 cluster resource by following: Hawk -> Configuration -> Wizards -> File System -> OCFS2 File System
-
-    * CLI:
-
-      ::
-
-        crm configure
-        primitive dlm ocf:pacemaker:controld
-            op start timeout=90
-            op stop timeout=60
-
-        group g-dlm dlm
-
-        clone c-dlm g-dlm meta interleave=true
-
-        primitive mpathj ocf:heartbeat:Filesystem
-            directory="/mnt/perf"
-            fstype="ocfs2"
-            device="/dev/mapper/mpathb"
-            op start timeout=60s
-            op stop timeout=60s
-            op monitor interval=20s timeout=40s
-        modgroup g-dlm add mpathb
-        exit
-        crm configure show
-        crm status
-
-- Frequently used commands
-
-  * Interactive: crm [|configure|mon|resource|etc.]
-  * Show current status: crm_mon -1
-  * List resources: crm resource list
-  * Start/stop/restart: crm resource start/stop/restart <resource name>
-  * Clears the failure counter and re-checks the resource state: crm resource cleanup <resource name>
-  * Delete a resource: crm configure show; crm configure delete <resource name>; crm configure show
-
 Check initramfs contents
 ----------------------------
 
@@ -1963,69 +1731,6 @@ Change password non-interactive
 ::
 
   echo 'root:password' | chpasswd
-
-Create a samba server
-----------------------
-
-#. samba, samba-client needs to be installed at first
-#. Create dirs
-
-   ::
-
-     mkdir -p /samba/private
-     mkdir -p /samba/public
-
-#. Create users
-
-   ::
-
-     groupadd smbgrp
-     useradd user1 # private access
-     usermod -aG smbgrp user1
-     smbpasswd -a user1
-     usermod -aG smbgrp nobody # public access with nobody
-
-#. Change dir access permissions
-
-   ::
-
-     chgrp smbgrp /samba/private
-     chown nobody.smbgrp /samba/public
-
-#. Samba server configuration
-
-   ::
-
-     # /etc/samba/smb.conf - delete original contents
-     [global]
-     workgroup = WORKGROUP
-     security = user
-     map to guest = bad user
-     wins support = no
-     dns proxy = no
-
-     [public]
-     path = /samba/public
-     guest ok = yes
-     force user = nobody
-     browsable = yes
-     writable = yes
-
-     [private]
-     path = /samba/private
-     valid users = @smbgrp
-     guest ok = no
-     browsable = yes
-     writable = yes
-
-#. Restart service
-
-   ::
-
-     systemctl restart smb
-     systemctl restart nmb
-
-#. Done
 
 Disks
 ========
@@ -2469,46 +2174,6 @@ Install package offline on Arch
 2. **Download From Mirror** from the package page, the file <package name>.pkg.tar.xz will be downloaded;
 3. sudo pacman -U <package name>.pkg.tar.xz
 
-Choose Arch mirror
----------------------
-
-Official Mirror List
-~~~~~~~~~~~~~~~~~~~~~~~
-
-- https://www.archlinux.org/mirrorlist/all/
-
-List by Speed(based on local test)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-  sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
-  rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
-  pacman -Syy
-
-Server Side Ranking
-~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  reflector --latest 10 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-  reflector --country China --country Singapore --country 'United States' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-
-Shortcut for Manjaro
-~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
-
-Only use mirrors from a country
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  sudo pacman-mirrors -c China && sudo pacman -Syyu
-
 Create a local yum repo with DVD iso
 ---------------------------------------
 
@@ -2666,78 +2331,6 @@ Usage:
   ::
 
     chronyc makestep
-
-Postfix
------------
-
-Configure Postfix as SMTP Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A SMTP server is able to send emails but not receive emails. It is useful for situations such as sending notifications which does not expect any reply.
-
-- Installation
-
-  ::
-
-    # dnf install postfix
-    pacman -S postfix
-
-- Restrict access
-
-  ::
-
-    # /etc/postfix/main.cf
-    # Use any of below solution to ensure hackers cannot leverage this server to send spam
-    # Solution 1
-    # inet_interfaces = ALL
-    # mynetworks = 127.0.0.0/8, 10.10.10.0/24
-    # Solution 2
-    inet_interfaces = loopback-only
-    inet_interfaces = localhost
-
-- Define Relay SMTP Server
-
-  ::
-
-    # By default, postfix sends email directly to the Internet. However, this won't work
-    # sometimes. For example, when there is a firewall or other security rules between postfix
-    # and the receivers, the email cannot be delivered.
-    # Relay SMTP servers can be used to work around the problem - trusted internally and
-    # forward emails on behalf of postfix
-    relayhost = [10.10.10.10]
-
-- Start the service
-
-  ::
-
-    systemctl start postfix
-
-Send Emails from CLI
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  # Simple command
-  echo -e "Subject: Test email\n\nThis is a test email\n" | sendmail -t <recevier@xxx.xxx>
-
-  # Or with here document to contain more mail meta
-  cat <<EOF | sendmail -t
-  To: recipient@example.com
-  Subject: Testing
-  From: sender@example.com
-
-  This is a test message
-  EOF
-
-Check and Clear Mail Queues
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  # Check queues
-  mailq
-  # Delete mails from queueus
-  postsuper -d ALL
 
 kdump config
 ---------------
