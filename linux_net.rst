@@ -142,6 +142,22 @@ tcptrack
   # monitor tcp traffics between addresses
   tcptrack -i eth0
 
+iftop
++++++++
+
+::
+
+  # Monitor real time traffic between addresses.
+  iftop
+
+nethogs
+++++++++
+
+::
+
+  # Monitor traffic of each process.
+  nethogs bond1
+
 nmcli
 ++++++
 
