@@ -663,16 +663,19 @@ Exclude paths
 ::
 
   # NOTES:
+  # -path for glob
+  # -regex for regular expression
   # ./ prefix is a must
   # /* suffix is a must
   find . -type f ! -path ./samples/* ! -path ./Documentation/*
+  find /proc/ ! -regex '/proc/[0-9]+/*'
 
 Delete broken links
 ~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-  find /etc/apache2 -type l **! -exec test -e {} \;** -print | sudo xargs rm
+  find /etc/apache2 -type l ! -exec test -e {} \; -print | sudo xargs rm
 
 ssh
 -------
