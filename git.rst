@@ -147,6 +147,7 @@ Branch
 
 - git remote update origin --prune ---> update the local list of remote branches
 - git branch -a[v]
+- git branch -a --sort=-committerdate ---> list all branches which have recent updates
 - git branch <name>    ---> Create a branch
 - git branch -d <name> ---> Delete a branch
 - git branch -m <nmae> ---> Rename a branch
@@ -158,7 +159,8 @@ Branch
 Pull
 ----
 
-- git pull == git fetch + git merge
+- git pull
+- git pull -t ---> tags won't get updated sometimes, use -t to fetch them again
 
 git log
 -------
