@@ -368,6 +368,8 @@ Switch among threads
   info threads
   thread x
   bt
+  # show backtrace of all threads
+  thread apply all bt
 
 Binary values
 ~~~~~~~~~~~~~~~
