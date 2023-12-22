@@ -486,19 +486,6 @@ It has 2 x forms:
 - Respect leading tabs(but not spaces): <<EOF
 - Suppress leading tabs: <<-EOF
 
-Define a variable containing multiple lines of string
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Note**: a variable should be enclosed in double quotes while referring to it, otherwise, it will be treated as a single line string due to the shell expansion.
-
-::
-
-  read -d '' var_name <<-EOF
-  line1
-  ...
-  EOF
-  echo "$var_name"
-
 Use a variable containing multiple lines of string
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -532,6 +519,9 @@ Avoid variable interpretation
   done
   EOF
 
+read
+------
+
 Here String
 ~~~~~~~~~~~~~
 
@@ -546,6 +536,44 @@ Sample:
   command2
   ......
   done <<< "$variable_name"
+
+Respect leadning and trailing whitespace
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  IFS= read -r abc
+  # if abc is "   hello   "
+  # IFS= will make read respect them, so abc will be "   hello   "
+  # without IFS=, abc will be "hello"
+  echo $abc
+
+Define a variable containing multiple lines of string
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Note**: a variable should be enclosed in double quotes while referring to it, otherwise, it will be treated as a single line string due to the shell expansion.
+
+::
+
+  read -d '' var_name <<-EOF
+  line1
+  ...
+  EOF
+  echo "$var_name"
+
+Read from multiple files within one loop
+------------------------------------------
+
+::
+
+  USRF="users.txt"
+  ATTRF="attributes.txt"
+
+  while read USR; do
+    read -r GENDER <&3
+    read -r AGE <&3
+    echo "$USR:$GENDER:$AGE"
+  done <$USRF 3<$ATTRF
 
 awk
 ------
@@ -1734,20 +1762,6 @@ Change password non-interactive
 ::
 
   echo 'root:password' | chpasswd
-
-Read from multiple files within one loop
-------------------------------------------
-
-::
-
-  USRF="users.txt"
-  ATTRF="attributes.txt"
-
-  while read USR; do
-    read -r GENDER <&3
-    read -r AGE <&3
-    echo "$USR:$GENDER:$AGE"
-  done <$USRF 3<$ATTRF
 
 Disks
 ========
