@@ -1735,6 +1735,20 @@ Change password non-interactive
 
   echo 'root:password' | chpasswd
 
+Read from multiple files within one loop
+------------------------------------------
+
+::
+
+  USRF="users.txt"
+  ATTRF="attributes.txt"
+
+  while read USR; do
+    read -r GENDER <&3
+    read -r AGE <&3
+    echo "$USR:$GENDER:$AGE"
+  done <$USRF 3<$ATTRF
+
 Disks
 ========
 
