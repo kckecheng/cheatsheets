@@ -888,7 +888,35 @@ Sort based on fields with top
 
 
   # Refer to section "FIELDS / Columns" of "man top" for supported fields
+  # non-interactive
   top -b -o '+%MEM'
+  # interactive: press f->up/down to select a filed->press s->press q
+  top # then press keys accordingly
+
+Only show activities of specified cpu cores
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # 1. top interactive
+  top
+  # then follow below steps:
+  # press f -> select filed "P" -> press <Space> to toggle display
+  # select "P" -> press <Right> -> press <Up> to move "P" to the top
+  # press q to go back to the display
+  # press "o" to filter -> enter P=0 to filter only process on process 0/10/...
+  # press "=" to clear filters
+  # notes: only one condition is supported
+
+  # 2. top non-interactive
+  top
+  # then follow below steps:
+  # press f -> select filed "P" -> press <Space> to toggle display
+  # select "P" -> press <Right> -> press <Up> to move "P" to the top
+  # press q to go back to the display
+  # press W to write persistent top config .toprc
+  top -bc | awk '$1==0 || $1==36'
+  # note: remember to delete .toprc after usage
 
 Only show specified processes with top
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
