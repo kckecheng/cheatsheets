@@ -850,6 +850,12 @@ Make a process run on spcified cpu cores
   # change the affinity
   taskset -cp <cpu cores, such as 1,2,3> <pid>
 
+  # run a program directly on specified cpu cores
+  # taskset -c 0,36 stress-ng --cpu 2 -l 100
+  taskset -c 0 stress-ng --cpu 1 -l 100 &
+  taskset -c 36 stress-ng --cpu 1 -l 100 &
+  mpstat -P 0,36 1 # monitor the effects
+
 Change limit settings for running process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
