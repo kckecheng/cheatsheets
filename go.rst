@@ -679,6 +679,20 @@ generics
 
 ::
 
+  # for type paramters/constrains examples:
+  # go doc -all -src slices
+  # go doc -all -src maps
+
+  # type parameters:
+  # [T comparable]: T is a comparable
+  # [T int64 | float64]: T is either int64 or float64
+  # [T ~int64 | ~float64]: T is int64 or float64, or any type(interface) whose concrete type is int64 or float64
+
+  # type constraint:
+  # type Number interface { int64 }: Number is int64
+  # type Number interface { int64 | float64 }: Number is int64 or float64
+  # type Number interface { ~int64 | ~float64 }: Number is int64 or float64, or any type(interface) whose concrete type is int64 or float64
+
   package main
 
   import "fmt"
