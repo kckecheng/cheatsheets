@@ -55,6 +55,15 @@ Check object/executable file information
   # - get the source code info based on the pc value
   addr2line -f -e vmlinux c01b063c # this tells the source code function name mapped to the pc address c01b063c
 
+debuginfo-install
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # work on rpm based distributions, part of yum-utils
+  debuginfo-install search ethtool
+  debuginfo-install install ethtool-debuginfo
+
 Get core file's application info
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
