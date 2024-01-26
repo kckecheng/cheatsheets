@@ -612,6 +612,12 @@ PostgreSQL psql
 MySQL
 ------
 
+- Find a table based on its name
+
+  ::
+
+    select table_name from information_schema.tables where table_name like 't_host_%';
+
 - Show query results vertically
 
   ::
