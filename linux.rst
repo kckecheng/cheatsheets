@@ -2482,6 +2482,14 @@ Create a VM
   --network bridge:virbr0  \
   --console pty,target_type=serial -x 'console=ttyS0,115200n8 serial'
 
+Capture a screenshot
+---------------------
+
+::
+
+  # screenshot is saved as ppm file which needs to be opened with special software(there exists online tools)
+  virsh screenshot xxxx --file snap1.ppm
+
 Edit VM live xml
 ------------------
 
