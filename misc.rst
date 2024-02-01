@@ -639,11 +639,17 @@ MySQL
 SQLite3
 -------
 
+- Show tables
+
+  ::
+
+    .schema
+
 - Change query result display mode
 
   ::
 
     .help
-    .mode line
+    .mode column
     select * from t_task limit 3;
 
