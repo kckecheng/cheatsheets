@@ -401,18 +401,6 @@ List packages
 
     go list std
 
-List api of packages
-----------------------
-
-List the full API of a package:
-
-::
-
-  # Locate the package/module name
-  go list ...
-  # Show the document for an object of the package/module
-  go doc [-short|-all] [-src] <package>[.<object>]
-
 Techs to build docker image
 -----------------------------
 
@@ -475,15 +463,6 @@ The sample main.go as below is used for the show:
     COPY --from=builder /build/main /app/
     WORKDIR /app
     CMD ["./main"]
-
-gRPC
------
-
-- Generate codes under the same directory as the proto file
-
-  ::
-
-    protoc -I <import_path1 import_path2 ...> <path to proto file>/<xxx>.proto --go_opt=paths=source_relative --go_out=plugins=grpc:<path to proto file>
 
 Type assert vs. type conversion
 --------------------------------
