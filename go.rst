@@ -77,10 +77,12 @@ Edit go.mod from CLI
 
 ::
 
+  go mod edit -go 1.22
   go mod edit -require github.com/user1/pkg2
   go mod edit -require github.com/user1/pkg2@version1
   go mod edit -replace github.com/user1/pkg1=/local/dir/pkg1
   go mod edit -replace github.com/user1/pkg1@version1=/local/dir/pkg1@version2
+  go mod tidy
 
 Manage dependencies w/ go get
 -------------------------------
