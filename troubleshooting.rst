@@ -254,6 +254,16 @@ Check registers
   x /x $eax
   monitor info registers # this is only available when debugging kernel with qemu(a qemu extension)
 
+Get process id
+~~~~~~~~~~~~~~~
+
+::
+
+  # while debuging a core file, this can be used to get the pid
+  (gdb) info inferiors
+    Num  Description       Executable
+  * 1    process 204411    /usr/local/bin/qemu-system-x86_64
+
 Follow child processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
