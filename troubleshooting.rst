@@ -165,6 +165,10 @@ List source code
   list *0xc021e50e # list source from the line where the address points to
   list *vt_ioctl+0xda8 # list souce from the line based on the function address(*vt_ioctl) and its offset(+0xda8)
   list *$pc # list source from the line where the pc register points to
+  list kvm_virtio_pci_irqfd_use # list around a function(totally 10 lines)
+  list 831,850 # list from line 831 to 850
+  # set num of lines to list
+  set listsize 20
   # 1 x line of source code might be compiled into several lines of instructions, use info line linespec to show the starting and ending addresses
   info line *0xffffffff81026260 # show the starting and ending addresses for the source line the address 0xffffffff81026260 points to
 
