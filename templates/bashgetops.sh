@@ -1,25 +1,35 @@
 #!/usr/bin/bash
-HOST=""
-IMAGE=""
-SPEC=""
+#
+OPT1=""
+OPT2=""
+OPT3=""
 
 usage() {
   echo
-  echo "Usage: $0 [-h <server ip>] [-i <image id, like img-xxxx>] [-s <instance spec, like S5.LARGE8>]"
+  echo "Usage: $0 [-a <option 1> -b <option 2>] [-c] [-h]"
   echo
-  exit 1
 }
 
-while getopts "h:i:s:" opt; do
+show() {
+  echo "OPT1: $OPT1"
+  echo "OPT2: $OPT2"
+  echo "OPT3: $OPT3"
+}
+
+while getopts ":a:b:ch" opt; do
   case $opt in
     h)
-      HOST=$OPTARG
+      usage
+      exit 0
       ;;
-    i)
-      IMAGE=$OPTARG
+    a)
+      OPT1=$OPTARG
       ;;
-    s)
-      SPEC=$OPTARG
+    b)
+      OPT2=$OPTARG
+      ;;
+    c)
+      OPT3=1
       ;;
     :)
       echo "Option -$OPTARG requires an argument."
@@ -34,8 +44,4 @@ while getopts "h:i:s:" opt; do
   esac
 done
 
-if [[ -z "$HOST" || -z "$IMAGE" || -z "$SPEC" ]]; then
-  usage
-fi
-
-echo "$HOST:$IMAGE:$SPEC"
+show
