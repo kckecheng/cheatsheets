@@ -562,7 +562,7 @@ Define a variable containing multiple lines of string
   echo "$var_name"
 
 Read from multiple files within one loop
-------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -808,6 +808,34 @@ Verify ssh password with a loop with sshpass
       echo "$IPADDR FAIL"
     fi
   done < "$f"
+
+Loop
+------
+
+Single line for loop with background jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # & is enough, if &; is used, an error will be triggered
+  # refer to https://unix.stackexchange.com/questions/91684/use-ampersand-in-single-line-bash-loop
+  for((i=1;i<=255;i+=1)); do echo $i; /opt/app1 & done
+
+for loop a range
+~~~~~~~~~~~~~~~~~~~
+
+::
+
+  for i in {1..10}; do
+    echo $i
+  done
+  for i in `seq 1 10`; do
+    echo $i
+  done
+  round=10
+  for i in `seq 1 $round 2`; do
+    echo $i
+  done
 
 Operations on CPU/Process
 ----------------------------
@@ -1152,15 +1180,6 @@ Wait jobs
           echo $?
       done
   done
-
-Single line for loop with background jobs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  # & is enough, if &; is used, an error will be triggered
-  # refer to https://unix.stackexchange.com/questions/91684/use-ampersand-in-single-line-bash-loop
-  for((i=1;i<=255;i+=1)); do echo $i; /opt/app1 & done
 
 Run a shell function with nohup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
