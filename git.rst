@@ -106,6 +106,18 @@ caret and tilde
                          |
                          + ...etc.
 
+Revisions and Ranges
+----------------------
+
+**man gitrevisions**
+
+::
+
+  # leverage <refname>@{<date>} of gitrevisions
+  git diff master@{0} master@{1 day ago}
+  git log <commit 1>..<commit 2>
+  git log <commit 1>...<commit 2>
+
 Config
 ------
 
@@ -170,6 +182,7 @@ git log
 - git log --graph --oneline --decorate --all
 - git log --since '2 days ago'
 - git log --since '1 hour ago'
+- git log --since='Jan 1 2024' --until='Jan 7 2024'
 - git log --pretty=short --stat
 - git log --format=full
 - git log --format='%H %an %s' --graph
@@ -178,6 +191,7 @@ git log
 - git show [--format=full] <sha1 hash>
 - git log -S <string> [-p] [file]
 - git log -G <regex> [-p] [file]
+- git log -S <string> <commit range starting>..<commit range ending>
 - git log --all
 - git log --all -i --grep='xxx yyy' # find the commit with message xxx yyy
 
@@ -1017,16 +1031,6 @@ Create a branch based on a stash
   # check files at the timestamp when the stash is created
   git switch -f master
   git branch -D abc
-
-Revisions and Ranges
---------------------
-
-**man gitrevisions**
-
-::
-
-  # leverage <refname>@{<date>} of gitrevisions
-  git diff master@{0} master@{1 day ago}
 
 git cherry-pick
 ---------------
