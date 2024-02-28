@@ -510,14 +510,27 @@ Redirect here document output
 Avoid variable interpretation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+- Use quote:
 
-  cat > /tmp/a.sh << "EOF"
-  var1=$( ls -l )
-  for i in `seq 1 10`; do
-    echo $i
-  done
-  EOF
+  ::
+
+    cat > /tmp/a.sh <<"EOF"
+    var1=$( ls -l )
+    for i in $(seq 1 10); do
+      echo $i
+    done
+    EOF
+
+- Use escape: variables w/o eascaping will still be interpreted
+
+  ::
+
+    cat > /tmp/a.sh <<EOF
+    var1=\$( ls -l )
+    for i in \$(seq 1 10); do
+      echo \$i
+    done
+    EOF
 
 read
 ------
