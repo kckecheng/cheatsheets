@@ -692,9 +692,19 @@ diff between commits
 ::
 
   git log
-  git diff <commit x id> <commit y id> [[--] files/glob to show diff]
-  git diff <commit x id>..<commit y id> [[--] files/glob to show diff]
+  git diff <commit x id> <commit y id>
+  git diff <commit x id>..<commit y id>
   git difftool -t vimdiff <commit x id> <commit y id> (use vimdiff to show diff)
+
+diff w/ file globs
++++++++++++++++++++++
+
+::
+
+  # all .c and .h files under current directory
+  git diff <commit x id> <commit y id> -- *.[ch]
+  # all .c and .h files under current directory and all subdirectories recursely(globstar)
+  git diff <commit x id>..<commit y id> -- **/*.[ch]
 
 diff between current(HEAD) and git fetch
 ++++++++++++++++++++++++++++++++++++++++
