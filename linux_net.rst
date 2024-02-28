@@ -1043,37 +1043,11 @@ Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-r
 MISC
 ++++++
 
+- sing-box(recommended as both the server and the client, refer to https://sing-box.sagernet.org/): https://github.com/SagerNet/sing-box
+- xray core(refer to https://xtls.github.io/document/): https://github.com/XTLS/Xray-core
 - clash(recommended as the local client, refer to https://github.com/Dreamacro/clash): https://github.com/Dreamacro/clash
-- xray core(recommended as both the server and the client, refer to https://xtls.github.io/document/): https://github.com/XTLS/Xray-core
 - v2ray: https://github.com/v2fly/v2ray-core
 - warp one-click script: https://github.com/fscarmen/warp
-
-New Bing Access
------------------
-
-An error like "Sorry, looks like your network settings are preventing access to this feature" may be hit from some network while accessing new bing, fix:
-
-*Microsoft Edge*:
-
-  1. Open edge -> Settings(the triple dots icon) -> Extensions -> Search ModHeader -> Install;
-  2. Extensions -> ModHeader -> Show in toolbar;
-  3. ModHeader -> Profile 1 -> Add Header -> X-Forwarded-For: 1.1.1.1(one more entry X-Forwarded-For: 4.2.2.2 can be added optionally);
-  4. ModHeader -> Profile 1 -> Filter -> Tab domain filters -> www.bing.com;
-  5. Extensions -> ModHeader -> Settings(the triple dots icon) -> This can read and change site data -> On bing.com;
-  6. Click "Settings and quick links" at the top right corner of the bing homepage -> Settings -> Select a supported Country/Region + Language as English;
-  7. Refresh/restart new bing;
-  8. If it does not work, clear cache and restart the browser, then repeat steps 6 and 7;
-
-*Chrome*:
-
-  1. Chrome by default cannot access new bing, plugins need to be installed;
-  2. chrome -> Extensions -> Search "Bing Chat for All Browsers" and ModHeader -> Install them;
-  3. chrome -> ModHeader -> Refer to the above "Microsoft Edge" section to configure the plugin;
-  4. chrome -> Extensions -> Manage extensions -> ModHeader Details;
-  5. Site access -> Allow this extension to read and change all your data on websites you visit -> On specific sites -> Add https://www.bing.com/*;
-  6. Click "Settings and quick links" at the top right corner of the bing homepage -> Settings -> Select a supported Country/Region + Language as English;
-  7. Refresh/restart new bing;
-  8. If it does not work, clear cache and restart the browser, then repeat steps 6 and 7;
 
 ======================
 OpenStack Network Tips
