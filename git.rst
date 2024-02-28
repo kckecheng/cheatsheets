@@ -682,11 +682,9 @@ diff between files from different branches
 
 ::
 
-  git diff <branch name1>..<branch name2> -- <abs/rel path to a file>
+  git diff <branch name1>..<branch name2> -- <abs/rel path to a file or file glob like target-i386/cpu.[ch]>
   --- OR ---
   git diff <branch name1>:<abs path(./) to a file> <branch name2>:<abs path to the same file>
-  --- OR ---
-  git difftool <branch name1>:<abs path(./) to a file> <branch name2>:<abs path to the same file>
 
 diff between commits
 ++++++++++++++++++++
@@ -694,7 +692,8 @@ diff between commits
 ::
 
   git log
-  git diff <commit x id> <commit y id>
+  git diff <commit x id> <commit y id> [[--] files/glob to show diff]
+  git diff <commit x id>..<commit y id> [[--] files/glob to show diff]
   git difftool -t vimdiff <commit x id> <commit y id> (use vimdiff to show diff)
 
 diff between current(HEAD) and git fetch
