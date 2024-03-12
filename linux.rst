@@ -718,6 +718,14 @@ Delete broken links
 
   find /etc/apache2 -type l ! -exec test -e {} \; -print | sudo xargs rm
 
+Find files which are executable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  find /path/to/directory -type f -perm /u+x,g+x,o+x
+  find /path/to/directory -type f -executable
+
 ssh
 -------
 
