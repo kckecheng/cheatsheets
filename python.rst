@@ -183,14 +183,6 @@ format json
   cat <json file> | python -m json.tool
   vim <json file> -> :%!python -m json.tool (toggle vim plugin indentLine at fisrt)
 
-Change Anaconda IPython Font Size
----------------------------------
-
-::
-
-  jupyter qtconsole --generate-config
-  # Open the file generated above, and change the font size accordingly with corresponding option
-
 Common Error Capture
 --------------------
 
