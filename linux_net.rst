@@ -8,7 +8,7 @@ Basic
 -----
 
 Overall knowledge
-+++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~
 
 - `How can DPDK access devices from user space <https://codilime.com/blog/how-can-dpdk-access-devices-from-user-space/>`_:
 
@@ -19,7 +19,7 @@ Overall knowledge
   - Hugepages
 
 net-tools vs. iproute2
-++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 +----------------+---------------------------------+--------------------------------+
 | Legacy Utility | Obsoleted by                    | Note                           |
@@ -40,12 +40,12 @@ net-tools vs. iproute2
 +----------------+---------------------------------+--------------------------------+
 
 Add a Gateway
-+++++++++++++
+~~~~~~~~~~~~~~
 
 ip route add default via 10.108.183.1
 
 ss
-+++++
+~~~~~~
 
 ss is the newly recommended tool (part of the iproute2 package) as a replacement of legacy netstat.
 
@@ -100,7 +100,7 @@ ss is the newly recommended tool (part of the iproute2 package) as a replacement
     ss -[l][t|u|x]o
 
 ethtool
-+++++++++
+~~~~~~~~~
 
 - Change and show NIC queue/channel
 
@@ -126,7 +126,7 @@ ethtool
     ethtool -i eth0 | grep bus-info
 
 rpcinfo
-++++++++++
+~~~~~~~~~~
 
 ss -ntlp might show some ports opened without processes attached, such ports may be used by rpc:
 
@@ -135,7 +135,7 @@ ss -ntlp might show some ports opened without processes attached, such ports may
   rpcinfo -p
 
 tcptrack
-++++++++++
+~~~~~~~~~~
 
 ::
 
@@ -143,7 +143,7 @@ tcptrack
   tcptrack -i eth0
 
 iftop
-+++++++
+~~~~~~~
 
 ::
 
@@ -151,7 +151,7 @@ iftop
   iftop
 
 nethogs
-++++++++
+~~~~~~~~~
 
 ::
 
@@ -159,7 +159,7 @@ nethogs
   nethogs bond1
 
 nmcli
-++++++
+~~~~~~~~
 
 nmcli is a command-line tool for controlling NetworkManager and reporting network status. It can be utilized as a replacement for nm-applet or other graphical clients. nmcli is used to create, display, edit, delete, activate, and deactivate network connections, as well as control and display network device status. **man nmcli-examples** for simple usage.
 
@@ -232,7 +232,7 @@ nmcli is a command-line tool for controlling NetworkManager and reporting networ
     ip a show
 
 nmap
-+++++
+~~~~~~~
 
 nmap is a tool for performing network scanning.
 
@@ -287,7 +287,7 @@ nmap is a tool for performing network scanning.
     man nmap
 
 netcat/ncat/nc
-+++++++++++++++
+~~~~~~~~~~~~~~~
 
 netcat is a computer networking service for reading from and writing network connections using TCP or UDP. It is named as ncat or nc on some platforms.
 
@@ -337,7 +337,7 @@ netcat is a computer networking service for reading from and writing network con
     journalctl -f | ncat --udp localhost 514
 
 Associate Docker Container and Corresponding veth
-+++++++++++++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Get peer index from container
 
@@ -355,7 +355,7 @@ Associate Docker Container and Corresponding veth
     ip link list | grep <the index found from container>
 
 ngrok
-++++++
+~~~~~~
 
 ngrok can be used to expose a local web server to the Internet. It is free for temporary usage (refer to `pricing <https://ngrok.com/pricing>`_) which involves limited connection.
 
@@ -367,7 +367,7 @@ Usage:
   ngrok http 8080
 
 DNS Lookup
-+++++++++++
+~~~~~~~~~~~~
 
 **nslookup**
 
@@ -398,7 +398,7 @@ DNS Lookup
     nslookup -type=ANY google.com 8.8.8.8
 
 rp_filter
-+++++++++++
+~~~~~~~~~~~~
 
 Refernce: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
 
@@ -418,7 +418,7 @@ Devices
 -------
 
 Bonded Device
-+++++++++++++
+~~~~~~~~~~~~~~
 
 The Linux bonding driver provides a method for aggregating multiple network interfaces into a single logical “bonded” interface. The behavior of the bonded interface depends on the mode; generally speaking, modes provide either hot standby or load balancing services.
 
@@ -432,7 +432,7 @@ The Linux bonding driver provides a method for aggregating multiple network inte
   ip link set bond0 up
 
 VLAN Interface
-++++++++++++++
+~~~~~~~~~~~~~~~~~~
 
 
 .. image:: images/linux_os_net/linux_os_net_vlan.png
@@ -443,7 +443,7 @@ VLAN Interface
   ip link add link eth0 name eth0.3 type vlan id 3
 
 MACVLAN Interface
-+++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~
 
 With VLAN, multiple interfaces can be created on top of a single one and packages can be filtered based on VLAN tags. With MACVLAN, multiple interfaces with different Layer 2 (MAC) addresses can be created on top of a single one.
 
@@ -469,7 +469,7 @@ In the meanwhile, MACVLAN supports several different modes:
   ip link set macvlan2 netns net2
 
 VXLAN Interface
-+++++++++++++++
+~~~~~~~~~~~~~~~~~~
 
 .. image:: images/linux_os_net/linux_os_net_vxlan.png
 
@@ -478,14 +478,14 @@ VXLAN Interface
   ip link add vx0 type vxlan id 100 local 1.1.1.1 remote 2.2.2.2 dev eth0 dstport 4789
 
 Linux Bridge
-++++++++++++++
+~~~~~~~~~~~~~~~~
 
 Simply put, a bridge is a layer two device that is used to join two (Ethernet) networks together to form a single larger network. Why is this useful? Imagine a business spread across two different sites each with it’s own LAN. Without an interconnection between the two networks machines on one LAN couldn’t communicate with machines on the other. This can be fixed by installing a bridge between the two sites which will forward packets from one LAN to the other effectively making the two LANs into one large network.
 
 Bridges may or may not learn about the hosts connected to the networks they are bridging. A basic transparent bridge will just pass all packets arriving on it’s input port out the output port(s). This strategy is simple but it can be very wasteful and potentially expensive if the bridge link is charged on the amount of data that passes across it. A better solution is to use a learning bridge that will learn the MAC addresses of hosts on each connected network and only put packets on the bridge when the required. Note that in many respects a learning bridge is much like a regular Ethernet switch which is why bridges as a piece of real hardware have all but disappeared.
 
 Bridge Utilities
-~~~~~~~~~~~~~~~~~~
+++++++++++++++++++
 
 In the modern network switches have largely made bridges obsolete but the concept of the bridge is still very useful in the virtual world. By installing the package "bridge-utils" on any mainstream Linux machine the you get the ability to create virtual bridges with commands such as:
 
@@ -517,7 +517,7 @@ Finally you can remove an interface and delete a bridge like this:
 
 
 iproute2 Bridges
-~~~~~~~~~~~~~~~~~~
+++++++++++++++++++
 
 The examples above use the brctl command from the bridge-utils package but that has now been superseded by the newer iproute2 utility which can also create bridges. To create a bridge with iproute2 use the following command:
 
@@ -560,24 +560,24 @@ And finally to delete the bridge:
   ip link delete br0
 
 TUN/TAP Devices
-+++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~
 
 Typically a network device in a system, for example eth0, has a physical device associated with it which is used to put packets on the wire. In contrast a TUN or a TAP device is entirely virtual and managed by the kernel. User space applications can interact with TUN and TAP devices as if they were real and behind the scenes the operating system will push or inject the packets into the regular networking stack as required making everything appear as if a real device is being used.
 
 You might wonder why there are two options, surely a network device is a network device and that’s the end of the story. That’s partially true but TUN and TAP devices aim to solve different problems.
 
 TUN Interfaces
-~~~~~~~~~~~~~~~~
+++++++++++++++++
 
 TUN devices work at the IP level or layer three level of the network stack and are usually point-to-point connections. A typical use for a TUN device is establishing VPN connections since it gives the VPN software a chance to encrypt the data before it gets put on the wire. Since a TUN device works at layer three it can only accept IP packets and in some cases only IPv4. If you need to run any other protocol over a TUN device you're out of luck. Additionally because TUN devices work at layer three they can't be used in bridges and don't typically support broadcasting
 
 TAP Interfaces
-~~~~~~~~~~~~~~~~
++++++++++++++++++
 
 TAP devices, in contrast, work at the Ethernet level or layer two and therefore behave very much like a real network adaptor. Since they are running at layer two they can transport any layer three protocol and aren't limited to point-to-point connections. TAP devices can be part of a bridge and are commonly used in virtualization systems to provide virtual network adaptors to multiple guest machines. Since TAP devices work at layer two they will forward broadcast traffic which normally makes them a poor choice for VPN connections as the VPN link is typically much narrower than a LAN network (and usually more expensive).
 
 Managing Virtual Interfaces
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++
 
 It really couldn't be simpler to create a virtual interface:
 
@@ -600,7 +600,7 @@ The above command creates a new TAP interface called tap0 and then shows some in
 To remove a TUN/TAP interface just replace "add" in the creation command with "del". Note that you have to specify the mode when deleting, presumably you can create both a tun and a tap interface with the same name.
 
 veth Pairs
-++++++++++++
+~~~~~~~~~~~~~~~
 
 A pair of connected interfaces, commonly known as a veth pair, can be created to act as virtual wiring. Essentially what you are creating is a virtual equivalent of a patch cable. What goes in one end comes out the other. The command to create a veth pair is a little more complicated than some:
 
@@ -654,9 +654,81 @@ Using a couple of parameters on the ping command shows us the veth pair working:
 The -I parameter specifies the interface that should be used for the ping. In this case the 10.0.0.10 interface what chosen which is a pair with 10.0.0.11 and as you can see the ping is there and back in a flash. Attempting to ping anything external fails since the veth pair is essentially just a patch cable (although ping'ing eth0 works for some reason).
 
 Others
-++++++
+~~~~~~~~
 
 There exist quite a few other interface types which are not used frequently, such as team device, IPVLAN, MACsec, etc.. Google them directly.
+
+tcpdump
+----------
+
+tcpip HEAD and tcpdump options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- https://www.sans.org/security-resources/tcpip.pdf
+
+Main Options
+~~~~~~~~~~~~~~~
+
+::
+
+  -i any    : listen on all interfaces
+  -i eth0   : listen on a specified interface
+  -D        : show available interfaces
+  -n        : do not resovle hostname
+  -nn       : do not resove hostname and port names
+  -q        : less verbose
+  -t        : human-readable timestamp
+  -tttt     : maximally human-readable timestamp
+  -X        : show the packet’s contents in both hex and ASCII
+  -v/vv/vvv : verbose
+  -c        : get x number of packets
+  -s        : define the snaplength (size) of the capture in bytes, -s0 for everything
+  -S        : Print absolute sequence numbers
+
+Logic and Grouping
+~~~~~~~~~~~~~~~~~~~~
+
+- and / &&
+- or  / ||
+- not / !
+- ()
+
+Examples
+~~~~~~~~~~~
+
+::
+
+  # tcpdump -ttttvvnnS
+
+  # tcpdump host 1.2.3.4
+
+  # tcpdump -nnvXS -s0 -c1 icmp
+
+  # tcpdump src 2.3.4.5.
+  # tcpdump dst 3.4.5.6
+
+  # tcpdump net 1.2.3.0/24
+
+  # tcpdump port 3389
+  # tcpdump src port 3389
+
+  # tcpdump icmp
+
+  # tcpdump portrange 21-23
+
+  # tcpudmp less 32
+  # tcpdump greater 64
+  # tcpdump <=128
+
+  # tcpdump -nnvvS src 10.5.2.3 and dst port 3389
+
+  # tcpdump -nvX src net 192.168.0.0/16 and dst net 10.0.0.0/8 or 172.16.0.0/16
+
+  # tcpdump dst 192.168.0.2 and src net and not icmp
+
+  # tcpdump src 10.0.2.4 and (dst port 3389 or 22)
+
+  # tcpdump 'src 10.0.2.4 and (dst port 3389 or 22)'
 
 Linux Switching with Demo
 -------------------------
@@ -666,12 +738,12 @@ Switching in software on Linux is one of the important parts when using virtuali
 The software switching classical tool is the linuxbridge, which is available in the Linux kernel for a long time. The frontend to manage the linuxbridge is brctl. The newer tool is the openvswitch (at http://openvswitch.org/). The main frontend is ovs-vsctl.
 
 tap interfaces
-++++++++++++++
+~~~~~~~~~~~~~~~
 
 Linux tap interfaces created with ip tuntap cannot be used to attach network namespaces to linuxbridges or the openvswitch.
 
 veth pair
-+++++++++
+~~~~~~~~~~~~~
 
 The simple solution to connect two network namespaces is the usage of one veth pair:
 
@@ -695,7 +767,7 @@ The simple solution to connect two network namespaces is the usage of one veth p
   # now assign the ip addresses
 
 linux bridge and veth Paris
-+++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When more than two network namespaces (or KVM or LXC instances) must be connected a switch should be used. Linux offers as one solution the well known linux bridge.
 
@@ -738,7 +810,7 @@ When more than two network namespaces (or KVM or LXC instances) must be connecte
   #
 
 openvswitch and two veth pairs
-++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Another solution is to use the openvswitch instead of the "old" linuxbrige. The configuration is nearly the same as for the linuxbridge.
 
@@ -779,7 +851,7 @@ Another solution is to use the openvswitch instead of the "old" linuxbrige. The 
   #
 
 openvswitch and two openvswitch ports
-+++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Another solution is to use the openvswitch and make use of the openvswitch internal ports. This avoids the usage of the veth pairs, which must be used in all other solutions.
 
@@ -822,7 +894,7 @@ Another solution is to use the openvswitch and make use of the openvswitch inter
   ifup vlan1000
 
 Connect 2 x Open vSwitch
-++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To connect 2 x Open vSwitch together, we need to use patch port:
 
@@ -908,7 +980,7 @@ Testing tools
 --------------
 
 Bandwidth testing/stressing
-+++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -928,7 +1000,7 @@ Bandwidth testing/stressing
   iperf3 -c <server ip> -u  -b 0 -P 8
 
 PPS testing/stressing
-++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -940,7 +1012,7 @@ PPS testing/stressing
   iperf3 -c 172.16.0.4 -l 16 -u -b 0 -P 8
 
 Latency testing
-+++++++++++++++++
+~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -956,21 +1028,21 @@ Latency testing
   qperf -ip 19766 -t 60 --use_bits_per_sec <server ip> udp_lat
 
 TCP/IP stack sanity - packetdrill
-+++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Google realease of packetdrill for testing entire TCP/UDP/IPv4/IPv6 network stacks, from the system call layer down to the NIC hardware.
 
 Reference: https://github.com/google/packetdrill
 
 TCP/IP stack robustness - isic
-+++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ISIC, abbreviation for IP Stack Integrity Checker, is designed for testing the integrity of TCP/IP stack. It consists of isic/isic6, tcpsic/tpcsic6, udpsic/udpsic6, esic, icmpsic/icmpsic6, and multisic. Most of time, it can be used for generating stress of desired types of traffic.
 
 Reference: https://github.com/IPv4v6/isic
 
 New Tools - ethr
-+++++++++++++++++
+~~~~~~~~~~~~~~~~~~
 
 ethr is based on golang, it supports TCP, UDP, HTTP/HTTPS, and ICMP for measuring bandwidth, connections/s, packets/s, latency, loss & jitter.
 
@@ -980,7 +1052,7 @@ Proxy
 -------
 
 Environment variable
-++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -994,7 +1066,7 @@ Environment variable
   export no_proxy='www.test.com,127.0.0.1,2.2.2.2'
 
 SOCKS5 Proxy with Shadowsocks
-+++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-rust>`_ or `Shadowsocks-libev <https://github.com/shadowsocks/shadowsocks-libev>`_ instead of the original shadowsocks. The configuration options can be found `here <https://github.com/shadowsocks/shadowsocks/wiki>`_.
 
@@ -1041,7 +1113,7 @@ Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-r
   # - password: it is recommended to get a strong password with "openssl rand -base64 24"(24 is just an example)
 
 MISC
-++++++
+~~~~~~~~
 
 - sing-box(recommended as both the server and the client, refer to https://sing-box.sagernet.org/): https://github.com/SagerNet/sing-box
 - xray core(refer to https://xtls.github.io/document/): https://github.com/XTLS/Xray-core
@@ -1049,67 +1121,11 @@ MISC
 - v2ray: https://github.com/v2fly/v2ray-core
 - warp one-click script: https://github.com/fscarmen/warp
 
-======================
-OpenStack Network Tips
-======================
-
-NIC/Device Naming
------------------
-
-**Network Device Prefix:**
-
-- qvo: veth pair openvswitch side
-- qvb: veth pair bridge side
-- qbr: bridge
-- qr: l3 agent managed port, router side
-- qg: l3 agent managed port, gateway side
-
-
-.. image:: images/linux_os_net/os_devicenaming.png
-
-
-Classic Network Node Components
--------------------------------
-
-Refer to: https://docs.openstack.org/liberty/networking-guide/scenario-classic-ovs.html
-
-.. image:: images/linux_os_net/os_net_components.png
-
-Traffic Flow
-------------
-
-North/South
-+++++++++++
-
-Between projects and external.
-
-.. image:: images/linux_os_net/os_trafficflow_ntos_1.png
-
-.. image:: images/linux_os_net/os_trafficflow_ntos_2.png
-
-East/West
-+++++++++++
-
-Between projects.
-
-.. image:: images/linux_os_net/os_trafficflow_etow_1.png
-
-.. image:: images/linux_os_net/os_trafficflow_etow_2.png
-
-Wonderful Documents
--------------------
-
-`Everything you need to know to get started with Neutron
-<http://superuser.openstack.org/articles/everything-you-need-to-know-to-get-started-with-neutron-f90e2797-26b7-4d1c-84d8-effef03f11d2/>`_
-
-  In this tutorial, learn how to create multiple networks and subnets and then spawn multiple virtual machines across these networks and verify network connectivity for static IP addresses.
-
-================================
 Open vSwitch Commands Cheatsheet
-================================
+-----------------------------------
 
 Overview
---------
+~~~~~~~~~~
 
 The Open vSwitch Database Management Protocol (OVSDB) is an OpenFlow configuration protocol that is designed to manage Open vSwitch implementations. It is used to perform management and configuration operations on OVS instances(OVSDB does not perform per-flow operations, leaving those instead to OpenFlow).
 
@@ -1124,7 +1140,7 @@ Actually, configuring an OVS instance is similar as operating a database - once 
 - Commands: man ovs-vsctl -> locate "Database Command Syntax"
 
 Samples
-+++++++
++++++++++
 
 Target: Change the vlan of a port.
 
@@ -1155,7 +1171,7 @@ Steps:
      # ovs-vsctl set Port vlan305 tag=310
 
 VLAN
-----
+~~~~~~
 
 Notes: OVS port are in trunk mode by default and all VLANs are allowed.
 
@@ -1165,7 +1181,7 @@ Notes: OVS port are in trunk mode by default and all VLANs are allowed.
 - Native VLAN: ovs-vsctl set port vnet0 vlan_mode=native-untagged
 
 Spanning Tree
--------------
+~~~~~~~~~~~~~~~~
 
 - Query: ovs-vsctl get bridge <bridge name> stp_enable
 - Enable: ovs-vsctl set bridge <bridge name> stp_enable=true
@@ -1174,7 +1190,7 @@ Spanning Tree
 - Set cost: ovs−vsctl set port eth0 other_config:stp-path-cost=10
 
 Bridge
-------
+~~~~~~~~~~
 
 - Add: ovs-vsctl add-br br0
 - Remove: ovs-vsctl del-br br0
@@ -1182,8 +1198,326 @@ Bridge
 - Set: ovs-vsctl set bridge br0 other-config:disable-in-band=true
 
 Port
-----
+~~~~~
 
 - Add: ovs-vsctl add-port br0 port1
 - Remove: ovs-vsctl del-port port1
 - List: ovs-vsctl list-ports br0
+
+curl
+-------
+
+**httpie**, which is a moden simplified command line http client, can be leveraged as an alternative for curl.
+
+Basic
+~~~~~~~~
+
+- verbose: curl **-v** http://example.com
+- Follow redirect: curl -v **-L** http://example.com
+- Ignore cert: curl -v -L **-k** http://example.com
+- Authentication: curl -v -L **-u** name:password http://example.com
+- Specify http header: curl **-H** 'Content-Type: application/json' http://example.com
+- Specify request method: curl **-X** PUT http://example.com
+
+Pass data
+~~~~~~~~~~~
+
+Below are frequently used options during data passing:
+
+- -X: specify method(PUT/POST)
+- -H: specify data type through corresponding header
+- -d: specify data
+- -F: specify form data
+
+
+Examples
+~~~~~~~~~~~
+
+URL Encoded POST
++++++++++++++++++
+
+::
+
+  curl -X POST -H "application/x-www-form-urlencoded" -d "param1=value1" -d "param2=value2" http://localhost:8080/uri1
+  curl -X POST -d "param1=value1" -d "param2=value2" http://localhost:8080/uri1
+  curl -X POST -d "param1=value1&param2=value2" http://localhost:8080/uri1
+  curl -X POST -d "@data.txt" http://localhost:8080/uri1
+
+JSON POST
++++++++++++
+
+::
+
+  url -X POST -H "Content-Type: application/json" -d '{"key1":"value1", "key2":"value2"}' http://localhost:8080/uri2
+  curl -X POST -d "data.json" -H "Content-Type: application/json" http://localhost:8080/uri2
+
+Binary POST
+++++++++++++
+
+::
+
+  curl -X POST --data-binary @binaryfile http://localhost:8080/uri3
+
+Form POST
+++++++++++
+
+::
+
+  curl -X POST -H "Content-Type: multipart/form-data" -F "param1=value1" -F "param2=value2" http://localhost:8080/uri3
+  curl -X POST -F "param1=value1" -F "param2=value2" http://localhost:8080/uri3
+
+Tips
+~~~~~~
+
+Dumper Headers
++++++++++++++++
+
+::
+
+  curl -v -L -D /tmp/headers.txt http://example.com
+
+Ignore Response Body
++++++++++++++++++++++
+
+::
+
+  curl -v -L -o /dev/null http://example.com
+
+Login
++++++++
+
+- --user
+
+ ::
+
+   curl --user user:pass --cookie-jar jarfile.txt http://localhost:8080/login
+   curl --cookie jarfile.txt http://localhost:8080/action
+
+- -d
+
+ ::
+
+   curl -c jarfile.txt -d "user=username" -d "pass=password" http://localhost:8080/login
+   curl -b jarfile.txt http://localhost:8080/action
+
+- -F
+
+ ::
+
+   curl -c jarfile.txt -F "user=username" -F "pass=password" http://localhost:8080/login
+   curl -b jarfile.txt http://localhost:8080/action
+
+iptables
+----------
+
+Package Flow
+~~~~~~~~~~~~~~
+
+.. image:: images/linux_os_net/iptables_pflow.jpg
+
+Tables and Chains
+~~~~~~~~~~~~~~~~~~~~
+
+.. image:: images/linux_os_net/iptables_tablechains.png
+
+Targets and Jumps
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: images/linux_os_net/iptables_tgtjumps.png
+
+Match Criterias
+~~~~~~~~~~~~~~~~
+
+.. image:: images/linux_os_net/iptables_criterias.png
+
+Reset Rules
+~~~~~~~~~~~~~
+
+::
+
+  iptables -F
+  iptables -X
+  iptables -t nat -F
+  iptables -t nat -X
+  iptables -t mangle -F
+  iptables -t mangle -X
+  iptables -t raw -F
+  iptables -t raw -X
+  iptables -t security -F
+  iptables -t security -X
+  iptables -P INPUT ACCEPT
+  iptables -P FORWARD ACCEPT
+  iptables -P OUTPUT ACCEPT
+
+Save and Restore Rules
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  iptables-save > /etc/iptables/iptables.rules
+  iptables-restore < /etc/iptables/iptables.rules
+
+Query
+~~~~~~~
+
+::
+
+  iptables -nvL [--line-numbers] [-t <table name>]
+
+Delete
+~~~~~~~
+
+::
+
+  # Add a rule
+  iptables -A INPUT -p tcp --dport 5001 -j ACCEPT
+  # Delete the same rule
+  iptables -D INPUT -p tcp --dport 5001 -j ACCEPT
+  # Delete a rule  by num.
+  iptables -nvL --line-numbers
+  iptables -D INPUT <rule num.>
+
+Insert
+~~~~~~~~~
+
+::
+
+  # Get the rule index num.
+  iptables -nvL --line-numbers
+  # Insert a rule
+  iptables -I INPUT <rule index num. to insert this rule before> -p tcp --dport 5001 -j ACCEPT
+
+Comment
+~~~~~~~~~
+
+::
+
+  iptables -A INPUT -p tcp --dport 5001 -j ACCEPT -m comment --comment 'test rule'
+
+Sample Rules
+~~~~~~~~~~~~~~~
+
+::
+
+  # Delete all existing rules
+  iptables -F
+
+  # Set default chain policies
+  iptables -P INPUT DROP
+  iptables -P FORWARD DROP
+  iptables -P OUTPUT DROP
+
+  # Block a specific ip-address
+  BLOCK_THIS_IP="x.x.x.x"
+  iptables -A INPUT -s "$BLOCK_THIS_IP" -j DROP
+
+  # Allow ALL incoming SSH
+  iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow incoming SSH only from a sepcific network
+  iptables -A INPUT -i eth0 -p tcp -s 192.168.200.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow incoming HTTP
+  iptables -A INPUT -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow incoming HTTPS
+  iptables -A INPUT -i eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+
+  # MultiPorts (Allow incoming SSH, HTTP, and HTTPS)
+  iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp -m multiport --sports 22,80,443 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow outgoing SSH
+  iptables -A OUTPUT -o eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow outgoing SSH only to a specific network
+  iptables -A OUTPUT -o eth0 -p tcp -d 192.168.101.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow outgoing HTTPS
+  iptables -A OUTPUT -o eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A INPUT -i eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+
+  # Load balance incoming HTTPS traffic
+  iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 \
+    --packet 0 -j DNAT --to-destination 192.168.1.101:443
+  iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 \
+    --packet 1 -j DNAT --to-destination 192.168.1.102:443
+  iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 \
+    --packet 2 -j DNAT --to-destination 192.168.1.103:443
+
+  # Ping from inside to outside
+  iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
+  iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+  # Ping from outside to inside
+  iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+  iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+  # Allow loopback access
+  iptables -A INPUT -i lo -j ACCEPT
+  iptables -A OUTPUT -o lo -j ACCEPT
+
+  # Allow packets from internal network to reach external network.
+  if eth1 is connected to external network (internet)
+  if eth0 is connected to internal network (192.168.1.x)
+  iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
+
+  # Allow outbound DNS
+  iptables -A OUTPUT -p udp -o eth0 --dport 53 -j ACCEPT
+  iptables -A INPUT -p udp -i eth0 --sport 53 -j ACCEPT
+
+  # Allow NIS Connections
+  rpcinfo -p | grep ypbind ; This port is 853 and 850
+  iptables -A INPUT -p tcp --dport 111 -j ACCEPT
+  iptables -A INPUT -p udp --dport 111 -j ACCEPT
+  iptables -A INPUT -p tcp --dport 853 -j ACCEPT
+  iptables -A INPUT -p udp --dport 853 -j ACCEPT
+  iptables -A INPUT -p tcp --dport 850 -j ACCEPT
+  iptables -A INPUT -p udp --dport 850 -j ACCEPT
+
+  # Allow rsync from a specific network
+  iptables -A INPUT -i eth0 -p tcp -s 192.168.101.0/24 --dport 873 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 873 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow MySQL connection only from a specific network
+  iptables -A INPUT -i eth0 -p tcp -s 192.168.200.0/24 --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow Sendmail or Postfix
+  iptables -A INPUT -i eth0 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow IMAP and IMAPS
+  iptables -A INPUT -i eth0 -p tcp --dport 143 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 143 -m state --state ESTABLISHED -j ACCEPT
+
+  iptables -A INPUT -i eth0 -p tcp --dport 993 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 993 -m state --state ESTABLISHED -j ACCEPT
+
+  # Allow POP3 and POP3S
+  iptables -A INPUT -i eth0 -p tcp --dport 110 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 110 -m state --state ESTABLISHED -j ACCEPT
+
+  iptables -A INPUT -i eth0 -p tcp --dport 995 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 995 -m state --state ESTABLISHED -j ACCEPT
+
+  # Prevent DoS attack
+  iptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
+
+  # Port forwarding 422 to 22
+  iptables -t nat -A PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22
+  iptables -A INPUT -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT
+
+  # Log dropped packets
+  iptables -N LOGGING
+  iptables -A INPUT -j LOGGING
+  iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables Packet Dropped: " --log-level 7
+  iptables -A LOGGING -j DROP
+
