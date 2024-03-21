@@ -125,6 +125,12 @@ ethtool
     # cat /sys/class/net/eth0/device/uevent
     ethtool -i eth0 | grep bus-info
 
+- Show channel statistic of a NIC:
+
+  ::
+
+    ethtool -S eth0
+
 rpcinfo
 ~~~~~~~~~~
 
