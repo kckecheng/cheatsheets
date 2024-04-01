@@ -686,21 +686,13 @@ diff between files from different branches
   --- OR ---
   git diff <branch name1>:<abs path(./) to a file> <branch name2>:<abs path to the same file>
 
-diff between commits
-++++++++++++++++++++
-
-::
-
-  git log
-  git diff <commit x id> <commit y id>
-  git diff <commit x id>..<commit y id>
-  git difftool -t vimdiff <commit x id> <commit y id> (use vimdiff to show diff)
-
 diff w/ file globs
 +++++++++++++++++++++
 
 ::
 
+  # without using glob, a patch containing all changes can be created
+  git diff <commit x>..<commit y> > test.patch
   # all .c and .h files under current directory
   git diff <commit x id> <commit y id> -- *.[ch]
   # all .c and .h files under current directory and all subdirectories recursely(globstar)
