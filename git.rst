@@ -194,6 +194,7 @@ git log
 - git log -S <string> <commit range starting>..<commit range ending>
 - git log --all
 - git log --all -i --grep='xxx yyy' # find the commit with message xxx yyy
+- git log [--stat | --name-status | --name-only] # show what file have been changed
 
 git mergetool
 -------------
