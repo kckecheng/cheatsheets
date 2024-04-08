@@ -188,6 +188,7 @@ git log
 - git log --format='%H %an %s' --graph
 - git log --graph --oneline --decorate --author="[Aa]aron"
 - git log --graph --oneline --decorate --author="aaron@gmail.com" -i
+- git log --grep xxx # show commits whose commit messages contain xxx
 - git show [--format=full] <sha1 hash>
 - git log -S <string> [-p] [file]
 - git log -G <regex> [-p] [file]
@@ -195,6 +196,8 @@ git log
 - git log --all
 - git log --all -i --grep='xxx yyy' # find the commit with message xxx yyy
 - git log [--stat | --name-status | --name-only] # show what file have been changed
+- git log --follow tempest # show changes on a file/folder
+- git log -p # changes with patch
 
 git mergetool
 -------------
@@ -427,61 +430,6 @@ https to ssh
   # git remote -v
   origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
   origin  git@github.com:USERNAME/REPOSITORY.git (push)
-
-Log
-----
-
-Show changes on a file/folder
-+++++++++++++++++++++++++++++
-
-- git log --follow tempest
-- git log --since '1 day ago' --follow tempest
-
-Show changes with files
-+++++++++++++++++++++++
-
-- git log --stat
-- git log --stat --follow tempest
-- git log --stat --since '1 week ago' --follow tempest
-
-Show change with diff
-+++++++++++++++++++++
-
-- git log -p
-- git log -5 -p --stat
-
-Show changes for a user
-+++++++++++++++++++++++++
-
-::
-
-  git log -p --author <author name>
-
-Show differences between commits/branches
-+++++++++++++++++++++++++++++++++++++++++
-
-- git log <since>..<until>, e.g.:
-
-  ::
-
-    git log <commit1>^..<commit2>
-    git log origin/master..master
-    git log remotes/origin/master..master
-
-Filter logs related with specified file operations
-++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Select only files that are:
-
-- Added  : A
-- Copied : C
-- Deleted: D
-- Renamed: R
-- etc., refer to **man git-log**
-
-::
-
-  git log --diff-filter=<A|C|D|M|R|T|U|X|B> [-- <path/to/file/or/directory>]
 
 Search changes
 ---------------
