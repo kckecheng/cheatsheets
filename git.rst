@@ -402,35 +402,6 @@ Move forward
      * 58c8cf7 add resolve file
      * 80bebdb add host file
 
-Switch between https and ssh
-----------------------------
-
-ssh to https
-++++++++++++
-
-::
-
-  # git remote -v
-  origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
-  origin  git@github.com:USERNAME/REPOSITORY.git (push)
-  # git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
-  # git remote -v
-  origin  https://github.com/USERNAME/REPOSITORY.git (fetch)
-  origin  https://github.com/USERNAME/REPOSITORY.git (push)
-
-https to ssh
-++++++++++++
-
-::
-
-  # git remote -v
-  origin  https://github.com/USERNAME/REPOSITORY.git (fetch)
-  origin  https://github.com/USERNAME/REPOSITORY.git (push)
-  # git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
-  # git remote -v
-  origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
-  origin  git@github.com:USERNAME/REPOSITORY.git (push)
-
 Search changes
 ---------------
 
@@ -443,29 +414,11 @@ Search changes
 
   - git grep 'string pattern'
 
-- git log: search git log from the specified file or the whole repo by matching a text string or regex
+- git log: search contents of commit or commit message
 
   - git log -S [-p] 'text string' [file]
   - git log -G [-p] 'regex' [file]
-
-Operations between a forked local branch and the original upstream
-------------------------------------------------------------------
-
-::
-
-  git remote add upstream <url of the original upstream branch>
-
-  git fetch upstream
-  --- OR ---
-  git remote update
-
-  git branch -a ---> the original upstream branch will be shown
-
-  git diff master upstream/master ---> compare local(forked) and the upstream
-  --- OR ---
-  git log master..upstream/master
-
-  git merge upstream/master ---> merger original upstream differences to local
+  - git log --grep xxx # show commits whose commit messages contain xxx
 
 Append changes to previous commit
 ---------------------------------
@@ -489,17 +442,6 @@ Compare 2 x repos
 ::
 
   diff -x '.git*' -Naur --no-dereference <repo1 directory> <repo2 directory>
-
-Overwrite a remote ref
-----------------------
-
-When the local has been synced to the remote(git push), the local and remote will see the same refs(take it as history of commits). If the local refs are "rebase" after sync, git will show the two branches have 'diverged' - 'git push' will be rejected since 'rebase'.
-
-To sync local to remote(overwrite remote refs with local):
-
-::
-
-  git push <-f|--force> <remote branch name> [local branch name]
 
 Delete a remote branch
 ----------------------
@@ -635,6 +577,25 @@ diff between files from different branches
   --- OR ---
   git diff <branch name1>:<abs path(./) to a file> <branch name2>:<abs path to the same file>
 
+diff between a forked local branch and the original upstream
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+::
+
+  git remote add upstream <url of the original upstream branch>
+
+  git fetch upstream
+  --- OR ---
+  git remote update
+
+  git branch -a ---> the original upstream branch will be shown
+
+  git diff master upstream/master ---> compare local(forked) and the upstream
+  --- OR ---
+  git log master..upstream/master
+
+  git merge upstream/master ---> merger original upstream differences to local
+
 diff w/ file globs
 +++++++++++++++++++++
 
@@ -723,8 +684,7 @@ Commits 'D' and 'E' will both be populated into the master branch history. When 
 
 To avoid that, 'rebase' at branch level before merge is recommended(rebase at the master branch directly is dangerous).
 
-Steps
-+++++
+**Steps**
 
 1. Here is the init status of 'master' and 'feature' branches:
 
