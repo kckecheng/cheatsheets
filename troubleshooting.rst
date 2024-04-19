@@ -1330,9 +1330,12 @@ trace-cmd is a frontend for ftrace, and its cli works similar as perf. Use it di
   trace-cmd report
   trace-cmd record -p function_graph -P `pidof top`
   trace-cmd report
+  trace-cmd record -e kvm:*irq* -P `pidof qemu` -p function_graph sleep 5
+  trace-cmd report
   trace-cmd list -f | grep kvm_create
   trace-cmd record -l kvm_create_* -p function_graph
-  trace-cmd stop && trace-cmd clear
+  trace-cmd stop
+  trace-cmd clear # or trace-cmd reset
 
 ftrace
 ~~~~~~~~~
