@@ -33,6 +33,7 @@ Commands
 - :colorscheme desert   ---> Change color schemes
 - :set [no]wrap         ---> world wrap
 - :set relativenumber   ---> Show line number relatively based on current line
+- :messages             ---> Show all messages, including errors
 - :retab                ---> Replace tab as space based on tabstop
 - :RemoveTrailingSpaces ---> Remove all trailing spaces
 - :echo &buftype        ---> Show current file's buffer type(quickfix, location list, etc.)
