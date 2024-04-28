@@ -58,8 +58,9 @@ Shortcuts
 
 - \*         ---> Search the word under the cursor
 - K          ---> Open the manual(man) for the word under the cursor
-- Ctrl + p   ---> Auto complete (will be overrided when vim plugin CtrlP is in use)
+- Ctrl + p   ---> Auto complete
 - Ctrl + y   ---> Insert without line break for auto completition
+- Ctrl + n/p ---> Select the next/previous choice from the auto completition list
 - Ctrl + ]   ---> Jump to the section under the cursor while browsing VIM documents (such as :help index)
 - Ctrl + ^   ---> Jump back to origin file from alternative file
 - Ctrl + u/d ---> Scroll up/down half screen (:help usr_03.txt)
