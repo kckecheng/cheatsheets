@@ -13,6 +13,7 @@ Help
 - :help usr_03.txt    ---> move around
 - :help usr_41.txt    ---> vim scripting guide
 - :help motion.txt    ---> cursor motions
+- :help keycodes      ---> List key codes
 - :help pattern.txt   ---> Search and replace used patterns, e.g. regular expression, exscaping, etc.
 - :help magic         ---> Use magic to ease pattern escaping
 - :help object-select ---> How to select a word, inner word, etc.
