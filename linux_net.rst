@@ -131,6 +131,12 @@ ethtool
 
     ethtool -S eth0
 
+traceroute
+~~~~~~~~~~~~~~
+
+- trace route with icmp by default: traceroute x.x.x.xxx
+- trace route with tcp on a specified port(verify if the port is open): traceroute -T -p 48369 x.x.x.x
+
 rpcinfo
 ~~~~~~~~~~
 
