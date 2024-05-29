@@ -9,19 +9,16 @@ Help
 
 - :help help.txt      ---> all documents(help home page)
 - :help index.txt     ---> a list of all commands for each mode
-- :help usr_toc.txt   ---> user manual
-- :help usr_03.txt    ---> move around
-- :help usr_41.txt    ---> vim scripting guide
 - :help motion.txt    ---> cursor motions
-- :help keycodes      ---> List key codes
+- :help scroll.txt    ---> scroll page up/down/left/right
 - :help pattern.txt   ---> Search and replace used patterns, e.g. regular expression, exscaping, etc.
 - :help magic         ---> Use magic to ease pattern escaping
 - :help object-select ---> How to select a word, inner word, etc.
 - :help cmdline.txt   ---> Command line mode help
 - :help function-list ---> builtin functions of vim (:help functions also work)
-- :help key-notation  ---> list all recognized keys (prepare for key mapping)
 - :help option-list   ---> a list/toc of all vim options, such as viminfo, etc.
-- :help helphelp      ---> How to write a help file
+- :help keycodes      ---> List key codes
+- :help key-notation  ---> list all recognized keys (prepare for key mapping)
 
 Commands
 --------
@@ -223,8 +220,8 @@ Jumplist
 ++++++++
 
 - :jumps ---> Display Jumplist
-- Ctrl + O ---> Jump backward
-- Ctrl + I ---> Jump forward
+- Ctrl + o ---> Jump backward
+- Ctrl + i ---> Jump forward
 
 Search whole word
 +++++++++++++++++++
@@ -285,24 +282,6 @@ Examples:
   ::
 
 		:'<,'>s/^\S/\=printf("%d.\t", line(".") - line("'<") + 1)
-
-
-netrw
-+++++
-
-netrw is the recommended internal builin method to explore directories, which can be leveraged to do split view directly while browsing a directory.
-
-- :help netrw
-- :help Explore
-- :Hex[plore][!] : browse, select a file, then open it in a horizontal split below/above current buffer
-- :Vex[plore][!] : browse, select a file, then open it in a vertical split to the left/right of current buffer
-- :bd|:q|Ctrl ^  : close the explore and go back to the original file
-- After opening the explore throug :Ex/:Hex/:Ver/:Sex/etc.
-
-  - F1 - open help
-  - i - cycle between thin/long/wide/tree listings
-  - gh - hide/unhide dot-files
-
 
 vimdiff
 +++++++
