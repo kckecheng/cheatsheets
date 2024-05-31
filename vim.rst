@@ -18,7 +18,7 @@ Help
 - :help function-list ---> builtin functions of vim (:help functions also work)
 - :help option-list   ---> a list/toc of all vim options, such as viminfo, etc.
 - :help keycodes      ---> List key codes
-- :help key-notation  ---> list all recognized keys (prepare for key mapping)
+- :help key-notation  ---> list all recognized keys (for key map definition)
 
 Commands
 --------
@@ -32,9 +32,11 @@ Commands
 - :set [no]wrap         ---> world wrap
 - :set relativenumber   ---> Show line number relatively based on current line
 - :messages             ---> Show all messages, including errors
+- :verbose <command>    ---> Show verebose information while running a command
+- :echo &abc            ---> Show the value of an option/value
+- :echo &buftype        ---> Show current file's buffer type(quickfix, location list, etc.)
 - :retab                ---> Replace tab as space based on tabstop
 - :RemoveTrailingSpaces ---> Remove all trailing spaces
-- :echo &buftype        ---> Show current file's buffer type(quickfix, location list, etc.)
 - :ccl / :cclose        ---> Close quickfix window (:h quickfix)
 - :lcl / :lclose        ---> Close location list window(:h location-list)
 - :set autoread         ---> Auto read file if the external file has changed(such as a live log file)
@@ -73,9 +75,78 @@ Keymap
 - :map -> check existing map
   - :map <C-e>: checking the current key mapping for Ctr + e
   - :verbose map <C-e>: checking the current key mapping for Ctr + e with verbose information
+  - :verbose imap <Tab>: checking the current key mapping for Tab with verbose information
 - Examples
   - map <C-n> :NERDTreeToggle<CR>
   - map <C-t> :Tagbar<CR>
+
+Select
+-------
+
+- v         - select range of text
+- shift + v - select extire lines
+- ctrl + v  - select columns
+- v/foo     - select from current position to the next instance of 'foo', n to next 'foo', ...
+- ggvG      - select all
+- ma -> :<line num> -> shift + v -> 'a - select from mark 'a' to line num
+
+Copy
+-----
+
+- Copy all: ggyG
+
+Delete
+-------
+
+- Delete until/upto(also valid for c/y) - t/f
+
+  - dtx: delete until next character 'x'
+  - dfx: delete up to the previous character 'x'
+
+- Delete until based on search - d/<pattern>
+- Delete based on object-selection
+
+  - daw
+  - diw
+  - dab
+  - ...
+
+- Delete the whole line matching a pattern
+
+  - :help :g
+  - :g/pattern/d
+
+- Delete the whole line which does not match a pattern
+
+  - :help :v
+  - :v/pattern/d
+
+Vertical Edit
+---------------
+
+::
+
+  Ctrl + V ---> column mode
+             |
+             V
+  Select the columns and rows
+             |
+             V
+  Shift + I ---> insert mode in column mode
+             |
+             V
+         Type text
+             |
+             V
+            Esc
+
+Jumplist
+---------
+
+- :jumps ---> Display Jumplist
+- Ctrl + o ---> Jump backward
+- Ctrl + i ---> Jump forward
+
 
 Macro
 -----
@@ -155,73 +226,6 @@ Resize
 - OR
 - :resize +/- <num>
 - :vert[ical] resize +/- <num>
-
-Select
-++++++
-
-- v         - select range of text
-- shift + v - select extire lines
-- ctrl + v  - select columns
-- v/foo     - select from current position to the next instance of 'foo', n to next 'foo', ...
-- ggvG      - select all
-- ma -> :<line num> -> shift + v -> 'a - select from mark 'a' to line num
-
-Copy
-+++++
-
-- Copy all: ggyG
-
-Delete
-++++++
-
-- Delete until/upto(also valid for c/y) - t/f
-
-  - dtx: delete until next character 'x'
-  - dfx: delete up to the previous character 'x'
-
-- Delete until based on search - d/<pattern>
-- Delete based on object-selection
-
-  - daw
-  - diw
-  - dab
-  - ...
-
-- Delete the whole line matching a pattern
-
-  - :help :g
-  - :g/pattern/d
-
-- Delete the whole line which does not match a pattern
-
-  - :help :v
-  - :v/pattern/d
-
-Vertical Edit
-+++++++++++++
-
-::
-
-  Ctrl + V ---> column mode
-             |
-             V
-  Select the columns and rows
-             |
-             V
-  Shift + I ---> insert mode in column mode
-             |
-             V
-         Type text
-             |
-             V
-            Esc
-
-Jumplist
-++++++++
-
-- :jumps ---> Display Jumplist
-- Ctrl + o ---> Jump backward
-- Ctrl + i ---> Jump forward
 
 Search whole word
 +++++++++++++++++++
