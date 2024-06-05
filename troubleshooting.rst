@@ -862,6 +862,14 @@ Get more info from backtrace
 
 ::
 
+  # Decode entry of a stack trace entry: #11 [ffffc9003360be38] kvm_async_build_parallel_tdp_worker+0x217 at ffffffffa0184767  [kvm]
+  # #11 - the index number in the stack trace, #0 is the most recent
+  # [ffffc9003360be38] - address of Instruction Pointer (IP)/Program Counter (PC) at the time the function was called, A.K.A the return address which would be used when the function call returns
+  # kvm_async_build_parallel_tdp_worker - function name being called
+  # +0x217 - offset of the function when the backtrace is printed
+  # ffffffffa0184767 - memory address where the function is loaded
+  # [kvm] - the module/component the function belongs to
+
   bt
   bt -sx
   bt -FFsx
