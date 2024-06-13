@@ -388,3 +388,13 @@ Debug log
   # vim.log will record all debug info with verbose lever 9, default is 10
   vim -V9vim.log /path/to/some/file
 
+Shortcut to current file w/ cmdline mode
++++++++++++++++++++++++++++++++++++++++++++
+
+::
+
+  # % stands for current file name w/ cmdline mode
+  # :help filename-modifiers
+  :Git add %
+  :python %
+
