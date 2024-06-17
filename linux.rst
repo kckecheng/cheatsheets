@@ -187,18 +187,6 @@ a general markup converter supporting md, rst, etc.
   pandoc <file name with suffix> | w3m -T text/html
   pandoc -s --toc <file name with suffix> [--metadata title=<title string>] | w3m -T text/html
 
-tshark
----------
-
-Terminal based Wireshark.
-
-
-::
-
-  tshark --color -i eth0 -f "port 8080"
-  tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
-  tshark --color -V -i eth0
-
 ripgrep
 ----------
 
@@ -241,14 +229,17 @@ fd is a simple, fast and user-friendly alternative to find. fd ignore files defi
   fd -i <pattern>
   fd --no-ignore <pattern>
 
-bat
------
+zoxide
+---------
 
-an enhanced cat clone with syntax highlighting and Git integration.
+zoxide is a smarter cd command which remembers which directories are used frequently, and can help jump accordingly.
 
 ::
 
-  bat README.rst
+  # echo 'eval "$(zoxide init zsh)"' > ~/.zshrc
+  # zoxide init zsh
+  z foo<SPACE><TAB> 
+  zi
 
 delta
 -------
@@ -257,14 +248,14 @@ A syntax-highlighting pager for git, diff, and grep output. Refer to https://git
 
 Usage: download the package from https://github.com/dandavison/delta/releases, then install and configure it by following its README.
 
-aria2
--------
+bat
+-----
 
-A CLI based download manager supporting multiple threads.
+an enhanced cat clone with syntax highlighting and Git integration.
 
 ::
 
-  aria2c -x 16 -s 16 <the url to resource>
+  bat README.rst
 
 tldr
 -----
@@ -275,15 +266,6 @@ Simplified man pages.
 
   tldr tar
   tldr xargs
-
-curlftpfs
-------------
-
-mount a ftp share as a normal file system:
-
-::
-
-  curlftpfs ftp://<site url> <mount point>
 
 jq
 -----
@@ -308,6 +290,29 @@ Reference:
   # output selected fields as csv - use jq -r to avoid \"
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80")) | [.NetworkInterfaceName, .NetworkInterfaceId] | @csv'
 
+atop
+-----
+
+atop is able to write output compressed as raw file and read them back later, hence it is a good choice for continuous monitoring in the background.
+
+aria2
+-------
+
+A CLI based download manager supporting multiple threads.
+
+::
+
+  aria2c -x 16 -s 16 <the url to resource>
+
+curlftpfs
+------------
+
+mount a ftp share as a normal file system:
+
+::
+
+  curlftpfs ftp://<site url> <mount point>
+
 yq
 -----
 
@@ -316,11 +321,6 @@ yq is similar as jq, but it is used to translate yaml/xml to json:
 ::
 
   cat <file name>.yaml | yq '.'
-
-atop
------
-
-atop is able to write output compressed as raw file and read them back later, hence it is a good choice for continuous monitoring in the background.
 
 xmllint
 ---------
@@ -362,6 +362,18 @@ moreutils
 - ifdata: get NIC information, such as MTU, ip, etc., which can be used without further processing;
 - combine: combine 2 x files together based on boolean operations;
 - lckdo: run a program with a lock.
+
+tshark
+---------
+
+Terminal based Wireshark.
+
+
+::
+
+  tshark --color -i eth0 -f "port 8080"
+  tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
+  tshark --color -V -i eth0
 
 MISC Tips
 ============
