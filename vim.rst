@@ -173,6 +173,14 @@ References
 - vim tips: http://vim.wikia.com/wiki/Best_Vim_Tips
 - vim plugins: http://vimawesome.com/
 
+Digraphs
+-----------
+
+- :help digraphs: digraph intro
+- :help i_CTRL-V_digit: how to enter special chars
+- :help digraph-table: find the special chars to be used, and remember their hex representations, e.g., 0x00 and 2218
+- input the special chars: enter insert mode -> <C-v>u<hex num. w/o 0x>, e.g., <C-v>u00, <C-v>u2218
+
 MISC Tips
 ---------
 
