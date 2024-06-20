@@ -281,7 +281,7 @@ Reference:
 
   # validate if the conent of a document is a legal json string + pretty format
   cat <file name>.json | jq '.'
-  # select objects based on field match
+  # select objects based on field match - the output are separated json objects but not a single json list due to .[]
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80"))'
   # reverse the match
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80") | not)'
@@ -289,6 +289,8 @@ Reference:
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80")) | .NetworkInterfaceName, .NetworkInterfaceId'
   # output selected fields as csv - use jq -r to avoid \"
   tct_cli vpc eni list | jq -r '.[] | select(.NetworkInterfaceName | test("metaeni-80")) | [.NetworkInterfaceName, .NetworkInterfaceId] | @csv'
+  # select only primary eni - the output is a single valid json list consists of json objects
+  tct_cli vpc eni list | jq -r 'map(select(.name | match("Primary ENI")))'
 
 atop
 -----
