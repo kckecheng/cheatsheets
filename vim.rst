@@ -25,14 +25,12 @@ Commands
 
 - :his / q:             ---> list command history
 - :sav <name>           ---> Save the file as
-- :map                  ---> list all currently mapped keys
 - :set                  ---> list all currently options which are different from the default
 - :version              ---> Check features enabled/compiled in vim
 - :colorscheme desert   ---> Change color schemes
 - :set [no]wrap         ---> world wrap
 - :set relativenumber   ---> Show line number relatively based on current line
 - :messages             ---> Show all messages, including errors
-- :verbose <command>    ---> Show verebose information while running a command
 - :echo &abc            ---> Show the value of an option/value
 - :echo &buftype        ---> Show current file's buffer type(quickfix, location list, etc.)
 - :retab                ---> Replace tab as space based on tabstop
@@ -42,6 +40,16 @@ Commands
 - :set autoread         ---> Auto read file if the external file has changed(such as a live log file)
 - :set conceallevel=0   ---> Stop hiding quotes for some files, such as json, markdown
 - :help filetype-overview ---> help for filetype plugin indent
+- :map                  ---> list all currently mapped keys
+- :verbose <command>    ---> Show verebose information while running a command
+
+  ::
+
+    :help key-notation
+    :verbose imap <tab>
+    :verbose nmap <c-q>
+    :verbose nmap qq
+
 - :List supported file types and syntax highlight
 
   ::
