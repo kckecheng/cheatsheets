@@ -1851,6 +1851,13 @@ Change password non-interactive
 
   echo 'root:password' | chpasswd
 
+Write message to serial log(dmesg)
+------------------------------------
+
+::
+
+  echo "hello world" >>/dev/kmsg
+
 Disks
 ========
 
