@@ -122,19 +122,6 @@ Notes:
     cscope -d -L1 start_kernel
     cscope -d -L2 start_kernel
 
-codequery
-----------
-
-Based on cscope and ctags, and combine their strength together. In the meanwhile, both a GUI and a CLI tool(cqsearch) is avaiable.
-
-::
-
-  cscope -bckqi cscope.files # assembly code is not supported, make sure files with .S suffix is not included
-  ctags --fields=+i -L cscope.files
-  cqmakedb -s cq.db -c cscope.out -t tags -p
-  codequery # gui
-  cqsearch -h # cli
-
 doxygen
 --------
 
@@ -194,21 +181,6 @@ valgrind
   # multiple tools are supported, man valgrind, check the --tool options
   valgrind --leak-check=full --track-origins=yes --verbose qemu-system-i386
 
-clang
-------
-
-Static Analyzer:
-
-::
-
-  clang --analyze -I /path/to/additional/include1 -I ... <file to check>
-  # checkers can be listed w/ command: scan-build --help-checkers
-  clang --analyze -Xanalyzer \
-    -analyzer-checker=<checker class such as core or specific checker name such as core.CallAndMessage> \
-    -analyzer-checker=...
-    ...
-    <file to check>
-
 Makefile
 ---------
 
@@ -225,4 +197,46 @@ Overriding Variables
   CFLAGS=-Wno-deprecated-declarations make
   # 3. pass the env var w/ make parameter
   make -e CFLAGS=-Wno-deprecated-declarations
+
+clang
+------
+
+Static Analyzer:
+
+::
+
+  clang --analyze -I /path/to/additional/include1 -I ... <file to check>
+  # checkers can be listed w/ command: scan-build --help-checkers
+  clang --analyze -Xanalyzer \
+    -analyzer-checker=<checker class such as core or specific checker name such as core.CallAndMessage> \
+    -analyzer-checker=...
+    ...
+    <file to check>
+
+clangd
+--------
+
+clangd is a language server for c/c#/c++. To make it work:
+
+- code should be built for at least once;
+- a compilation database(compile_commands.jso) should exit at the project root folder;
+
+Here are two examples on how to generate compile_commands.json:
+
+- linux kernel: ships with a script which generates compile_commands.json
+
+  ::
+  
+    make CC=clang defconfig
+    make CC=clang -j`nproc`
+    python ./scripts/clang-tools/gen_compile_commands.py
+    head compile_commands.json
+
+- ltp: use bear to generate compile_commands.json
+
+::
+
+  ./configure --with-realtime-testsuite --with-open-posix-testsuite
+  bear -- make CC=clang
+  head compile_commands.json
 
