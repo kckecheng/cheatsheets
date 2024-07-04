@@ -219,14 +219,14 @@ clangd
 clangd is a language server for c/c#/c++. To make it work:
 
 - code should be built for at least once;
-- a compilation database(compile_commands.jso) should exit at the project root folder;
+- a compilation database(compile_commands.jso) should exist at the project root folder;
 
 Here are two examples on how to generate compile_commands.json:
 
 - linux kernel: ships with a script which generates compile_commands.json
 
   ::
-  
+
     make CC=clang defconfig
     make CC=clang -j`nproc`
     python ./scripts/clang-tools/gen_compile_commands.py

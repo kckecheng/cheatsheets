@@ -153,13 +153,13 @@ Trigger an error(specify a non-existing version with ==) with *pip install* on p
 Install a local package
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes, a package cannnot be installed with pip but needed to be installed by leveraging another pacakge/module. However, permission issues may be triggered.
-
-For example, to install spaCy english model with command *python -m spacy download en*, permission deny problem will be hit if root is not used. Under such a condition, when we still want to install the package with a normal user, we need to download the pacakge to local and use pip to install it(Output of *python -m spacy download en* will indicate the file download path, then we can download the file with a web browser or curl)
-
 ::
 
-  pip install --user ./en_core_web_sm-2.0.0.tar.gz
+  # pip install --usr xxx won't work w/ recent python releases which require global packages(including --usr) be installed
+  # through system package tool like apt. however, pipx can help.
+  sudo apt install -y pipx
+  pipx install isort
+  which isort
 
 Log
 ~~~
@@ -181,7 +181,6 @@ format json
 ::
 
   cat <json file> | python -m json.tool
-  vim <json file> -> :%!python -m json.tool (toggle vim plugin indentLine at fisrt)
 
 Common Error Capture
 --------------------
