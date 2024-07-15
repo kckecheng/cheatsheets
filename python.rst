@@ -21,14 +21,24 @@ Since version 3.6, python has already provides a builtin module, A.K.A venv, to 
   deactivate
   rm -rf venv1
 
-virtualenvwrapper
-~~~~~~~~~~~~~~~~~~
+Virtualenv
+~~~~~~~~~~~~
 
-virtualenvwrapper is a set of extensions to to make virtual env ops easier. **It is recommended on Linux. However, it does not work well on Windows.**
+Works well on both Linux and Windows, and it is easy to specify a different python version(multiple versions of python installations should be managed through pyenv). Refer to its official document - https://virtualenv.pypa.io/en/latest/
 
 ::
 
-  pip install virtualenvwrapper
+  # Windows example - with git-bash
+  python -m virtualenv -p /c/Python27/python.exe virtenv1
+  cd virtenv1
+  source Scripts/activate
+  deactivate
+
+**virtualenvwrapper** is a set of extensions to make virtualenv ops easier.
+
+::
+
+  pipx install virtualenvwrapper
   # Below source line is recommended to be included in your bash profile
   source /usr/local/bin/virtualenvwrapper.sh
 
@@ -42,21 +52,15 @@ virtualenvwrapper is a set of extensions to to make virtual env ops easier. **It
   deactivate
   rmvirtualenv project1
 
-Virtualenv
-~~~~~~~~~~~~
+pyenv
+~~~~~~~
 
-Works well on both Linux and Windows, and it is easy to specify a different python verion. Refer to its official document - https://virtualenv.pypa.io/en/latest/
-
-::
-
-  # Windows example - with git-bash
-  python -m virtualenv -p /c/Python27/python.exe virtenv1
-  cd virtenv1
-  source Scripts/activate
-  deactivate
+pyenv is mainly used for managing multiple python installations. It can be used standalone or together with virtual env(pyenv-virtualenv, pyenv-virtualenvwrapper).
 
 pip
 ----
+
+pip is recommended to be used together with virtual envs for package management. It should not be used for system wide(even with --usr) packages management which should be performed by system level package management tools such as apt.
 
 Specify multiple index-url
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,16 +83,6 @@ Specify trusted hosts for pip
   [global]
   trusted-host = pypi.python.org
                  pypi.org
-
-
-Install for local user only
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This is **recommended** since packages installed through pip may get conflict with packages installed through system package management tools, such as apt, pacman. By installing pacakges for a user only, pacakges will be installed to ~/.local, which will never hit conflict problems.
-
-::
-
-  pip install --user <package>
 
 
 List outdated packages
@@ -150,23 +144,23 @@ Trigger an error(specify a non-existing version with ==) with *pip install* on p
 
   pip install <package name>==
 
-Install a local package
-~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  # pip install --usr xxx won't work w/ recent python releases which require global packages(including --usr) be installed
-  # through system package tool like apt. however, pipx can help.
-  sudo apt install -y pipx
-  pipx install isort
-  which isort
-
 Log
 ~~~
 
 ::
 
   pip <commands> --log /tmp/pip.log
+
+pipx
+-----
+
+pipx is a tool which help install python based applications, it is not for package dependency management like pip.
+
+::
+
+  pipx install isort
+  pipx install black
+  pipx install esbonio
 
 source code check
 ------------------
