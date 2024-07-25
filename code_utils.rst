@@ -47,7 +47,7 @@ GNU Global is a source code tagging system which works similarly as cscope. It p
   # - default: builtin parser, support asm, c/c++, java, php, yacc;
   # - ctags: use exuberant-ctags as parser, support more than 40 x languages;
   # - new-ctags: use universal-ctags as parser, support more than 100 x languages;
-  # - pygments: use pygments(apt install python3-pygments or pip install pygments) as parser, support more than 300 x languages;
+  # - pygments: use pygments(apt install python3-pygments) as parser, support more than 300 x languages;
   # - native-pygments(recommended): use builtin parse for asm, c/c++, java, php, yacc and pygments for others;
   export GTAGSLABEL='native-pygments' # or gtags --gtagslabel=native-pygments
   find . -type f ! -type l -name "*.[chS]" > gtags.files
@@ -221,7 +221,7 @@ clangd is a language server for c/c#/c++. To make it work:
 - code should be built for at least once;
 - a compilation database(compile_commands.jso) should exist at the project root folder;
 
-Here are two examples on how to generate compile_commands.json:
+Here are several examples on how to generate compile_commands.json:
 
 - linux kernel: ships with a script which generates compile_commands.json
 
@@ -237,6 +237,16 @@ Here are two examples on how to generate compile_commands.json:
 ::
 
   ./configure --with-realtime-testsuite --with-open-posix-testsuite
+  # sudo apt install -y bear
   bear -- make CC=clang
   head compile_commands.json
 
+- legacy projects(which cannot be built w/ clang): use compiledb to parse build logs and generate compile_commands.json
+
+::
+
+  ./configure ...
+  make --always-make --dry-run -j32 2>&1 | tee build.log
+  # pipx install compiledb
+  compiledb --parse build.log
+  head compile_commands.json
