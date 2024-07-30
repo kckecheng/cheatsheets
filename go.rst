@@ -148,6 +148,12 @@ go test
 
     go test -v -cover ./...
 
+- List available test
+
+  ::
+
+    go test -v -list .
+
 - Run a single test
 
   ::
