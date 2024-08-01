@@ -91,11 +91,12 @@ Keymap
 Select
 -------
 
-- v         - select range of text
-- shift + v - select extire lines
-- ctrl + v  - select columns
-- v/foo     - select from current position to the next instance of 'foo', n to next 'foo', ...
-- ggvG      - select all
+- v              - select range of text
+- shift + v      - select extire lines
+- v/shift + v XG - select from current/line to the X line
+- ctrl + v       - select columns(may be some other key maps based on customization)
+- v/foo          - select from current position to the next instance of 'foo', n to next 'foo', ...
+- ggvG           - select all
 - ma -> :<line num> -> shift + v -> 'a - select from mark 'a' to line num
 
 Copy
