@@ -1124,7 +1124,7 @@ Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-r
   # NOTES:
   # - password: it is recommended to get a strong password with "openssl rand -base64 24"(24 is just an example)
 
-MISC
+Tools
 ~~~~~~~~
 
 - sing-box(recommended as both the server and the client, refer to https://sing-box.sagernet.org/): https://github.com/SagerNet/sing-box
@@ -1132,6 +1132,24 @@ MISC
 - clash(recommended as the local client, refer to https://github.com/Dreamacro/clash): https://github.com/Dreamacro/clash
 - v2ray: https://github.com/v2fly/v2ray-core
 - warp one-click script: https://github.com/fscarmen/warp
+
+Lanage specific proxies
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- nodejs npm + yarn:
+
+  ::
+
+    npm config set registry https://registry.npmmirror.com
+    npm config get registry
+    yarn config set registry https://registry.npmmirror.com
+    yarn config get registry
+
+- flutter pub:
+
+  ::
+
+    export FLUTTERPATH="/usr/local/flutter/bin"
 
 Open vSwitch Commands Cheatsheet
 -----------------------------------
