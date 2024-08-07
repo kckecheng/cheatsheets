@@ -1,5 +1,3 @@
-.. contents:: MISC Tips
-
 =========
 MISC Tips
 =========

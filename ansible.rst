@@ -1,5 +1,3 @@
-.. contents:: Ansible Tips
-
 =============
 Configuration
 =============

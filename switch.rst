@@ -1,5 +1,3 @@
-.. contents:: Switch Tips
-
 ==================
 Brocade SAN Switch
 ==================

@@ -1,5 +1,3 @@
-.. contents:: VMAX Tips
-
 ======
 SYMCLI
 ======

@@ -1,5 +1,3 @@
-.. contents:: Linux and OpenStack Network Tips
-
 ==================
 Linux Network Tips
 ==================
@@ -1136,6 +1134,19 @@ Tools
 Lanage specific proxies
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+- flutter pub:
+
+  ::
+
+    export FLUTTERPATH="/usr/local/flutter/bin"
+
+- go
+
+  ::
+
+    # GOPROXY="https://goproxy.cn,direct"
+    export GOPROXY=https://goproxy.io
+
 - nodejs npm + yarn:
 
   ::
@@ -1145,11 +1156,19 @@ Lanage specific proxies
     yarn config set registry https://registry.npmmirror.com
     yarn config get registry
 
-- flutter pub:
+- pip
 
   ::
 
-    export FLUTTERPATH="/usr/local/flutter/bin"
+    # with ~/.pip/pip.conf
+    # [global]
+    # index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+    # [install]
+    # trusted-host = https://pypi.tuna.tsinghua.edu.cn
+    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+    pip config set install.trusted-host mirrors.aliyun.com
+    pip config list
+
 
 Open vSwitch Commands Cheatsheet
 -----------------------------------

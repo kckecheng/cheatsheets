@@ -1,5 +1,3 @@
-.. contents:: Python Tips
-
 ===========
 Python Tips
 ===========

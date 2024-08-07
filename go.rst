@@ -1,5 +1,4 @@
-.. contents:: Golang Tips
-
+=============
 Golang Tips
 =============
 

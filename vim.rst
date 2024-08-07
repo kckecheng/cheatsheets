@@ -1,5 +1,3 @@
-.. contents:: VIM Tips
-
 ========
 VIM Tips
 ========

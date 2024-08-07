@@ -1,5 +1,4 @@
-.. contents:: Code Utilities
-
+===============
 Code Utilities
 ===============
 

@@ -1,5 +1,3 @@
-.. contents:: Git Tips
-
 =========
 Git Tips
 =========

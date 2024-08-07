@@ -1,5 +1,4 @@
-.. contents:: Kubernetes Tips
-
+===========
 Kubernetes
 ===========
 

@@ -1,5 +1,4 @@
-.. contents:: Linux Tips
-
+=======================
 Command Line/Console
 =======================
 
