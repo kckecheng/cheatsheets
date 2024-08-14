@@ -1023,6 +1023,13 @@ Notes: gstack, eu-stack works the same.
   cat /proc/<PID>/task/<TID>/stack # stack for child process
   pstack <PID> # print kernel stack for the main and children within the same group
 
+Show process shcedule class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ps -cTef
+
 Change process scheduler policy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
