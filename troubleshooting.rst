@@ -765,6 +765,19 @@ Inspect system call table
   x /16x sys_call_table
   x /16x &sys_call_table
 
+Live debug w/ /proc/kcore
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+gdb can be used to debug a running kernel with the help of vmlinux and /proc/kcore. The functions are limited, it can only gets a read only view of what is going on in the kernel space.
+
+::
+
+  grep linux_banner /proc/kallsyms
+  ffffffff81e001c0 R linux_banner
+  gdb vmlinux /proc/kcore
+  x/s 0xffffffff81e001c0
+  print (const char *) 0xffffffff81e001c0
+
 The crash utility
 --------------------
 
