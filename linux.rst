@@ -165,6 +165,7 @@ Special glob
   setopt CASE_GLOB
   unsetopt CASE_GLOB
 
+=====================
 Cutting Edge Tools
 =====================
 
@@ -376,6 +377,7 @@ Terminal based Wireshark.
   tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
   tshark --color -V -i eth0
 
+============
 MISC Tips
 ============
 
@@ -1235,6 +1237,16 @@ Run a shell function with nohup
   }
   export -f abc
   nohup bash -c "abc" >/dev/null 2>&1 &
+
+Change file attributes
+--------------------------
+
+::
+
+  # use chattr to make a file append only, immutable(cannot be deleted), etc.
+  lsattr abc
+  chattr +i abc
+  chattr -i abc
 
 Who is on the server
 ----------------------
