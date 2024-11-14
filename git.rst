@@ -361,6 +361,14 @@ List commints between tags
 
   git log tag1..tag2 | wc -l
 
+List commits which have tags
++++++++++++++++++++++++++++++++
+
+::
+
+  git log --decorate --simplify-by-decoration
+  git log --tags --no-walk
+
 Move git HEAD
 -------------
 
