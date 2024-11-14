@@ -302,13 +302,18 @@ Examples:
 
 		:'<,'>s/^\S/\=printf("%d.\t", line(".") - line("'<") + 1)
 
-Position cursor line to the center of window
-++++++++++++++++++++++++++++++++++++++++++++++
+Position cursor line
++++++++++++++++++++++
 
 ::
 
   # normal mode
+  # to center
   zz
+  # top top
+  zt
+  # to bottom
+  zb
 
 vimdiff
 +++++++
