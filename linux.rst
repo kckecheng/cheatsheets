@@ -1102,6 +1102,20 @@ Check/Adjust oom score
   cat /proc/<pid>/oom_score_adj
   echo -1000 > /proc/<pid>/oom_score_adj
 
+Check vmalloc address info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat /proc/vmallocinfo
+
+Check memory space address info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  cat /proc/iomem
+
 Random number
 ---------------
 
