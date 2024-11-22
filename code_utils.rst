@@ -154,24 +154,6 @@ Doxygen can be used to create documents, call graphs(graphviz is required in adv
   cd html
   http-serve
 
-cscope + tceetree + graphviz
--------------------------------
-
-These tools can be used together to create call graph/tree.
-
-::
-
-  find . -name '*.c' > cscope.files
-  cscope -b -c # tceetree does not support compress, hence -c
-  # tceetree can be gotten from https://github.com/mihais/tceetree
-  # tceetree generates call graph with main as root by default
-  tceetree # the output is tceetree.out by default
-  # to generate call graph with a specified function as root, say init_hw_perf_events
-  tceetree -r init_hw_perf_events
-  # install graphviz to use dot
-  dot -Tsvg -O tceetree.out # the output will be tceetree.out.svc
-  dot -Tsvg -Grankdir=LR -O tceetree.out # the output will get a layout from left to right
-
 valgrind
 ----------
 
