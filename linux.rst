@@ -377,6 +377,20 @@ Terminal based Wireshark.
   tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
   tshark --color -V -i eth0
 
+fabric
+---------
+
+Simple tool for ai daily usage: https://github.com/danielmiessler/fabric. Since Moonshot API is compatible with OpenAI SDK, it can be used with fabric.
+
+::
+
+  fabric setup
+  # use moonshot base url, say https://api.moonshot.cn/v1
+  # use moonshot api key
+  fabric -l
+  echo "linux kernel mm struct" | fabirc -sp improve_prompt
+  echo "go for loop usage" | fabric -sp explain_code
+
 ============
 MISC Tips
 ============
