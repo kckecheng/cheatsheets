@@ -1904,6 +1904,16 @@ Write message to serial log(dmesg)
 
   echo "hello world" >>/dev/kmsg
 
+Show timestamp within history output
+---------------------------------------
+
+::
+
+  help history
+  export HISTTIMEFORMAT="%F %T "
+  history
+
+========
 Disks
 ========
 
@@ -2220,6 +2230,7 @@ Create a NVMe name space
   crw------- 1 root root 243, 3 Dec 29 17:27 /dev/nvme3
   brw-rw---- 1 root disk 259, 7 Dec 29 19:33 /dev/nvme3n1
 
+====================
 Package Mangement
 ====================
 
@@ -2443,6 +2454,7 @@ Uninstall
 - dnf remove <package name>: remove a package
 - dnf autoremove: remote orphaned packages
 
+============
 Services
 ============
 
@@ -2543,6 +2555,7 @@ iSCSI Server
 iSCSI server can be configured with Targetcli, please refer to https://www.server-world.info/en/note?os=CentOS_Stream_9&p=iscsi&f=1
 
 
+===================
 kvm/qemu/libvirt
 ===================
 
@@ -2698,11 +2711,12 @@ Non-interactive ops with vm
   echo reboot > $pty
   echo > $pty
 
+==========
 cgroups
 ==========
 
 list supported subsystems
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 ::
 
@@ -2710,7 +2724,7 @@ list supported subsystems
   lscgroup
 
 control cpu usage with cpu
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 #. Install libcgroup-tools which provides CLI tools for using cgroups
 #. Create a cgroup named cpulimit
@@ -2760,7 +2774,7 @@ control cpu usage with cpu
      cgexec -g cpu:cpulimit command2
 
 control cpus process can use with cpuset
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------
 
 ::
 
@@ -2772,7 +2786,7 @@ control cpus process can use with cpuset
   cgexec -g cpuset:testset command
 
 control block io
-~~~~~~~~~~~~~~~~~
+------------------
 
 ::
 
@@ -2785,7 +2799,7 @@ control block io
   # blkio.throttle.write_iops_device
 
 convert cgroup v1 to v2
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 ::
 
@@ -2793,7 +2807,7 @@ convert cgroup v1 to v2
   reboot
 
 move a process into a cgroup
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 ::
 
@@ -2807,6 +2821,7 @@ move a process into a cgroup
   echo $$ > /sys/fs/cgroup/cpu/mygroup/cgroup.procs
 
 
+===================
 kernel unsorted
 ===================
 
