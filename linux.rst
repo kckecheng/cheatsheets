@@ -1164,6 +1164,32 @@ Randomness test
   # diehard -g -l
   cat /dev/urandom | diehard -g 200 -a
 
+systemd
+----------
+
+List services/sessions/slices
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # man systemd: to find all supported types
+  systemctl list-units --type=service
+  systemctl list-units --type=scope
+  systemctl list-units --type=slice
+  systemd-loginctl list-sessions
+  ls /run/systemd/sessions
+
+Control and check session
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  ls /run/systemd/system
+  cat /run/systemd/system/session-3598362.scope
+  systemd-loginctl list-sessions
+  systemd-loginctl show-session xxx
+  systemd-loginctl terminate-session xxx
+
 journalctl
 ------------
 
