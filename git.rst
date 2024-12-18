@@ -187,7 +187,6 @@ git log
 - git log --graph --oneline --decorate --author="[Aa]aron"
 - git log --graph --oneline --decorate --author="aaron@gmail.com" -i
 - git log --grep xxx # show commits whose commit messages contain xxx
-- git show [--format=full] <sha1 hash>
 - git log -S <string> [-p] [file]
 - git log -G <regex> [-p] [file]
 - git log -S <string> <commit range starting>..<commit range ending>
@@ -196,6 +195,7 @@ git log
 - git log [--stat | --name-status | --name-only] # show what file have been changed
 - git log --follow tempest # show changes on a file/folder
 - git log -p # changes with patch
+- git show [--format=full] <sha1 hash>
 
 git mergetool
 -------------
@@ -494,8 +494,8 @@ Show diff introduced by a merge
   git show --first-parent <commit id>
   git diff <commit id>^ <commit id>
 
-switch/pull/fetch
------------------
+switch/pull/fetch/restore
+---------------------------
 
 Restore a file from another branch
 ++++++++++++++++++++++++++++++++++
@@ -522,6 +522,8 @@ Restore a file from a previous commit
 
   # Deprecated command: git checkout <commit hash or HEAD~n> -- <file 1> <file 2> ...
   git restore -s <commit hash or HEAD~n> <file 1> <file 2> ...
+  # donot change local file but create a new one
+  git show <commit hash or HEAD~n>:<file> | tee /tmp/xxx
 
 Overwrite all local files
 +++++++++++++++++++++++++++
