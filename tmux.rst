@@ -1,39 +1,11 @@
-=========
-TMUX Tips
-=========
+===================
+TMUX Shortcuts
+===================
 
-Plugins
--------
+NOTES:
 
-- tpm            : tmux plugin manager;
-- tmux-open      : open highlighted selection directly from tmux copy mode;
-- tmux-copycat   : enhance tmux search;
-- tmux-yank      : copy to system clipboard;
-- tmux-fingers   : copy pasting with vimium/vimperator like hints;
-- tmux-sensible  : basic tmux setting sensible for everyone;
-- nord-tmux      : the nord theme for tmux;
-
-Tools
------
-
-- tmuxp  : tmux session manager, which can be used to start sessions based on yaml definition;
-- xpanes : conduct concurrent ops with multiple panes, e.g., xpanes -c "ssh root@{}" host1 host2
-
-Scripts
---------
-
-- Create panels from shell
-
-  ::
-
-    tmux new-window -n sshlogins
-    for IP in 11 12 13; do
-      tmux split-window "ssh root@192.168.10.${IP}"
-      tmux select-layout tiled
-    done
-
-Shortcuts
-----------
+- suppose the default prefix(C-b or ^b) is used;
+- change the prefix: ^b: set-option prefix C-a
 
 +----------------------------------------+-----------------------------------------------+
 |Action                                  |  Shortcuts                                    |
@@ -158,3 +130,4 @@ Shortcuts
 +----------------------------------------+-----------------------------------------------+
 |Display information                     |  ^b: display-message -p '#{pane_width}'       |
 +----------------------------------------+-----------------------------------------------+
+
