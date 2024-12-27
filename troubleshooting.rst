@@ -1258,6 +1258,8 @@ Example 0: Help
 
 ::
 
+  # tune maxed num. of open files
+  ulimit -n 65536
   perf help
   # list supported events
   perf list

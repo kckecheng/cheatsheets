@@ -914,6 +914,9 @@ Refer to https://metebalci.com/blog/a-minimum-complete-tutorial-of-cpu-power-man
 
 ::
 
+  # note: if a vm with mwait enabled is monitored:
+  # - top: all vcpus will be shown with almost 100% cpu usage
+  # - turbostat: the real cpu usage is shown since turbostat
   turbostat # https://www.linux.org/docs/man8/turbostat.html
   cpupower monitor # https://www.linux.org/docs/man1/cpupower.html
   powertop
