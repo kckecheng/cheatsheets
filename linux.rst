@@ -377,6 +377,17 @@ Terminal based Wireshark.
   tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
   tshark --color -V -i eth0
 
+aichat
+--------
+
+AIChat is an all-in-one LLM CLI tool featuring Shell Assistant, CMD & REPL Mode, RAG, AI Tools & Agents, and More.
+
+::
+
+  cargo install aichat
+  aichat --help
+  aichat --info
+
 fabric
 ---------
 
