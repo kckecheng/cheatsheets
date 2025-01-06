@@ -1181,6 +1181,14 @@ Randomness test
 systemd
 ----------
 
+Show service definition
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  systemctl cat xxx
+  systemctl show xxx
+
 List services/sessions/slices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
