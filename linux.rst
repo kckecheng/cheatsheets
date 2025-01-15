@@ -1590,6 +1590,13 @@ Remove unprintable characters from a file with sed
 
   sed -e 's/[^[:print:]]//g' /path/to/file
 
+Change soft link with sed
+----------------------------
+
+::
+
+  sed -i --follow-symlinks ...
+
 Sort based on several fields
 -------------------------------
 
