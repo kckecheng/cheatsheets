@@ -979,6 +979,13 @@ List Task/Process Switch Stats
 
   pidstat -w
 
+Shiw workding dir of a process
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  pwdx <pid>
+
 Sort based on fields with top
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
