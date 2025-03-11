@@ -210,6 +210,20 @@ Examine memory
   x /16xw 0xffffffff81e12580
   x # repeat last command
 
+Show process memory mappings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  info proc mappings
+
+Dump memory to a file
+~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  dump memory mem.bin 0xXXXX 0xYYYY
+
 Disassemble
 ~~~~~~~~~~~~~
 
