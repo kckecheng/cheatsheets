@@ -518,6 +518,42 @@ SQL
     select * from t_task limit 10;
     select * from t_task oder by create_time asc limit 5;
 
+- Delete table entries w/ events
+
+::
+
+  DELIMITER //
+
+  USE db_kvm_comp
+  //
+
+  CREATE EVENT IF NOT EXISTS `cleanup_caseexecution`
+  ON SCHEDULE
+    EVERY 1 WEEK
+    STARTS CURRENT_TIMESTAMP + INTERVAL 1 HOUR
+    ON COMPLETION PRESERVE
+  DO
+  BEGIN
+    DELETE FROM `t_kvm_iot_caseexecution`
+    WHERE end_time < NOW() - INTERVAL 30 DAY;
+  END;
+  //
+
+  CREATE EVENT IF NOT EXISTS `cleanup_report`
+  ON SCHEDULE
+    EVERY 1 WEEK
+    STARTS CURRENT_TIMESTAMP + INTERVAL 1 HOUR
+    ON COMPLETION PRESERVE
+  DO
+  BEGIN
+    DELETE FROM `t_kvm_iot_report`
+    WHERE end_time < NOW() - INTERVAL 30 DAY;
+  END;
+  //
+
+
+  DELIMITER ;
+
 PostgreSQL psql
 -----------------
 
