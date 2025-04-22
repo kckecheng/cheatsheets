@@ -1209,6 +1209,13 @@ Decode dmesg timestamp
   # dmesg timestamp is the seconds passed since the boot time, just add it to boot time
   # cat /proc/stat | grep btime # the seconds since the Epoch
 
+System boot-up performance profile
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  systemd-analyze blame
+
 Tracing
 ---------
 
