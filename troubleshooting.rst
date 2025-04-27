@@ -1343,10 +1343,13 @@ Example 6: record with call graph
   perf record -ag -e 'sched:*' -- sleep 10
   perf report -g --stdio
 
-Example 7: probe a user space function defined in libc
+Example 7: dynamic tracepoint
 
 ::
 
+  # the function(tracepoint) needs to be enabled at first
+  # if the application is in kernel space, add it as below:
+  # perf probe -m kvm -a func_name
   perf probe -l
   perf probe -f -x /usr/lib64/libc-2.28.so -a inet_pton
   perf probe -l
