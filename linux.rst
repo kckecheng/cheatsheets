@@ -1267,6 +1267,13 @@ Show logs for specified boot
   journalctl --list-boots
   journalctl -b <index, such as 0, -1, etc.> -e
 
+Show logs for syslog identifiers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  journalctl -t vhost-user -t systemd -b0
+
 zsh tips
 -----------
 
