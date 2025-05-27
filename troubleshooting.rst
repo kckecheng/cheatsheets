@@ -814,6 +814,13 @@ Help
   apropos <command pattern>
   help <command>
 
+Live debug
+~~~~~~~~~~~~
+
+::
+
+  crash /usr/lib/debug/boot/vmlinux-$(uname -r) /proc/kcore
+
 Show the summary when system crashes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -829,12 +836,36 @@ Use gdb
 
   gdb info variable task_struct
 
+Load kernel modules and related debug symbol
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  mod
+  # refer to https://crash-utility.github.io/help_pages/mod.html
+  # suppose kvm.ko is in the default path and kvm.ko.debug in the default debug symbol path
+  mod -s kvm.ko
+  # suppose kvm.ko in /custom/path/to/modules/ and kvm.ko.debug in /custom/path/to/debug/
+  mod -p /custom/path/to/modules/ -s /custom/path/to/debug/ kvm
+  # suppose vhost.ko and symbols are together as /usr/lib/debug/lib/modules/5.4.32-1_51211.virt/kernel/drivers/vhost/vhost.ko
+  mod -s vhost /usr/lib/debug/lib/modules/5.4.32-1_51211.virt/kernel/drivers/vhost/vhost.ko
+
 Search memory
 ~~~~~~~~~~~~~~~~
 
 ::
 
   search -c task_struct # Ctrl + c to exit search
+
+Show all symbols
+~~~~~~~~~~~~~~~~~~
+
+::
+
+  # refer to man nm to see symbol type explanations, such as D, d, T, t, etc.
+  sym -l | grep vm_list | less -is
+  sym -q cpu
+  sym -m kvm
 
 Iterate over a list
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -918,6 +949,177 @@ Show symbol definitions
   ...
   crash> whatis misc_open
   int misc_open(struct inode *, struct file *);
+
+Check variables
+~~~~~~~~~~~~~~~~~
+
+::
+
+  mod -s kvm
+  # check definitions of a structure
+  struck kvm
+  # or just use the name
+  kvm
+
+  # check vm_list
+  vm_list
+  crash> vm_list
+  vm_list = $4 = {
+    next = 0xffa0000066fc6178,
+    prev = 0xffa00000511d2178
+  }
+  crash> (struct list_head)0xffa0000066fc6178
+  crash: command not found: (struct
+  crash> (struct list_head)*0xffa0000066fc6178
+  crash: command not found: (struct
+  crash> vm_list->next
+  crash: command not found: vm_list->next
+  crash> print vm_list->next
+  $5 = (struct list_head *) 0xffa0000066fc6178
+  crash> print *(struct list_head *)vm_list->next
+  $6 = {
+    next = 0xffa000006306a178,
+    prev = 0xffffffffa069f130 <vm_list>
+  }
+  crash> vm_list
+  vm_list = $7 = {
+    next = 0xffa0000066fc6178,
+    prev = 0xffa00000511d2178
+  }
+  crash> p vm_list->next
+  $8 = (struct list_head *) 0xffa0000066fc6178
+  crash> p *(struct list_head *)vm_list->next
+  $9 = {
+    next = 0xffa000006306a178,
+    prev = 0xffffffffa069f130 <vm_list>
+  }
+  crash> p *(struct list_head *)0xffffffffa069f130
+  $10 = {
+    next = 0xffa0000066fc6178,
+    prev = 0xffa00000511d2178
+  }
+
+Find the struct address based on its member address
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  # use the struct command struct -ox name or just name -ox
+  # let's find the owner(struct kvm) address based on a vm_list address
+  crash> mod -s kvm
+       MODULE       NAME                        TEXT_BASE         SIZE  OBJECT FILE
+  ffffffffa06b9cc0  kvm                      ffffffffa0620000  1392640  /usr/lib/debug/lib/modules/6.6.64-19.0007.virt.tl2.x86_64/kernel/arch/x86/kvm/kvm.ko.debug
+  crash> mod -s kvm_amd
+       MODULE       NAME                        TEXT_BASE         SIZE  OBJECT FILE
+  ffffffffa0897680  kvm_amd                  ffffffffa0aa3000   258048  /usr/lib/debug/lib/modules/6.6.64-19.0007.virt.tl2.x86_64/kernel/arch/x86/kvm/kvm-amd.ko.debug
+  crash> vm_list
+  vm_list = $1 = {
+    next = 0xffa0000066fc6178,
+    prev = 0xffa00000511d2178
+  }
+  crash> struct -ox kvm
+  struct kvm {
+       [0x0] rwlock_t mmu_lock;
+       [0x8] struct mutex slots_lock;
+      [0x28] struct mutex slots_arch_lock;
+      [0x48] struct mm_struct *mm;
+      [0x50] unsigned long nr_memslot_pages;
+      [0x58] struct kvm_memslots __memslots[2][2];
+    [0x1118] struct kvm_memslots *memslots[2];
+    [0x1128] struct xarray vcpu_array;
+    [0x1138] atomic_t nr_memslots_dirty_logging;
+    [0x113c] spinlock_t mn_invalidate_lock;
+    [0x1140] unsigned long mn_active_invalidate_count;
+    [0x1148] struct rcuwait mn_memslots_update_rcuwait;
+    [0x1150] spinlock_t gpc_lock;
+    [0x1158] struct list_head gpc_list;
+    [0x1168] atomic_t online_vcpus;
+    [0x116c] int max_vcpus;
+    [0x1170] int created_vcpus;
+    [0x1174] int last_boosted_vcpu;
+    [0x1178] struct list_head vm_list;
+    [0x1188] struct mutex lock;
+    [0x11a8] struct kvm_io_bus *buses[5];
+             struct {
+    [0x1188]     spinlock_t lock;
+                 struct list_head items;
+                 struct list_head resampler_list;
+                 struct mutex resampler_lock;
+    [0x11d0] } irqfds;
+    [0x1218] struct list_head ioeventfds;
+    [0x1228] struct kvm_vm_stat stat;
+    [0x12a0] struct kvm_arch arch;
+    [0x98d0] refcount_t users_count;
+    [0x98d8] struct kvm_coalesced_mmio_ring *coalesced_mmio_ring;
+    [0x98e0] spinlock_t ring_lock;
+    [0x98e8] struct list_head coalesced_zones;
+    [0x98f8] struct mutex irq_lock;
+    [0x9918] struct kvm_irq_routing_table *irq_routing;
+    [0x9920] struct hlist_head irq_ack_notifier_list;
+    [0x9928] struct mmu_notifier mmu_notifier;
+    [0x9968] unsigned long mmu_invalidate_seq;
+    [0x9970] long mmu_invalidate_in_progress;
+    [0x9978] gfn_t mmu_invalidate_range_start;
+    [0x9980] gfn_t mmu_invalidate_range_end;
+    [0x9988] struct list_head devices;
+    [0x9998] u64 manual_dirty_log_protect;
+    [0x99a0] struct dentry *debugfs_dentry;
+    [0x99a8] struct kvm_stat_data **debugfs_stat_data;
+    [0x99b0] struct srcu_struct srcu;
+    [0x99c8] struct srcu_struct irq_srcu;
+    [0x99e0] pid_t userspace_pid;
+    [0x99e4] bool override_halt_poll_ns;
+    [0x99e8] unsigned int max_halt_poll_ns;
+    [0x99ec] u32 dirty_ring_size;
+    [0x99f0] bool dirty_ring_with_bitmap;
+    [0x99f1] bool vm_bugged;
+    [0x99f2] bool vm_dead;
+    [0x99f8] struct notifier_block pm_notifier;
+    [0x9a10] struct xarray mem_attr_array;
+    [0x9a20] char stats_id[48];
+  }
+  SIZE: 0x9a50
+  # in kernel space, the address is gotten reversely: vm_list(0xffa0000066fc6178) - offset(0x1178)
+  crash> eval 0xffa0000066fc6178 - 0x1178
+  hexadecimal: ffa0000066fc5000  (17988010232102676KB)
+      decimal: 18419722477673140224  (-27021596036411392)
+        octal: 1776400000014677050000
+       binary: 1111111110100000000000000000000001100110111111000101000000000000
+  crash> p 0xffa0000066fc5000
+  $2 = 18419722477673140224
+  crash> p (struct kvm *)0xffa0000066fc5000
+  $3 = (struct kvm *) 0xffa0000066fc5000
+  crash> p *(struct kvm *)0xffa0000066fc5000                                                                                                                                                                                                                                                         $4 = {
+    mmu_lock = {
+      raw_lock = {
+        {
+          cnts = {
+            counter = 0
+          },
+          {
+            wlocked = 0 '\000',
+            __lstate = "\000\000"
+          }
+        },
+        wait_lock = {
+          {
+            val = {
+              counter = 0
+            },
+            {
+              locked = 0 '\000',
+              pending = 0 '\000'
+            },
+            {
+              locked_pending = 0,
+              tail = 0
+            }
+          }
+        }
+      }
+    },
+    slots_lock = {
+    ...
 
 Disassemble
 ~~~~~~~~~~~~~
