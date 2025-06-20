@@ -28,6 +28,7 @@ Command Recall Shortcuts
 - Ctrl + g - quite the search
 - Ctrl + p – previous command in history (i.e. walk back through the command history)
 - Ctrl + n – next command in history (i.e. walk forward through the command history)
+- Ctrl + o - execute current displayed command(repeatable)
 - Alt + . – use the last word of the previous command
 
 Command Control Shortcuts
