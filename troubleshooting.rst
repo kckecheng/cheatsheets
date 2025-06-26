@@ -194,6 +194,105 @@ TUI is short for text UI which can be used to display source code, asm, and regi
 - info win: list all displayed windows and their names, size, etc.
 - winheight/wh src/cmd/asm/regs +/- <num. of lines>: change window's height based on its name gotten from info win
 
+Automate with a command file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Simple script**
+
+::
+
+  # print backtrace automatically when a function is hit, then exit
+  cat >pbt.gdb<<EOF
+  set verbose off
+  set confirm off
+  set pagination off
+  set logging file gdb.txt
+  set logging on
+  set width 0
+  set height 0
+  file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
+  break hmp_info_cpus
+  commands 1
+  bt
+  c
+  end
+  q
+  EOF
+  gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
+  # from another session, trigger the breakpint by executing below command:
+  # virsh qmeu-monitor-command xxxxxx --hmp info cpus
+
+**Script with a loop**
+
+::
+
+  # print backtrace automatically when a function is hit, then exit
+  cat >pbt.gdb<<EOF
+  set verbose off
+  set confirm off
+  set pagination off
+  set logging file gdb.txt
+  set logging on
+  set width 0
+  set height 0
+  file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
+  break hmp_info_cpus
+  commands
+  set $counter = 0
+  c
+  end
+  while $counter < 10
+  bt
+  set $counter = $counter + 1
+  c
+  end
+  q
+  EOF
+  gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
+  # from another session, trigger the breakpint by executing below command:
+  # virsh qmeu-monitor-command xxxxxx --hmp info cpus
+
+
+Automation with python API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Reference: https://sourceware.org/gdb/current/onlinedocs/gdb.html/Python-API.html#Python-API
+
+Example:
+
+::
+
+  # usage: gdb -p `pidof libvirtd`  -ex "source demo.py" -ex "set pagination off"
+  import gdb
+  import time
+  import os
+
+  class qemuMigrationDriveMirror(gdb.Breakpoint):
+      def __init__(self):
+          gdb.Breakpoint.__init__(self, "qemuMigrationDriveMirrorReady")
+
+      def stop(self):
+          os.system("kill -9 $(pidof qemu-system-x86_64)")
+
+          gdb.write("\nqemu process killed\n")
+          gdb.execute("bt")
+
+          return False
+
+  class qemuMigrationCancelDriveMirror(gdb.Breakpoint):
+      def __init__(self):
+          gdb.Breakpoint.__init__(self, "qemuMigrationCancelDriveMirror")
+
+      def stop(self):
+          frame = gdb.selected_frame()
+          gdb.write(f"Hit breakpoint at: {frame.name()}")
+
+          return False
+
+  qemuMigrationDriveMirror()
+  qemuMigrationCancelDriveMirror()
+  gdb.execute("continue")
+
 Print definition of an expression
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -367,64 +466,6 @@ Run a command for specified times
   call sleep(1)
   c
   end
-
-Automate with a command file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Simple script**
-
-::
-
-  # print backtrace automatically when a function is hit, then exit
-  cat >pbt.gdb<<EOF
-  set verbose off
-  set confirm off
-  set pagination off
-  set logging file gdb.txt
-  set logging on
-  set width 0
-  set height 0
-  file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
-  break hmp_info_cpus
-  commands 1
-  bt
-  c
-  end
-  q
-  EOF
-  gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
-  # from another session, trigger the breakpint by executing below command:
-  # virsh qmeu-monitor-command xxxxxx --hmp info cpus
-
-**Script with a loop**
-
-::
-
-  # print backtrace automatically when a function is hit, then exit
-  cat >pbt.gdb<<EOF
-  set verbose off
-  set confirm off
-  set pagination off
-  set logging file gdb.txt
-  set logging on
-  set width 0
-  set height 0
-  file /usr/lib/debug/usr/local/bin/qemu-system-x86_64.debug
-  break hmp_info_cpus
-  commands
-  set $counter = 0
-  c
-  end
-  while $counter < 10
-  bt
-  set $counter = $counter + 1
-  c
-  end
-  q
-  EOF
-  gdb -q -p `pgrep -f qemu-system-x86_64` -x pbt.gdb
-  # from another session, trigger the breakpint by executing below command:
-  # virsh qmeu-monitor-command xxxxxx --hmp info cpus
 
 trace into glibc
 ~~~~~~~~~~~~~~~~~~~
