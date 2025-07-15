@@ -293,6 +293,23 @@ Example:
   qemuMigrationCancelDriveMirror()
   gdb.execute("continue")
 
+Attach to a process once it is started
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  inotifywait -e open /usr/local/bin/qemu-system-x86_64
+  pid=$(pgrep -f c8668dee-48c0-4968-aad6-e8a4fb0dd1ef)
+  # pitfall:
+  # - the process may not the one we want to debug, but it is paused by gdb as we want
+  # - info proc to check the real exe, if it is not the one
+  # - pgrep -f again to find the real process, then gdb -p xxx again
+  gdb -q /usr/bin/qemu-system-x86_64 -p $pid
+  info proc
+  # start a new connection
+  pgrep -f /usr/bin/qemu-system-x86_64
+  gdb -p xxx
+
 Print definition of an expression
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -452,7 +469,7 @@ Run gdb commands through CLI
       gdb --batch --pid 6666 -ex "dump memory 6666-$start-$stop.dump 0x$start 0x$stop"; \
       done
 
-Run a command for specified times
+Run a command for specified rounds
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
