@@ -1075,64 +1075,296 @@ Environment variable
   export rsync_proxy=$http_proxy
   export no_proxy='www.test.com,127.0.0.1,2.2.2.2'
 
-SOCKS5 Proxy with Shadowsocks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SOCKS5 Proxy with xray
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use `Shadowsocks-rust(recommended) <https://github.com/shadowsocks/shadowsocks-rust>`_ or `Shadowsocks-libev <https://github.com/shadowsocks/shadowsocks-libev>`_ instead of the original shadowsocks. The configuration options can be found `here <https://github.com/shadowsocks/shadowsocks/wiki>`_.
+Installation:
 
 ::
 
-  # Server side configs:
-  # - server: the ip to binds to
-  # - password: choose a strong password
-  # - method: choose a strong encryption
-  # - mode: tcp_and_udp or tcp_only based on real cases
-  # - nameserver:
-  #   - without this option: use the same dns server where shadowsocks server is running
-  #   - 8.8.8.8: use google
-  #   - 1.1.1.1: use cloudflare
+  # xray needs to be installed on both server and client side
+  # reference: https://github.com/XTLS/Xray-install
+  bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+
+Configuration:
+
+::
+
+  # Reference: https://cscot.pages.dev/2023/03/02/Xray-REALITY-tutorial/
+  # Server side:
   {
-      "server": ["0.0.0.0"],
-      "mode": "tcp_only",
-      "server_port": 58388,
-      "local_port": 10800,
-      "password": "Iamthepassword!",
-      "timeout": 300,
-      "nameserver": "1.1.1.1",
-      "method": "chacha20-ietf-poly1305"
+      "log": {
+          "loglevel": "warning"
+      },
+      "routing": {
+          "domainStrategy": "IPIfNonMatch",
+          "rules": [
+              {
+                  "type": "field",
+                  "domain": [
+                      "geosite:category-ads-all"
+                  ],
+                  "outboundTag": "block"
+              },
+              {
+                  "type": "field",
+                  "ip": [
+                      "geoip:cn"
+                  ],
+                  "outboundTag": "block"
+              }
+          ]
+      },
+      "inbounds": [
+          {
+              "listen": "0.0.0.0",
+              "port": 443,
+              "protocol": "vless",
+              "settings": {
+                  "clients": [
+                      {
+                          "id": "xxxxxx",
+                          "flow": "xtls-rprx-vision"
+                      }
+                  ],
+                  "decryption": "none"
+              },
+              "streamSettings": {
+                  "network": "tcp",
+                  "security": "reality",
+                  "realitySettings": {
+                      "show": false,
+                      "dest": "www.microsoft.com:443",
+                      "xver": 0,
+                      "serverNames": [
+                          "www.microsoft.com"
+                      ],
+                      "privateKey": "keyxxxxxx",
+                      "minClientVer": "",
+                      "maxClientVer": "",
+                      "maxTimeDiff": 0,
+                      "shortIds": [
+                          "a1b2c3"
+                      ]
+                  }
+              },
+              "sniffing": {
+                  "enabled": true,
+                  "destOverride": [
+                      "http",
+                      "tls"
+                  ]
+              }
+          }
+      ],
+      "outbounds": [
+          {
+              "protocol": "freedom",
+              "tag": "direct"
+          },
+          {
+              "protocol": "blackhole",
+              "tag": "block"
+          }
+      ],
+      "policy": {
+          "levels": {
+              "0": {
+                  "handshake": 3,
+                  "connIdle": 180
+              }
+          }
+      }
+  }
+  # Client side:
+  {
+    "dns": {
+      "hosts": {
+        "domain:googleapis.cn": "googleapis.com"
+      },
+      "servers": [
+        "1.1.1.1",
+        {
+          "address": "223.5.5.5",
+          "domains": [
+            "geosite:cn",
+            "geosite:geolocation-cn"
+          ],
+          "expectIPs": [
+            "geoip:cn"
+          ],
+          "port": 53
+        }
+      ]
+    },
+    "inbounds": [
+      {
+        "listen": "127.0.0.1",
+        "port": 10808,
+        "protocol": "socks",
+        "settings": {
+          "auth": "noauth",
+          "udp": true,
+          "userLevel": 8
+        },
+        "sniffing": {
+          "destOverride": [
+            "http",
+            "tls"
+          ],
+          "enabled": true,
+          "routeOnly": false
+        },
+        "tag": "socks"
+      },
+      {
+        "listen": "127.0.0.1",
+        "port": 10809,
+        "protocol": "http",
+        "settings": {
+          "userLevel": 8
+        },
+        "tag": "http"
+      }
+    ],
+    "log": {
+      "loglevel": "warning"
+    },
+    "outbounds": [
+      {
+        "mux": {
+          "concurrency": -1,
+          "enabled": false,
+          "xudpConcurrency": 8,
+          "xudpProxyUDP443": ""
+        },
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "server/ip/address",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision",
+                  "id": "xxxxxx",
+                  "level": 8,
+                  "security": "auto"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "quicSettings": {
+            "header": {
+              "type": "none"
+            },
+            "key": "",
+            "security": ""
+          },
+          "realitySettings": {
+            "allowInsecure": false,
+            "fingerprint": "chrome",
+            "publicKey": "keyyyyyyy",
+            "serverName": "www.microsoft.com",
+            "shortId": "a1b2c3",
+            "show": false,
+            "spiderX": "/"
+          },
+          "security": "reality",
+          "tcpSettings": {
+            "header": {
+              "type": "none"
+            }
+          }
+        },
+        "tag": "proxy"
+      },
+      {
+        "protocol": "freedom",
+        "settings": {},
+        "tag": "direct"
+      },
+      {
+        "protocol": "blackhole",
+        "settings": {
+          "response": {
+            "type": "http"
+          }
+        },
+        "tag": "block"
+      }
+    ],
+    "remarks": "kc_singapore",
+    "routing": {
+      "domainStrategy": "IPIfNonMatch",
+      "rules": [
+        {
+          "ip": [
+            "1.1.1.1"
+          ],
+          "outboundTag": "proxy",
+          "port": "53"
+        },
+        {
+          "ip": [
+            "223.5.5.5"
+          ],
+          "outboundTag": "direct",
+          "port": "53"
+        },
+        {
+          "domain": [
+            "domain:googleapis.cn"
+          ],
+          "outboundTag": "proxy"
+        },
+        {
+          "ip": [
+            "geoip:private"
+          ],
+          "outboundTag": "direct"
+        },
+        {
+          "ip": [
+            "geoip:cn"
+          ],
+          "outboundTag": "direct"
+        },
+        {
+          "domain": [
+            "geosite:cn"
+          ],
+          "outboundTag": "direct"
+        },
+        {
+          "domain": [
+            "geosite:geolocation-cn"
+          ],
+          "outboundTag": "direct"
+        },
+        {
+          "outboundTag": "proxy",
+          "port": "0-65535"
+        }
+      ]
+    }
   }
 
-  # Clise side configs:
-  # - use the same options as the server if there is no idea
-  # - server: ss server ip
-  # - server_port: the same as on the ss server
-  # - password: the same as on the ss server
-  # - mode: the same as on the ss server
-  # - local_port: any port to be used for local proxy
-  {
-      "server": "ss server ip"
-      "server_port": 58388,
-      "mode": "tcp_only",
-      "local_address": "127.0.0.1",
-      "local_port": 10800,
-      "password": "Iamthepassword!",
-      "timeout": 300,
-      "method": "chacha20-ietf-poly1305"
-  }
-  # NOTES:
-  # - password: it is recommended to get a strong password with "openssl rand -base64 24"(24 is just an example)
+Usage:
 
-Tools
-~~~~~~~~
+::
 
-- sing-box(recommended as both the server and the client, refer to https://sing-box.sagernet.org/): https://github.com/SagerNet/sing-box
-- xray core(refer to https://xtls.github.io/document/): https://github.com/XTLS/Xray-core
-- clash(recommended as the local client, refer to https://github.com/Dreamacro/clash): https://github.com/Dreamacro/clash
-- v2ray: https://github.com/v2fly/v2ray-core
-- warp one-click script: https://github.com/fscarmen/warp
+  systemctl enable xray
+  systemctl restart xray
+  # client side
+  export all_proxy=socks5://127.0.0.1:10808
 
-Lanage specific proxies
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Language specific proxies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - flutter pub:
 
