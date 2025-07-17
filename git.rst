@@ -161,6 +161,7 @@ Branch
 - git branch <name>    ---> Create a branch
 - git branch -d <name> ---> Delete a branch
 - git branch -m <nmae> ---> Rename a branch
+- git branch --contains=<commit|tag> ---> show all branches contain the commit|tag
 - git checkout <name>  ---> Checkout a branch(deprecated)
 - git checkout -b <name> == git branch <name> + git checkout <name>(deprecated)
 - git switch <name>    ---> Switch to a branch (equals git checkout <name>)
