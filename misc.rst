@@ -7,8 +7,23 @@ Principles
 
 - SOLID ACID CAP
 - LET'S USE RED
-- Puppies always love yummy donuts, very much playing in sunny spots, together!
-- Thoughtfully create really excellent inputs
+- Cats Donot Fear Mice.
+- Puppies Always Love Yummy Donuts Very Much, Playing In Sunny Spots Together!
+- Thoughtfully Create Really Excellent Inputs, ABI!
+
+  - Task/instruction
+  - Context
+  - References/examples
+  - Evaluate
+  - Iterate
+  - Always be iterating
+- Asking Thoughtfully Always Finds Clarity!:
+
+  - Action verb as the staring point: summarize, analyze, translate, rewrite, extract, classify, generate, etc.
+  - Topic/scope: be specific
+  - Audience/tone: python program experts, 5th graders, friendly, formal, neutral, etc.
+  - Format: as json string with fields ..., as table with columns ..., etc.
+  - Constraints/rules: top K, should only mention ..., etc.
 
 Sphinx Markdown
 ----------------
