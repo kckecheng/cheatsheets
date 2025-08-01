@@ -8,8 +8,8 @@ Principles
 - SOLID ACID CAP
 - LET'S USE RED
 - Cats Donot Fear Mice.
-- Puppies Always Love Yummy Donuts Very Much, Playing In Sunny Spots Together!
-- Thoughtfully Create Really Excellent Inputs, ABI!
+- Puppies and little unicorns dance very merrily, playing in starry tents.
+- Thoughtfully Create Really Excellent Inputs, ABI!:
 
   - Task/instruction
   - Context
