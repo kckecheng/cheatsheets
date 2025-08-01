@@ -228,6 +228,6 @@ Here are several examples on how to generate compile_commands.json:
 
   ./configure ...
   make --always-make --dry-run -j32 2>&1 | tee build.log
-  # pipx install compiledb
+  # uv tool install compiledb
   compiledb --parse build.log
   head compile_commands.json
