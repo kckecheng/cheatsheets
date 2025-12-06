@@ -1,5 +1,3 @@
-=====
-About
-=====
+# About
 
 All kinds of tips.
