@@ -6,13 +6,13 @@
 - LET'S USE RED
 - Cats Donot Fear Mice.
 - Puppies and little unicorns dance very merrily, playing in starry tents.
-  - Puppies: parallel, preemption, scheduling, intertupts, apic, etc.
-  - and: async, signals, ipc(semphore, message queue, shared memory), locking(semphore, spin lock, rcu), etc.
+  - Puppies: parallel, scheduling, numa, locking, etc.
+  - and: async, signals, interupts, softirqs, apic, preemption, etc.
   - little: limit, ulimit, cgroup, sysctl, etc.
   - unicorns: uptime, top, etc.
   - dance: dmesg, systemctl, journalctl, /var/log/messages, etc.
   - very: vmstat, free, /proc/meminfo, /sys, etc.
-  - merrily: mpstat, /proc/interrupts, etc.
+  - merrily: mpstat, /proc/interrupts, /proc/softirqs, etc.
   - playing: ps, pidstat, pstree, lsof, at, cron, /proc, /sys, etc.
   - in: iostat, netstat, ss, tcpdump, dstat, sysctl, etc.
   - starry: sar, top, atop, htop, perf top, etc.
