@@ -31,6 +31,19 @@
   - Format: as json string with fields ..., as table with columns ..., etc.
   - Constraints/rules: top K, should only mention ..., etc.
 
+## Agile
+
+- Stories: As a [type of user], I want to [action] so I can [goal].
+- Roles: product owners, scrum masters, developers, testers, etc.
+- Artifacts: product backlog, sprint backlog, increments(milestones), etc.
+- Ceremonies: sprit planning, daily scrum, sprint review, sprint restrospective, etc.
+- Rules:
+  - Specific
+  - Measurable
+  - Achievable
+  - Relevant
+  - Time-bound
+
 ## Sphinx Markdown
 
 1. Install
@@ -161,7 +174,9 @@ html colored text:
 
 - d2: https://d2lang.com/tour/intro/ && https://github.com/terrastruct/d2
 
-## Docker - Mount nfs within a docker container
+## Docker
+
+### Mount nfs within a docker container
 
 ```sh
 docker run --name <container name> -it  --privileged=true <image name, such as ubuntu:16.04>
@@ -170,7 +185,7 @@ apt install nfs-common
 mount -t nfs <host>:<path> <mount point>
 ```
 
-## Docker - Enable Remote API
+### Enable Remote API
 
 - Locate the service file: find /etc/systemd -iname "*docker*"
 - Edit it and add **-H tcp://0.0.0.0:2376** as below:
@@ -183,7 +198,7 @@ mount -t nfs <host>:<path> <mount point>
 - Restart docker service: sudo systemctl daemon-reload; sudo systemctl restart docker.service
 - Reference: https://docs.docker.com/engine/reference/commandline/dockerd/
 
-## Docker - Control terminal size for exec
+### Control terminal size for exec
 
 When "docker exec -it" is used to estabilish a terminal to the container, the terminal size (columns x lines) sometimes is quite small for content display.
 
@@ -195,7 +210,9 @@ tput lines
 docker exec -it -e COLUMNS=<tput cols output> -e LINES=<tput lines output> <container_name> bash
 ```
 
-## Windows - Show MPIO Paths
+## Windows
+
+### Show MPIO Paths
 
 ```powershell
 # To get target port WWN information, fcinfo needs to be used
@@ -206,7 +223,7 @@ mpclaim -s -d
 mpclaim -s -d <Disk>
 ```
 
-## Winows - DiskPart
+### DiskPart
 
 **DiskPart** is the builtin tool for managing disks on Windows, which can be used for disk rescan, list, online/offline, etc.
 
@@ -245,13 +262,13 @@ mpclaim -s -d <Disk>
   attributes
   ```
 
-## Windows - sg3_utils
+### sg3_utils
 
 sg3_utils is a tool set to send SCSI commands to devices. It supports Linux, **Windows**, Solaris, FreeBSD, etc.
 
 The tool can be downloaded from http://sg.danny.cz/sg/sg3_utils.html
 
-## Windows - winsat
+### winsat
 
 winsat is a builtin benchmark tool which supports CPU, memory, disk, etc. benchmarking.
 
@@ -261,7 +278,7 @@ winsat is a builtin benchmark tool which supports CPU, memory, disk, etc. benchm
   winsat disk -drive g
   ```
 
-## Windows - Run commands in the background
+### Run commands in the background
 
 ```powershell
 $session = New-PSSession -cn localhost
@@ -276,7 +293,7 @@ Invoke-Command -Session $session -ScriptBlock {
 Disconnect-PSSession $session
 ```
 
-## Windows - Run powershell commands in the background through ssh
+### Run powershell commands in the background through ssh
 
 OpenSSH server can be enabled on current Windows releases. It makes running cmd commands remotely possible. However, to run powershell commands, all commands need to be formated within one line and wrapped as 'powershell -command "xxx; xxx; ..."'
 
