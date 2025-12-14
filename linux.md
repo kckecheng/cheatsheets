@@ -341,29 +341,6 @@ tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
 tshark --color -V -i eth0
 ```
 
-## aichat
-
-AIChat is an all-in-one LLM CLI tool featuring Shell Assistant, CMD & REPL Mode, RAG, AI Tools & Agents, and More.
-
-```bash
-cargo install aichat
-aichat --help
-aichat --info
-```
-
-## fabric
-
-Simple tool for ai daily usage: https://github.com/danielmiessler/fabric. Since Moonshot API is compatible with OpenAI SDK, it can be used with fabric.
-
-```bash
-fabric setup
-# use moonshot base url, say https://api.moonshot.cn/v1
-# use moonshot api key
-fabric -l
-echo "linux kernel mm struct" | fabric -sp improve_prompt
-echo "go for loop usage" | fabric -sp explain_code
-```
-
 # MISC Tips
 
 ## hex editor

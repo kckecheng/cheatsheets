@@ -4,7 +4,11 @@
 
 - SOLID ACID CAP
 - LET'S USE RED
-- Cats Donot Fear Mice.
+- Cats Donot Fear Mice:
+  - CPU: sockets, cores, hts, l1/l2/l3 cache, togology, flags, vtx/svm, registers, mmu, tlb, segmenting, paging, system calls
+  - Device Controller: registers, iommu, interrupts
+  - Fabric: bus, bridge, acpi
+  - Memory: numa, mmu, tlb, huge page, page table, pgd/pud/pmd/pte, logical/linear/physical address, buddy system, zone allocator, slab allocator
 - Puppies and little unicorns dance very merrily, playing in starry tents.
   - Puppies: parallel, scheduling, numa, locking, etc.
   - and: async, signals, interupts, softirqs, apic, preemption, etc.
@@ -17,19 +21,23 @@
   - in: iostat, netstat, ss, tcpdump, dstat, sysctl, etc.
   - starry: sar, top, atop, htop, perf top, etc.
   - tents: perf record, gdb, strace, trace-cmd, etc.
-- Thoughtfully Create Really Excellent Inputs, ABI!:
-  - Task/instruction
-  - Context
-  - References/examples
+- Prompting Framework: Thoughtfully Create Really Excellent Inputs:
+  - Task:
+    - Action verbs: summarize, analyze, translate, rewrite, extract, classify, generate, make, etc.
+    - Persona: python program experts, linux adams, etc.
+    - Format: ordered list, json, concise, top k, etc.
+  - Context:
+    - Audience: 5th graders, experts, etc.
+    - Background
+    - Contraints: scope, rules, should only mention, donot, etc.
+    - Tone: friendly, formal, casual, etc.
+  - References: zero/one/few shot
   - Evaluate
-  - Iterate
-  - Always be iterating
-- Asking Thoughtfully Always Finds Clarity!:
-  - Action verb as the staring point: summarize, analyze, translate, rewrite, extract, classify, generate, etc.
-  - Topic/scope: be specific
-  - Audience/tone: python program experts, 5th graders, friendly, formal, neutral, etc.
-  - Format: as json string with fields ..., as table with columns ..., etc.
-  - Constraints/rules: top K, should only mention ..., etc.
+  - Iterate:
+    - Revisit the prompting framework
+    - Separate prompts into shorter sentence
+    - Try different phrasing or switching to an analogous task
+    - Introduce constaints
 
 ## Agile
 

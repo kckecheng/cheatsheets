@@ -194,6 +194,37 @@
                                                                       └─────────┘   └─────────────┘      └───────────────┘
 ```
 
+### Skills
+
+**PROBLEM SOLVED**: provide reusable, domain-specific prompt templates that extend agent capabilities for specialized tasks without requiring new tools or MCP servers.
+
+```text
+                                                                               ┌──────────────────┐
+                                                                               │                  │
+             ┌───────────────────┐                                             │ Agent with Skills│
+             │                   │                                             │                  │
+             │ Agent without     │                                             └──────────────────┘
+             │ Skills            │                                                ┌──────────────┐
+       ┌─────┴───────────┬───────┴─────────┐                                      │ Skill Loader │
+       │                 │                 │                              ┌───────┴──────┬───────┴──────────────┐
+       │                 │                 │                              │              │                      │
+       │ Generic prompts │ Generic prompts │                              │  Skill 1     │  Skill 2   Skill 3   │
+       │ for all tasks   │ for all tasks   │                              │  (PDF)       │  (Code     (Data     │
+       │                 │                 │                              │              │  Review)   Analysis) │
+       │                 │                 │                              │              │                      │
+       │                 │                 │                              │ On-demand loading: skills inject    │
+       │                 │                 │                              │ specialized prompts when invoked    │
+       │                 │                 │                              │              │                      │
+       │                 │                 │                              │              │                      │
+  ┌────▼─────┐      ┌────▼─────┐      ┌────▼──────┐                       │              │                      │
+  │          │      │          │      │           │                 ┌─────▼─────┐  ┌─────▼──────────┐  ┌────────▼────────┐
+  │ Limited  │      │ Limited  │      │ Limited   │                 │           │  │                │  │                 │
+  │ domain   │      │ domain   │      │ domain    │                 │ Domain    │  │ Domain         │  │ Domain          │
+  │ knowledge│      │ knowledge│      │ knowledge │                 │ expertise │  │ expertise      │  │ expertise       │
+  │          │      │          │      │           │                 │ + workflow│  │ + workflow     │  │ + workflow      │
+  └──────────┘      └──────────┘      └───────────┘                 └───────────┘  └────────────────┘  └─────────────────┘
+```
+
 ### A2A
 
 **PROBLEM SOLVED**: provide a unified and standard mechanism to delegate tasks among agents, make agents focusable.
@@ -234,16 +265,21 @@
 
 ## Spec Driven Development(SDD)
 
-Recommended for **Greenfield** Porjects but not **Brownfield** Projects.
-
 ### AI Usage Level
 
 - **PLAIN**: Talk with AI directly to steer it - **Most of us are right here**
 - **SPEC First**: Create specs at first, use them then to generate contents, delete it after the task is done - **Some of us are right here**
 - **SPEC Anchored**: Maintain specs for content generation, evolution, and maintenance across the project life cycle - **What we should follow**
-- **SPEC as SOURCE**: Human only modify specs, never touch code - **The uncertain future**
+- **SPEC as Single Source of Truth**: Human only modify specs, never touch code - **The uncertain future**
 
 ### SSD Procedure
+
+Chosse suitable toolkits/assistants based on project type:
+
+- **Greenfiled**: Spec Kit
+- **Brownfield**: OpenSpec
+
+#### Spec Kit
 
 ```text
                            SPEC Kit
@@ -270,9 +306,28 @@ Recommended for **Greenfield** Porjects but not **Brownfield** Projects.
   - Implementable.
   - Testable.
 - **Implement**: coding by executing tasks one by one.
-- **Verify**: testing.
-- **Maintain**: evolve.
 
-### Spec Kit
+#### OpenSpec
 
-- [Spec Kit Github Repo](https://github.com/github/spec-kit)
+```text
+                           OpenSpec
+  ┌─────────────────────────────────────────────────────────────┐
+  │                                                             │
+  │ ┌───────────┐         ┌───────┐              ┌─────────┐    │            ┌────────┐                ┌──────────┐
+  │ │ Proposal  ┼─────────► Apply ┼──────────────► Archive ┼────│────────────► Verify ├────────────────►  Maintain│
+  │ └───────────┘         └───────┘              └─────────┘    │            └────────┘                └──────────┘
+  │                                                             │
+  └─────────────────────────────────────────────────────────────┘
+```
+
+- **Proposal**:
+  - Draft the specs.
+  - Verify and review the specs: openspec list, openspec validate xxx, openspec show xxx
+  - Refine the specs.
+- **Apply**: implement the changes.
+- **Archive**: Archive the changes.
+
+#### References
+
+- [Spec Kit](https://github.com/github/spec-kit)
+- [OpenSpec](https://github.com/Fission-AI/OpenSpec)
