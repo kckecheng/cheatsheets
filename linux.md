@@ -341,6 +341,12 @@ tshark --color -i eth0 -d udp.port=4789,vxlan -c 3 -f "port 4789"
 tshark --color -V -i eth0
 ```
 
+## ventoy
+
+Ventoy is an open source tool to create bootable USB drive for ISO/WIM/IMG/VHD(x)/EFI files:
+- multiple image files can be copied to the same USB drive(windows, linux, etc.), just select the one to boot during system boot;
+- extra partitions can be maintained to keep normal files.
+
 # MISC Tips
 
 ## hex editor
