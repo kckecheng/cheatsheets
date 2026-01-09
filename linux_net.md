@@ -1016,51 +1016,32 @@ Installation:
 ```bash
 # xray needs to be installed on both server and client side
 # reference: https://github.com/XTLS/Xray-install
-# install/uninstall w/ the official script
+# install/uninstall w/ the official script on the server side
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove
-# install with homebrew(recommended)
+# install with homebrew(recommended) on the client side
 brew install xray
 ```
 
 Configuration:
 
 ```json
-# Reference: https://cscot.pages.dev/2023/03/02/Xray-REALITY-tutorial/
 # Server side:
 {
     "log": {
         "loglevel": "warning"
     },
-    "routing": {
-        "domainStrategy": "IPIfNonMatch",
-        "rules": [
-            {
-                "type": "field",
-                "domain": [
-                    "geosite:category-ads-all"
-                ],
-                "outboundTag": "block"
-            },
-            {
-                "type": "field",
-                "ip": [
-                    "geoip:cn"
-                ],
-                "outboundTag": "block"
-            }
-        ]
-    },
     "inbounds": [
         {
-            "listen": "0.0.0.0",
             "port": 443,
+            "listen": "0.0.0.0",
             "protocol": "vless",
             "settings": {
                 "clients": [
                     {
-                        "id": "xxxxxx",
-                        "flow": "xtls-rprx-vision"
+                        "id": "xxxxxxxxxxxx",
+                        "flow": "xtls-rprx-vision",
+                        "level": 0
                     }
                 ],
                 "decryption": "none"
@@ -1075,14 +1056,37 @@ Configuration:
                     "serverNames": [
                         "www.microsoft.com"
                     ],
-                    "privateKey": "keyxxxxxx",
-                    "minClientVer": "",
-                    "maxClientVer": "",
-                    "maxTimeDiff": 0,
+                    "privateKey": "privatekeyxxx",
                     "shortIds": [
-                        "a1b2c3"
+                        "idxxx"
                     ]
                 }
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "settings": {}
+        }
+    ]
+}
+```
+
+```json
+# Client side:
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "port": 10443,
+            "listen": "127.0.0.1",
+            "protocol": "socks",
+            "settings": {
+                "udp": true,
+                "userLevel": 8
             },
             "sniffing": {
                 "enabled": true,
@@ -1091,218 +1095,75 @@ Configuration:
                     "tls"
                 ]
             }
+        },
+        {
+            "port": 10080,
+            "listen": "127.0.0.1",
+            "protocol": "http",
+            "settings": {}
         }
     ],
     "outbounds": [
         {
-            "protocol": "freedom",
-            "tag": "direct"
+            "protocol": "vless",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "a.b.c.d",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "xxxxxxxxxxxx",
+                                "flow": "xtls-rprx-vision",
+                                "level": 0,
+                                "encryption": "none"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "reality",
+                "realitySettings": {
+                    "serverName": "www.microsoft.com",
+                    "publicKey": "publickeyxxx",
+                    "shortId": "idxxx",
+                    "spiderX": "/"
+                }
+            },
+            "tag": "proxy"
         },
         {
-            "protocol": "blackhole",
-            "tag": "block"
+            "protocol": "freedom",
+            "tag": "direct"
         }
     ],
-    "policy": {
-        "levels": {
-            "0": {
-                "handshake": 3,
-                "connIdle": 180
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:cn",
+                    "geoip:private"
+                ],
+                "outboundTag": "direct"
             }
-        }
-    }
-}
-```
-
-```json
-# Client side:
-{
-  "dns": {
-    "hosts": {
-      "domain:googleapis.cn": "googleapis.com"
-    },
-    "servers": [
-      "1.1.1.1",
-      {
-        "address": "223.5.5.5",
-        "domains": [
-          "geosite:cn",
-          "geosite:geolocation-cn"
-        ],
-        "expectIPs": [
-          "geoip:cn"
-        ],
-        "port": 53
-      }
-    ]
-  },
-  "inbounds": [
-    {
-      "listen": "127.0.0.1",
-      "port": 10808,
-      "protocol": "socks",
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "userLevel": 8
-      },
-      "sniffing": {
-        "destOverride": [
-          "http",
-          "tls"
-        ],
-        "enabled": true,
-        "routeOnly": false
-      },
-      "tag": "socks"
-    },
-    {
-      "listen": "127.0.0.1",
-      "port": 10809,
-      "protocol": "http",
-      "settings": {
-        "userLevel": 8
-      },
-      "tag": "http"
-    }
-  ],
-  "log": {
-    "loglevel": "warning"
-  },
-  "outbounds": [
-    {
-      "mux": {
-        "concurrency": -1,
-        "enabled": false,
-        "xudpConcurrency": 8,
-        "xudpProxyUDP443": ""
-      },
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "server/ip/address",
-            "port": 443,
-            "users": [
-              {
-                "encryption": "none",
-                "flow": "xtls-rprx-vision",
-                "id": "xxxxxx",
-                "level": 8,
-                "security": "auto"
-              }
-            ]
-          }
         ]
-      },
-      "streamSettings": {
-        "network": "tcp",
-        "quicSettings": {
-          "header": {
-            "type": "none"
-          },
-          "key": "",
-          "security": ""
-        },
-        "realitySettings": {
-          "allowInsecure": false,
-          "fingerprint": "chrome",
-          "publicKey": "keyyyyyyy",
-          "serverName": "www.microsoft.com",
-          "shortId": "a1b2c3",
-          "show": false,
-          "spiderX": "/"
-        },
-        "security": "reality",
-        "tcpSettings": {
-          "header": {
-            "type": "none"
-          }
-        }
-      },
-      "tag": "proxy"
-    },
-    {
-      "protocol": "freedom",
-      "settings": {},
-      "tag": "direct"
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {
-        "response": {
-          "type": "http"
-        }
-      },
-      "tag": "block"
     }
-  ],
-  "remarks": "kc_singapore",
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
-      {
-        "ip": [
-          "1.1.1.1"
-        ],
-        "outboundTag": "proxy",
-        "port": "53"
-      },
-      {
-        "ip": [
-          "223.5.5.5"
-        ],
-        "outboundTag": "direct",
-        "port": "53"
-      },
-      {
-        "domain": [
-          "domain:googleapis.cn"
-        ],
-        "outboundTag": "proxy"
-      },
-      {
-        "ip": [
-          "geoip:private"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "ip": [
-          "geoip:cn"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "domain": [
-          "geosite:cn"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "domain": [
-          "geosite:geolocation-cn"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "outboundTag": "proxy",
-        "port": "0-65535"
-      }
-    ]
-  }
 }
 ```
 
 Usage:
 
 ```bash
-# if xray is installed w/ the official script
+# the server side(/usr/local/etc/xray/config.json)
 systemctl enable xray
 systemctl restart xray
-# if xray is installed w/ homebrew
-sudo /path/to/xray run -config config.json
-# client side
+# the client side(/home/linuxbrew/.linuxbrew/etc/xray/config.json)
+brew services start xray
+brew services list
 export all_proxy=socks5://127.0.0.1:10808
 ```
 
