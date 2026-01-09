@@ -1016,7 +1016,11 @@ Installation:
 ```bash
 # xray needs to be installed on both server and client side
 # reference: https://github.com/XTLS/Xray-install
+# install/uninstall w/ the official script
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove
+# install with homebrew(recommended)
+brew install xray
 ```
 
 Configuration:
@@ -1293,8 +1297,11 @@ Configuration:
 Usage:
 
 ```bash
+# if xray is installed w/ the official script
 systemctl enable xray
 systemctl restart xray
+# if xray is installed w/ homebrew
+sudo /path/to/xray run -config config.json
 # client side
 export all_proxy=socks5://127.0.0.1:10808
 ```
