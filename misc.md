@@ -2,7 +2,7 @@
 
 ## Principles
 
-- SOLID ACID CAP
+- SOLID ACID BASE CAP
 - LET'S USE RED
 - Cats Donot Fear Mice:
   - CPU: sockets, cores, hts, l1/l2/l3 cache, togology, flags, vtx/svm, registers, mmu, tlb, segmenting, paging, system calls
@@ -27,17 +27,16 @@
     - Persona: python program experts, linux adams, etc.
     - Format: ordered list, json, concise, top k, etc.
   - Context:
-    - Audience: 5th graders, experts, etc.
+    - Audience and tone: 5th graders, experts, friendly, formal, casual, etc.
     - Background
     - Contraints: scope, rules, should only mention, donot, etc.
-    - Tone: friendly, formal, casual, etc.
   - References: zero/one/few shot
   - Evaluate
   - Iterate:
-    - Revisit the prompting framework
-    - Separate prompts into shorter sentence
-    - Try different phrasing or switching to an analogous task
-    - Introduce constaints
+    - Revisit: the prompting framework
+    - Reword: with alternative words
+    - Rephrase: with shorter sentences or analogous tasks
+    - Restrict: with contraints
 
 ## Agile
 
