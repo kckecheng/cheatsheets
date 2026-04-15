@@ -11,7 +11,7 @@
                                                                                     │                                             │
                                                                                     │                                             │
 ┌─────────────────────────┐                                                         │       1. Recognize patterns from prompts.   │
-│                         │                      Promtps                            │                                             │
+│                         │                      Prompts                            │                                             │
 │       Human             ┼────────────────────────────────────────────────────────►│                                             │
 │                         │◄────────────────────────────────────────────────────────┤       2. Predict the most context coherent  │
 │                         │                      Response                           │          tokens.                            │
@@ -26,7 +26,7 @@
 
 **ISSUES**:
 
-1. Stateless: every request is a freshly new request.
+1. Stateless: every request is a fresh request.
 2. No external/new knowledge: only has knowledge before the date it gets trained.
 3. Static: only supports text generation related tasks.
 
@@ -35,16 +35,16 @@
 ```text
                                                                                   ┌─────────────────────────────────────────────┐
                                  ┌──────────────────────────┐                     │          LLM                                │
-              1.Prompts          │                          │   3. Argumented     │                                             │
+              1.Prompts          │                          │   3. Augmented      │                                             │
          ┌──────────────────────►│                          ├────────────────────►│                                             │
          │                       │     RAG Application      │                     │                                             │
 ┌────────┼────────┐              │                          │                     │       1. Recognize patterns from prompts.   │
 │                 │              │                          │                     │                                             │
 │                 │              └─────┬────────────▲───────┘                     │                                             │
 │      Human      │                    │            │           4. Response       │       2. Predict the most context coherent  │
-│                 ◄────────────────────┼────────────┼─────────────────────────────┼          tokens.                            │
+│                 ◄────────────────────┼────────────┼─────────────────────────────┤          tokens.                            │
 │                 │                    │            │                             │                                             │
-└─────────────────┘           2. Find similar/relted│information                  │       3. Response                           │
+└─────────────────┘           2. Find similar/related│information                 │       3. Response                           │
                                  ┌─────▼────────────┼────────┐                    │                                             │
                                  │                           │                    │                                             │
                                  │       Vector Database     │                    │                                             │
@@ -53,10 +53,10 @@
 
 ```
 
-**MITIGATIONS**:
+**MITIGATION**:
 
-1. External knowledge: partial solved.
-2. Context: argumented.
+1. External knowledge: partially solved.
+2. Context: augmented.
 
 **ISSUES**:
 
@@ -81,17 +81,17 @@
                                               │  │        │ │     │ │                        │                                             │
                                               │  │        │ │     │ │                        │                                             │
                                               │  ▼        │ ▼     │ ▼                        │                                             │
-       ┌───────────────┐                    ┌─┴───────────┴───────┴─────┐  3.Argumented      │       1. Recognize patterns from prompts.   │
+       ┌───────────────┐                    ┌─┴───────────┴───────┴─────┐  3.Augmented       │       1. Recognize patterns from prompts.   │
        │               │     1. Prompts     │                           ├───────────────────►│                                             │
        │   Human       ┼───────────────────►│                           │     4. Plan        │                                             │
        │               │◄───────────────────┼      Agents               │◄───────────────────┤       2. Predict the most context coherent  │
-       └───────────────┘     7. Further tuned                           │    5. Argumented   │          tokens.                            │
+       └───────────────┘     7. Response                                │    5. Tool results │          tokens.                            │
                                             │                           ├───────────────────►│                                             │
                                             │                           │   6. Final response│       3. Response                           │
                                             └───────┬────────────▲──────┘◄───────────────────┼                                             │
                                                     │            │                           │                                             │
                                                     │            │                           │                                             │
-                                                 2. Argumented prompts                       │                                             │
+                                                 2. Augmented prompts                        │                                             │
                                                     │            │                           └─────────────────────────────────────────────┘
                                              ┌──────▼────────────┴───────┐
                                              │                           │
@@ -100,10 +100,10 @@
                                              └───────────────────────────┘
 ```
 
-**MITIGATIONS**:
+**MITIGATION**:
 
 1. External knowledge: solved.
-2. Context: argumented and filtered(guardrail).
+2. Context: augmented and filtered (guardrail).
 3. Active: able to take actions.
 
 **ISSUES**:
@@ -128,17 +128,17 @@
                                                        │  │        │ │     │ │                        │                                             │
                                                        │  │        │ │     │ │                        │                                             │
                                                        │  ▼        │ ▼     │ ▼                        │                                             │
-                ┌───────────────┐                    ┌─┴───────────┴───────┴─────┐  3.Argumented      │       1. Recognize patterns from prompts.   │
+                ┌───────────────┐                    ┌─┴───────────┴───────┴─────┐  3.Augmented       │       1. Recognize patterns from prompts.   │
                 │               │     1. Prompts     │                           ├───────────────────►│                                             │
                 │   Human       ┼───────────────────►│                           │     4. Plan        │                                             │
                 │               │◄───────────────────┼      Agents               │◄───────────────────┤       2. Predict the most context coherent  │
-                └──┬────────────┘  7. Filtered       │                           │    5. Argumented   │          tokens.                            │
+                └──┬────────────┘  7. Response       │                           │    5. Tool results │          tokens.                            │
                    │       ▲                         │                           ├───────────────────►│                                             │
                    │       │                         │                           │   6. Final response│       3. Response                           │
                    │       │                         └───────┬────────────▲──────┘◄───────────────────┼                                             │
                  Session/History: injected into prompts      │            │                           │                                             │
                    │       │                                 │            │                           │                                             │
-                   ▼       │                              2. Argumented prompts                       │                                             │
+                   ▼       │                              2. Augmented prompts                        │                                             │
           ┌────────────────┴───────────────────┐             │            │                           └─────────────────────────────────────────────┘
           │                                    │      ┌──────▼────────────┴───────┐
           │    Memory: memory/database/etc.    │      │                           │
@@ -147,10 +147,10 @@
           └────────────────────────────────────┘      └───────────────────────────┘
 ```
 
-**MITIGATIONS**:
+**MITIGATION**:
 
 1. External knowledge: solved.
-2. Context: argumented and filtered(guardrail).
+2. Context: augmented and filtered (guardrail).
 3. Active: able to take actions.
 4. Stateful: keep track of your conversations.
 
@@ -158,7 +158,7 @@
 
 ### MCP
 
-**PROBLEM SOLVED**: provide a unified and standard mechanism to encapsulate tools and make agents easy to call tools(through MCP servers).
+**PROBLEM SOLVED**: provides a unified and standard mechanism to encapsulate tools and make it easy for agents to call tools (through MCP servers).
 
 ```text
                                                                                ┌──────────────────┐
@@ -182,7 +182,7 @@
   ┌────▼─────┐      ┌────▼─────┐      ┌────▼──────┐                       │              │                      │
   │          │      │          │      │           │                 ┌─────▼─────┐  ┌─────▼──────────┐  ┌────────▼────────┐
   │          │      │          │      │           │                 │           │  │                │  │                 │
-  │Tool 1    │      │ Tool 2   │      │Tool 3     │                 │MCP Server1│  │MCP Sever 2     │  │MCP Server 3     │
+  │Tool 1    │      │ Tool 2   │      │Tool 3     │                 │MCP Server1│  │MCP Server 2    │  │MCP Server 3     │
   │          │      │          │      │           │                 │           │  │                │  │                 │
   └──────────┘      └──────────┘      └───────────┘                 └─────┬─────┘  └──────┬─────────┘  └────────┬────────┘
                                                                           │               │                     │
@@ -227,7 +227,7 @@
 
 ### A2A
 
-**PROBLEM SOLVED**: provide a unified and standard mechanism to delegate tasks among agents, make agents focusable.
+**PROBLEM SOLVED**: provide a unified and standard mechanism to enable agents to communicate and delegate tasks to each other.
 
 ```text
                ┌──────────────────┐
@@ -243,7 +243,7 @@
           │              │                      │                                                                                    │                     │
           │              │                      │                        ┌─────────────────────────────────┐                         │                     │
           │              │                      │                        │                                 │   MCP Protocol          │   MCP Server 1      │
-          │ MCP Protocol:│registration/communiation                      │                                 ┼────────────────────────►│                     │
+          │ MCP Protocol:│registration/communication                     │                                 ┼────────────────────────►│                     │
           │              │                      │                        │  Agent 1 with MCP client        │                         │                     │
           │              │                      │                        │                                 │                         │                     │
           │              │                      │                        └─────┬───────────────────────────┘                         └─────────────────────┘
@@ -251,7 +251,7 @@
           │              │                      │                              │                     │
     ┌─────▼─────┐  ┌─────▼──────────┐  ┌────────▼────────┐                     │                     │
     │           │  │                │  │                 │              A2A Protocol: agent1/2 delegate task to agent2/1
-    │MCP Server1│  │MCP Sever 2     │  │MCP Server 3     │                     │                     │
+    │MCP Server1│  │MCP Server 2    │  │MCP Server 3     │                     │                     │
     │           │  │                │  │                 │                     │                     │                              ┌──────────────────────┐
     └─────┬─────┘  └──────┬─────────┘  └────────┬────────┘               ┌─────▼─────────────────────┼──────┐                       │                      │
           │               │                     │                        │                                  │  MCP Protocol         │                      │
@@ -263,71 +263,4 @@
       └─────────┘   └─────────────┘      └───────────────┘
 ```
 
-## Spec Driven Development(SDD)
 
-### AI Usage Level
-
-- **PLAIN**: Talk with AI directly to steer it - **Most of us are right here**
-- **SPEC First**: Create specs at first, use them then to generate contents, delete it after the task is done - **Some of us are right here**
-- **SPEC Anchored**: Maintain specs for content generation, evolution, and maintenance across the project life cycle - **What we should follow**
-- **SPEC as Single Source of Truth**: Human only modify specs, never touch code - **The uncertain future**
-
-### SSD Procedure
-
-Chosse suitable toolkits/assistants based on project type:
-
-- **Greenfiled**: Spec Kit
-- **Brownfield**: OpenSpec
-
-#### Spec Kit
-
-```text
-                           SPEC Kit
-  ┌────────────────────────────────────────────────────────────────────────────────────────────┐
-  │                                                                                            │
-  │ ┌──────────┐         ┌───────┐                 ┌────────┐                 ┌───────────┐    │            ┌────────┐                ┌──────────┐
-  │ │ Specify  ┼─────────►  Plan ┼─────────────────► Tasks  ├─────────────────► Implement ┼────│────────────► Verify ├────────────────►  Maintain│
-  │ └──────────┘         └───────┘                 └────────┘                 └───────────┘    │            └────────┘                └──────────┘
-  │                                                                                            │
-  └────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-- **Specify**:
-  - What to build.
-  - Who will use it.
-  - What problmes are solved.
-  - How to interact with it.
-  - **Only Function Descriptions, No Implementation Details**
-- **Plan**:
-  - Architecture.
-  - Tech stacks.
-  - Constraints.
-- **Task**: break up plan into tasks.
-  - Implementable.
-  - Testable.
-- **Implement**: coding by executing tasks one by one.
-
-#### OpenSpec
-
-```text
-                           OpenSpec
-  ┌─────────────────────────────────────────────────────────────┐
-  │                                                             │
-  │ ┌───────────┐         ┌───────┐              ┌─────────┐    │            ┌────────┐                ┌──────────┐
-  │ │ Proposal  ┼─────────► Apply ┼──────────────► Archive ┼────│────────────► Verify ├────────────────►  Maintain│
-  │ └───────────┘         └───────┘              └─────────┘    │            └────────┘                └──────────┘
-  │                                                             │
-  └─────────────────────────────────────────────────────────────┘
-```
-
-- **Proposal**:
-  - Draft the specs.
-  - Verify and review the specs: openspec list, openspec validate xxx, openspec show xxx
-  - Refine the specs.
-- **Apply**: implement the changes.
-- **Archive**: Archive the changes.
-
-#### References
-
-- [Spec Kit](https://github.com/github/spec-kit)
-- [OpenSpec](https://github.com/Fission-AI/OpenSpec)
