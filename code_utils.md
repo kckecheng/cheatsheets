@@ -1,6 +1,100 @@
 # Code Utilities
 
-Tools for searching/inspecting program sources.
+Tools for programing.
+
+## uv
+
+uv is an extremely fast Python package manager and runtime.
+
+```bash
+# Initialize project
+uv init myproject
+
+# Add dependencies
+uv add requests
+uv add --dev pytest
+
+# Install dependencies
+uv pip install -r requirements.txt
+uv pip install requests
+uv pip list
+
+# Manage project with pyproject.toml
+uv sync              # sync dependencies from pyproject.toml
+uv sync --no-dev     # skip dev dependencies
+uv add httpx          # auto update pyproject.toml
+uv remove requests   # auto update pyproject.toml
+
+# Run Python script/command
+uv run python script.py
+uv run python -c "print('hello')"
+
+# Create virtual environment
+uv venv
+uv venv --python 3.11        # specify Python version
+uv venv --python python3.12 # use system installed Python
+source .venv/bin/activate  # macOS/Linux
+
+# Tool management
+uv tool install ruff
+uv tool run ruff check .
+
+# Compile database generation (for legacy projects)
+uv tool install compiledb
+compiledb --parse build.log
+
+# Build and publish
+uv build
+uv publish
+```
+
+## bun
+
+bun is an extremely fast JavaScript runtime, package manager and bundler.
+
+```bash
+# Initialize project
+bun init
+
+# Install dependencies
+bun install
+bun add lodash
+bun add -d typescript
+
+# Run scripts
+bun run start
+bun run index.ts
+bun run index.tsx
+
+# Direct execution
+bun index.ts
+bun --watch index.ts  # hot reload mode
+
+# As package manager (replacement for npm/yarn/pnpm)
+bun install
+bun add react react-dom
+bun remove lodash
+bun update
+
+# Run remote package binaries directly (like npx)
+bunx cowsay "Hello"
+bunx typescript --version
+bunx --package=eslint eslint .
+
+# Global package management
+bun list -g         # list globally installed packages
+bun add -g <package> # install package globally
+cd ~/.bun/install/global && bun upgrade  # upgrade global packages
+
+# Run tests
+bun test
+
+# Create executable
+bun build --compile index.ts --outfile myapp
+
+# Performance benchmark
+bun --smol script.ts  # reduce memory usage
+```
 
 ## ripgrep
 
@@ -114,38 +208,6 @@ Notes:
   cscope -d -L1 start_kernel
   cscope -d -L2 start_kernel
   ```
-
-## doxygen
-
-Doxygen can be used to create documents, call graphs(graphviz is required in advance), etc.
-
-```bash
-cd /path/to/source/code
-doxygen -g # doxywizard can be used to generate the configuration if UI is available(install doxygen-gui)
-vim Doxyfile
-# Make changes to below options
-# PROJECT_NAME = "a proper name"
-# HAVE_DOT = YES
-# EXTRACT_ALL = YES
-# EXTRACT_PRIVATE = YES
-# EXTRACT_STATIC = YES
-# EXTRACT_xxxxxx = YES # based on needs
-# INLINE_SOURCES = YES # based on needs
-# CALL_GRAPH = YES
-# CALLER_GRAPH = YES
-# RECURSIVE = YES
-# GENERATE_LATEX = NO
-# EXCLUDE_PATTERNS = */samples/* \
-#                    */tests/*
-# tune other options based on need, e.g.:
-# DISABLE_INDEX = NO
-# GENERATE_TREEVIEW = YES
-# Note: this is time cosuming for large projects
-doxygen Doxyfile
-brew install http-server
-cd html
-http-serve
-```
 
 ## valgrind
 
