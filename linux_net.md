@@ -413,7 +413,24 @@ ip link set bond0 up
 
 ### VLAN Interface
 
-![VLAN Interface](images/linux_os_net/linux_os_net_vlan.png)
+```text
++----------------------------------+
+|           Server                 |
+|  +--------+        +--------+    |
+|  | eth0.2 |        | eth0.3 |    |
+|  +---+----+        +----+---+    |
+|      |                  |        |
+|      +--------+---------+        |
+|               |                  |
+|           +---+---+              |
+|           | eth0  |              |
+|           +---+---+              |
++---------------|------------------+
+                |
+        +-------+-------+
+        |    Switch     |
+        +---------------+
+```
 
 ```bash
 ip link add link eth0 name eth0.2 type vlan id 2
@@ -424,7 +441,31 @@ ip link add link eth0 name eth0.3 type vlan id 3
 
 With VLAN, multiple interfaces can be created on top of a single one and packages can be filtered based on VLAN tags. With MACVLAN, multiple interfaces with different Layer 2 (MAC) addresses can be created on top of a single one.
 
-![MACVLAN Interface](images/linux_os_net/linux_os_net_macvlan.png)
+```text
++-------------------------------------------------------+
+|                      Host                             |
+|  +------------------+    +------------------+         |
+|  |     netns 1      |    |     netns 2      |         |
+|  |  +----------+    |    |  +----------+    |         |
+|  |  |  macv1   |    |    |  |  macv2   |    |         |
+|  |  +----+-----+    |    |  +----+-----+    |         |
+|  |       |          |    |       |          |         |
+|  |  +----+-----+    |    |  +----+-----+    |         |
+|  |  |  macv1   |    |    |  |  macv2   |    |         |
+|  |  +----+-----+    |    |  +----+-----+    |         |
+|  +-------|----------+    +-------|----------+         |
+|          |    (bridge/pvep)     |                     |
+|          +----------+-----------+                     |
+|                     |                                 |
+|                 +---+---+                             |
+|                 |  eth0 |                             |
+|                 +---+---+                             |
++---------------------|---------------------------------+
+                      |
+              +-------+-------+
+              |    Switch     |
+              +---------------+
+```
 
 In the meanwhile, MACVLAN supports several different modes:
 
@@ -447,7 +488,28 @@ ip link set macvlan2 netns net2
 
 ### VXLAN Interface
 
-![VXLAN Interface](images/linux_os_net/linux_os_net_vxlan.png)
+```text
++---------------------+                      +---------------------+
+|       Server        |                      |       Server        |
+|  +---------------+  |                      |  +---------------+  |
+|  |      vx0      |  |                      |  |      vx0      |  |
+|  +-------+-------+  |                      |  +-------+-------+  |
+|          |          |                      |          |          |
+|  +-------+-------+  |                      |  +-------+-------+  |
+|  |      eth0     |  |                      |  |      eth0     |  |
+|  +-------+-------+  |                      |  +-------+-------+  |
++----------|----------+                      +----------|----------+
+           |                                            |
+   +-------+-------+                          +-------+-------+
+   |    Switch     |                          |    Switch     |
+   +-------+-------+                          +-------+-------+
+           |                                            |
+           +--------------------+----------------------+
+                                |
+                     +----------+----------+
+                     |    Network Cloud    |
+                     +---------------------+
+```
 
 ```bash
 ip link add vx0 type vxlan id 100 local 1.1.1.1 remote 2.2.2.2 dev eth0 dstport 4789
@@ -705,7 +767,20 @@ Linux tap interfaces created with ip tuntap cannot be used to attach network nam
 
 The simple solution to connect two network namespaces is the usage of one veth pair:
 
-![veth pairs](images/linux_os_net/linux_sw_vethpairs.png)
+```text
++-----------------------------------------------------------+
+|                     Linux server                          |
+|                                                           |
+|  +-------------------+        +-------------------+       |
+|  |   Namespace ns1   |        |   Namespace ns2   |       |
+|  |                   |        |                   |       |
+|  |            [tap1] |========| [tap2]            |       |
+|  |                   |  veth  |                   |       |
+|  |                   |  pair  |                   |       |
+|  +-------------------+        +-------------------+       |
+|                                                           |
++-----------------------------------------------------------+
+```
 
 **The command sequence are as below:**
 
@@ -728,7 +803,33 @@ ip netns exec ns2 ip link set dev tap2 up
 
 When more than two network namespaces (or KVM or LXC instances) must be connected a switch should be used. Linux offers as one solution the well known linux bridge.
 
-![linux bridge and veth pairs](images/linux_os_net/linux_sw_brandvethparis.png)
+```text
++-------------------------------------------------------------------+
+|                         Linux server                              |
+|                                                                   |
+|  +-------------------+              +-------------------+         |
+|  |   Namespace ns1   |              |   Namespace ns2   |         |
+|  |                   |              |                   |         |
+|  |            [tap1] |======+======| [tap2]            |         |
+|  |                   |      |      |                   |         |
+|  +-------------------+      |      +-------------------+         |
+|                             |                                     |
+|                      +------+------+                              |
+|                      | br-tap1     |                              |
+|                      |             |                              |
+|                      |   Linux     |                              |
+|                      |   bridge    |                              |
+|                      |             |                              |
+|                      |     br-tap2 |                              |
+|                      +------+------+                              |
+|                             |                                     |
+|  +-------------------+      |      +-------------------+         |
+|  |   Namespace ns1   |      |      |   Namespace ns2   |         |
+|  |                   |======+======|                   |         |
+|  +-------------------+              +-------------------+         |
+|       (Veth pair)                      (Veth pair)                |
++-------------------------------------------------------------------+
+```
 
 **The commands to create this setup are:**
 
@@ -770,7 +871,33 @@ ip link set dev br-tap2 up
 
 Another solution is to use the openvswitch instead of the "old" linuxbrige. The configuration is nearly the same as for the linuxbridge.
 
-![openvswitch and veth pairs](images/linux_os_net/linux_sw_ovsandvethpairs.png)
+```text
++-------------------------------------------------------------------+
+|                         Linux server                              |
+|                                                                   |
+|  +-------------------+              +-------------------+         |
+|  |   Namespace ns1   |              |   Namespace ns2   |         |
+|  |                   |              |                   |         |
+|  |            [tap1] |======+======| [tap2]            |         |
+|  |                   |      |      |                   |         |
+|  +-------------------+      |      +-------------------+         |
+|                             |                                     |
+|                      +------+------+                              |
+|                      | ovs-tap1    |                              |
+|  +-------------------+|             |+-------------------+         |
+|  |   Namespace ns1   ||   Open      ||   Namespace ns2   |         |
+|  |                   ||   vSwitch   |                   |         |
+|  +-------------------+|             |+-------------------+         |
+|                      |     ovs-tap2|                              |
+|                      +------+------+                              |
+|                             |                                     |
+|  +-------------------+      |      +-------------------+         |
+|  |   Namespace ns1   |      |      |   Namespace ns2   |         |
+|  |                   |======+======|                   |         |
+|  +-------------------+              +-------------------+         |
+|       (Veth pair)                      (Veth pair)                |
++-------------------------------------------------------------------+
+```
 
 **The commands to create this setup are:**
 
@@ -810,7 +937,24 @@ ip link set dev ovs-tap2 up
 
 Another solution is to use the openvswitch and make use of the openvswitch internal ports. This avoids the usage of the veth pairs, which must be used in all other solutions.
 
-![openvswitch and ports](images/linux_os_net/linux_sw_ovsandports.png)
+```text
++-------------------------------------------------------------------+
+|                         Linux server                              |
+|                                                                   |
+|  +-------------------+              +-------------------+         |
+|  |   Namespace ns1   |              |   Namespace ns2   |         |
+|  |                   |              |                   |         |
+|  |            [tap1] |==============| [tap2]            |         |
+|  |                   |   Open       |                   |         |
+|  +-------------------+   vSwitch    +-------------------+         |
+|         (Ovs port)          |          (Ovs port)                 |
+|                             |                                     |
+|                      +------+------+                              |
+|                      |   Open      |                              |
+|                      |   vSwitch   |                              |
+|                      +-------------+                              |
++-------------------------------------------------------------------+
+```
 
 **The commands to create this setup are:**
 
@@ -852,7 +996,20 @@ ifup vlan1000
 
 To connect 2 x Open vSwitch together, we need to use patch port:
 
-![OVS patch](images/linux_os_net/linux_sw_ovspatch.png)
+```text
++-------------------+         +-------------------+
+|   Open vSwitch 1  |         |   Open vSwitch 2  |
+|                   |         |                   |
+|  +-------------+  |         |  +-------------+  |
+|  | port:       |  |         |  | port:       |  |
+|  | "patch-     |==+=========+==| "patch-     |  |
+|  | ovs-1"      |  |         |  | ovs-2"      |  |
+|  | peer:       |  |         |  | peer:       |  |
+|  | "patch-     |  |         |  | "patch-     |  |
+|  | ovs-2"      |  |         |  | ovs-1"      |  |
+|  +-------------+  |         |  +-------------+  |
++-------------------+         +-------------------+
+```
 
 ```bash
 ovs-vsctl add-port ovs1 patch-ovs-1
@@ -1212,7 +1369,30 @@ The Open vSwitch Database Management Protocol (OVSDB) is an OpenFlow configurati
 
 Below is the diagram showing the main components and interfaces of OVS(refer to https://tools.ietf.org/id/draft-pfaff-ovsdb-proto-02.html):
 
-![OVS components and interfaces](images/linux_os_net/ovs_componentsandinterfaces.png)
+```text
++--------------------------+
+|  Control & Management    |
+|        Cluster           |
++-----------+--------------+
+            | \
+            |  \ OpenFlow
+            |   \
+     OVSDB  |    \
+     Mgmt   |     \
+            |      \
++-----------+-------+-----------------------------------+
+|           |       |                                   |
+|  +--------+---+   |   +----------------+              |
+|  |ovsdb-server|   |   | ovs-vswitchd   |              |
+|  +------------+   |   +--------+-------+              |
+|                   |            |                      |
+|                   |   +--------+--------+             |
+|                   |   |  Forwarding     |             |
+|                   |   |     Path        |             |
+|                   |   +-----------------+             |
+|                   |                                   |
++-------------------------------------------------------+
+```
 
 Actually, configuring an OVS instance is similar as operating a database - once the tables, records, and columns are identified, changes can be made easily.
 
@@ -1373,19 +1553,154 @@ curl -v -L -o /dev/null http://example.com
 
 ### Package Flow
 
-![iptables package flow](images/linux_os_net/iptables_pflow.jpg)
+```text
+                           +----------+
+                           |  NETWORK |
+                           +----+-----+
+                                |
+                                v
+                    +-----------------------+
+                    | raw     PREROUTING    |
+                    +-----------+-----------+
+                                |
+                                v
+                    +-----------------------+
+                    | mangle  PREROUTING    |
+                    +-----------+-----------+
+                                |
+                                v
+                    +-----------------------+
+                    | nat     PREROUTING    |
+                    +-----------+-----------+
+                                |
+                                v
+                    +-----------------------+
+                    |    Routing Decision   |
+                    +-----------+-----------+
+            +-------------------+ +-------------------+
+            |                   | |                   |
+            v                   | |                   v
++-----------------------+       | |    +-----------------------+
+| mangle  INPUT         |       | |    | mangle  FORWARD       |
++-----------------------+       | |    +-----------------------+
+            |                   | |                |
+            v                   | |                v
++-----------------------+       | |    +-----------------------+
+| filter  INPUT         |       | |    | filter  FORWARD       |
++-----------------------+       | |    +-----------------------+
+            |                   | |                |
+            v                   | |                |
++-----------------------+       | |                |
+|   Local Process       |       | |                |
++-----------------------+       | |                |
+            |                   | |                |
+            v                   | |                v
++-----------------------+       | |    +-----------------------+
+|    Routing Decision   |       | |    |    Routing Decision   |
++-----------------------+       | |    +-----------------------+
+            |                   | |                |
+            v                   | |                v
++-----------------------+       | |    +-----------------------+
+| raw     OUTPUT        |       | |    | mangle  POSTROUTING   |
++-----------------------+       | |    +-----------------------+
+            |                   | |                |
+            v                   | |                v
++-----------------------+       | |    +-----------------------+
+| mangle  OUTPUT        |       | |    | nat     POSTROUTING   |
++-----------------------+       | |    +-----------------------+
+            |                   | |                |
+            v                   | |                v
++-----------------------+       | |            +----------+
+| nat     OUTPUT        |       | |            |  NETWORK |
++-----------------------+       | |            +----------+
+            |                   | |
+            v                   | |
++-----------------------+       | |
+| filter  OUTPUT        |       | |
++-----------------------+       | |
+            |                   | |
+            +-------------------+ |
+                    |             |
+                    +-------------+
+```
 
 ### Tables and Chains
 
-![iptables tables and chains](images/linux_os_net/iptables_tablechains.png)
+**Filter** (Packet filtering)
+
+- `FORWARD` — Filters packets to servers accessible by another NIC on the firewall.
+- `INPUT` — Filters packets destined to the firewall.
+- `OUTPUT` — Filters packets originating from the firewall.
+
+**Nat** (Network Address Translation)
+
+- `PREROUTING` — Address translation occurs **before** routing. Facilitates the transformation of the destination IP address to be compatible with the firewall's routing table. Used with NAT of the destination IP address, also known as **destination NAT** or **DNAT**.
+- `POSTROUTING` — Address translation occurs **after** routing. This implies that there was no need to modify the destination IP address of the packet as in pre-routing. Used with NAT of the source IP address using either one-to-one or many-to-one NAT. This is known as **source NAT**, or **SNAT**.
+- `OUTPUT` — Network address translation for packets generated by the firewall. (Rarely used in SOHO environments)
+
+**Mangle** (TCP header modification)
+
+- Chains: `PREROUTING`, `POSTROUTING`, `OUTPUT`, `INPUT`, `FORWARD`
+- Modification of the TCP packet quality of service bits before routing occurs. (Rarely used in SOHO environments)
 
 ### Targets and Jumps
 
-![iptables targets and jumps](images/linux_os_net/iptables_tgtjumps.png)
+**ACCEPT**
+
+- iptables stops further processing.
+- The packet is handed over to the end application or the operating system for processing.
+
+**DROP**
+
+- iptables stops further processing.
+- The packet is blocked.
+
+**LOG**
+
+- The packet information is sent to the syslog daemon for logging.
+- iptables continues processing with the next rule in the table.
+- As you can't log and drop at the same time, it is common to have two similar rules in sequence. The first will log the packet, the second will drop it.
+- Option: `--log-prefix "string"` — Tells iptables to prefix all log messages with a user defined string. Frequently used to tell why the logged packet was dropped.
+
+**REJECT**
+
+- Works like the DROP target, but will also return an error message to the host sending the packet that the packet was blocked.
+- Option: `--reject-with qualifier` — The qualifier tells what type of reject message is returned. Qualifiers include: `icmp-port-unreachable` (default), `icmp-net-unreachable`, `icmp-host-unreachable`, `icmp-proto-unreachable`, `icmp-net-prohibited`, `icmp-host-prohibited`, `tcp-reset`, `echo-reply`.
+
+**DNAT** (destination network address translation)
+
+- Rewriting the destination IP address of the packet.
+- Option: `--to-destination ipaddress` — Tells iptables what the destination IP address should be.
+
+**SNAT** (source network address translation)
+
+- Rewriting the source IP address of the packet. The source IP address is user defined.
+- Option: `--to-source <address>[-<address>][:<port>-<port>]`.
+
+**MASQUERADE**
+
+- Used to do Source Network Address Translation.
+- By default the source IP address is the same as that used by the firewall's interface.
+- Option: `[--to-ports <port>[-<port>]]` — Specifies the range of source ports to which the original source port can be mapped.
 
 ### Match Criterias
 
-![iptables match criterias](images/linux_os_net/iptables_criterias.png)
+| Switch | Description |
+|--------|-------------|
+| `-t <table>` | If you don't specify a table, then the `filter` table is assumed. As discussed before, the possible built-in tables include: **filter**, **nat**, **mangle** |
+| `-j <target>` | Jump to the specified target chain when the packet matches the current rule. |
+| `-A` | Append rule to end of a chain |
+| `-F` | Flush. Deletes all the rules in the selected table |
+| `-p <protocol-type>` | Match protocol. Types include: **icmp**, **tcp**, **udp**, and **all** |
+| `-s <ip-address>` | Match source IP address |
+| `-d <ip-address>` | Match destination IP address |
+| `-i <interface-name>` | Match "input" interface on which the packet enters. |
+| `-o <interface-name>` | Match "output" interface on which the packet exits |
+| `-p tcp --sport <port>` | TCP source port. Can be a single value or a range in the format: *start-port-number:end-port-number* |
+| `-p tcp --dport <port>` | TCP destination port. Can be a single value or a range in the format: *starting-port:ending-port* |
+| `-p tcp --syn` | Used to identify a new TCP connection request. `! --syn` means, not a new connection request |
+| `-p udp --sport <port>` | UDP source port. Can be a single value or a range in the format: *starting-port:ending-port* |
+| `-p udp --dport <port>` | UDP destination port. Can be a single value or a range in the format: *starting-port:ending-port* |
 
 ### Reset Rules
 
