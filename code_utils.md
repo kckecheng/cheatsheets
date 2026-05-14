@@ -27,6 +27,10 @@ uv sync --no-dev     # skip dev dependencies
 uv add httpx          # auto update pyproject.toml
 uv remove requests   # auto update pyproject.toml
 
+# Use custom python package index
+uv sync --index http://pypi.dq.oa.com/simple
+uv lock --upgrade --index http://pypi.dq.oa.com/simple
+
 # Run Python script/command
 uv run python script.py
 uv run python -c "print('hello')"
