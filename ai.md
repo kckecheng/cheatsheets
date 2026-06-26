@@ -8,27 +8,13 @@ type: cheatsheet
 ## LLM
 
 ### Bare LLM
-
-```text
-                                                                                    ┌─────────────────────────────────────────────┐
-                                                                                    │          LLM                                │
-                                                                                    │                                             │
-                                                                                    │                                             │
-                                                                                    │                                             │
-┌─────────────────────────┐                                                         │       1. Recognize patterns from prompts.   │
-│                         │                      Prompts                            │                                             │
-│       Human             ┼────────────────────────────────────────────────────────►│                                             │
-│                         │◄────────────────────────────────────────────────────────┤       2. Predict the most context coherent  │
-│                         │                      Response                           │          tokens.                            │
-└─────────────────────────┘                                                         │                                             │
-                                                                                    │       3. Response                           │
-                                                                                    │                                             │
-                                                                                    │                                             │
-                                                                                    │                                             │
-                                                                                    │                                             │
-                                                                                    └─────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    Human[Human]
+    LLM["LLM<br>1. Recognize patterns from prompts.<br>2. Predict the most context coherent tokens.<br>3. Response"]
+    Human -- Prompts --> LLM
+    LLM -- Response --> Human
 ```
-
 **ISSUES**:
 
 1. Stateless: every request is a fresh request.
