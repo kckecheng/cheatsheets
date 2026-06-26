@@ -11,8 +11,7 @@ Start at **[[MOC]]** — the Map of Content indexes every note by domain.
 
 ## Structure
 
-- **Flat vault** — all notes in the root folder.
-- 4 former monolith files (`git.md`, `linux.md`, `linux_net.md`, `troubleshooting.md`) were split into thematic atomic notes; smaller files (`ai`, `code_utils`, `go`, `misc`, `switch`, `vim`) are kept intact.
+- **Flat vault** — all notes live in the root folder as thematic atomic notes.
 - Every note has YAML frontmatter: `tags`, `aliases`, `type`.
 - Notes cross-link via `wiki-links`; see each note's *Related* section and Obsidian's Backlinks pane.
 
