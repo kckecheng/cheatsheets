@@ -23,25 +23,16 @@ flowchart LR
 
 ### +RAG
 
-```text
-                                                                                  ┌─────────────────────────────────────────────┐
-                                 ┌──────────────────────────┐                     │          LLM                                │
-              1.Prompts          │                          │   3. Augmented      │                                             │
-         ┌──────────────────────►│                          ├────────────────────►│                                             │
-         │                       │     RAG Application      │                     │                                             │
-┌────────┼────────┐              │                          │                     │       1. Recognize patterns from prompts.   │
-│                 │              │                          │                     │                                             │
-│                 │              └─────┬────────────▲───────┘                     │                                             │
-│      Human      │                    │            │           4. Response       │       2. Predict the most context coherent  │
-│                 ◄────────────────────┼────────────┼─────────────────────────────┤          tokens.                            │
-│                 │                    │            │                             │                                             │
-└─────────────────┘           2. Find similar/related│information                 │       3. Response                           │
-                                 ┌─────▼────────────┼────────┐                    │                                             │
-                                 │                           │                    │                                             │
-                                 │       Vector Database     │                    │                                             │
-                                 │                           │                    │                                             │
-                                 └───────────────────────────┘                    └─────────────────────────────────────────────┘
-
+```mermaid
+flowchart LR
+    Human[Human]
+    RAG[RAG Application]
+    LLM["LLM<br>1. Recognize patterns from prompts.<br>2. Predict the most context coherent tokens.<br>3. Response"]
+    DB[("Vector Database<br>(embeddings)")]
+    Human -- "1. Prompts" --> RAG
+    RAG -- "3. Augmented prompt" --> LLM
+    LLM -- "4. Response" --> Human
+    RAG <-->|"2. Find similar/related info"| DB
 ```
 
 **MITIGATION**:
@@ -56,39 +47,24 @@ flowchart LR
 
 ### +Agents
 
-```text
-                                ┌───────────────────────────────────────────────┐
-                                │                                               │
-                                │                                               │
-                                │             Chat with the world.              │
-                                │                                               │
-                                │       Tool 1       Tool 2      Tool 3         │
-                                │                                               │
-                                └────────────────┬──────────┬───────┬───────────┘
-                                              ▲  │        ▲ │     ▲ │
-                                              │  │        │ │     │ │
-                                              │  │        │ │     │ │                        ┌─────────────────────────────────────────────┐
-                                              │  │ 5. Call│tools based on plan               │          LLM                                │
-                                              │  │        │ │     │ │                        │                                             │
-                                              │  │        │ │     │ │                        │                                             │
-                                              │  ▼        │ ▼     │ ▼                        │                                             │
-       ┌───────────────┐                    ┌─┴───────────┴───────┴─────┐  3.Augmented       │       1. Recognize patterns from prompts.   │
-       │               │     1. Prompts     │                           ├───────────────────►│                                             │
-       │   Human       ┼───────────────────►│                           │     4. Plan        │                                             │
-       │               │◄───────────────────┼      Agents               │◄───────────────────┤       2. Predict the most context coherent  │
-       └───────────────┘     7. Response                                │    5. Tool results │          tokens.                            │
-                                            │                           ├───────────────────►│                                             │
-                                            │                           │   6. Final response│       3. Response                           │
-                                            └───────┬────────────▲──────┘◄───────────────────┼                                             │
-                                                    │            │                           │                                             │
-                                                    │            │                           │                                             │
-                                                 2. Augmented prompts                        │                                             │
-                                                    │            │                           └─────────────────────────────────────────────┘
-                                             ┌──────▼────────────┴───────┐
-                                             │                           │
-                                             │           RAG             │
-                                             │                           │
-                                             └───────────────────────────┘
+```mermaid
+flowchart LR
+    Human[Human]
+    Agents["Agents<br>(Chat with the world)"]
+    LLM["LLM<br>1. Recognize patterns from prompts.<br>2. Predict the most context coherent tokens.<br>3. Response"]
+    RAG[RAG]
+    T1[Tool 1]
+    T2[Tool 2]
+    T3[Tool 3]
+    Human -- "1. Prompts" --> Agents
+    Agents -- "3. Augmented prompt" --> LLM
+    LLM -- "4. Plan / 6. Final response" --> Agents
+    Agents -- "5. Tool results" --> LLM
+    Agents -- "7. Response" --> Human
+    Agents <-->|"2. Augmented prompts"| RAG
+    Agents <-->|"5. Call tools based on plan"| T1
+    Agents <-->|"5. Call tools based on plan"| T2
+    Agents <-->|"5. Call tools based on plan"| T3
 ```
 
 **MITIGATION**:
@@ -103,39 +79,26 @@ flowchart LR
 
 ### +Memory
 
-```text
-                                         ┌───────────────────────────────────────────────┐
-                                         │                                               │
-                                         │                                               │
-                                         │             Chat with the world.              │
-                                         │                                               │
-                                         │       Tool 1       Tool 2      Tool 3         │
-                                         │                                               │
-                                         └────────────────┬──────────┬───────┬───────────┘
-                                                       ▲  │        ▲ │     ▲ │
-                                                       │  │        │ │     │ │
-                                                       │  │        │ │     │ │                        ┌─────────────────────────────────────────────┐
-                                                       │  │ 5. Call│tools based on plan               │          LLM                                │
-                                                       │  │        │ │     │ │                        │                                             │
-                                                       │  │        │ │     │ │                        │                                             │
-                                                       │  ▼        │ ▼     │ ▼                        │                                             │
-                ┌───────────────┐                    ┌─┴───────────┴───────┴─────┐  3.Augmented       │       1. Recognize patterns from prompts.   │
-                │               │     1. Prompts     │                           ├───────────────────►│                                             │
-                │   Human       ┼───────────────────►│                           │     4. Plan        │                                             │
-                │               │◄───────────────────┼      Agents               │◄───────────────────┤       2. Predict the most context coherent  │
-                └──┬────────────┘  7. Response       │                           │    5. Tool results │          tokens.                            │
-                   │       ▲                         │                           ├───────────────────►│                                             │
-                   │       │                         │                           │   6. Final response│       3. Response                           │
-                   │       │                         └───────┬────────────▲──────┘◄───────────────────┼                                             │
-                 Session/History: injected into prompts      │            │                           │                                             │
-                   │       │                                 │            │                           │                                             │
-                   ▼       │                              2. Augmented prompts                        │                                             │
-          ┌────────────────┴───────────────────┐             │            │                           └─────────────────────────────────────────────┘
-          │                                    │      ┌──────▼────────────┴───────┐
-          │    Memory: memory/database/etc.    │      │                           │
-          │                                    │      │           RAG             │
-          │                                    │      │                           │
-          └────────────────────────────────────┘      └───────────────────────────┘
+```mermaid
+flowchart LR
+    Human[Human]
+    Agents["Agents<br>(Chat with the world)"]
+    LLM["LLM<br>1. Recognize patterns from prompts.<br>2. Predict the most context coherent tokens.<br>3. Response"]
+    RAG[RAG]
+    Memory[("Memory<br>(memory / database / etc.)")]
+    T1[Tool 1]
+    T2[Tool 2]
+    T3[Tool 3]
+    Human -- "1. Prompts" --> Agents
+    Agents -- "3. Augmented prompt" --> LLM
+    LLM -- "4. Plan / 6. Final response" --> Agents
+    Agents -- "5. Tool results" --> LLM
+    Agents -- "7. Response" --> Human
+    Agents <-->|"2. Augmented prompts"| RAG
+    Agents <-->|"5. Call tools based on plan"| T1
+    Agents <-->|"5. Call tools based on plan"| T2
+    Agents <-->|"5. Call tools based on plan"| T3
+    Human <-->|"Session/History: injected into prompts"| Memory
 ```
 
 **MITIGATION**:
@@ -151,107 +114,91 @@ flowchart LR
 
 **PROBLEM SOLVED**: provides a unified and standard mechanism to encapsulate tools and make it easy for agents to call tools (through MCP servers).
 
-```text
-                                                                               ┌──────────────────┐
-                                                                               │                  │
-             ┌───────────────────┐                                             │ Agents with MCP  │
-             │                   │                                             │                  │
-             │ Agents without MCP│                                             └──────────────────┘
-             │                   │                                                ┌──────────────┐
-       ┌─────┴───────────┬───────┴─────────┐                                      │ MCP Client   │
-       │                 │                 │                              ┌───────┴──────┬───────┴──────────────┐
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │ MCP Protocol:│registration/communication
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-  ┌────▼─────┐      ┌────▼─────┐      ┌────▼──────┐                       │              │                      │
-  │          │      │          │      │           │                 ┌─────▼─────┐  ┌─────▼──────────┐  ┌────────▼────────┐
-  │          │      │          │      │           │                 │           │  │                │  │                 │
-  │Tool 1    │      │ Tool 2   │      │Tool 3     │                 │MCP Server1│  │MCP Server 2    │  │MCP Server 3     │
-  │          │      │          │      │           │                 │           │  │                │  │                 │
-  └──────────┘      └──────────┘      └───────────┘                 └─────┬─────┘  └──────┬─────────┘  └────────┬────────┘
-                                                                          │               │                     │
-                                                                          │               │                     │
-                                                                      ┌───▼─────┐   ┌─────▼───────┐      ┌──────▼────────┐
-                                                                      │         │   │             │      │               │
-                                                                      │ Tool 1  │   │  Tool 2     │      │   Tool 3      │
-                                                                      │         │   │             │      │               │
-                                                                      └─────────┘   └─────────────┘      └───────────────┘
+```mermaid
+flowchart LR
+    subgraph Before["Without MCP"]
+        direction TB
+        A1[Agent]
+        T1a[Tool 1]
+        T2a[Tool 2]
+        T3a[Tool 3]
+        A1 -- "custom integration" --> T1a
+        A1 -- "custom integration" --> T2a
+        A1 -- "custom integration" --> T3a
+    end
+    subgraph After["With MCP"]
+        direction TB
+        A2[Agent]
+        C[MCP Client]
+        S1[MCP Server 1]
+        S2[MCP Server 2]
+        S3[MCP Server 3]
+        T1b[Tool 1]
+        T2b[Tool 2]
+        T3b[Tool 3]
+        A2 --> C
+        C <-->|"MCP Protocol: registration/communication"| S1
+        C <-->|"MCP Protocol: registration/communication"| S2
+        C <-->|"MCP Protocol: registration/communication"| S3
+        S1 --> T1b
+        S2 --> T2b
+        S3 --> T3b
+    end
 ```
 
 ### Skills
 
 **PROBLEM SOLVED**: provide reusable, domain-specific prompt templates that extend agent capabilities for specialized tasks without requiring new tools or MCP servers.
 
-```text
-                                                                               ┌──────────────────┐
-                                                                               │                  │
-             ┌───────────────────┐                                             │ Agent with Skills│
-             │                   │                                             │                  │
-             │ Agent without     │                                             └──────────────────┘
-             │ Skills            │                                                ┌──────────────┐
-       ┌─────┴───────────┬───────┴─────────┐                                      │ Skill Loader │
-       │                 │                 │                              ┌───────┴──────┬───────┴──────────────┐
-       │                 │                 │                              │              │                      │
-       │ Generic prompts │ Generic prompts │                              │  Skill 1     │  Skill 2   Skill 3   │
-       │ for all tasks   │ for all tasks   │                              │  (PDF)       │  (Code     (Data     │
-       │                 │                 │                              │              │  Review)   Analysis) │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │ On-demand loading: skills inject    │
-       │                 │                 │                              │ specialized prompts when invoked    │
-       │                 │                 │                              │              │                      │
-       │                 │                 │                              │              │                      │
-  ┌────▼─────┐      ┌────▼─────┐      ┌────▼──────┐                       │              │                      │
-  │          │      │          │      │           │                 ┌─────▼─────┐  ┌─────▼──────────┐  ┌────────▼────────┐
-  │ Limited  │      │ Limited  │      │ Limited   │                 │           │  │                │  │                 │
-  │ domain   │      │ domain   │      │ domain    │                 │ Domain    │  │ Domain         │  │ Domain          │
-  │ knowledge│      │ knowledge│      │ knowledge │                 │ expertise │  │ expertise      │  │ expertise       │
-  │          │      │          │      │           │                 │ + workflow│  │ + workflow     │  │ + workflow      │
-  └──────────┘      └──────────┘      └───────────┘                 └───────────┘  └────────────────┘  └─────────────────┘
+```mermaid
+flowchart LR
+    subgraph Before["Without Skills"]
+        direction TB
+        A1[Agent]
+        T1a["Task 1<br>Generic prompts<br>Limited domain knowledge"]
+        T2a["Task 2<br>Generic prompts<br>Limited domain knowledge"]
+        T3a["Task 3<br>Generic prompts<br>Limited domain knowledge"]
+        A1 --> T1a
+        A1 --> T2a
+        A1 --> T3a
+    end
+    subgraph After["With Skills"]
+        direction TB
+        A2[Agent]
+        SL["Skill Loader<br>(on-demand loading)"]
+        S1["Skill 1 (PDF)<br>Domain expertise + workflow"]
+        S2["Skill 2 (Code Review)<br>Domain expertise + workflow"]
+        S3["Skill 3 (Data Analysis)<br>Domain expertise + workflow"]
+        A2 --> SL
+        SL --> S1
+        SL --> S2
+        SL --> S3
+    end
 ```
 
 ### A2A
 
 **PROBLEM SOLVED**: provide a unified and standard mechanism to enable agents to communicate and delegate tasks to each other.
 
-```text
-               ┌──────────────────┐
-               │                  │
-               │ Agents with MCP  │
-               │                  │
-               └──────────────────┘
-                  ┌──────────────┐
-                  │ MCP Client   │
-          ┌───────┴──────┬───────┴──────────────┐
-          │              │                      │
-          │              │                      │                                                                                    ┌─────────────────────┐
-          │              │                      │                                                                                    │                     │
-          │              │                      │                        ┌─────────────────────────────────┐                         │                     │
-          │              │                      │                        │                                 │   MCP Protocol          │   MCP Server 1      │
-          │ MCP Protocol:│registration/communication                     │                                 ┼────────────────────────►│                     │
-          │              │                      │                        │  Agent 1 with MCP client        │                         │                     │
-          │              │                      │                        │                                 │                         │                     │
-          │              │                      │                        └─────┬───────────────────────────┘                         └─────────────────────┘
-          │              │                      │                              │                     ▲
-          │              │                      │                              │                     │
-    ┌─────▼─────┐  ┌─────▼──────────┐  ┌────────▼────────┐                     │                     │
-    │           │  │                │  │                 │              A2A Protocol: agent1/2 delegate task to agent2/1
-    │MCP Server1│  │MCP Server 2    │  │MCP Server 3     │                     │                     │
-    │           │  │                │  │                 │                     │                     │                              ┌──────────────────────┐
-    └─────┬─────┘  └──────┬─────────┘  └────────┬────────┘               ┌─────▼─────────────────────┼──────┐                       │                      │
-          │               │                     │                        │                                  │  MCP Protocol         │                      │
-          │               │                     │                        │  Agent 2 with MCP client         ┼──────────────────────►│   MCP Server 2       │
-      ┌───▼─────┐   ┌─────▼───────┐      ┌──────▼────────┐               │                                  │                       │                      │
-      │         │   │             │      │               │               └──────────────────────────────────┘                       └──────────────────────┘
-      │ Tool 1  │   │  Tool 2     │      │   Tool 3      │
-      │         │   │             │      │               │
-      └─────────┘   └─────────────┘      └───────────────┘
+```mermaid
+flowchart LR
+    subgraph Agent1["Agent 1"]
+        direction TB
+        A1[Agent with MCP]
+        C1[MCP Client]
+        S1[MCP Server 1]
+        A1 --> C1
+        C1 <-->|"MCP Protocol"| S1
+    end
+    subgraph Agent2["Agent 2"]
+        direction TB
+        A2[Agent with MCP]
+        C2[MCP Client]
+        S2[MCP Server 2]
+        A2 --> C2
+        C2 <-->|"MCP Protocol"| S2
+    end
+    C1 <-->|"A2A Protocol: delegate task to other agent"| C2
 ```
 
 
