@@ -29,10 +29,10 @@ flowchart LR
     RAG[RAG Application]
     LLM["LLM<br>1. Recognize patterns from prompts.<br>2. Predict the most context coherent tokens.<br>3. Response"]
     DB[("Vector Database<br>(embeddings)")]
-    Human -- "1. Prompts" --> RAG
-    RAG -- "3. Augmented prompt" --> LLM
-    LLM -- "4. Response" --> Human
-    RAG <-->|"2. Find similar/related info"| DB
+    Human -- "Prompts" --> RAG
+    RAG -- "Augmented prompt" --> LLM
+    LLM -- "Response" --> Human
+    RAG <-->|"Find similar/related info"| DB
 ```
 
 **MITIGATION**:
@@ -56,15 +56,15 @@ flowchart LR
     T1[Tool 1]
     T2[Tool 2]
     T3[Tool 3]
-    Human -- "1. Prompts" --> Agents
-    Agents -- "3. Augmented prompt" --> LLM
-    LLM -- "4. Plan / 6. Final response" --> Agents
-    Agents -- "5. Tool results" --> LLM
-    Agents -- "7. Response" --> Human
-    Agents <-->|"2. Augmented prompts"| RAG
-    Agents <-->|"5. Call tools based on plan"| T1
-    Agents <-->|"5. Call tools based on plan"| T2
-    Agents <-->|"5. Call tools based on plan"| T3
+    Human -- "Prompts" --> Agents
+    Agents -- "Augmented prompt" --> LLM
+    LLM -- "Plan / Final response" --> Agents
+    Agents -- "Tool results" --> LLM
+    Agents -- "Response" --> Human
+    Agents <-->|"Augmented prompts"| RAG
+    Agents <-->|"Call tools based on plan"| T1
+    Agents <-->|"Call tools based on plan"| T2
+    Agents <-->|"Call tools based on plan"| T3
 ```
 
 **MITIGATION**:
@@ -89,15 +89,15 @@ flowchart LR
     T1[Tool 1]
     T2[Tool 2]
     T3[Tool 3]
-    Human -- "1. Prompts" --> Agents
-    Agents -- "3. Augmented prompt" --> LLM
-    LLM -- "4. Plan / 6. Final response" --> Agents
-    Agents -- "5. Tool results" --> LLM
-    Agents -- "7. Response" --> Human
-    Agents <-->|"2. Augmented prompts"| RAG
-    Agents <-->|"5. Call tools based on plan"| T1
-    Agents <-->|"5. Call tools based on plan"| T2
-    Agents <-->|"5. Call tools based on plan"| T3
+    Human -- "Prompts" --> Agents
+    Agents -- "Augmented prompt" --> LLM
+    LLM -- "Plan / Final response" --> Agents
+    Agents -- "Tool results" --> LLM
+    Agents -- "Response" --> Human
+    Agents <-->|"Augmented prompts"| RAG
+    Agents <-->|"Call tools based on plan"| T1
+    Agents <-->|"Call tools based on plan"| T2
+    Agents <-->|"Call tools based on plan"| T3
     Human <-->|"Session/History: injected into prompts"| Memory
 ```
 
