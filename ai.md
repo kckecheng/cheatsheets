@@ -1,3 +1,8 @@
+---
+tags: [ai, cheatsheet]
+aliases: ["AI", "LLM", "agents"]
+type: cheatsheet
+---
 # AI Introduction
 
 ## LLM

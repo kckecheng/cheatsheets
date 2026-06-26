@@ -1,3 +1,8 @@
+---
+tags: [misc, cheatsheet]
+aliases: ["principles", "docker", "sql"]
+type: cheatsheet
+---
 # MISC Tips
 
 ## Principles
@@ -489,3 +494,6 @@ DELIMITER ;
   .mode column
   select * from t_task limit 3;
   ```
+
+## Related
+- [[code_utils]]

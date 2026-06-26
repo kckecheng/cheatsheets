@@ -1,3 +1,8 @@
+---
+tags: [go, golang, cheatsheet]
+aliases: ["golang", "go lang"]
+type: cheatsheet
+---
 # Golang Tips
 
 ## Module
@@ -737,3 +742,6 @@ func main() {
 go get -u -v github.com/go-swagger/go-swagger/cmd/swagger
 swagger --help
 ```
+
+## Related
+- [[code_utils]]

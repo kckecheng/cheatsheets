@@ -1,3 +1,8 @@
+---
+tags: [tools, cheatsheet]
+aliases: ["code utils", "dev tools", "package manager"]
+type: cheatsheet
+---
 # Code Utilities
 
 Tools for programing.
@@ -288,3 +293,9 @@ make --always-make --dry-run -j32 2>&1 | tee build.log
 compiledb --parse build.log
 head compile_commands.json
 ```
+
+## Related
+- [[linux_text_tools]]
+- [[debug_tracing]]
+- [[go]]
+- [[vim]]

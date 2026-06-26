@@ -1,3 +1,8 @@
+---
+tags: [san, switch, brocade, cheatsheet]
+aliases: ["brocade", "SAN switch", "cisco fc"]
+type: cheatsheet
+---
 # Brocade SAN Switch
 
 ## Get Help

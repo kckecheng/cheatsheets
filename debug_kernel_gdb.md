@@ -1,0 +1,306 @@
+---
+tags: [debug, cheatsheet, gdb, kernel]
+aliases: ["kernel gdb", "kgdb", "qemu gdb"]
+type: cheatsheet
+---
+# Kernel Debugging with gdb
+## Kernel Debugging w/ gdb
+
+Linux kernel debugging tips.
+
+Notes: all demos used in this part is based on x86_64.
+
+### Build linux kernel
+
+- Generate the init .config
+
+  ```
+  make help
+  make defconfig
+  make kvm_guest.config
+  ```
+
+- Turn on below options within .config
+
+  ```
+  CONFIG_DEBUG_INFO=y
+  CONFIG_GDB_SCRIPTS=y # if this is not on, run "make scripts_gdb" after kernel compiling
+  CONFIG_DEBUG_INFO_REDUCED=n
+  ```
+
+- Regenerate the .config to reflect option updates
+
+  ```
+  make olddefconfig
+  ```
+
+- Define a customized kernel name suffix (optional)
+
+  ```
+  echo "CONFIG_LOCALVERSION=xxx" >> .config
+  make oldconfig
+  # or through menuconfig
+  # make menuconfig->General setup->Local version->Enter xxx->Save->Exit
+  ```
+
+- Build the kernel
+
+  ```
+  # vmlinux, arch/x86/boot/bzImage will be created
+  make -j`nproc`
+  ```
+
+- Create initramfs file
+
+  ```
+  # sudo apt install -y dracut
+  make modules
+  make modules_install INSTALL_MOD_PATH=/customized/module/installation/path
+  dracut -k /customized/module/installation/path/lib/modules/kernel_version initrd.img
+  ```
+
+### Create a qemu image and start it with the customized kernel and gdb server
+
+The basic idea behind linux kernel debugging is running a qemu vm with a customized kernel (with debugging info) and a gdb server for remote debugging.
+
+There are quite a lot methods to prepare such a qemu vm, 3 of them are introduced as below:
+
+- **Buildroot (recommended)**: https://github.com/buildroot/buildroot
+
+  - Clone the code:
+
+    ```
+    git clone https://git.busybox.net/buildroot/
+    ```
+
+  - Check supported configurations: `make list-defconfigs`
+
+  - Create a config and start building:
+
+    ```
+    make qemu_x86_64_defconfig
+    make menuconfig
+    # Build options:
+    # - build packages with debugging symbols: enabled
+    # - gcc debug level: 3
+    # - strip target binaries: disabled
+    # - gcc optimization level: optimize for debugging
+    # Toolchain options:
+    # - Host GDB Options: enable all
+    # Kernel options:
+    # - Kernel version: Latest version
+    # Target packages options:
+    # - Networking applications: openssh
+    # Filesystem images options:
+    # - ext2/3/4 root filesystem: ext4
+    # save and exit
+    make -j `nproc` # this will take quite some time
+    # if build fails with error like "mkfs.ext2: Could not allocate block in ext2 filesystem while populating file system"
+    # make menuconfig
+    # Filesystem images -> exact size -> extend the default 60MB, say 120MB
+    ```
+
+  - Rebuild the kernel image with debug info
+
+    ```
+    make linux-menuconfig
+    # Kernel hacking:
+    # - Kernel debugging: enabled
+    # Kernel hacking -> Compile-time checks and compiler options
+    # - Debug information: Generate DWARF Version 5 debuginfo
+    # - Provide GDB scripts for kernel debugging: enabled
+    # Kernel hacking -> Generic Kernel Debugging Instruments
+    # - Debug Filesystem
+    # Kernel hacking -> Memory Debugging:
+    # - Export kernel pagetable layout to userspace via debugfs
+    make -j `nproc`
+    ```
+
+  - Run the qemu vm with gdb server on:
+    - Edit buildroot/output/images/start-qemu.sh, adding **-s** to the qemu command line to start gdb server listening on tcp::1234
+    - Edit buildroot/output/images/start-qemu.sh, adding **-S** to the qemu command line to disable CPU at startup (to capture everything, continue with gdb continue)
+    - Modify network options as **-net nic,model=virtio -net user,hostfwd=tcp::36000-:22** (enable ssh from localhost:36000 on host)
+    - Add **nokaslr** to the kernel cmdline
+    - ./start-qemu.sh # login the vm as root without password
+    - Edit /etc/ssh/sshd_config to enable root empty password login by adding 2 x lines: "PermitRootLogin yes", "PermitEmptyPasswords yes"
+    - The script uses buildroot installed qemu-system-x86_64 binary instead of the default one on the system
+    - To use the default qemu-system-x86_64 installed on your system, just type: qemu-system-x86_64 ...... directly from the cli
+
+  - Start kernel debugging from another session
+
+    ```
+    # it is highly recommended to start gdb from the kernel source root directory
+    cd buildroot/output/build/linux-x.y.z
+    echo "add-auto-load-safe-path $PWD" >> ~/.gdbinit
+    gdb vmlinux
+    info auto-load
+    target remote :1234
+    lx-symbols
+    apropos lx-
+    ```
+
+  - Pros: no need to build a kernel image in advance, buildroot will cover this
+  - Cons: the build process is really time consuming
+
+- **The Linux Kernel Teaching Labs (the easiest method)**: https://linux-kernel-labs.github.io
+
+  - git clone https://github.com/linux-kernel-labs/linux
+  - cd linux/tools/labs && make docs # check raw docs under Documentation/teaching if the build fails
+  - Then follow the docs (Virtual Machine Setup section) to kick start kernel debugging practices
+  - Pros: well prepared lectures teaching how to perform kernel debug
+  - Cons: the kernel shipped together is not up to date
+
+- **Syzkaller create-image**: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#image
+
+  - After creating the image, start the linux kernel as below with qemu (options like cpu, mem, smp, etc. can be adjusted based on real cases, **nokaslr** is always required):
+
+    ```
+    # KERNEL - kernel src/build dir
+    # IMAGE - where the qemu image is stored
+    # The initial ramdisk image can be loaded based on real use cases
+    qemu-system-x86_64 \
+    -m 512m \
+    -kernel $KERNEL/arch/x86/boot/bzImage \
+    -append "console=ttyS0 root=/dev/sda earlyprintk=serial nokaslr net.ifnames=0" \
+    -drive file=$IMAGE/qemu_image.img,format=raw \
+    -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
+    -net nic,model=virtio \
+    -nographic \
+    -pidfile vm.pid \
+    -s -S
+    ```
+
+### Connect to the gdb server and begin kernel debugging
+
+- Load linux gdb scripts: after compiling the linux kernel, there will be symbol link named "vmlinux-gdb.py" points to scripts/gdb/vmlinux-gdb.py.
+
+  ```
+  # scripts can be loaded manually as below:
+  # it is highly recommended to start gdb from the kernel source root directory
+  echo "add-auto-load-safe-path /path/to/linux/src/root" > ~/.gdbinit
+  gdb
+  info auto-load
+  ```
+
+- Attach to the qemu process with gdb:
+
+  ```
+  gdb vmlinux
+  target remote :1234
+  lx-symbols
+  apropos lx- # list gdb scripts supported for kernel debugging
+  hb start_kernel # if -S is used while starting the qemu vm
+  c
+  ```
+
+### Kernel gdb breakpoints
+
+gdb breakpoints can be set on kernel symbols which can be located as below:
+
+```
+# to get user space system call summary
+# man syscalls
+# symbol type info: man nm
+cat /proc/kallsyms # the information is the same as /boot/System.map-x.y.z
+```
+
+Here is an example - debug syscall open:
+
+- Based on our knowledge, syscall open will be named as something like sys_open in the kernel;
+- grep sys_open /proc/kallsyms: symbol T __x64_sys_open can be located;
+- Then set gdb breakpoint on __x64_sys_open: break __x64_sys_open
+
+### Check special registers
+
+If kernel is debugged with qemu + gdb remotely, info registers will cover only common registers but not those special registers like control registers (CR0, CR1, etc.), protected mode registers (GDT, LDT, IDT, etc.). Refer to below docs for the introduction of registers.
+
+- https://wiki.osdev.org/CPU_Registers_x86
+- https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf
+
+Qemu provides the ability to check all registers including special registers:
+
+```
+# below is an example to dump interrupt description table
+gdb vmlinux
+target remote :1234
+monitor info registers # this is qemu specialized
+set $idtr = 0xfffffe0000001000 # 0xfffffe0000001000 is the value of IDT gotten from monitor info registers
+```
+
+### Inspect GDT/LDT
+
+```
+monitor info registers
+set $gdtr = 0xfffffe0000001000 # 0xfffffe0000001000 is the GDT value
+# GDT/LDT is an array of struct desc_struct (segment descriptor)
+# - arch/x86/kernel/cpu/common.c DEFINE_PER_CPU_PAGE_ALIGNED
+# - arch/x86/include/asm/desc.h gdt_page
+# - arch/x86/include/asm/desc_defs.h desc_struct
+# print the 1st element
+print /x *(struct desc_struct *)$gdtr
+# print the 2nd element
+print /x *(struct desc_struct *)($gdtr + sizeof(struct desc_struct))
+```
+
+### Inspect code selector
+
+```
+print /x $cs # output 0x10 - current code selector
+print $cs>>3 # output 0x2 or 2 in decimal, is the GDT/LDT index, refer to https://wiki.osdev.org/Segment_Selector
+monitor info registers
+set $gdtr = 0xfffffe0000000000 # 0xfffffe0000000000 is the GDT value
+# GDT/LDT entries are segment descriptors, refer to https://wiki.osdev.org/Global_Descriptor_Table
+# print the cs corresponding segment descriptor(based on the index, it should be 2nd)
+set $csp = (struct desc_struct *)($gdtr + 1 *sizeof(struct desc_struct)) # the 2nd is 1 * sizeof(struct desc_struct)
+print /x *csp
+# output {limit0 = 0xffff, base0 = 0x0, base1 = 0x0, type = 0xb, s = 0x1, dpl = 0x0, p = 0x1, limit1 = 0xf, avl = 0x0, l = 0x0, d = 0x1, g = 0x1, base2 = 0x0}
+# DPL
+print $csp->dpl # output is 0x0, which means ring 0 - kernel code is running, if it is 0x3, then user code is running
+# get base and limit - with x86_64, base and limit are ignored(works for x86_32), refer to:
+# - https://wiki.osdev.org/Global_Descriptor_Table: segment descriptor section
+# - https://nixhacker.com/segmentation-in-intel-64-bit
+# the limit: 0xfffff - construct with limit1(4 bits) and limit0(16 bits) together(totally 20 bits)
+# the base: 0x0 - construct with base2(8 bits), base1(8 bits) and base0(16 bits) together(totally 32 bits)
+```
+
+### Inspect IDT
+
+```
+# Refer to https://wiki.osdev.org/Interrupt_Descriptor_Table to find x64 IDT and gate descriptor layout
+monitor info registers
+# - arch/x86/include/asm/desc_defs.h desc_struct:
+# each entries in IDT is a gate descriptor, refer to https://wiki.osdev.org/Interrupt_Descriptor_Table
+p *(struct gate_struct *)$idtr
+set $gd4 = *(struct gate_struct *)($idtr + 128 * 3) # for x86_64, each gate descriptor takes 128 bit, 128 * 3 is the 4th gate descriptor
+print /x $gd4 # output is {offset_low = 0x80d8, segment = 0x10, bits = {ist = 0x0, zero = 0x0, type = 0xe, dpl = 0x0, p = 0x1}, offset_middle = 0x81f1, offset_high = 0xffffffff, reserved = 0x0}
+print (void *) 0xffffffff81f180d8 # 0xffffffff81f180d8 is a combination of offset_high(32 bits), offset_middle(16 bits) and offset_low(16 bits)
+# the above command output the interrupt handler: (void *) 0xffffffff81800b40 <asm_exc_double_fault>
+```
+
+### Inspect system call table
+
+```
+p sys_call_table
+ptype sys_call_table
+x /16x sys_call_table
+x /16x &sys_call_table
+```
+
+### Live debug w/ /proc/kcore
+
+gdb can be used to debug a running kernel with the help of vmlinux and /proc/kcore. The functions are limited, it can only gets a read only view of what is going on in the kernel space.
+
+```
+grep linux_banner /proc/kallsyms
+ffffffff81e001c0 R linux_banner
+gdb vmlinux /proc/kcore
+x/s 0xffffffff81e001c0
+print (const char *) 0xffffffff81e001c0
+```
+
+## Related
+- [[debug_gdb]]
+- [[debug_crash]]
+- [[debug_tracing]]
+- [[linux_kvm_libvirt]]
+

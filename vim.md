@@ -1,3 +1,8 @@
+---
+tags: [vim, cheatsheet]
+aliases: ["neovim", "vi"]
+type: cheatsheet
+---
 # VIM Tips
 
 ## Help
@@ -381,3 +386,6 @@ vim -V9vim.log /path/to/some/file
 :Git add %
 :python %
 ```
+
+## Related
+- [[code_utils]]
